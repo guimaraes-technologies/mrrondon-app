@@ -10,7 +10,8 @@
             <Label Text="Lista com as categorias"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
 
+            <Label Text="Secretaria de Turismo - Rondônia" HorizontalTextAlignment="Start" HorizontalOptions="Center"></Label>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

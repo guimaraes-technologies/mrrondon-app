@@ -9,6 +9,9 @@
             <Label Text="Here will be the events list"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
+
+            <Label Text="Secretaria de Turismo - Rondônia" HorizontalTextAlignment="Start" HorizontalOptions="Center"></Label>
         </StackLayout>
+
     </ContentPage.Content>
 </ContentPage>
