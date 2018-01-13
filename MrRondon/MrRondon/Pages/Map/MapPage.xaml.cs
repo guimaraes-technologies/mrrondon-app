@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using MrRondon.Helpers;
+using Plugin.Geolocator;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
@@ -20,9 +23,8 @@ namespace MrRondon.Pages.Map
         {
             base.OnAppearing();
             if (_pageModel.Pins.Count == 0) _pageModel.LoadPinsCommand.Execute(null);
-
-            var portoVelhoPosition = new Position(-8.756544, -63.8899265);
-            Companies.MoveToRegion(MapSpan.FromCenterAndRadius(portoVelhoPosition, Distance.FromMiles(3)));
+            var position =  await GeolocatorHelper.GetCurrentPosition();
+            Companies.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude), Distance.FromMiles(1)));
 
             foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);
         }
