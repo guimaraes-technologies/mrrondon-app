@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+             x:Class="MrRondon.Pages.Map.MapPage"
+             Title="Mapa">
+
+    <StackLayout>
+        <maps:Map
+            x:Name="Companies"
+            HorizontalOptions="FillAndExpand"
+            HeightRequest="400"
+            IsShowingUser="True"
+            MapType="Street" />
+
+        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+            <Label Text="Secretaria de Turismo - Rondônia" HorizontalTextAlignment="Start" HorizontalOptions="Center"></Label>
+            <Image Source="ico" HorizontalOptions="End"></Image>
+        </StackLayout>
+    </StackLayout>
+</ContentPage>
