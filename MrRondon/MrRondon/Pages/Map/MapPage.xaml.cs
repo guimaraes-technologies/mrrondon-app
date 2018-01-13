@@ -12,25 +12,19 @@ namespace MrRondon.Pages.Map
         public MapPage()
         {
             InitializeComponent();
-            if (BindingContext == null)
-                BindingContext = _pageModel = _pageModel ?? new MapaPageModel();
+            if (BindingContext == null) BindingContext = _pageModel = _pageModel ?? new MapaPageModel();
             else _pageModel = (MapaPageModel)BindingContext;
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
+            if (_pageModel.Pins.Count == 0) _pageModel.LoadPinsCommand.Execute(null);
 
             var portoVelhoPosition = new Position(-8.756544, -63.8899265);
             Companies.MoveToRegion(MapSpan.FromCenterAndRadius(portoVelhoPosition, Distance.FromMiles(3)));
 
-            var geoCoder = new Geocoder();
-            Companies.Pins.Add(new Pin
-            {
-                Label = "Guimaraes Tecnologia",
-                Address = "Bairro Novo, PVH, Rondonia",
-                Position = new Position(-8.756544, -63.8899265)
-            });
+            foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);
         }
     }
 }

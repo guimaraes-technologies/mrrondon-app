@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              x:Class="MrRondon.Pages.Map.MapPage"
-             Title="Mapa">
+             Title="{Binding Title}">
 
     <StackLayout>
         <maps:Map
@@ -11,7 +11,7 @@
             HorizontalOptions="FillAndExpand"
             HeightRequest="400"
             IsShowingUser="True"
-            MapType="Street" />
+            MapType="Street"  />
 
         <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
             <Label Text="Secretaria de Turismo - Rondônia" HorizontalTextAlignment="Start" HorizontalOptions="Center"></Label>
