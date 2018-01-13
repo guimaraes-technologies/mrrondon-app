@@ -10,6 +10,14 @@
             <map:MapPage />
         </x:Arguments>
     </NavigationPage>
-
-    <category:ListCategories />
+    <NavigationPage Title="Categorias">
+        <x:Arguments>
+            <category:ListCategoriesPage />
+        </x:Arguments>
+    </NavigationPage>
+    <NavigationPage Title="Eventos">
+        <x:Arguments>
+            <category:ListCategoriesPage />
+        </x:Arguments>
+    </NavigationPage>
 </TabbedPage>

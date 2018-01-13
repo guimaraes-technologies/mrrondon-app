@@ -7,11 +7,10 @@ using Xamarin.Forms.Maps;
 
 namespace MrRondon.Pages.Map
 {
-    public class MapaPageModel : BasePageModel
+    public class MapPageModel : BasePageModel
     {
-        public MapaPageModel()
+        public MapPageModel()
         {
-            Title = "Mapa";
             LoadPinsCommand = new Command(async () => await ExecuteLoadPins());
         }
 

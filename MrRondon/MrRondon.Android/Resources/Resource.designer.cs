@@ -3834,26 +3834,26 @@ namespace MrRondon.Droid
 			// aapt resource value: 0x7f020053
 			public const int avd_hide_password = 2130837587;
 			
-			// aapt resource value: 0x7f020123
-			public const int avd_hide_password_1 = 2130837795;
-			
 			// aapt resource value: 0x7f020124
-			public const int avd_hide_password_2 = 2130837796;
+			public const int avd_hide_password_1 = 2130837796;
 			
 			// aapt resource value: 0x7f020125
-			public const int avd_hide_password_3 = 2130837797;
+			public const int avd_hide_password_2 = 2130837797;
+			
+			// aapt resource value: 0x7f020126
+			public const int avd_hide_password_3 = 2130837798;
 			
 			// aapt resource value: 0x7f020054
 			public const int avd_show_password = 2130837588;
 			
-			// aapt resource value: 0x7f020126
-			public const int avd_show_password_1 = 2130837798;
-			
 			// aapt resource value: 0x7f020127
-			public const int avd_show_password_2 = 2130837799;
+			public const int avd_show_password_1 = 2130837799;
 			
 			// aapt resource value: 0x7f020128
-			public const int avd_show_password_3 = 2130837800;
+			public const int avd_show_password_2 = 2130837800;
+			
+			// aapt resource value: 0x7f020129
+			public const int avd_show_password_3 = 2130837801;
 			
 			// aapt resource value: 0x7f020055
 			public const int common_full_open_on_phone = 2130837589;
@@ -4461,17 +4461,20 @@ namespace MrRondon.Droid
 			// aapt resource value: 0x7f02011e
 			public const int notification_icon_background = 2130837790;
 			
-			// aapt resource value: 0x7f020121
-			public const int notification_template_icon_bg = 2130837793;
-			
 			// aapt resource value: 0x7f020122
-			public const int notification_template_icon_low_bg = 2130837794;
+			public const int notification_template_icon_bg = 2130837794;
+			
+			// aapt resource value: 0x7f020123
+			public const int notification_template_icon_low_bg = 2130837795;
 			
 			// aapt resource value: 0x7f02011f
 			public const int notification_tile_bg = 2130837791;
 			
 			// aapt resource value: 0x7f020120
 			public const int notify_panel_notification_icon_bg = 2130837792;
+			
+			// aapt resource value: 0x7f020121
+			public const int sad_face = 2130837793;
 			
 			static Drawable()
 			{
@@ -5462,8 +5465,8 @@ namespace MrRondon.Droid
 			// aapt resource value: 0x7f080038
 			public const int abc_toolbar_collapse_description = 2131230776;
 			
-			// aapt resource value: 0x7f080052
-			public const int app_name = 2131230802;
+			// aapt resource value: 0x7f080051
+			public const int app_name = 2131230801;
 			
 			// aapt resource value: 0x7f080047
 			public const int appbar_scrolling_view_behavior = 2131230791;
@@ -5524,9 +5527,6 @@ namespace MrRondon.Droid
 			
 			// aapt resource value: 0x7f08000f
 			public const int common_signin_button_text_long = 2131230735;
-			
-			// aapt resource value: 0x7f080051
-			public const int hello = 2131230801;
 			
 			// aapt resource value: 0x7f080011
 			public const int mr_button_content_description = 2131230737;

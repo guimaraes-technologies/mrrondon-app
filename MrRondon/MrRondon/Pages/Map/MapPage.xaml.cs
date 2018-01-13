@@ -10,13 +10,13 @@ namespace MrRondon.Pages.Map
 {
     public partial class MapPage : ContentPage
     {
-        private readonly MapaPageModel _pageModel;
+        private readonly MapPageModel _pageModel;
 
         public MapPage()
         {
             InitializeComponent();
-            if (BindingContext == null) BindingContext = _pageModel = _pageModel ?? new MapaPageModel();
-            else _pageModel = (MapaPageModel)BindingContext;
+            if (BindingContext == null) BindingContext = _pageModel = _pageModel ?? new MapPageModel();
+            else _pageModel = (MapPageModel)BindingContext;
         }
 
         protected override async void OnAppearing()

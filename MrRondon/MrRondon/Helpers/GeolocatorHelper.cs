@@ -13,7 +13,7 @@ namespace MrRondon.Helpers
             try
             {
                 var locator = CrossGeolocator.Current;
-                locator.DesiredAccuracy = 100;
+                locator.DesiredAccuracy = 50;
 
                 position = await locator.GetLastKnownLocationAsync();
 

@@ -35,6 +35,7 @@ namespace MrRondon.Pages
         {
             IsPresented = false;
             IsLoading = false;
+            Title = Constants.AppName;
             MessageService = DependencyService.Get<IMessageService>();
             NavigationService = DependencyService.Get<INavigationService>();
         }
