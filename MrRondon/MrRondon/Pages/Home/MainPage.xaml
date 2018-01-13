@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:map="clr-namespace:MrRondon.Pages.Map"
              xmlns:category="clr-namespace:MrRondon.Pages.Category"
+             xmlns:event="clr-namespace:MrRondon.Pages.Event"
              x:Class="MrRondon.Pages.Home.MainPage">
 
     <NavigationPage Title="Mapa">
@@ -10,14 +11,14 @@
             <map:MapPage />
         </x:Arguments>
     </NavigationPage>
-    <NavigationPage Title="Categorias">
+    <NavigationPage Title="Categoria">
         <x:Arguments>
             <category:ListCategoriesPage />
         </x:Arguments>
     </NavigationPage>
-    <NavigationPage Title="Eventos">
+    <NavigationPage Title="Evento">
         <x:Arguments>
-            <category:ListCategoriesPage />
+            <event:ListEventPage />
         </x:Arguments>
     </NavigationPage>
 </TabbedPage>

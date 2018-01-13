@@ -13,10 +13,11 @@ namespace MrRondon.Pages.Category
     {
         public ListCategoriesPageModel()
         {
-            Title = "Mapa";
+            Title = Constants.AppName;
             Items = new ObservableRangeCollection<Entities.Category>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
         }
+
         public ICommand LoadItemsCommand { get; set; }
         private bool _notHhasItems;
         public bool NotHasItems
