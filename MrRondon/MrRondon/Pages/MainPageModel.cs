@@ -1,4 +1,4 @@
-﻿namespace MrRondon.Pages.Home
+﻿namespace MrRondon.Pages
 {
     public class MainPageModel : BasePageModel
     {

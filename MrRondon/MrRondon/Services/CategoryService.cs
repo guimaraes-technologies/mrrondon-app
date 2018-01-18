@@ -6,7 +6,7 @@ namespace MrRondon.Services
 {
     public class CategoryService
     {
-        public async Task<IList<Category>> GetCategories()
+        public async Task<IList<Category>> Get()
         {
             var items = new List<Category>
             {

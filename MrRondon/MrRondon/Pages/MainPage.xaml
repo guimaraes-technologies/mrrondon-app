@@ -4,7 +4,7 @@
              xmlns:map="clr-namespace:MrRondon.Pages.Map"
              xmlns:category="clr-namespace:MrRondon.Pages.Category"
              xmlns:event="clr-namespace:MrRondon.Pages.Event"
-             x:Class="MrRondon.Pages.Home.MainPage">
+             x:Class="MrRondon.Pages.MainPage">
 
     <NavigationPage Title="Mapa">
         <x:Arguments>

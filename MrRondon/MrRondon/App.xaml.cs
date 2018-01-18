@@ -10,7 +10,7 @@ namespace MrRondon
         {
             InitializeComponent();
 
-            MainPage = new Pages.Home.MainPage();
+            MainPage = new Pages.MainPage();
         }
 
         protected override void OnStart()

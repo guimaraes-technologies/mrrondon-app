@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 
-namespace MrRondon.Pages.Home
+namespace MrRondon.Pages
 {
 	public partial class MainPage : TabbedPage
     {
