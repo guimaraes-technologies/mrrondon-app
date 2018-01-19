@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using MrRondon.Entities;
+using MrRondon.Services.Rest;
 
 namespace MrRondon.Services
 {
-    public class CityService
+    public class HistoricalSightService
     {
-        public async Task<IList<City>> Get(string search = "")
+        public async Task<IList<HistoricalSight>> Get(string search = "")
         {
-            var service = new CityService();
+            var service = new HistoricalSightRest();
             var items = await service.Get(search);
 
             return items;
