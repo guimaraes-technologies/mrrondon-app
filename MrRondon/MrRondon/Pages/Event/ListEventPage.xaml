@@ -7,9 +7,6 @@
              xmlns:extensions="clr-namespace:MrRondon.Extensions;assembly=MrRondon"
              Title="{Binding Title}">
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Icon="search" Command="{Binding LoadItemsCommand}"></ToolbarItem>
-    </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:ItemTappedEventArgsToItemTappedConverter x:Key="ItemTappedConverter" />

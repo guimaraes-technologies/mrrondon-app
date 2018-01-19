@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MrRondon.Entities;
+using MrRondon.Services.Rest;
 
 namespace MrRondon.Services
 {
@@ -9,7 +10,7 @@ namespace MrRondon.Services
     {
         public async Task<IList<Event>> GetAsync(string search = "")
         {
-            var service = new EventService();
+            var service = new EventRest();
             var items = await service.GetAsync(search);
 
             return items;

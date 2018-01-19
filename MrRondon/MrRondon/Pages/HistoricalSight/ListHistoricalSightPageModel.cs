@@ -41,6 +41,7 @@ namespace MrRondon.Pages.HistoricalSight
         public ListHistoricalSightPageModel()
         {
             Title = Constants.AppName;
+            Items = new ObservableRangeCollection<Entities.HistoricalSight>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
         }
 

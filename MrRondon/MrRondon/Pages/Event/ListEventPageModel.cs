@@ -38,6 +38,7 @@ namespace MrRondon.Pages.Event
         public ListEventPageModel()
         {
             Title = Constants.AppName;
+            Items = new ObservableRangeCollection<Entities.Event>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
         }
 
