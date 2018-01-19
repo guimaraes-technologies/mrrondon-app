@@ -80,7 +80,7 @@ namespace MrRondon.Helpers
         /// <summary> 
         /// Clears the current collection and replaces it with the specified collection. 
         /// </summary> 
-        public void ReplaceRange(IEnumerable<T> collection)
+        public void ReplaceRange(IList<T> collection)
         {
             if (collection == null) throw new ArgumentNullException(nameof(collection));
 

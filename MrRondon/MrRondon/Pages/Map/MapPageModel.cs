@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MrRondon.Helpers;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
@@ -11,6 +12,7 @@ namespace MrRondon.Pages.Map
     {
         public MapPageModel()
         {
+            Title = Constants.AppName;
             LoadPinsCommand = new Command(async () => await ExecuteLoadPins());
         }
 

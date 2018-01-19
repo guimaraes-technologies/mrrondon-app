@@ -7,10 +7,10 @@ namespace MrRondon.Services
 {
     public class EventService
     {
-        public async Task<IList<Event>> Get(string search = "")
+        public async Task<IList<Event>> GetAsync(string search = "")
         {
             var service = new EventService();
-            var items = await service.Get(search);
+            var items = await service.GetAsync(search);
 
             return items;
         }

@@ -7,10 +7,10 @@ namespace MrRondon.Services
 {
     public class HistoricalSightService
     {
-        public async Task<IList<HistoricalSight>> Get(string search = "")
+        public async Task<IList<HistoricalSight>> GetAsync(string search = "")
         {
             var service = new HistoricalSightRest();
-            var items = await service.Get(search);
+            var items = await service.GetAsync(search);
 
             return items;
         }

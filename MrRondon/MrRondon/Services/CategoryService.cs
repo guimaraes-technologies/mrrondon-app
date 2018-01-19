@@ -6,10 +6,10 @@ namespace MrRondon.Services
 {
     public class CategoryService
     {
-        public async Task<IList<Category>> Get(string search = "")
+        public async Task<IList<Category>> GetAsync(string search = "")
         {
             var service = new CategoryService();
-            var items = await service.Get(search);
+            var items = await service.GetAsync(search);
 
             return items;
         }

@@ -6,7 +6,7 @@ namespace MrRondon.Services.Rest
 {
     public class CityRest : BaseRest
     {
-        public async Task<IList<City>> Search(string search)
+        public async Task<IList<City>> GetAsync(string search)
         {
             var url = $"{UrlService}/city/{search}";
             var content = await GetObjectAsync<IList<City>>(url);

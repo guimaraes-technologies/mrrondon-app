@@ -43,7 +43,7 @@ namespace MrRondon.Pages.Category
                 IsLoading = true;
                 Items.Clear();
                 var service = new CategoryService();
-                var items = await service.Get();
+                var items = await service.GetAsync();
                 NotHasItems = IsLoading && !items.Any();
                 if (NotHasItems) ErrorMessage = "Nenhuma categoria encontrada";
                 Items.ReplaceRange(items);
