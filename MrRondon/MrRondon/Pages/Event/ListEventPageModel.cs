@@ -11,7 +11,6 @@ namespace MrRondon.Pages.Event
 {
     public class ListEventPageModel : BasePageModel
     {
-
         private bool _notHhasItems;
         public bool NotHasItems
         {

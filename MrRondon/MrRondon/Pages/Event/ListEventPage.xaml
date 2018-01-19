@@ -2,16 +2,75 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MrRondon.Pages.Event.ListEventPage"
+             xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
+             xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
+             xmlns:extensions="clr-namespace:MrRondon.Extensions;assembly=MrRondon"
              Title="{Binding Title}">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="search" Command="{Binding LoadItemsCommand}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ItemTappedEventArgsToItemTappedConverter x:Key="ItemTappedConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Here will be the events list"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Orientation="Vertical" Margin="8,8,8,0">
+            <StackLayout Orientation="Horizontal">
+                <Label HorizontalOptions="StartAndExpand" Text="Mês" TextColor="{StaticResource PrimaryColor}"></Label>
+
+                <Label HorizontalOptions="CenterAndExpand" VerticalTextAlignment="Center" Text="Ano" TextColor="{StaticResource PrimaryColor}"></Label>
+
+                <Label Text="Estado" TextColor="{StaticResource PrimaryColor}"></Label>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Picker HorizontalOptions="FillAndExpand" ItemsSource="{Binding Months}" SelectedIndex="{Binding MonthSelectedIndex}" TextColor="Black" BackgroundColor="{StaticResource PrimaryColor}" WidthRequest="150" />
+
+                <Picker Title="Ano" ItemsSource="{Binding Years}" SelectedIndex="{Binding YearSelectedIndex}" TextColor="Black" BackgroundColor="{StaticResource PrimaryColor}" WidthRequest="90" />
+
+                <extensions:BindablePicker SelectedIndex="{Binding StateIndex, Mode=TwoWay}" ItemsSource="{Binding StateList}" SelectedItem="{Binding State, Mode=TwoWay}" TextColor="Black" BackgroundColor="{StaticResource PrimaryColor}"  WidthRequest="60" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label VerticalOptions="FillAndExpand" Text="Pesquisa" TextColor="{StaticResource PrimaryColor}"></Label>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <SearchBar HorizontalOptions="FillAndExpand" Text="{Binding Search, Mode=TwoWay}" SearchCommand="{Binding LoadItemsCommand}" TextColor="Black" BackgroundColor="{StaticResource PrimaryColor}" PlaceholderColor="#B0BEC5" Placeholder="Qual a cidade ou evento?"></SearchBar>
+            </StackLayout>
+
+            <ListView ItemsSource="{Binding Items}"
+                HasUnevenRows="True"
+                SelectedItem="{Binding ItemSelected}"
+                HorizontalOptions="FillAndExpand"
+                VerticalOptions="FillAndExpand"
+                SeparatorVisibility="None"
+                RefreshCommand="{Binding LoadItemsCommand}"
+                IsPullToRefreshEnabled="True"
+                IsRefreshing="{Binding IsLoading, Mode=OneWay}">
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior Command="{Binding ItemTappedCommand}" Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Margin="0,4" Padding="5" BackgroundColor="#FFFFFF">
+                                <Image Source="icon" HeightRequest="120" WidthRequest="210" HorizontalOptions="Center"  VerticalOptions="Start"></Image>
+
+                                <Label TextColor="Black" Text="{Binding Name}" FontSize="Small" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" />
+                                <Label Text="{Binding Name}" FontSize="Small" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
+                                <Label Text="Colocar endereço" FontSize="Small" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.Footer>
+                    <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems}" TextColor="{StaticResource Accent}" FontSize="Medium" HorizontalOptions="Center"></Label>
+                </ListView.Footer>
+            </ListView>
 
             <Label Text="Secretaria de Turismo - Rondônia" HorizontalTextAlignment="Start" HorizontalOptions="Center"></Label>
         </StackLayout>
-
     </ContentPage.Content>
 </ContentPage>

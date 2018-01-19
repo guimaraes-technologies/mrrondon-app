@@ -1,5 +1,4 @@
-﻿using System.Windows.Input;
-using MrRondon.Helpers;
+﻿using MrRondon.Helpers;
 using MrRondon.Services.Interfaces;
 using Xamarin.Forms;
 
