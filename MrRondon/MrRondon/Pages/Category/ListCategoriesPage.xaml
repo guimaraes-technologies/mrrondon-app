@@ -1,15 +1,51 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:f="clr-namespace:MrRondon.Pages"
+             xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
+             xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
              x:Class="MrRondon.Pages.Category.ListCategoriesPage"
              Title="{Binding Title}">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Icon="search" Command="{Binding LoadItemsCommand}"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ItemTappedEventArgsToItemTappedConverter x:Key="ItemTappedConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Lista com as categorias"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Orientation="Vertical" Margin="8,8,8,0">
+
+            <ListView ItemsSource="{Binding Items}"
+                      HasUnevenRows="True"
+                      SelectedItem="{Binding ItemSelected}"
+                      HorizontalOptions="FillAndExpand"
+                      VerticalOptions="FillAndExpand"
+                      SeparatorVisibility="None"
+                      RefreshCommand="{Binding LoadItemsCommand}"
+                      IsPullToRefreshEnabled="True"
+                      IsRefreshing="{Binding IsLoading, Mode=OneWay}">
+                <ListView.Behaviors>
+                    <behaviors:EventToCommandBehavior Command="{Binding ItemTappedCommand}" Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
+                </ListView.Behaviors>
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Margin="0,4" Padding="5" BackgroundColor="#FFFFFF">
+                                <Image Source="{Binding GetImage}" HeightRequest="120" WidthRequest="210" HorizontalOptions="Center"  VerticalOptions="Start"></Image>
+
+                                <Label TextColor="Black" Text="{Binding Name}" FontSize="Small" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" />
+                                <Label Text="{Binding Name}" FontSize="Small" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
+                                <Label Text="Alguma coisa FIXO" FontSize="Small" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.Footer>
+                    <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems}" TextColor="{StaticResource Accent}" FontSize="Medium" HorizontalOptions="Center"></Label>
+                </ListView.Footer>
+            </ListView>
 
             <Label Text="Secretaria de Turismo - Rondônia" HorizontalTextAlignment="Start" HorizontalOptions="Center"></Label>
         </StackLayout>

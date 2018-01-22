@@ -8,7 +8,7 @@ namespace MrRondon.Helpers
 {
     public class GeolocatorHelper
     {
-        public static async Task<Position> GetCurrentPosition()
+        public static async Task<Position> GetCurrentPositionAsync()
         {
             Position position = null;
             try

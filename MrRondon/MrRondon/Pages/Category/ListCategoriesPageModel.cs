@@ -19,7 +19,7 @@ namespace MrRondon.Pages.Category
         }
 
         public ICommand LoadItemsCommand { get; set; }
-        private bool _notHhasItems;
+        private bool _notHhasItems; 
         public bool NotHasItems
         {
             get => _notHhasItems;
