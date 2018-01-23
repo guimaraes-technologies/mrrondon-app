@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using MrRondon.Helpers;
+﻿using MrRondon.Helpers;
 using MrRondon.Pages.Category;
 using MrRondon.Pages.Event;
 using MrRondon.Pages.HistoricalSight;

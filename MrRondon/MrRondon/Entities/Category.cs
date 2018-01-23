@@ -9,7 +9,7 @@ namespace MrRondon.Entities
         public string Name { get; set; }
         public byte[] Image { get; set; }
 
-        public ImageSource GetImage { get { return Image == null ? ImageSource.FromFile("ico") : ImageSource.FromStream(() => new MemoryStream(Image)); } }
+        public ImageSource GetImage { get { return Image == null ? ImageSource.FromFile("icon.png") : ImageSource.FromStream(() => new MemoryStream(Image)); } }
 
         public int? SubCategoryId { get; set; }
         public Category SubCategory { get; set; }

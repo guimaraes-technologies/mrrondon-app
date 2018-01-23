@@ -1,6 +1,7 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using ImageCircle.Forms.Plugin.Droid;
 using Plugin.Permissions;
 using Plugin.Toasts;
 using Xamarin;
@@ -25,7 +26,10 @@ namespace MrRondon.Droid
             //Map
             FormsMaps.Init(this, bundle);
 
-             DependencyService.Register<ToastNotification>();
+            //ImageCircle
+            ImageCircleRenderer.Init();
+
+            DependencyService.Register<ToastNotification>();
             ToastNotification.Init(this, new PlatformOptions { SmallIconDrawable = Android.Resource.Drawable.IcDialogInfo });
 
             LoadApplication(new App());
