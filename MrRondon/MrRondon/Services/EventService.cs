@@ -12,6 +12,8 @@ namespace MrRondon.Services
         {
             var service = new EventRest();
             var currentPosition = await GeolocatorHelper.GetCurrentPositionAsync();
+            if (currentPosition == null) return null;
+
             var items = await service.GetNearbyAsync(Constants.GetPlacesUntil, currentPosition.Latitude, currentPosition.Longitude);
 
             return items;
@@ -20,6 +22,7 @@ namespace MrRondon.Services
         public async Task<IList<Event>> GetAsync(string search = "")
         {
             var service = new EventRest();
+            search = string.IsNullOrWhiteSpace(search) ? string.Empty : search;
             var items = await service.GetAsync(search);
 
             return items;

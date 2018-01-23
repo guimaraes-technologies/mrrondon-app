@@ -39,12 +39,14 @@ namespace MrRondon.Pages.Category
             try
             {
                 if (IsLoading) return;
+
+                await Task.Delay(100);
                 NotHasItems = false;
                 IsLoading = true;
                 Items.Clear();
                 var service = new CategoryService();
                 var items = await service.GetAsync();
-                NotHasItems = IsLoading && !items.Any();
+                NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = "Nenhuma categoria encontrada";
                 Items.ReplaceRange(items);
             }

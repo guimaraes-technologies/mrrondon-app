@@ -47,12 +47,13 @@ namespace MrRondon.Pages.Event
             try
             {
                 if (IsLoading) return;
+
                 NotHasItems = false;
                 IsLoading = true;
                 Items.Clear();
                 var service = new EventService();
                 var items = await service.GetAsync(City);
-                NotHasItems = IsLoading && !items.Any();
+                NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = "Nenhum evento encontrado";
                 Items.ReplaceRange(items);
             }

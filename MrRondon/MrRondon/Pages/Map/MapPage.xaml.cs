@@ -21,12 +21,12 @@ namespace MrRondon.Pages.Map
 
         protected override async void OnAppearing()
         {
-            base.OnAppearing();
             if (_pageModel.Pins.Count == 0) _pageModel.LoadPinsCommand.Execute(null);
             var position =  await GeolocatorHelper.GetCurrentPositionAsync();
             Companies.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude), Distance.FromMiles(1)));
 
             foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);
+            base.OnAppearing();
         }
     }
 }
