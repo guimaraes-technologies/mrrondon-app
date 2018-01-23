@@ -26,7 +26,7 @@ namespace MrRondon.Pages.Map
             Companies.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude), Distance.FromMiles(1)));
 
             foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);
-            base.OnAppearing();
+            //base.OnAppearing();
         }
     }
 }

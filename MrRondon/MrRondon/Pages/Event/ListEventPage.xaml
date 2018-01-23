@@ -15,26 +15,10 @@
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" Margin="8,8,8,0">
             <StackLayout Orientation="Horizontal">
-                <Label HorizontalOptions="StartAndExpand" Text="Mês" TextColor="{StaticResource PrimaryColor}"></Label>
-
-                <Label HorizontalOptions="CenterAndExpand" VerticalTextAlignment="Center" Text="Ano" TextColor="{StaticResource PrimaryColor}"></Label>
-
-                <Label Text="Estado" TextColor="{StaticResource PrimaryColor}"></Label>
-            </StackLayout>
-
-            <StackLayout Orientation="Horizontal">
-                <Picker HorizontalOptions="FillAndExpand" ItemsSource="{Binding Months}" SelectedIndex="{Binding MonthSelectedIndex}" TextColor="Black" BackgroundColor="{StaticResource PrimaryColor}" WidthRequest="150" />
-
-                <Picker Title="Ano" ItemsSource="{Binding Years}" SelectedIndex="{Binding YearSelectedIndex}" TextColor="Black" BackgroundColor="{StaticResource PrimaryColor}" WidthRequest="90" />
-
-                <extensions:BindablePicker SelectedIndex="{Binding StateIndex, Mode=TwoWay}" ItemsSource="{Binding StateList}" SelectedItem="{Binding State, Mode=TwoWay}" TextColor="Black" BackgroundColor="{StaticResource PrimaryColor}"  WidthRequest="60" />
-            </StackLayout>
-
-            <StackLayout Orientation="Horizontal">
                 <Label VerticalOptions="FillAndExpand" Text="Pesquisa" TextColor="{StaticResource PrimaryColor}"></Label>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
-                <SearchBar HorizontalOptions="FillAndExpand" Text="{Binding Search, Mode=TwoWay}" SearchCommand="{Binding LoadItemsCommand}" TextColor="Black" BackgroundColor="{StaticResource PrimaryColor}" PlaceholderColor="#B0BEC5" Placeholder="Qual a cidade ou evento?"></SearchBar>
+                <SearchBar HorizontalOptions="FillAndExpand" Text="{Binding Search, Mode=TwoWay}" SearchCommand="{Binding LoadItemsCommand}" TextColor="Black" BackgroundColor="{StaticResource PrimaryColor}" PlaceholderColor="#B0BEC5" Placeholder="Qual o evento?"></SearchBar>
             </StackLayout>
 
             <ListView ItemsSource="{Binding Items}"

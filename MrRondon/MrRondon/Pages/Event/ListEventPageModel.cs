@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -52,10 +53,11 @@ namespace MrRondon.Pages.Event
                 IsLoading = true;
                 Items.Clear();
                 var service = new EventService();
-                var items = await service.GetAsync(City);
+                var items = new List<Entities.Event>();
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = "Nenhum evento encontrado";
                 Items.ReplaceRange(items);
+                await Task.Delay(100);
             }
             catch (Exception ex)
             {
