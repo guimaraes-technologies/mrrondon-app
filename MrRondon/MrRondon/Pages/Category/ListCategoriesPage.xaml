@@ -4,6 +4,7 @@
              xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
              x:Class="MrRondon.Pages.Category.ListCategoriesPage"
+             BackgroundColor="{StaticResource PageBackgroundColor}"
              Title="{Binding Title}">
 
     <ContentPage.ToolbarItems>
@@ -16,7 +17,6 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" Margin="8,8,8,0">
-
             <ListView ItemsSource="{Binding Items}"
                       HasUnevenRows="True"
                       SelectedItem="{Binding ItemSelected}"
@@ -31,13 +31,12 @@
                 </ListView.Behaviors>
                 <ListView.ItemTemplate>
                     <DataTemplate>
+                        <!--<ImageCell ImageSource="{Binding GetImage}" Text="{Binding Name}" TextColor="Black"></ImageCell>-->
                         <ViewCell>
-                            <StackLayout Margin="0,4" Padding="5" BackgroundColor="#FFFFFF">
-                                <Image Source="{Binding GetImage}" HeightRequest="120" WidthRequest="210" HorizontalOptions="Center"  VerticalOptions="Start"></Image>
+                            <StackLayout Margin="0,4" Padding="5">
+                                <Image Source="{Binding GetImage}" WidthRequest="210" HorizontalOptions="Center"  VerticalOptions="Start"></Image>
 
                                 <Label TextColor="Black" Text="{Binding Name}" FontSize="Small" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" />
-                                <Label Text="{Binding Name}" FontSize="Small" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
-                                <Label Text="Alguma coisa FIXO" FontSize="Small" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

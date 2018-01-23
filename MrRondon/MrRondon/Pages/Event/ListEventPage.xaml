@@ -4,7 +4,7 @@
              x:Class="MrRondon.Pages.Event.ListEventPage"
              xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
-             xmlns:extensions="clr-namespace:MrRondon.Extensions;assembly=MrRondon"
+             BackgroundColor="{StaticResource PageBackgroundColor}"
              Title="{Binding Title}">
 
     <ContentPage.Resources>
@@ -37,11 +37,10 @@
                     <DataTemplate>
                         <ViewCell>
                             <StackLayout Margin="0,4" Padding="5" BackgroundColor="#FFFFFF">
-                                <Image Source="icon" HeightRequest="120" WidthRequest="210" HorizontalOptions="Center"  VerticalOptions="Start"></Image>
+                                <Image Source="icon.png"  WidthRequest="210" HorizontalOptions="Center"  VerticalOptions="Start"></Image>
 
                                 <Label TextColor="Black" Text="{Binding Name}" FontSize="Small" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" />
                                 <Label Text="{Binding Name}" FontSize="Small" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
-                                <Label Text="Colocar endereço" FontSize="Small" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
                             </StackLayout>
                         </ViewCell>
                     </DataTemplate>

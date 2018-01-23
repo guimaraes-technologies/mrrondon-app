@@ -55,5 +55,11 @@ namespace MrRondon.Services
 		{
 			return Application.Current.MainPage.Navigation.NavigationStack.ToList();
 		}
+
+        public Page GetCurrentPage()
+        {
+            var page = GetNavigationStack().LastOrDefault();
+            return page;
+        }
     }
 }

@@ -19,7 +19,7 @@ namespace MrRondon.Pages.Category
         }
 
         public ICommand LoadItemsCommand { get; set; }
-        private bool _notHhasItems; 
+        private bool _notHhasItems;
         public bool NotHasItems
         {
             get => _notHhasItems;
@@ -40,15 +40,14 @@ namespace MrRondon.Pages.Category
             {
                 if (IsLoading) return;
 
-                await Task.Delay(100);
-                //NotHasItems = false;
-                //IsLoading = true;
-                //Items.Clear();
-                //var service = new CategoryService();
-                //var items = await service.GetAsync();
-                //NotHasItems = IsLoading && items != null && !items.Any();
-                //if (NotHasItems) ErrorMessage = "Nenhuma categoria encontrada";
-                //Items.ReplaceRange(items);
+                NotHasItems = false;
+                IsLoading = true;
+                Items.Clear();
+                var service = new CategoryService();
+                var items = await service.GetAsync();
+                NotHasItems = IsLoading && items != null && !items.Any();
+                if (NotHasItems) ErrorMessage = "Nenhuma categoria encontrada";
+                Items.ReplaceRange(items);
             }
             catch (Exception ex)
             {

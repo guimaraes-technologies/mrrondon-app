@@ -32,9 +32,9 @@ namespace MrRondon.Services.Rest
                 case HttpStatusCode.Unauthorized: throw new NotAuthorizedException();
                 case HttpStatusCode.NotFound: throw new NotFoundException();
                 case HttpStatusCode.BadGateway: throw new BadGatewayRequestException();
-                case HttpStatusCode.BadRequest: throw new Exception($"Não foi possível concluir a requisição\n");
+                case HttpStatusCode.BadRequest: throw new Exception("Não foi possível concluir a requisição");
                 case HttpStatusCode.InternalServerError: throw new InternalServerErrorException();
-                default: throw new Exception($"Não foi possível concluir a requisição\n");
+                default: throw new Exception("Não foi possível concluir a requisição");
             }
         }
 

@@ -4,6 +4,7 @@
              xmlns:map="clr-namespace:MrRondon.Pages.Map"
              xmlns:category="clr-namespace:MrRondon.Pages.Category"
              xmlns:event="clr-namespace:MrRondon.Pages.Event"
+             xmlns:historicalSight="clr-namespace:MrRondon.Pages.HistoricalSight"
              x:Class="MrRondon.Pages.MainPage">
 
     <NavigationPage Title="Mapa">
@@ -19,6 +20,11 @@
     <NavigationPage Title="Evento">
         <x:Arguments>
             <event:ListEventPage />
+        </x:Arguments>
+    </NavigationPage>
+    <NavigationPage Title="Locais Histórico">
+        <x:Arguments>
+            <historicalSight:ListHistoricalSightPage />
         </x:Arguments>
     </NavigationPage>
 </TabbedPage>

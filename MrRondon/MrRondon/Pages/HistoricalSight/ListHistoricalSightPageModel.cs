@@ -55,15 +55,14 @@ namespace MrRondon.Pages.HistoricalSight
                 Items.Clear();
                 var service = new HistoricalSightService();
                 var items = await service.GetAsync(Search);
-                NotHasItems = IsLoading && !items.Any();
+                NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = "Nenhum local histórico encontrado";
                 Items.ReplaceRange(items);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                await NavigationService.PushAsync(
-                    new ErrorPage(new ErrorPageModel(ex.Message, Title) {IsLoading = false}));
+                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
             }
             finally
             {
