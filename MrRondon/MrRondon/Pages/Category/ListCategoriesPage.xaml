@@ -5,8 +5,8 @@
              xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
              xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
-             BackgroundColor="{StaticResource PageBackgroundColor}"
-             Title="{Binding Title}">
+             Title="Mr Rondon Turismo"
+             BackgroundColor="{StaticResource PageBackgroundColor}">
 
     <ContentPage.Resources>
         <ResourceDictionary>

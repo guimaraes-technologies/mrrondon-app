@@ -17,14 +17,16 @@ namespace MrRondon.Pages
             {
                 var numPage = Children.IndexOf(CurrentPage);
 
-                if (CurrentPage.BindingContext != null) return;
-
                 switch (numPage)
                 {
                     case 1:
                         {
+                            //var pageModel = ((ListCategoriesPageModel)CurrentPage.BindingContext);
+                            //if (pageModel.Items.Count == 0) pageModel.LoadItemsCommand.Execute(null);
+
                             var service = new CategoryService();
                             var items = await service.GetAsync();
+                            //CurrentPage.BindingContext = pageModel;
                             CurrentPage.BindingContext = new ListCategoriesPageModel
                             {
                                 Items = new ObservableRangeCollection<Entities.Category>(items)

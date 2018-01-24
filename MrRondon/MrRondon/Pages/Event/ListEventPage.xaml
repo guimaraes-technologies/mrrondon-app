@@ -4,8 +4,8 @@
              x:Class="MrRondon.Pages.Event.ListEventPage"
              xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
-             BackgroundColor="{StaticResource PageBackgroundColor}"
-             Title="{Binding Title}">
+             Title="Mr Rondon Turismo"
+             BackgroundColor="{StaticResource PageBackgroundColor}">
 
     <ContentPage.Resources>
         <ResourceDictionary>

@@ -15,6 +15,9 @@
                 <Setter Property="BarBackgroundColor" Value="{StaticResource PrimaryColor}" />
                 <Setter Property="BarTextColor" Value="#FFFFFF" />
             </Style>
+            <Style TargetType="ContentPage">
+                <Setter Property="Title" Value="Mr Rondon Turismo" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

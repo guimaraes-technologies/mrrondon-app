@@ -36,7 +36,13 @@ namespace MrRondon.Pages.HistoricalSight
         }
 
         public ICommand LoadItemsCommand { get; set; }
-        public ObservableRangeCollection<Entities.HistoricalSight> Items { get; set; }
+
+        private ObservableRangeCollection<Entities.HistoricalSight> _items;
+        public ObservableRangeCollection<Entities.HistoricalSight> Items
+        {
+            get => _items;
+            set => SetProperty(ref _items, value);
+        }
 
         public ListHistoricalSightPageModel()
         {

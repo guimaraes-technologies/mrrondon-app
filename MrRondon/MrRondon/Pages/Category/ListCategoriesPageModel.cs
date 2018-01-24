@@ -35,7 +35,13 @@ namespace MrRondon.Pages.Category
             get => _errorMessage;
             set => SetProperty(ref _errorMessage, value);
         }
-        public ObservableRangeCollection<Entities.Category> Items { get; set; }
+
+        private ObservableRangeCollection<Entities.Category> _items;
+        public ObservableRangeCollection<Entities.Category> Items
+        {
+            get => _items;
+            set => SetProperty(ref _items, value);
+        }
 
         private async Task ExecuteLoadItems()
         {
@@ -66,7 +72,7 @@ namespace MrRondon.Pages.Category
 
         private async Task ExecuteItemSelected(Entities.Category category)
         {
-            await MessageService.ToastAsync(category.Name, "You have selected");
+            await MessageService.ShowAsync(category.Name, "You have selected");
         }
     }
 }

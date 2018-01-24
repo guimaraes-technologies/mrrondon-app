@@ -34,7 +34,13 @@ namespace MrRondon.Pages.Event
         }
 
         public ICommand LoadItemsCommand { get; set; }
-        public ObservableRangeCollection<Entities.Event> Items { get; set; }
+
+        private ObservableRangeCollection<Entities.Event> _items;
+        public ObservableRangeCollection<Entities.Event> Items 
+        {
+            get => _items;
+            set => SetProperty(ref _items, value);
+        }
 
         public ListEventPageModel()
         {

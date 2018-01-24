@@ -19,7 +19,12 @@ namespace MrRondon.Pages.Map
 
         public ICommand LoadPinsCommand { get; set; }
 
-        public List<Pin> Pins { get; set; } = new List<Pin>();
+        private List<Pin> _pins = new List<Pin>();
+        public List<Pin> Pins
+        {
+            get => _pins;
+            set => SetProperty(ref _pins, value);
+        }
 
         private async Task ExecuteLoadPins()
         {
