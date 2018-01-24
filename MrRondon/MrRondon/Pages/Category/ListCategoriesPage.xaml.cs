@@ -6,7 +6,7 @@ namespace MrRondon.Pages.Category
 	{
 		public ListCategoriesPage()
         {
-			InitializeComponent ();
+            InitializeComponent();
         }
     }
 }

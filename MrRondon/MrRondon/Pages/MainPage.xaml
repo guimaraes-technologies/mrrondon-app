@@ -5,24 +5,25 @@
              xmlns:category="clr-namespace:MrRondon.Pages.Category"
              xmlns:event="clr-namespace:MrRondon.Pages.Event"
              xmlns:historicalSight="clr-namespace:MrRondon.Pages.HistoricalSight"
-             x:Class="MrRondon.Pages.MainPage">
+             x:Class="MrRondon.Pages.MainPage"
+            BackgroundColor="{StaticResource PrimaryColor}">
 
-    <NavigationPage Title="Mapa">
+    <NavigationPage Title="Mapa" BackgroundColor="{StaticResource PrimaryColor}">
         <x:Arguments>
             <map:MapPage />
         </x:Arguments>
     </NavigationPage>
-    <NavigationPage Title="Categoria">
+    <NavigationPage Title="Categoria" BackgroundColor="{StaticResource PrimaryColor}">
         <x:Arguments>
             <category:ListCategoriesPage />
         </x:Arguments>
     </NavigationPage>
-    <NavigationPage Title="Evento">
+    <NavigationPage Title="Evento" BackgroundColor="{StaticResource PrimaryColor}">
         <x:Arguments>
             <event:ListEventPage />
         </x:Arguments>
     </NavigationPage>
-    <NavigationPage Title="Locais Histórico">
+    <NavigationPage Title="Locais Histórico" BackgroundColor="{StaticResource PrimaryColor}">
         <x:Arguments>
             <historicalSight:ListHistoricalSightPage />
         </x:Arguments>

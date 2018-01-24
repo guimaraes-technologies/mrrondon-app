@@ -16,9 +16,12 @@ namespace MrRondon.Pages.Category
             Title = Constants.AppName;
             Items = new ObservableRangeCollection<Entities.Category>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
+            ItemSelectedCommand = new Command<Entities.Category>(async (item) => await ExecuteItemSelected(item));
         }
 
         public ICommand LoadItemsCommand { get; set; }
+        public ICommand ItemSelectedCommand { get; set; }
+
         private bool _notHhasItems;
         public bool NotHasItems
         {
@@ -59,6 +62,11 @@ namespace MrRondon.Pages.Category
                 IsLoading = false;
                 IsPresented = false;
             }
+        }
+
+        private async Task ExecuteItemSelected(Entities.Category category)
+        {
+            await MessageService.ToastAsync(category.Name, "You have selected");
         }
     }
 }

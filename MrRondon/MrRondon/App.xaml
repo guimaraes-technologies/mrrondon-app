@@ -4,10 +4,17 @@
              x:Class="MrRondon.App">
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="PrimaryColor">#F5F5F5</Color>
+            <Color x:Key="PrimaryColor">#00695C</Color>
+            <Color x:Key="PrimaryDarkColor">#00685e</Color>
+            <Color x:Key="TextPrimaryColor">#FFFFFF</Color>
             <Color x:Key="SecondaryColor">#CFD8DC</Color>
             <Color x:Key="Accent">#03A9F4</Color>
-            <Color x:Key="PageBackgroundColor">GhostWhite</Color>
+            <Color x:Key="PageBackgroundColor">#E0F2F1</Color>
+
+            <Style TargetType="NavigationPage">
+                <Setter Property="BarBackgroundColor" Value="{StaticResource PrimaryColor}" />
+                <Setter Property="BarTextColor" Value="#FFFFFF" />
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
