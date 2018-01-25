@@ -1,4 +1,7 @@
-﻿using Xamarin.Forms;
+﻿using MrRondon.Helpers;
+using MrRondon.Services;
+using MrRondon.Services.Interfaces;
+using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace MrRondon
@@ -10,7 +13,10 @@ namespace MrRondon
         {
             InitializeComponent();
 
-            MainPage = new Pages.MainPage();
+            DependencyService.Register<IMessageService, MessageService>();
+            DependencyService.Register<INavigationService, NavigationService>();
+            MainPage = new NavigationPage(new Pages.MainPage()) { Title = Constants.AppName };
+            //MainPage = new Pages.MainPage();
         }
 
         protected override void OnStart()

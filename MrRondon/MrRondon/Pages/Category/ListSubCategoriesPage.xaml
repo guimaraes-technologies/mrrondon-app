@@ -1,11 +1,11 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="MrRondon.Pages.Category.ListCategoriesPage"
+             x:Class="MrRondon.Pages.Category.ListSubCategoriesPage"
              xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
              xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
-             Title="Categoria"
+             Title="Mr Rondon Turismo"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
     <ContentPage.Resources>
@@ -15,6 +15,20 @@
     </ContentPage.Resources>
 
     <StackLayout Padding="8,8,8,0">
+        <StackLayout Orientation="Vertical">
+            <controls:CircleImage
+                WidthRequest="40"
+                HeightRequest="40"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="CenterAndExpand"
+                Aspect="AspectFill"
+                BorderColor="White"
+                BorderThickness="2"
+                Source="icon.png"/>
+
+            <Label HorizontalOptions="Start" VerticalOptions="Center" TextColor="Black" Text="{Binding Category.Name}" />
+        </StackLayout>
+
         <ListView ItemsSource="{Binding Items}"
                   CachingStrategy="RecycleElementAndDataTemplate"
                   HasUnevenRows="True"
@@ -37,20 +51,9 @@
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <controls:CircleImage
-								WidthRequest="40"
-								HeightRequest="40"
-								HorizontalOptions="CenterAndExpand"
-								VerticalOptions="CenterAndExpand"
-								Aspect="AspectFill"
-								BorderColor="White"
-								BorderThickness="2"
-								Source="icon.png"/>
-
-                            <Label Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Name}" />
+                            <Label Grid.Row="0" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Name}" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

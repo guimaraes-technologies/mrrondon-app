@@ -9,11 +9,12 @@ using Xamarin.Forms;
 
 namespace MrRondon.Pages.Category
 {
-    public class ListCategoriesPageModel : BasePageModel
+    public class ListSubCategoriesPageModel : BasePageModel
     {
-        public ListCategoriesPageModel()
+        public ListSubCategoriesPageModel(Entities.Category category)
         {
             Title = Constants.AppName;
+            Category = category;
             Items = new ObservableRangeCollection<Entities.Category>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
             ItemSelectedCommand = new Command<Entities.Category>(async (item) => await ExecuteItemSelected(item));
@@ -36,6 +37,13 @@ namespace MrRondon.Pages.Category
             set => SetProperty(ref _errorMessage, value);
         }
 
+        private Entities.Category _category;
+        public Entities.Category Category
+        {
+            get => _category;
+            set => SetProperty(ref _category, value);
+        }
+
         private ObservableRangeCollection<Entities.Category> _items;
         public ObservableRangeCollection<Entities.Category> Items
         {
@@ -52,10 +60,10 @@ namespace MrRondon.Pages.Category
                 NotHasItems = false;
                 IsLoading = true;
                 Items.Clear();
-                var service = new CategoryService();
-                var items = await service.GetAsync();
+                var service = new SubCategoryService();
+                var items = await service.GetAsync(Category.CategoryId);
                 NotHasItems = IsLoading && items != null && !items.Any();
-                if (NotHasItems) ErrorMessage = "Nenhuma categoria encontrada";
+                if (NotHasItems) ErrorMessage = "Nenhuma sub categoria encontrada";
                 Items.ReplaceRange(items);
             }
             catch (Exception ex)
@@ -72,10 +80,7 @@ namespace MrRondon.Pages.Category
 
         private async Task ExecuteItemSelected(Entities.Category category)
         {
-            var model = new ListSubCategoriesPageModel(category);
-            var page = new ListSubCategoriesPage(model);
-            NavigationService.RemovePage(typeof(ListCategoriesPage));
-            await NavigationService.PushAsync(page);
+            await MessageService.ShowAsync(category.Name, $"You have selected {category.Name}");
         }
     }
 }

@@ -4,7 +4,7 @@ namespace MrRondon.Pages.Category
 {
 	public partial class ListCategoriesPage : ContentPage
 	{
-	    private readonly ListCategoriesPageModel _pageModel;
+	    //private readonly ListCategoriesPageModel _pageModel;
 
         public ListCategoriesPage()
         {

@@ -16,26 +16,26 @@ namespace MrRondon.Behaviors
 
         public string EventName
         {
-            get => (string)GetValue(EventNameProperty);
-            set => SetValue(EventNameProperty, value);
+            get { return (string)GetValue(EventNameProperty); }
+            set { SetValue(EventNameProperty, value); }
         }
 
         public ICommand Command
         {
-            get => (ICommand)GetValue(CommandProperty);
-            set => SetValue(CommandProperty, value);
+            get { return (ICommand)GetValue(CommandProperty); }
+            set { SetValue(CommandProperty, value); }
         }
 
         public object CommandParameter
         {
-            get => GetValue(CommandParameterProperty);
-            set => SetValue(CommandParameterProperty, value);
+            get { return GetValue(CommandParameterProperty); }
+            set { SetValue(CommandParameterProperty, value); }
         }
 
         public IValueConverter Converter
         {
-            get => (IValueConverter)GetValue(InputConverterProperty);
-            set => SetValue(InputConverterProperty, value);
+            get { return (IValueConverter)GetValue(InputConverterProperty); }
+            set { SetValue(InputConverterProperty, value); }
         }
 
         protected override void OnAttachedTo(View bindable)

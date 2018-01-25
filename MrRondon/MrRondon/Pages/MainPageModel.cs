@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
+using MrRondon.Helpers;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages
@@ -10,6 +11,7 @@ namespace MrRondon.Pages
 
         public MainPageModel()
         {
+            Title = Constants.AppName;
             //OnCurrentPageChangedCommand = new Command(async () => await OnCurrentPageChanged());
         }
 

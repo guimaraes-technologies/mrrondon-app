@@ -6,26 +6,11 @@
              xmlns:event="clr-namespace:MrRondon.Pages.Event"
              xmlns:historicalSight="clr-namespace:MrRondon.Pages.HistoricalSight"
              x:Class="MrRondon.Pages.MainPage"
-            BackgroundColor="{StaticResource PrimaryColor}">
+            BackgroundColor="{StaticResource PrimaryColor}"
+            Title="Mr Rondon Turismo">
 
-    <NavigationPage Title="Mapa" BackgroundColor="{StaticResource PrimaryColor}">
-        <x:Arguments>
-            <map:MapPage />
-        </x:Arguments>
-    </NavigationPage>
-    <NavigationPage Title="Categoria" BackgroundColor="{StaticResource PrimaryColor}">
-        <x:Arguments>
-            <category:ListCategoriesPage />
-        </x:Arguments>
-    </NavigationPage>
-    <NavigationPage Title="Evento" BackgroundColor="{StaticResource PrimaryColor}">
-        <x:Arguments>
-            <event:ListEventPage />
-        </x:Arguments>
-    </NavigationPage>
-    <NavigationPage Title="Locais Histórico" BackgroundColor="{StaticResource PrimaryColor}">
-        <x:Arguments>
-            <historicalSight:ListHistoricalSightPage />
-        </x:Arguments>
-    </NavigationPage>
+    <map:MapPage />
+    <category:ListCategoriesPage />
+    <event:ListEventPage />
+    <historicalSight:ListHistoricalSightPage />
 </TabbedPage>
