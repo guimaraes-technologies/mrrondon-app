@@ -29,7 +29,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid ColumnSpacing="10" Padding="10" RowSpacing="10" BackgroundColor="{StaticResource SecondaryColor}">
+                        <Grid ColumnSpacing="10" Padding="10" RowSpacing="10" BackgroundColor="{StaticResource PageBackgroundColor}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
@@ -37,17 +37,17 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <controls:CircleImage Grid.RowSpan="2"
-								WidthRequest="70"
-								HeightRequest="70"
+                            <controls:CircleImage
+								WidthRequest="40"
+								HeightRequest="40"
 								HorizontalOptions="CenterAndExpand"
 								VerticalOptions="CenterAndExpand"
 								Aspect="AspectFill"
 								BorderColor="White"
-								BorderThickness="3"
+								BorderThickness="2"
 								Source="icon.png"/>
 
-                            <Label Grid.Row="0" Grid.Column="1" VerticalOptions="End" TextColor="Black" Text="{Binding Name}" />
+                            <Label Grid.Row="0" Grid.Column="1" VerticalOptions="End" HorizontalOptions="Center" TextColor="Black" Text="{Binding Name}" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
