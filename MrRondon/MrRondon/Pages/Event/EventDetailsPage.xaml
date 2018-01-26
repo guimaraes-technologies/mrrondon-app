@@ -7,10 +7,21 @@
 
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{Binding Event.Name}"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            
+            <Label Text="Valor" Style="{StaticResource PrimaryLabel}" />
+            <Label Text="{Binding Event.Value, StringFormat='{0:C}'}" Style="{StaticResource SecondaryLabel}"></Label>
+
+            <Label Text="Data de Início" Style="{StaticResource PrimaryLabel}" />
+            <Label Text="{Binding Event.StartDate, StringFormat='{0:ddd, dd MMM yyyy}'}" Style="{StaticResource SecondaryLabel}"></Label>
+
+            <Label Text="Data de Término" Style="{StaticResource PrimaryLabel}" />
+            <Label Text="{Binding Event.EndDate, StringFormat='{0:ddd, dd MMM yyyy}'}" Style="{StaticResource SecondaryLabel}"></Label>
+
+            <Label Text="Descrição" Style="{StaticResource PrimaryLabel}" />
+            <Label Text="Ainda falta implementar" Style="{StaticResource SecondaryLabel}" />
+
+            <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
+            <Label Text="Ainda falta implementar" Style="{StaticResource SecondaryLabel}" />
+
             <Button Text="Call Love" Command="{Binding MakePhoneCallCommand}"></Button>
             <Button Text="Open Map" Command="{Binding OpenMapCommand}"></Button>
         </StackLayout>

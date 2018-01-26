@@ -16,7 +16,7 @@
     <ContentPage.Content>
         <StackLayout Orientation="Vertical" Margin="8,8,8,0">
             <StackLayout Orientation="Horizontal">
-                <Label VerticalOptions="FillAndExpand" Text="Pesquisa" TextColor="{StaticResource PrimaryColor}"></Label>
+                <Label VerticalOptions="FillAndExpand" Text="Pesquisa" Style="{StaticResource PrimaryLabel}"></Label>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
                 <SearchBar HorizontalOptions="FillAndExpand" Text="{Binding Search, Mode=TwoWay}" SearchCommand="{Binding LoadItemsCommand}" TextColor="Black" BackgroundColor="{StaticResource EntryBackgroundColor}" PlaceholderColor="{StaticResource EntryPlaceholderColor}" Placeholder="Qual o evento?"></SearchBar>

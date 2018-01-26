@@ -12,12 +12,21 @@
             <Color x:Key="PageBackgroundColor">#F0F4C3</Color>
             <Color x:Key="EntryBackgroundColor">#FFFFFF</Color>
             <Color x:Key="EntryPlaceholderColor">#B0BEC5</Color>
-
+            <Color x:Key="PrimaryLabelColor">#212121</Color>
+            <Color x:Key="SecondaryLabelColor">#616161</Color>
+            
+            <Style TargetType="Label" x:Key="PrimaryLabel">
+                <Setter Property="TextColor" Value="{StaticResource PrimaryLabelColor}" />
+            </Style>
+            <Style TargetType="Label" x:Key="SecondaryLabel">
+                <Setter Property="TextColor" Value="{StaticResource SecondaryLabelColor}" />
+            </Style>
             <Style TargetType="NavigationPage">
                 <Setter Property="BarBackgroundColor" Value="{StaticResource PrimaryColor}" />
                 <Setter Property="BarTextColor" Value="#FFFFFF" />
             </Style>
             <Style TargetType="ContentPage">
+                <Setter Property="Padding" Value="5" />
                 <Setter Property="Title" Value="Mr Rondon Turismo" />
             </Style>
         </ResourceDictionary>

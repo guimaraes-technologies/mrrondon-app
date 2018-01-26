@@ -33,6 +33,13 @@ namespace MrRondon.Pages.Event
             set => SetProperty(ref _city, value);
         }
 
+        private string _searchBar;
+        public string Search
+        {
+            get => _searchBar;
+            set => SetProperty(ref _searchBar, value);
+        }
+
         public ICommand LoadItemsCommand { get; set; }
         public ICommand ItemSelectedCommand { get; set; }
 
@@ -61,7 +68,7 @@ namespace MrRondon.Pages.Event
                 IsLoading = true;
                 Items.Clear();
                 var service = new EventService();
-                var items = new List<Entities.Event>();
+                var items = await service.GetAsync(Search);
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = "Nenhum evento encontrado";
                 Items.ReplaceRange(items);
