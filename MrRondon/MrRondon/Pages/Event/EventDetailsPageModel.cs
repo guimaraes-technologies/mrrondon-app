@@ -1,7 +1,10 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
+using MrRondon.Helpers;
 using Plugin.ExternalMaps;
 using Plugin.ExternalMaps.Abstractions;
+using Plugin.Share;
+using Plugin.Share.Abstractions;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages.Event
@@ -47,7 +50,16 @@ namespace MrRondon.Pages.Event
 
         private async Task Share()
         {
-            await MessageService.ToastAsync($"Ainda não implementado \n{Event.EventId}");
+            var rangeDate = Event.StartDate.Date == Event.EndDate.Date
+                ? Event.StartDate.ToShortDateString()
+                : $"{Event.StartDate.ToShortDateString()} até {Event.EndDate.ToShortDateString()}";
+            var message = new ShareMessage
+            {
+                Title = Constants.AppName,
+                Text = $"Olha o que eu encontrei no {Constants.AppName}:\nEvento {Event.Name}\nData: {rangeDate}\nLocal: {Event.Address.FullAddressInline}\nMuito TOP, dá uma olhada ;)\n",
+                Url = "https://play.google.com/store/apps/details?id=br.gov.ro.setur.mrrondon"
+            };
+            await CrossShare.Current.Share(message);
         }
     }
 }
