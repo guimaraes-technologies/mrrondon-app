@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MrRondon.Entities;
 using MrRondon.Helpers;
@@ -16,7 +17,7 @@ namespace MrRondon.Services
 
             var items = await service.GetNearbyAsync(Constants.GetPlacesUntil, currentPosition.Latitude, currentPosition.Longitude);
 
-            return items;
+            return items.OrderBy(o => o.Name).ToList();
         }
 
         public async Task<IList<Event>> GetAsync(string search = "")
@@ -25,7 +26,7 @@ namespace MrRondon.Services
             search = string.IsNullOrWhiteSpace(search) ? string.Empty : search;
             var items = await service.GetAsync(search);
 
-            return items;
+            return items.OrderBy(o => o.Name).ToList();
         }
     }
 }

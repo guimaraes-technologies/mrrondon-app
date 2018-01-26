@@ -24,12 +24,12 @@
                 BorderThickness="2"
                 Source="icon.png"/>
 
-            <Label FontSize="Medium" TextColor="Black" Text="{Binding Category.Name}" />
+            <Label FontSize="Medium" VerticalOptions="Center" TextColor="Black" Text="{Binding Category.Name}" />
         </StackLayout>
 
         <ListView ItemsSource="{Binding Items}"
                   CachingStrategy="RecycleElementAndDataTemplate"
-                  HasUnevenRows="True"
+                  HasUnevenRows="False"
                   HorizontalOptions="FillAndExpand"
                   VerticalOptions="FillAndExpand"
                   RefreshCommand="{Binding LoadItemsCommand}"

@@ -17,7 +17,7 @@
     <StackLayout Padding="8,8,8,0">
         <ListView ItemsSource="{Binding Items}"
                   CachingStrategy="RecycleElementAndDataTemplate"
-                  HasUnevenRows="True"
+                  HasUnevenRows="False"
                   HorizontalOptions="FillAndExpand"
                   VerticalOptions="FillAndExpand"
                   RefreshCommand="{Binding LoadItemsCommand}"

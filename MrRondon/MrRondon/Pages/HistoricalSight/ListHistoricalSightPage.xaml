@@ -19,12 +19,12 @@
                 <Label VerticalOptions="FillAndExpand" Text="Pesquisa" Style="{StaticResource PrimaryLabel}"></Label>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
-                <SearchBar HorizontalOptions="FillAndExpand" Text="{Binding Search, Mode=TwoWay}" SearchCommand="{Binding LoadItemsCommand}" TextColor="Black" BackgroundColor="{StaticResource EntryBackgroundColor}" PlaceholderColor="{StaticResource EntryPlaceholderColor}" Placeholder="Qual o evento?"></SearchBar>
+                <SearchBar HorizontalOptions="FillAndExpand" Text="{Binding Search, Mode=TwoWay}" SearchCommand="{Binding LoadItemsCommand}" TextColor="Black" BackgroundColor="{StaticResource EntryBackgroundColor}" PlaceholderColor="{StaticResource EntryPlaceholderColor}" Placeholder="Qual o nome do ponto turístico?"></SearchBar>
             </StackLayout>
 
             <ListView ItemsSource="{Binding Items}"
                       CachingStrategy="RecycleElementAndDataTemplate"
-                      HasUnevenRows="True"
+                      HasUnevenRows="False"
                       HorizontalOptions="FillAndExpand"
                       VerticalOptions="FillAndExpand"
                       SeparatorVisibility="None"

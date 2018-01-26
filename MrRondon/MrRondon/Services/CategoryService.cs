@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using MrRondon.Entities;
 using MrRondon.Services.Rest;
@@ -12,7 +13,7 @@ namespace MrRondon.Services
             var service = new CategoryRest();
             var items = await service.GetAsync(search);
 
-            return items;
+            return items.OrderBy(o => o.Name).ToList();
         }
     }
 }
