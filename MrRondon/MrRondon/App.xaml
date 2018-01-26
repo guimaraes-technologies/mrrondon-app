@@ -4,12 +4,12 @@
              x:Class="MrRondon.App">
     <Application.Resources>
         <ResourceDictionary>
-            <Color x:Key="PrimaryColor">#9E9D24</Color>
-            <Color x:Key="PrimaryDarkColor">#827717</Color>
+            <Color x:Key="PrimaryColor">#00838F</Color>
+            <Color x:Key="PrimaryDarkColor">#006064</Color>
             <Color x:Key="TextPrimaryColor">#FFFFFF</Color>
             <Color x:Key="SecondaryColor">#CFD8DC</Color>
             <Color x:Key="Accent">#03A9F4</Color>
-            <Color x:Key="PageBackgroundColor">#F0F4C3</Color>
+            <Color x:Key="PageBackgroundColor">#edf9ff</Color>
             <Color x:Key="EntryBackgroundColor">#FFFFFF</Color>
             <Color x:Key="EntryPlaceholderColor">#B0BEC5</Color>
             <Color x:Key="PrimaryLabelColor">#212121</Color>

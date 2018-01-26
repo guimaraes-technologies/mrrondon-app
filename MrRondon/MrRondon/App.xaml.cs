@@ -19,6 +19,8 @@ namespace MrRondon
             //MainPage = new Pages.MainPage();
         }
         //todo Diminuir o tamanho dos icones de detalhe evento
+        //todo nem todas categoria possui SUB categoria
+
         protected override void OnStart()
         {
             // Handle when your app starts

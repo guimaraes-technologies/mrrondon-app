@@ -56,7 +56,7 @@ namespace MrRondon.Pages.Event
             var message = new ShareMessage
             {
                 Title = Constants.AppName,
-                Text = $"Olha o que eu encontrei no {Constants.AppName}:\nEvento {Event.Name}\nData: {rangeDate}\nLocal: {Event.Address.FullAddressInline}\nMuito TOP, dá uma olhada ;)\n",
+                Text = $"Olha o que eu encontrei no {Constants.AppName}:\nEvento: {Event.Name}\nData: {rangeDate}\nLocal: {Event.Address.FullAddressInline}\nMuito TOP, dá uma olhada ;)\n",
                 Url = "https://play.google.com/store/apps/details?id=br.gov.ro.setur.mrrondon"
             };
             await CrossShare.Current.Share(message);
