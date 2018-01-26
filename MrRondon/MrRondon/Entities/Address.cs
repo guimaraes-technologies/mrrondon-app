@@ -19,12 +19,21 @@ namespace MrRondon.Entities
         public int CityId { get; set; }
         public City City { get; set; }
 
+        public string FullAddressInline
+        {
+            get
+            {
+                var address = $"{Street}, {Number} - {Neighborhood}";
+                return City == null ? address : $"{address}, {City.Name} - RO, {ZipCode}";
+            }
+        }
+
         public string FullAddress
         {
             get
             {
-                var address = $"{Street}, {Number} - {Neighborhood}, {ZipCode}";
-                return City == null ? address : $"{address} - {City.Name}";
+                var address = $"{Street}, {Number}\n{Neighborhood}";
+                return City == null ? address : $"{address}\n{City.Name} - RO\n{ZipCode}";
             }
         }
     }

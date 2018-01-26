@@ -31,7 +31,7 @@
                 <Label Text="Ainda falta implementar" Style="{StaticResource SecondaryLabel}" />
 
                 <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
-                <Label Text="Ainda falta implementar" Style="{StaticResource SecondaryLabel}" />
+                <Label Text="{Binding Event.Address.FullAddress}" Style="{StaticResource SecondaryLabel}" />
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

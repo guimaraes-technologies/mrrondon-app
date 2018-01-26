@@ -16,6 +16,7 @@
             <Color x:Key="SecondaryLabelColor">#616161</Color>
             
             <Style TargetType="Label" x:Key="PrimaryLabel">
+                <Setter Property="FontAttributes" Value="Bold" />
                 <Setter Property="TextColor" Value="{StaticResource PrimaryLabelColor}" />
             </Style>
             <Style TargetType="Label" x:Key="SecondaryLabel">
