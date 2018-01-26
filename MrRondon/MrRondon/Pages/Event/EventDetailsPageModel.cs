@@ -1,4 +1,6 @@
 ﻿using System.Windows.Input;
+using Plugin.ExternalMaps;
+using Plugin.ExternalMaps.Abstractions;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages.Event
@@ -9,7 +11,8 @@ namespace MrRondon.Pages.Event
         {
             Title = model.Name;
             Event = model;
-            MakePhoneCallCommand = new Command(() => MakePhoneCall("992232172"));
+            MakePhoneCallCommand = new Command(MakePhoneCall);
+            OpenMapCommand = new Command(OpenMap);
         }
 
         public ICommand MakePhoneCallCommand { get; set; }
@@ -24,9 +27,14 @@ namespace MrRondon.Pages.Event
             set => SetProperty(ref _event, value);
         }
 
-        private void MakePhoneCall(string number)
+        private void MakePhoneCall()
         {
-            NavigationService.MakePhoneCall(number);
+            NavigationService.MakePhoneCall("993212372");
+        }
+
+        private void OpenMap()
+        {
+            CrossExternalMaps.Current.NavigateTo(Event.Name, Event.Address.Latitude, Event.Address.Longitude, NavigationType.Driving);
         }
     }
 }
