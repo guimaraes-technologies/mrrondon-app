@@ -41,14 +41,14 @@
                             </Grid.ColumnDefinitions>
 
                             <controls:CircleImage
-								WidthRequest="40"
-								HeightRequest="40"
-								HorizontalOptions="CenterAndExpand"
-								VerticalOptions="CenterAndExpand"
-								Aspect="AspectFill"
-								BorderColor="White"
-								BorderThickness="2"
-								Source="icon.png"/>
+                                WidthRequest="40"
+                                HeightRequest="40"
+                                HorizontalOptions="CenterAndExpand"
+                                VerticalOptions="CenterAndExpand"
+                                Aspect="AspectFill"
+                                BorderColor="White"
+                                BorderThickness="2"
+                                Source="icon.png"/>
 
                             <Label Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Name}" />
                         </Grid>

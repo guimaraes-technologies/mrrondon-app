@@ -12,5 +12,7 @@ namespace MrRondon.Entities
 
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
+
+        public string RangeDateAndValue => $"Início: {StartDate.ToShortDateString()}\nTérminio: {EndDate.ToShortDateString()}\nValor: {Value:C}";
     }
 }

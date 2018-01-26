@@ -22,6 +22,9 @@
     <Compile Update="Pages\Category\ListCategoriesPage.xaml.cs">
       <DependentUpon>ListCategoriesPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Pages\Event\EventDetailsPage.xaml.cs">
+      <DependentUpon>EventDetailsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Update="Pages\FooterPage.xaml.cs">
       <DependentUpon>FooterPage.xaml</DependentUpon>
     </Compile>
@@ -38,6 +41,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\ErrorPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\Event\EventDetailsPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\Event\ListEventPage.xaml">

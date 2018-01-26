@@ -13,6 +13,10 @@ namespace MrRondon.Services
         {
             Device.OpenUri(new Uri(url));
         }
+        public void MakePhoneCall(string number)
+        {
+            NavigateToUrl($"tel:{number}");
+        }
 
         public async Task PushAsync(Page page)
         {

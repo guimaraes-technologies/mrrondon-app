@@ -8,7 +8,8 @@ namespace MrRondon.Services.Interfaces
 	public interface INavigationService
 	{
         void NavigateToUrl(string url);
-	    Task PushModalAsync(Page page);
+	    void MakePhoneCall(string number);
+        Task PushModalAsync(Page page);
         Task PushAsync(Page page);
 	    Task PopAsync();
 	    Task PopModalAsync();

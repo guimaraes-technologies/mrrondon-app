@@ -4,6 +4,7 @@
              x:Class="MrRondon.Pages.Event.ListEventPage"
              xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
+             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
              Title="Evento"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
@@ -22,26 +23,44 @@
             </StackLayout>
 
             <ListView ItemsSource="{Binding Items}"
-                HasUnevenRows="True"
-                SelectedItem="{Binding ItemSelected}"
-                HorizontalOptions="FillAndExpand"
-                VerticalOptions="FillAndExpand"
-                SeparatorVisibility="None"
-                RefreshCommand="{Binding LoadItemsCommand}"
-                IsPullToRefreshEnabled="True"
-                IsRefreshing="{Binding IsLoading, Mode=OneWay}">
+                      CachingStrategy="RecycleElementAndDataTemplate"
+                      HasUnevenRows="True"
+                      HorizontalOptions="FillAndExpand"
+                      VerticalOptions="FillAndExpand"
+                      SeparatorVisibility="None"
+                      RefreshCommand="{Binding LoadItemsCommand}"
+                      IsPullToRefreshEnabled="True"
+                      IsRefreshing="{Binding IsLoading, Mode=OneWay}">
                 <ListView.Behaviors>
-                    <behaviors:EventToCommandBehavior Command="{Binding ItemTappedCommand}" Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
+                    <behaviors:EventToCommandBehavior Command="{Binding ItemSelectedCommand}" Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
                 </ListView.Behaviors>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
-                            <StackLayout Margin="0,4" Padding="5" BackgroundColor="#FFFFFF">
-                                <Image Source="icon.png"  WidthRequest="210" HorizontalOptions="Center"  VerticalOptions="Start"></Image>
+                            <Grid ColumnSpacing="10" Padding="10" RowSpacing="10" BackgroundColor="{StaticResource PageBackgroundColor}">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
 
-                                <Label TextColor="Black" Text="{Binding Name}" FontSize="Small" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" />
-                                <Label Text="{Binding Name}" FontSize="Small" TextColor="Black" HorizontalOptions="CenterAndExpand"/>
-                            </StackLayout>
+                                <controls:CircleImage Grid.RowSpan="2"
+                                                      WidthRequest="70"
+                                                      HeightRequest="70"
+                                                      HorizontalOptions="CenterAndExpand"
+                                                      VerticalOptions="CenterAndExpand"
+                                                      Aspect="AspectFill"
+                                                      BorderColor="White"
+                                                      BorderThickness="2"
+                                                      Source="icon.png"/>
+
+                                <Label Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Name}" FontSize="Small" />
+
+                                <Label Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding RangeDateAndValue}" />
+                            </Grid>
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>

@@ -34,6 +34,7 @@ namespace MrRondon.Pages.Event
         }
 
         public ICommand LoadItemsCommand { get; set; }
+        public ICommand ItemSelectedCommand { get; set; }
 
         private ObservableRangeCollection<Entities.Event> _items;
         public ObservableRangeCollection<Entities.Event> Items 
@@ -47,6 +48,7 @@ namespace MrRondon.Pages.Event
             Title = Constants.AppName;
             Items = new ObservableRangeCollection<Entities.Event>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
+            ItemSelectedCommand = new Command<Entities.Event>(async (item) => await ExecuteItemSelected(item));
         }
 
         private async Task ExecuteLoadItems()
@@ -75,6 +77,12 @@ namespace MrRondon.Pages.Event
                 IsLoading = false;
                 IsPresented = false;
             }
+        }
+
+        private async Task ExecuteItemSelected(Entities.Event model)
+        {
+            var pageModel = new EventDetailsPageModel(model);
+            await NavigationService.PushAsync(new EventDetailsPage(pageModel));
         }
     }
 }
