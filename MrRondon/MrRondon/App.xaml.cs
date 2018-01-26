@@ -18,7 +18,7 @@ namespace MrRondon
             MainPage = new NavigationPage(new Pages.MainPage()) { Title = Constants.AppName };
             //MainPage = new Pages.MainPage();
         }
-
+        //todo Diminuir o tamanho dos icones de detalhe evento
         protected override void OnStart()
         {
             // Handle when your app starts

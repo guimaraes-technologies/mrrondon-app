@@ -12,10 +12,10 @@
                 <Image x:Name="image" Source="{Binding Event.ImageSource}" HorizontalOptions="FillAndExpand" HeightRequest="220"></Image>
 
                 <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
+                    <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="phone_call" Command="{Binding MakePhoneCallCommand}"></Button>
+                    <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="map_marker" Command="{Binding OpenMapCommand}"></Button>
                     <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="share" Command="{Binding ShareCommand}"></Button>
                     <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="unfavorite" Command="{Binding MarkAsFavoriteCommand}"></Button>
-                    <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="map_marker" Command="{Binding OpenMapCommand}"></Button>
-                    <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="phone_call" Command="{Binding MakePhoneCallCommand}"></Button>
                 </StackLayout>
 
                 <Label Text="Valor" Style="{StaticResource PrimaryLabel}" />
