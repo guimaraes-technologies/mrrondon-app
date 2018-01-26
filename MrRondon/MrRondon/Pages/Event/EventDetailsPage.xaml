@@ -6,24 +6,33 @@
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Valor" Style="{StaticResource PrimaryLabel}" />
-            <Label Text="{Binding Event.Value, StringFormat='{0:C}'}" Style="{StaticResource SecondaryLabel}"></Label>
+        <ScrollView>
+            <StackLayout>
+                <ActivityIndicator Style="{StaticResource SpinnerLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}"></ActivityIndicator>
+                <Image x:Name="image" Source="{Binding Event.ImageSource}" HorizontalOptions="FillAndExpand" HeightRequest="220"></Image>
 
-            <Label Text="Data de Início" Style="{StaticResource PrimaryLabel}" />
-            <Label Text="{Binding Event.StartDate, StringFormat='{0:ddd, dd MMM yyyy}'}" Style="{StaticResource SecondaryLabel}"></Label>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
+                    <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="share" Command="{Binding ShareCommand}"></Button>
+                    <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="unfavorite" Command="{Binding MarkAsFavoriteCommand}"></Button>
+                    <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="map_marker" Command="{Binding OpenMapCommand}"></Button>
+                    <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="phone_call" Command="{Binding MakePhoneCallCommand}"></Button>
+                </StackLayout>
 
-            <Label Text="Data de Término" Style="{StaticResource PrimaryLabel}" />
-            <Label Text="{Binding Event.EndDate, StringFormat='{0:ddd, dd MMM yyyy}'}" Style="{StaticResource SecondaryLabel}"></Label>
+                <Label Text="Valor" Style="{StaticResource PrimaryLabel}" />
+                <Label Text="{Binding Event.GetValue}" Style="{StaticResource SecondaryLabel}"></Label>
 
-            <Label Text="Descrição" Style="{StaticResource PrimaryLabel}" />
-            <Label Text="Ainda falta implementar" Style="{StaticResource SecondaryLabel}" />
+                <Label Text="Data de Início" Style="{StaticResource PrimaryLabel}" />
+                <Label Text="{Binding Event.StartDate, StringFormat='{0:ddd, dd MMM yyyy}'}" Style="{StaticResource SecondaryLabel}"></Label>
 
-            <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
-            <Label Text="Ainda falta implementar" Style="{StaticResource SecondaryLabel}" />
+                <Label Text="Data de Término" Style="{StaticResource PrimaryLabel}" />
+                <Label Text="{Binding Event.EndDate, StringFormat='{0:ddd, dd MMM yyyy}'}" Style="{StaticResource SecondaryLabel}"></Label>
 
-            <Button Text="Call Love" Command="{Binding MakePhoneCallCommand}"></Button>
-            <Button Text="Open Map" Command="{Binding OpenMapCommand}"></Button>
-        </StackLayout>
+                <Label Text="Descrição" Style="{StaticResource PrimaryLabel}" />
+                <Label Text="Ainda falta implementar" Style="{StaticResource SecondaryLabel}" />
+
+                <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
+                <Label Text="Ainda falta implementar" Style="{StaticResource SecondaryLabel}" />
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

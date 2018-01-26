@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Threading.Tasks;
+using System.Windows.Input;
 using Plugin.ExternalMaps;
 using Plugin.ExternalMaps.Abstractions;
 using Xamarin.Forms;
@@ -13,6 +14,8 @@ namespace MrRondon.Pages.Event
             Event = model;
             MakePhoneCallCommand = new Command(MakePhoneCall);
             OpenMapCommand = new Command(OpenMap);
+            MarkAsFavoriteCommand = new Command(async () => await MarkAsFavorite());
+            ShareCommand = new Command(async () => await Share()); 
         }
 
         public ICommand MakePhoneCallCommand { get; set; }
@@ -35,6 +38,16 @@ namespace MrRondon.Pages.Event
         private void OpenMap()
         {
             CrossExternalMaps.Current.NavigateTo(Event.Name, Event.Address.Latitude, Event.Address.Longitude, NavigationType.Driving);
+        }
+
+        private async Task MarkAsFavorite()
+        {
+            await MessageService.ToastAsync($"Ainda não implementado \n{Event.EventId}");
+        }
+
+        private async Task Share()
+        {
+            await MessageService.ToastAsync($"Ainda não implementado \n{Event.EventId}");
         }
     }
 }

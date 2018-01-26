@@ -29,6 +29,14 @@
                 <Setter Property="Padding" Value="5" />
                 <Setter Property="Title" Value="Mr Rondon Turismo" />
             </Style>
+
+            <OnPlatform x:Key="SpinnerPrimaryColor" x:TypeArguments="Color" iOS="Black" />
+            <Style x:Key="SpinnerLoading" TargetType="ActivityIndicator">
+                <Setter Property="HeightRequest" Value="50"></Setter>
+                <Setter Property="WidthRequest" Value="50"></Setter>
+                <Setter Property="VerticalOptions" Value="Center"></Setter>
+                <Setter Property="Color" Value="{StaticResource SpinnerPrimaryColor}"></Setter>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
