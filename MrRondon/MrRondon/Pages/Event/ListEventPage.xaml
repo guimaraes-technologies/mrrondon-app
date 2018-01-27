@@ -24,7 +24,7 @@
 
             <ListView ItemsSource="{Binding Items}"
                       CachingStrategy="RecycleElementAndDataTemplate"
-                      HasUnevenRows="False"
+                      HasUnevenRows="True"
                       HorizontalOptions="FillAndExpand"
                       VerticalOptions="FillAndExpand"
                       SeparatorVisibility="None"

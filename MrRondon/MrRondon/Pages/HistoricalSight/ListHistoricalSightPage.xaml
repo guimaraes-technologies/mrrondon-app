@@ -14,7 +14,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout Orientation="Vertical" Margin="8,8,8,0">
+        <StackLayout Orientation="Vertical">
             <StackLayout Orientation="Horizontal">
                 <Label VerticalOptions="FillAndExpand" Text="Pesquisa" Style="{StaticResource PrimaryLabel}"></Label>
             </StackLayout>
@@ -24,7 +24,7 @@
 
             <ListView ItemsSource="{Binding Items}"
                       CachingStrategy="RecycleElementAndDataTemplate"
-                      HasUnevenRows="False"
+                      HasUnevenRows="True"
                       HorizontalOptions="FillAndExpand"
                       VerticalOptions="FillAndExpand"
                       SeparatorVisibility="None"

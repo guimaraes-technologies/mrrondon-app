@@ -14,10 +14,10 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <StackLayout Padding="8,8,8,0">
+    <StackLayout>
         <ListView ItemsSource="{Binding Items}"
                   CachingStrategy="RecycleElementAndDataTemplate"
-                  HasUnevenRows="False"
+                  HasUnevenRows="True"
                   HorizontalOptions="FillAndExpand"
                   VerticalOptions="FillAndExpand"
                   RefreshCommand="{Binding LoadItemsCommand}"
@@ -31,7 +31,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid ColumnSpacing="10" Padding="10" RowSpacing="10" BackgroundColor="{StaticResource PageBackgroundColor}">
+                        <Grid ColumnSpacing="10" RowSpacing="12" BackgroundColor="{StaticResource PageBackgroundColor}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>

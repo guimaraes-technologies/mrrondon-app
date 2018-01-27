@@ -14,7 +14,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <StackLayout Padding="8,8,8,0">
+    <StackLayout>
         <StackLayout Orientation="Horizontal">
             <controls:CircleImage
                 WidthRequest="40"
@@ -29,7 +29,7 @@
 
         <ListView ItemsSource="{Binding Items}"
                   CachingStrategy="RecycleElementAndDataTemplate"
-                  HasUnevenRows="False"
+                  HasUnevenRows="True"
                   HorizontalOptions="FillAndExpand"
                   VerticalOptions="FillAndExpand"
                   RefreshCommand="{Binding LoadItemsCommand}"

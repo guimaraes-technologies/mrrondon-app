@@ -27,7 +27,7 @@
                 <Setter Property="BarTextColor" Value="#FFFFFF" />
             </Style>
             <Style TargetType="ContentPage">
-                <Setter Property="Padding" Value="5" />
+                <Setter Property="Padding" Value="8,8,8,0" />
                 <Setter Property="Title" Value="Mr Rondon Turismo" />
             </Style>
 
