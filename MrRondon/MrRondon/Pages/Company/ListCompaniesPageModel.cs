@@ -31,8 +31,8 @@ namespace MrRondon.Pages.Company
             set => SetProperty(ref _errorMessage, value);
         }
 
-        private string _city;
-        public string City
+        private int _city;
+        public int City
         {
             get => _city;
             set => SetProperty(ref _city, value);
@@ -72,11 +72,10 @@ namespace MrRondon.Pages.Company
                 IsLoading = true;
                 Items.Clear();
                 var service = new CompanyService();
-                var items = await service.GetAsync(SegmentId, Search);
+                var items = await service.GetAsync(SegmentId, City, Search);
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = "Nenhuma empresa encontrada";
                 Items.ReplaceRange(items);
-                await Task.Delay(100);
             }
             catch (Exception ex)
             {

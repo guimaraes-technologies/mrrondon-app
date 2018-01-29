@@ -13,5 +13,13 @@ namespace MrRondon.Services.Rest
 
             return content;
         }
+
+        public async Task<IList<Company>> GetAsync(int segmentId, int city, string search)
+        {
+            var url = $"{UrlService}/company/{segmentId}/{city}/{search}";
+            var content = await GetObjectAsync<IList<Company>>(url);
+
+            return content;
+        }
     }
 }
