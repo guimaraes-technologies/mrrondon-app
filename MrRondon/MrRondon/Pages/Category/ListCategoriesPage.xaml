@@ -6,6 +6,7 @@
              xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
              Title="Categoria"
+             Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
     <ContentPage.Resources>
@@ -17,6 +18,7 @@
     <StackLayout>
         <ListView ItemsSource="{Binding Items}"
                   CachingStrategy="RecycleElementAndDataTemplate"
+                  SeparatorVisibility="None"
                   HasUnevenRows="True"
                   HorizontalOptions="FillAndExpand"
                   VerticalOptions="FillAndExpand"

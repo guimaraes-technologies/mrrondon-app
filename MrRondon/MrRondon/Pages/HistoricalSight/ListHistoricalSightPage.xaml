@@ -6,6 +6,7 @@
              xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
              xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
              Title="Ponto Turístico"
+             Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
     <ContentPage.Resources>
@@ -24,10 +25,10 @@
 
             <ListView ItemsSource="{Binding Items}"
                       CachingStrategy="RecycleElementAndDataTemplate"
+                      SeparatorVisibility="None"
                       HasUnevenRows="True"
                       HorizontalOptions="FillAndExpand"
                       VerticalOptions="FillAndExpand"
-                      SeparatorVisibility="None"
                       RefreshCommand="{Binding LoadItemsCommand}"
                       IsPullToRefreshEnabled="True"
                       IsRefreshing="{Binding IsLoading, Mode=OneWay}">
