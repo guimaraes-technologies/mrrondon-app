@@ -4483,13 +4483,13 @@ namespace MrRondon.Droid
 			public const int sad_face = 2130837795;
 			
 			// aapt resource value: 0x7f020124
-			public const int share = 2130837796;
+			public const int screen = 2130837796;
 			
 			// aapt resource value: 0x7f020125
-			public const int splash = 2130837797;
+			public const int share = 2130837797;
 			
 			// aapt resource value: 0x7f020126
-			public const int SplashScreen = 2130837798;
+			public const int splashscreen = 2130837798;
 			
 			// aapt resource value: 0x7f020127
 			public const int unfavorite = 2130837799;
