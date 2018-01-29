@@ -7,22 +7,16 @@ using MrRondon.Helpers;
 using MrRondon.Services;
 using Xamarin.Forms;
 
-namespace MrRondon.Pages.Category
+namespace MrRondon.Pages.Company
 {
-    public class ListSubCategoriesPageModel : BasePageModel
+    public class ListCompaniesPageModel : BasePageModel
     {
-        public ListSubCategoriesPageModel(Entities.Category category)
+        public ListCompaniesPageModel(int segmentId)
         {
-            Title = Constants.AppName;
-            Category = category;
-            Items = new ObservableRangeCollection<Entities.Category>();
+            SegmentId = segmentId;
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
-            ItemSelectedCommand = new Command<Entities.Category>(async (item) => await ExecuteItemSelected(item));
         }
-
-        public ICommand LoadItemsCommand { get; set; }
-        public ICommand ItemSelectedCommand { get; set; }
-
+        
         private bool _notHhasItems;
         public bool NotHasItems
         {
@@ -37,15 +31,32 @@ namespace MrRondon.Pages.Category
             set => SetProperty(ref _errorMessage, value);
         }
 
-        private Entities.Category _category;
-        public Entities.Category Category
+        private string _city;
+        public string City
         {
-            get => _category;
-            set => SetProperty(ref _category, value);
+            get => _city;
+            set => SetProperty(ref _city, value);
         }
 
-        private ObservableRangeCollection<Entities.Category> _items;
-        public ObservableRangeCollection<Entities.Category> Items
+        private int _segmentId;
+        public int SegmentId
+        {
+            get => _segmentId;
+            set => SetProperty(ref _segmentId, value);
+        }
+
+        private string _searchBar;
+        public string Search
+        {
+            get => _searchBar;
+            set => SetProperty(ref _searchBar, value);
+        }
+
+        public ICommand LoadItemsCommand { get; set; }
+        public ICommand ItemSelectedCommand { get; set; }
+
+        private ObservableRangeCollection<Entities.Company> _items;
+        public ObservableRangeCollection<Entities.Company> Items
         {
             get => _items;
             set => SetProperty(ref _items, value);
@@ -60,11 +71,12 @@ namespace MrRondon.Pages.Category
                 NotHasItems = false;
                 IsLoading = true;
                 Items.Clear();
-                var service = new SubCategoryService();
-                var items = await service.GetAsync(Category.CategoryId);
+                var service = new CompanyService();
+                var items = await service.GetAsync(SegmentId, Search);
                 NotHasItems = IsLoading && items != null && !items.Any();
-                if (NotHasItems) ErrorMessage = "Nenhuma sub categoria encontrada";
+                if (NotHasItems) ErrorMessage = "Nenhuma empresa encontrada";
                 Items.ReplaceRange(items);
+                await Task.Delay(100);
             }
             catch (Exception ex)
             {
@@ -76,12 +88,6 @@ namespace MrRondon.Pages.Category
                 IsLoading = false;
                 IsPresented = false;
             }
-        }
-
-        private async Task ExecuteItemSelected(Entities.Category category)
-        {
-
-            await MessageService.ShowAsync(category.Name, $"You have selected {category.Name}");
         }
     }
 }

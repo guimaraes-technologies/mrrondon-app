@@ -4,12 +4,18 @@ namespace MrRondon.Entities
 {
     public class Company
     {
+        public Guid CompanyId { get; set; }
+
+        public string Name { get; set; }
+
+        public string FancyName { get; set; }
+
+        public string Cnpj { get; set; }
+
+        public int SegmentId { get; set; }//Category or subcategory
+        public Category SubCategory { get; set; }
+
         public Guid AddressId { get; set; }
-        public string Street { get; set; }
-        public string Neighborhood { get; set; }
-        public string Number { get; set; }
-        public string ZipCode { get; set; }
-        public int Latitude { get; set; }
-        public int Longitude { get; set; }
+        public Address Address { get; set; }
     }
 }
