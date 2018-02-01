@@ -17,5 +17,7 @@ namespace MrRondon.Entities
 
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
+
+        public string TelephoneAndEmail { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MrRondon.Helpers;
+using MrRondon.Pages.Company;
 using MrRondon.Services;
 using Xamarin.Forms;
 
@@ -80,8 +81,8 @@ namespace MrRondon.Pages.Category
 
         private async Task ExecuteItemSelected(Entities.Category category)
         {
-
-            await MessageService.ShowAsync(category.Name, $"You have selected {category.Name}");
+            var pageModel = new ListCompaniesPageModel(category.CategoryId);
+            await NavigationService.PushAsync(new ListCompaniesPage(pageModel));
         }
     }
 }

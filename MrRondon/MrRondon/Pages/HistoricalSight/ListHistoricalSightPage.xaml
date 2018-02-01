@@ -24,7 +24,6 @@
             </StackLayout>
 
             <ListView ItemsSource="{Binding Items}"
-                      CachingStrategy="RecycleElementAndDataTemplate"
                       SeparatorVisibility="None"
                       HasUnevenRows="True"
                       HorizontalOptions="FillAndExpand"

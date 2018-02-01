@@ -17,7 +17,6 @@
 
     <StackLayout>
         <ListView ItemsSource="{Binding Items}"
-                  CachingStrategy="RecycleElementAndDataTemplate"
                   SeparatorVisibility="None"
                   HasUnevenRows="True"
                   HorizontalOptions="FillAndExpand"
@@ -43,8 +42,8 @@
                             </Grid.ColumnDefinitions>
 
                             <controls:CircleImage
-                                WidthRequest="40"
-                                HeightRequest="40"
+                                WidthRequest="60"
+                                HeightRequest="60"
                                 HorizontalOptions="CenterAndExpand"
                                 VerticalOptions="CenterAndExpand"
                                 Aspect="AspectFill"
@@ -52,7 +51,7 @@
                                 BorderThickness="2"
                                 Source="icon.png"/>
 
-                            <Label Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Name}" />
+                            <Label Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

@@ -21,7 +21,6 @@
         </StackLayout>
 
         <ListView ItemsSource="{Binding Items}"
-                      CachingStrategy="RecycleElementAndDataTemplate"
                       SeparatorVisibility="None"
                       HasUnevenRows="True"
                       HorizontalOptions="FillAndExpand"
@@ -57,7 +56,7 @@
 
                             <Label Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Name}" FontAttributes="Bold" FontSize="Small" />
 
-                            <Label Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding TelephoneAndEmail}" />
+                            <Label Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Cnpj}" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

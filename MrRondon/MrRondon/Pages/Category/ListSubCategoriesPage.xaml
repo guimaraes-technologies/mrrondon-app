@@ -18,18 +18,17 @@
     <StackLayout>
         <StackLayout Orientation="Horizontal">
             <controls:CircleImage
-                WidthRequest="40"
-                HeightRequest="40"
+                WidthRequest="60"
+                HeightRequest="60"
                 Aspect="AspectFill"
                 BorderColor="White"
                 BorderThickness="2"
                 Source="icon.png"/>
 
-            <Label FontSize="Medium" VerticalOptions="Center" TextColor="Black" Text="{Binding Category.Name}" />
+            <Label FontSize="Large" VerticalOptions="Center" TextColor="Black" Text="{Binding Category.Name}" FontAttributes="Bold" />
         </StackLayout>
 
         <ListView ItemsSource="{Binding Items}"
-                  CachingStrategy="RecycleElementAndDataTemplate"
                   SeparatorVisibility="None"
                   HasUnevenRows="True"
                   HorizontalOptions="FillAndExpand"
@@ -53,7 +52,7 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
-                            <Label Grid.Row="0" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Name}" FontAttributes="Bold" />
+                            <Label Grid.Row="0" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Name}" FontSize="Medium" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
