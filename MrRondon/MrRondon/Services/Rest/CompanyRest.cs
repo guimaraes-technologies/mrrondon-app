@@ -9,7 +9,7 @@ namespace MrRondon.Services.Rest
     {
         public async Task<IList<Company>> GetAsync(int segmentId, string search)
         {
-            var url = $"{UrlService}/company/{segmentId}/{search}";
+            var url = $"{UrlService}/company/segment/{segmentId}/{search}";
             var content = await GetObjectAsync<IList<Company>>(url);
 
             return content;
@@ -18,7 +18,7 @@ namespace MrRondon.Services.Rest
         public async Task<IList<Company>> GetAsync(int segmentId, int city, string search)
         {
             var cityId = city == 0 ? string.Empty : $"{city}/";
-            var url = $"{UrlService}/company/{segmentId}/{cityId}{search}";
+            var url = $"{UrlService}/company/segment/{segmentId}/{cityId}{search}";
             var content = await GetObjectAsync<IList<Company>>(url);
 
             return content;
