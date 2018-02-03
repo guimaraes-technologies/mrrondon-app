@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MrRondon.Pages.HistoricalSight.HistoricalSightDetailsPage"
+             Title="{Binding Event.Name}"
+             Style="{StaticResource PageStyle}"
+             BackgroundColor="{StaticResource PageBackgroundColor}">
+
+    <ScrollView>
+        <StackLayout>
+            <ActivityIndicator Style="{StaticResource SpinnerLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}"></ActivityIndicator>
+            <Image x:Name="image" Source="{Binding HistoricalSight.ImageSource}" HorizontalOptions="FillAndExpand" HeightRequest="220"></Image>
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
+                <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="map_marker" Command="{Binding OpenMapCommand}"></Button>
+                <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="share" Command="{Binding ShareCommand}"></Button>
+                <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="{Binding Event.FavoritIcon}" Command="{Binding MarkAsFavoriteCommand}"></Button>
+            </StackLayout>
+            
+            <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
+            <Label Text="{Binding HistoricalSight.Address.FullAddress}" Style="{StaticResource SecondaryLabel}" />
+
+            <Label Text="Descrição" Style="{StaticResource PrimaryLabel}" />
+            <Label Text="{Binding HistoricalSight.SightHistory}" Style="{StaticResource SecondaryLabel}" />
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

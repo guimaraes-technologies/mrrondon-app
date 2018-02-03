@@ -12,7 +12,7 @@ namespace MrRondon.Services
         {
             var service = new HistoricalSightRest();
             var items = await service.GetAsync(search);
-
+            
             return items.OrderBy(o => o.Name).ToList();
         }
     }

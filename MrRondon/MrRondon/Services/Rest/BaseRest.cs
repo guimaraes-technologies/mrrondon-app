@@ -34,13 +34,13 @@ namespace MrRondon.Services.Rest
                 case HttpStatusCode.BadGateway: throw new BadGatewayRequestException();
                 case HttpStatusCode.BadRequest: throw new Exception("Não foi possível concluir a requisição");
                 case HttpStatusCode.InternalServerError: throw new InternalServerErrorException();
-                default: throw new Exception("Não foi possível concluir a requisição");
+                default: throw new GenericException();
             }
         }
 
         protected async Task<TObject> GetObjectAsync<TObject>(string url) where TObject : class
         {
-            if (!CrossConnectivity.Current.IsConnected) throw new Exception("Você está sem conexão com a internet");
+            if (!CrossConnectivity.Current.IsConnected) throw new WithOutInternetConnectionException();
 
             var response = await HttpClient.GetAsync(url);
             if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.OK)
@@ -50,12 +50,12 @@ namespace MrRondon.Services.Rest
             }
 
             await ShowError(response);
-            throw new Exception("Não foi possível concluir a requisição");
+            throw new GenericException();
         }
 
         public async Task<TObject> PostObjectAsync<TObject>(string url, StringContent content) where TObject : class
         {
-            if (!CrossConnectivity.Current.IsConnected) throw new Exception("Você está sem conexão com a internet");
+            if (!CrossConnectivity.Current.IsConnected) throw new WithOutInternetConnectionException();
 
             var response = await HttpClient.PostAsync(url, content);
             if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.OK)
@@ -65,12 +65,12 @@ namespace MrRondon.Services.Rest
             }
 
             await ShowError(response);
-            throw new Exception("Não foi possível concluir a requisição");
+            throw new GenericException();
         }
 
         public async Task<bool> PostObjectAsync(string url, StringContent content)
         {
-            if (!CrossConnectivity.Current.IsConnected) throw new Exception("Você está sem conexão com a internet");
+            if (!CrossConnectivity.Current.IsConnected) throw new WithOutInternetConnectionException();
 
             var response = await HttpClient.PostAsync(url, content);
             if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.OK)
@@ -80,7 +80,7 @@ namespace MrRondon.Services.Rest
             }
 
             await ShowError(response);
-            throw new Exception("Não foi possível concluir a requisição");
+            throw new GenericException();
         }
     }
 }
