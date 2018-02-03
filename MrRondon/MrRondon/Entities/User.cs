@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace MrRondon.Entities
 {
     public class User
     {
         public Guid UserId { get; set; }
-
-        public Guid PersonId { get; set; }
-        public Person Person { get; set; }
+        public string Cpf { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public ICollection<Contact> Contacts { get; set; }
     }
 }

@@ -15,7 +15,7 @@ namespace MrRondon.Entities
 
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
-
+        
         public string GetValue => Value == 0 ? "Gratuito" : $"{Value:C}";
         public string RangeDateAndValue => $"Início: {StartDate.ToShortDateString()}\nTérminio: {EndDate.ToShortDateString()}\nValor: {GetValue}";
         public ImageSource ImageSource { get { return Image == null ? ImageSource.FromFile("icon.png") : ImageSource.FromStream(() => new MemoryStream(Image)); } }

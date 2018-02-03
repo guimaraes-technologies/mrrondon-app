@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
 using MrRondon.Helpers;
+using MrRondon.Services;
 using Plugin.ExternalMaps;
 using Plugin.ExternalMaps.Abstractions;
 using Plugin.Share;
@@ -18,7 +19,8 @@ namespace MrRondon.Pages.Event
             MakePhoneCallCommand = new Command(MakePhoneCall);
             OpenMapCommand = new Command(OpenMap);
             MarkAsFavoriteCommand = new Command(async () => await MarkAsFavorite());
-            ShareCommand = new Command(async () => await Share()); 
+            ShareCommand = new Command(async () => await Share());
+            SetFavoritIcon();
         }
 
         public ICommand MakePhoneCallCommand { get; set; }
@@ -33,6 +35,8 @@ namespace MrRondon.Pages.Event
             set => SetProperty(ref _event, value);
         }
 
+        public string FavoritIcon { get; }
+        
         private void MakePhoneCall()
         {
             NavigationService.MakePhoneCall("993212372");
@@ -60,6 +64,13 @@ namespace MrRondon.Pages.Event
                 Url = "https://play.google.com/store/apps/details?id=br.gov.ro.setur.mrrondon"
             };
             await CrossShare.Current.Share(message);
+        }
+
+        private async Task SetFavoritIcon()
+        {
+            var service = new FavoriteEventService();
+            var x = await service.GetAsync();
+
         }
     }
 }
