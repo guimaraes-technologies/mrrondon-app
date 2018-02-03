@@ -13,5 +13,13 @@ namespace MrRondon.Services.Rest
 
             return content;
         }
+
+        public async Task<HistoricalSight> GetByIdAsync(int id)
+        {
+            var url = $"{UrlService}/historicalsight/{id}";
+            var content = await GetObjectAsync<HistoricalSight>(url);
+
+            return content;
+        }
     }
 }

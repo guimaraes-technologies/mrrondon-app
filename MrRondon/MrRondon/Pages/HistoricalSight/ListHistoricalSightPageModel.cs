@@ -36,6 +36,7 @@ namespace MrRondon.Pages.HistoricalSight
         }
 
         public ICommand LoadItemsCommand { get; set; }
+        public ICommand ItemSelectedCommand { get; set; }
 
         private ObservableRangeCollection<Entities.HistoricalSight> _items;
         public ObservableRangeCollection<Entities.HistoricalSight> Items
@@ -49,6 +50,7 @@ namespace MrRondon.Pages.HistoricalSight
             Title = Constants.AppName;
             Items = new ObservableRangeCollection<Entities.HistoricalSight>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+            ItemSelectedCommand = new Command<Entities.HistoricalSight>(async (item) => await ExecuteItemSelected(item));
         }
 
         private async Task ExecuteLoadItemsCommand()
@@ -75,6 +77,14 @@ namespace MrRondon.Pages.HistoricalSight
                 IsLoading = false;
                 IsPresented = false;
             }
+        }
+
+        private async Task ExecuteItemSelected(Entities.HistoricalSight model)
+        {
+            var service = new HistoricalSightService();
+            var item = await service.GetByIdAsync(model.HistoricalSightId);
+            var pageModel = new HistoricalSightDetailsPageModel(item);
+            await NavigationService.PushAsync(new HistoricalSightDetailsPage(pageModel));
         }
     }
 }

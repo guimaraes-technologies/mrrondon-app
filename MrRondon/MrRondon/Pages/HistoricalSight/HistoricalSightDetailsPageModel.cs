@@ -5,11 +5,21 @@ using Plugin.ExternalMaps;
 using Plugin.ExternalMaps.Abstractions;
 using Plugin.Share;
 using Plugin.Share.Abstractions;
+using Xamarin.Forms;
 
 namespace MrRondon.Pages.HistoricalSight
 {
     public class HistoricalSightDetailsPageModel : BasePageModel
     {
+        public HistoricalSightDetailsPageModel(Entities.HistoricalSight model)
+        {
+            Title = model.Name;
+            HistoricalSight = model;
+            OpenMapCommand = new Command(OpenMap);
+            MarkAsFavoriteCommand = new Command(async () => await MarkAsFavorite());
+            ShareCommand = new Command(async () => await Share());
+        }
+
         public ICommand OpenMapCommand { get; set; }
         public ICommand ShareCommand { get; set; }
         public ICommand MarkAsFavoriteCommand { get; set; }
@@ -20,12 +30,6 @@ namespace MrRondon.Pages.HistoricalSight
             get => _historicalSight;
             set => SetProperty(ref _historicalSight, value);
         }
-
-        public HistoricalSightDetailsPageModel(Entities.HistoricalSight model)
-        {
-            Title = model.Name;
-        }
-
 
         private void OpenMap()
         {

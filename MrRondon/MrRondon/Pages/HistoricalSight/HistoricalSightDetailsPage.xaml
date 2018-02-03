@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MrRondon.Pages.HistoricalSight.HistoricalSightDetailsPage"
-             Title="{Binding Event.Name}"
+             Title="{Binding HistoricalSight.Name}"
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
@@ -14,7 +14,6 @@
             <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
                 <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="map_marker" Command="{Binding OpenMapCommand}"></Button>
                 <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="share" Command="{Binding ShareCommand}"></Button>
-                <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="{Binding Event.FavoritIcon}" Command="{Binding MarkAsFavoriteCommand}"></Button>
             </StackLayout>
             
             <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />

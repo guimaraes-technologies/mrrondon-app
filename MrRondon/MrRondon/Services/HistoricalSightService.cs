@@ -15,5 +15,13 @@ namespace MrRondon.Services
             
             return items.OrderBy(o => o.Name).ToList();
         }
+
+        public async Task<HistoricalSight> GetByIdAsync(int id)
+        {
+            var service = new HistoricalSightRest();
+            var item = await service.GetByIdAsync(id);
+
+            return item;
+        }
     }
 }
