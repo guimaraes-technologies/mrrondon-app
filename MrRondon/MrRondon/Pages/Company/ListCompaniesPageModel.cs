@@ -14,9 +14,10 @@ namespace MrRondon.Pages.Company
         public ListCompaniesPageModel(int segmentId)
         {
             SegmentId = segmentId;
+            Items = new ObservableRangeCollection<Entities.Company>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
         }
-        
+
         private bool _notHhasItems;
         public bool NotHasItems
         {
