@@ -17,7 +17,7 @@
     <StackLayout Orientation="Vertical">
         <StackLayout Orientation="Vertical">
             <Label VerticalOptions="FillAndExpand" Text="Pesquisa" Style="{StaticResource PrimaryLabel}"></Label>
-            <SearchBar HorizontalOptions="FillAndExpand" Text="{Binding Search, Mode=TwoWay}" SearchCommand="{Binding LoadItemsCommand}" TextColor="Black" BackgroundColor="{StaticResource EntryBackgroundColor}" PlaceholderColor="{StaticResource EntryPlaceholderColor}" Placeholder="Qual a empresa?"></SearchBar>
+            <SearchBar HorizontalOptions="FillAndExpand" Text="{Binding Search, Mode=TwoWay}" SearchCommand="{Binding LoadItemsCommand}" TextColor="Black" BackgroundColor="{StaticResource EntryBackgroundColor}" PlaceholderColor="{StaticResource EntryPlaceholderColor}" Placeholder="Qual o nome da empresa?"></SearchBar>
         </StackLayout>
 
         <ListView ItemsSource="{Binding Items}"
@@ -52,7 +52,7 @@
                                                       Aspect="AspectFill"
                                                       BorderColor="White"
                                                       BorderThickness="2"
-                                                      Source="icon.png"/>
+                                                      Source="{Binding ImageSourceLogo}"/>
 
                             <Label Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Name}" FontAttributes="Bold" FontSize="Small" />
 

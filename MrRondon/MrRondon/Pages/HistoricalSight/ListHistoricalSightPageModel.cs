@@ -81,10 +81,23 @@ namespace MrRondon.Pages.HistoricalSight
 
         private async Task ExecuteItemSelected(Entities.HistoricalSight model)
         {
-            var service = new HistoricalSightService();
-            var item = await service.GetByIdAsync(model.HistoricalSightId);
-            var pageModel = new HistoricalSightDetailsPageModel(item);
-            await NavigationService.PushAsync(new HistoricalSightDetailsPage(pageModel));
+            try
+            {
+                var service = new HistoricalSightService();
+                var item = await service.GetByIdAsync(model.HistoricalSightId);
+                var pageModel = new HistoricalSightDetailsPageModel(item);
+                await NavigationService.PushAsync(new HistoricalSightDetailsPage(pageModel));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+            }
+            finally
+            {
+                IsLoading = false;
+                IsPresented = false;
+            }
         }
     }
 }

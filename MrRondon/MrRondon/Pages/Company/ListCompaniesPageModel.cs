@@ -16,6 +16,7 @@ namespace MrRondon.Pages.Company
             SegmentId = segmentId;
             Items = new ObservableRangeCollection<Entities.Company>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
+            ItemSelectedCommand = new Command<Entities.Company>(async (item) => await ExecuteLoadItem(item));
         }
 
         private bool _notHhasItems;
@@ -77,6 +78,27 @@ namespace MrRondon.Pages.Company
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = "Nenhuma empresa encontrada";
                 Items.ReplaceRange(items);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+            }
+            finally
+            {
+                IsLoading = false;
+                IsPresented = false;
+            }
+        }
+
+        private async Task ExecuteLoadItem(Entities.Company model)
+        {
+            try
+            {
+                var service = new CompanyService();
+                var item = await service.GetByIdAsync(model.CompanyId);
+                var pageModel = new CompanyDetailsPageModel(item);
+                await NavigationService.PushAsync(new CompanyDetailsPage(pageModel));
             }
             catch (Exception ex)
             {

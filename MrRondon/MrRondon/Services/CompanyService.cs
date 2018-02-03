@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MrRondon.Entities;
@@ -22,6 +23,14 @@ namespace MrRondon.Services
             var items = await service.GetAsync(segmentId, city, search);
 
             return items.OrderBy(o => o.Name).ToList();
+        }
+
+        public async Task<Company> GetByIdAsync(Guid id)
+        {
+            var service = new CompanyRest();
+            var item = await service.GetByIdAsync(id);
+
+            return item;
         }
     }
 }
