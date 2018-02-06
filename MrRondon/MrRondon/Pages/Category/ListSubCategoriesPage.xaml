@@ -23,7 +23,7 @@
                 Aspect="AspectFill"
                 BorderColor="White"
                 BorderThickness="2"
-                Source="icon.png"/>
+                Source="{Binding ImageSource}"/>
 
             <Label FontSize="Large" VerticalOptions="Center" TextColor="Black" Text="{Binding Category.Name}" FontAttributes="Bold" />
         </StackLayout>
