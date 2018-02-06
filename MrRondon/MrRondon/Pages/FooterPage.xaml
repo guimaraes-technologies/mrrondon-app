@@ -3,8 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MrRondon.Pages.FooterPage">
 
-    <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-        <Label Text="Secretaria de Turismo - Rondônia" HorizontalTextAlignment="Start" HorizontalOptions="Center"></Label>
-        <Image Source="ico" HorizontalOptions="End"></Image>
+    <StackLayout>
+        <BoxView HeightRequest="1" Color="#c3c3c3"></BoxView>
+        <StackLayout Orientation="Horizontal">
+            <Image Source="brasao_governo_estado" HorizontalOptions="Start" HeightRequest="30"></Image>
+            <Label Text="Superintendência de Turismo - Rondônia" VerticalOptions="Center" HorizontalOptions="EndAndExpand"></Label>
+        </StackLayout>
     </StackLayout>
 </ContentView>

@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
              x:Class="MrRondon.Pages.Company.CompanyDetailsPage"
              Title="{Binding Company.Name}"
              Style="{StaticResource PageStyle}"
@@ -28,5 +29,7 @@
             <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
             <Label Text="{Binding Company.Address.FullAddress}" Style="{StaticResource SecondaryLabel}" />
         </StackLayout>
+
+        <pages:FooterPage />
     </ScrollView>
 </ContentPage>

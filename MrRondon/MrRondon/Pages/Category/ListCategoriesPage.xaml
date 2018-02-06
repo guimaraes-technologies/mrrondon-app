@@ -5,6 +5,7 @@
              xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
              xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
+             xmlns:pages="clr-namespace:MrRondon.Pages"
              Title="Categoria"
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
@@ -57,7 +58,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
-        <Label Text="Secretaria de Turismo - Rondônia" HorizontalTextAlignment="Start" HorizontalOptions="Center"></Label>
+        
+        <pages:FooterPage />
     </StackLayout>
 </ContentPage>

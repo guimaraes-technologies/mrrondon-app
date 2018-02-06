@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:f="clr-namespace:MrRondon.Pages"
+             xmlns:pages="clr-namespace:MrRondon.Pages"
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              x:Class="MrRondon.Pages.Map.MapPage"
              BackgroundColor="{StaticResource PageBackgroundColor}"
@@ -15,6 +15,6 @@
             IsShowingUser="True"
             MapType="Street"  />
 
-        <f:FooterPage />
+        <pages:FooterPage />
     </StackLayout>
 </ContentPage>

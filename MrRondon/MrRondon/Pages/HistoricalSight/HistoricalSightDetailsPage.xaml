@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
              x:Class="MrRondon.Pages.HistoricalSight.HistoricalSightDetailsPage"
              Title="{Binding HistoricalSight.Name}"
              Style="{StaticResource PageStyle}"
@@ -22,5 +23,7 @@
             <Label Text="Descrição" Style="{StaticResource PrimaryLabel}" />
             <Label Text="{Binding HistoricalSight.SightHistory}" Style="{StaticResource SecondaryLabel}" />
         </StackLayout>
+
+        <pages:FooterPage />
     </ScrollView>
 </ContentPage>
