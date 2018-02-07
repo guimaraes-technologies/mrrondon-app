@@ -18,7 +18,7 @@ namespace MrRondon.Pages
         private async Task OnCurrentPageChanged()
         {
             var currentPage = NavigationService.GetCurrentPage();
-            await Task.Delay(100);
+            await Task.Delay(1);
         }
     }
 }

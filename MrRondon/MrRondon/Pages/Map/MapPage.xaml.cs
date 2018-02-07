@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using MrRondon.Auth;
 using MrRondon.Helpers;
 using Plugin.Geolocator;
 using Xamarin.Forms;
@@ -21,12 +22,15 @@ namespace MrRondon.Pages.Map
 
         protected override async void OnAppearing()
         {
+            base.OnAppearing();
             if (_pageModel.Pins.Count == 0) _pageModel.LoadPinsCommand.Execute(null);
             var position =  await GeolocatorHelper.GetCurrentPositionAsync();
+            var cityName = await GeolocatorHelper.GetCurrentCityAsync(position.Latitude, position.Longitude);
+            
+            await Account.Current.SetCity(cityName);
             Companies.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude), Distance.FromMiles(1)));
 
             foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);
-            base.OnAppearing();
         }
     }
 }

@@ -83,6 +83,8 @@ namespace MrRondon.Pages.HistoricalSight
         {
             try
             {
+                if (IsLoading) return;
+                IsLoading = true;
                 var service = new HistoricalSightService();
                 var item = await service.GetByIdAsync(model.HistoricalSightId);
                 var pageModel = new HistoricalSightDetailsPageModel(item);

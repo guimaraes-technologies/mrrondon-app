@@ -57,9 +57,9 @@ namespace MrRondon.Pages.Category
             try
             {
                 if (IsLoading) return;
+                IsLoading = true;
 
                 NotHasItems = false;
-                IsLoading = true;
                 Items.Clear();
                 var service = new SubCategoryService();
                 var items = await service.GetAsync(Category.CategoryId);

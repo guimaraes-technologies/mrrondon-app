@@ -10,6 +10,7 @@
             Title="Mr Rondon Turismo">
 
     <TabbedPage.ToolbarItems>
+        <ToolbarItem Text="Porto Velho" Command="{Binding ChangeActualCityCommand}" Order="Secondary"></ToolbarItem>
         <ToolbarItem Text="Sobre" Command="{Binding AboutCommand}" Order="Secondary"></ToolbarItem>
     </TabbedPage.ToolbarItems>
 

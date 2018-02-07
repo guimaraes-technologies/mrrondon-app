@@ -9,6 +9,6 @@ namespace MrRondon.Entities
         public string Cpf { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public ICollection<Contact> Contacts { get; set; }
+        public IList<Contact> Contacts { get; set; }
     }
 }

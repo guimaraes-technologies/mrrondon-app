@@ -16,14 +16,14 @@
                 <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="map_marker" Command="{Binding OpenMapCommand}"></Button>
                 <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="share" Command="{Binding ShareCommand}"></Button>
             </StackLayout>
-            
+
             <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
             <Label Text="{Binding HistoricalSight.Address.FullAddress}" Style="{StaticResource SecondaryLabel}" />
 
             <Label Text="Descrição" Style="{StaticResource PrimaryLabel}" />
             <Label Text="{Binding HistoricalSight.SightHistory}" Style="{StaticResource SecondaryLabel}" />
-        </StackLayout>
 
-        <pages:FooterPage />
+            <pages:FooterPage />
+        </StackLayout>
     </ScrollView>
 </ContentPage>

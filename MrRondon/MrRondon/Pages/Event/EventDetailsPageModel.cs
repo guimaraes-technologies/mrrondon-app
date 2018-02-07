@@ -39,7 +39,7 @@ namespace MrRondon.Pages.Event
         
         private void MakePhoneCall()
         {
-            NavigationService.MakePhoneCall("993212372");
+            NavigationService.MakePhoneCall("190");
         }
 
         private void OpenMap()

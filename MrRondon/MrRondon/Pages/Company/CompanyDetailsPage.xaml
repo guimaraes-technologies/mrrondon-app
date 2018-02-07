@@ -28,8 +28,8 @@
 
             <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
             <Label Text="{Binding Company.Address.FullAddress}" Style="{StaticResource SecondaryLabel}" />
-        </StackLayout>
 
         <pages:FooterPage />
+        </StackLayout>
     </ScrollView>
 </ContentPage>

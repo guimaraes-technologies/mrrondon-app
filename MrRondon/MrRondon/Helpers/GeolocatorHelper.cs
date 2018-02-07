@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using MrRondon.Extensions;
 using Plugin.Geolocator;
 using Plugin.Geolocator.Abstractions;
+using Xamarin.Forms.Maps;
+using Position = Plugin.Geolocator.Abstractions.Position;
 
 namespace MrRondon.Helpers
 {
@@ -34,6 +37,18 @@ namespace MrRondon.Helpers
 
             return position;
         }
+
+        public static async Task<string> GetCurrentCityAsync(double latitude, double longitude)
+        {
+            var geocoder = new Geocoder();
+            var position = new Xamarin.Forms.Maps.Position(latitude, longitude);
+            var possibleAddresses = await geocoder.GetAddressesForPositionAsync(position);
+
+            var address = possibleAddresses?.ToArray()[1];
+            var city = address?.Replace("- RO, Brasil", "").Trim();
+            return city ?? "Porto Velho";
+        }
+
 
         // Metodo que retorna a distancia entre locais num raio de X metros
         public static double PlacesAround(Position actualPosition, Position place)

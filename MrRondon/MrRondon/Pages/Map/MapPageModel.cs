@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -28,21 +30,37 @@ namespace MrRondon.Pages.Map
 
         private async Task ExecuteLoadPins()
         {
-            var service = new EventService();
-            var events = await service.GetNearbyAsync();
-
-            foreach (var item in events)
+            try
             {
-                var pin = new Pin
-                {
-                    Id = item.AddressId,
-                    Label = item.Name,
-                    Address = item.Address.FullAddress,
-                    Type = PinType.Place,
-                    Position = new Position(item.Address.Latitude, item.Address.Longitude)
-                };
+                if (IsLoading) return;
+                IsLoading = true;
 
-                Pins.Add(pin);
+                var service = new EventService();
+                var events = await service.GetNearbyAsync();
+
+                foreach (var item in events)
+                {
+                    var pin = new Pin
+                    {
+                        Id = item.AddressId,
+                        Label = item.Name,
+                        Address = item.Address.FullAddress,
+                        Type = PinType.Place,
+                        Position = new Position(item.Address.Latitude, item.Address.Longitude)
+                    };
+
+                    Pins.Add(pin);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+            }
+            finally
+            {
+                IsLoading = false;
+                IsPresented = false;
             }
         }
     }

@@ -20,11 +20,10 @@ namespace MrRondon.Services
             return items.OrderBy(o => o.Name).ToList();
         }
 
-        public async Task<IList<Event>> GetAsync(string search = "")
+        public async Task<IList<Event>> GetAsync(int cityId, string search = "")
         {
             var service = new EventRest();
-            search = string.IsNullOrWhiteSpace(search) ? string.Empty : search;
-            var items = await service.GetAsync(search);
+            var items = await service.GetAsync(cityId, search);
 
             return items.OrderBy(o => o.Name).ToList();
         }

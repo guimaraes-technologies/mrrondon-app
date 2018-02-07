@@ -14,9 +14,9 @@ namespace MrRondon.Services.Rest
             return content;
         }
 
-        public async Task<IList<Event>> GetAsync(string search)
+        public async Task<IList<Event>> GetAsync(int cityId, string search)
         {
-            var url = $"{UrlService}/event/{search}";
+            var url = $"{UrlService}/event/city/{cityId}/{search}";
             var content = await GetObjectAsync<IList<Event>>(url);
 
             return content;
