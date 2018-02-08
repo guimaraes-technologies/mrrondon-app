@@ -6,9 +6,9 @@ namespace MrRondon.Services.Rest
 {
     public class HistoricalSightRest : BaseRest
     {
-        public async Task<IList<HistoricalSight>> GetAsync(string search)
+        public async Task<IList<HistoricalSight>> GetAsync(int cityId, string search)
         {
-            var url = $"{UrlService}/historicalsight/{search}";
+            var url = $"{UrlService}/historicalsight/city/{cityId}/{search}";
             var content = await GetObjectAsync<IList<HistoricalSight>>(url);
 
             return content;

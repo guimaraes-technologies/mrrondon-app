@@ -16,10 +16,12 @@ namespace MrRondon.Pages.HistoricalSight
             Title = model.Name;
             HistoricalSight = model;
             OpenMapCommand = new Command(OpenMap);
+            MakeCallCommand = new Command(ExecuteMakeCall);
             MarkAsFavoriteCommand = new Command(async () => await MarkAsFavorite());
             ShareCommand = new Command(async () => await Share());
         }
 
+        public ICommand MakeCallCommand { get; set; }
         public ICommand OpenMapCommand { get; set; }
         public ICommand ShareCommand { get; set; }
         public ICommand MarkAsFavoriteCommand { get; set; }
@@ -29,6 +31,11 @@ namespace MrRondon.Pages.HistoricalSight
         {
             get => _historicalSight;
             set => SetProperty(ref _historicalSight, value);
+        }
+
+        private void ExecuteMakeCall()
+        {
+            NavigationService.NavigateToUrl(Constants.DefaultSetting.TelephoneSetur);
         }
 
         private void OpenMap()

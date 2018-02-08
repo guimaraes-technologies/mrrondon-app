@@ -36,7 +36,7 @@ namespace MrRondon.Pages
                     case 2:
                         {
                             var service = new EventService();
-                            var items = await service.GetAsync(1);//Todo colocar a cidade real
+                            var items = await service.GetAsync();
                             CurrentPage.BindingContext = new ListEventPageModel
                             {
                                 Items = new ObservableRangeCollection<Entities.Event>(items)

@@ -15,5 +15,6 @@ namespace MrRondon.Helpers
     public class DefaultSetting
     {
         public readonly City City = new City { CityId = 1, Name = "Porto Velho" };
+        public readonly string TelephoneSetur = "(69) 3216-1044";
     }
 }
