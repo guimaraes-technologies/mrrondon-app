@@ -11,7 +11,7 @@ namespace MrRondon.Auth
         public AccountManager()
         {
             SetUser();
-            SetCity();
+            //SetCity();
         }
 
         public User User { get; private set; }
@@ -44,7 +44,7 @@ namespace MrRondon.Auth
             var cityService = new CityService();
             var cities = await cityService.GetAsync(cityName);
             var city = cities.FirstOrDefault();
-            SetCity(city);
+            //SetCity(city);
 
             return city;
         }

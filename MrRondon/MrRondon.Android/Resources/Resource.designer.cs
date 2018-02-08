@@ -26,8 +26,6 @@ namespace MrRondon.Droid
 		
 		public static void UpdateIdValues()
 		{
-			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.ApplicationName = global::MrRondon.Droid.Resource.String.ApplicationName;
-			global::SQLite.Net.Platform.XamarinAndroid.Resource.String.Hello = global::MrRondon.Droid.Resource.String.Hello;
 			global::Plugin.Toasts.Resource.Animation.abc_fade_in = global::MrRondon.Droid.Resource.Animation.abc_fade_in;
 			global::Plugin.Toasts.Resource.Animation.abc_fade_out = global::MrRondon.Droid.Resource.Animation.abc_fade_out;
 			global::Plugin.Toasts.Resource.Animation.abc_grow_fade_in_from_bottom = global::MrRondon.Droid.Resource.Animation.abc_grow_fade_in_from_bottom;

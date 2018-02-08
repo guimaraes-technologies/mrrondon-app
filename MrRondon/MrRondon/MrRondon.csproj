@@ -8,7 +8,6 @@
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
     <PackageReference Include="Plugin.Permissions" Version="2.2.1" />
     <PackageReference Include="Plugin.Share" Version="7.1.1" />
-    <PackageReference Include="SQLite.Net-PCL" Version="3.1.1" />
     <PackageReference Include="Toasts.Forms.Plugin" Version="3.3.0" />
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.0.3" />
     <PackageReference Include="Xam.Plugin.ExternalMaps" Version="4.0.1" />
@@ -70,5 +69,9 @@
     <EmbeddedResource Update="Pages\Map\MapPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
   </ItemGroup>
 </Project>

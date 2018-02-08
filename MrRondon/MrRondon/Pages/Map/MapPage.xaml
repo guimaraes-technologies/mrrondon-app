@@ -15,6 +15,6 @@
             IsShowingUser="True"
             MapType="Street"  />
 
-        <pages:FooterPage />
+        <!--<pages:FooterPage />-->
     </StackLayout>
 </ContentPage>
