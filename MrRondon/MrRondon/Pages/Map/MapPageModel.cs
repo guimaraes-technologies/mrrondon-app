@@ -69,9 +69,9 @@ namespace MrRondon.Pages.Map
 
         public async Task SetActualCity(string address)
         {
-            var cityName = address?.Replace("- RO, Brasil", "").Trim();
-            cityName = cityName ?? Constants.DefaultSetting.City.Name;
-
+            var items = (address ?? Constants.DefaultSetting.City.Name).Split(',');
+            var cityAndState = items[2];
+            var cityName = cityAndState.Split('-')[0].Trim();
             var cityService = new CityService();
             var cities = await cityService.GetAsync(cityName);
             var city = cities.FirstOrDefault() ?? Constants.DefaultSetting.City;
