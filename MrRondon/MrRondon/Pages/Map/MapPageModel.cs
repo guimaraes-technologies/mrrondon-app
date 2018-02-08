@@ -70,7 +70,7 @@ namespace MrRondon.Pages.Map
         public async Task SetActualCity(string address)
         {
             var items = (address ?? Constants.DefaultSetting.City.Name).Split(',');
-            var cityAndState = items[2];
+            var cityAndState = items[items.Length - 1];
             var cityName = cityAndState.Split('-')[0].Trim();
             var cityService = new CityService();
             var cities = await cityService.GetAsync(cityName);
