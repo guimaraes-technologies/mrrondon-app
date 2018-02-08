@@ -2,6 +2,7 @@
 using MrRondon.Entities;
 using MrRondon.Helpers;
 using MrRondon.Services.Interfaces;
+using MrRondon.ViewModels;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages
@@ -32,15 +33,26 @@ namespace MrRondon.Pages
             set => SetProperty(ref _isPresented, value);
         }
 
-        private City City => Account.Current.City;
+        private string _currentCity;
+        public string CurrentCity
+        {
+            get => _currentCity;
+            set => SetProperty(ref _currentCity, value);
+        }
 
         protected BasePageModel()
         {
             IsPresented = false;
             IsLoading = false;
             Title = Constants.AppName;
+            CurrentCity = ((City)Application.Current.Properties["city"])?.Name;
             MessageService = DependencyService.Get<IMessageService>();
             NavigationService = DependencyService.Get<INavigationService>();
+        }
+
+        public void SetCity(City city)
+        {
+            CurrentCity = city.Name;
         }
     }
 }

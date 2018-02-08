@@ -16,14 +16,13 @@ namespace MrRondon.Entities
         public byte[] Logo { get; set; }
         public byte[] Cover { get; set; }
 
-        //Category or subcategory
         public int SubCategoryId { get; set; }
         public SubCategory SubCategory { get; set; }
 
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
 
-        public string SegmentDescription => SubCategory == null ? "Não informado" : SubCategory.CategoryId == null ? SubCategory.Name : $"{SubCategory.Name} - {SubCategory.Category.Name}";
+        public string SegmentDescription => SubCategory.Category == null ? SubCategory.Name : $"{SubCategory.Name} - {SubCategory.Category.Name}";
         public string TelephoneAndEmail { get; set; }
 
         public ImageSource ImageSourceLogo { get { return Logo == null ? ImageSource.FromFile("icon.png") : ImageSource.FromStream(() => new MemoryStream(Logo)); } }

@@ -13,7 +13,7 @@ namespace MrRondon.Pages.Company
     {
         public ListCompaniesPageModel(int segmentId)
         {
-            SubCategoryId = segmentId;
+            CategoryId = segmentId;
             Items = new ObservableRangeCollection<Entities.Company>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
             ItemSelectedCommand = new Command<Entities.Company>(async (item) => await ExecuteLoadItem(item));
@@ -41,7 +41,7 @@ namespace MrRondon.Pages.Company
         }
 
         private int _segmentId;
-        public int SubCategoryId
+        public int CategoryId
         {
             get => _segmentId;
             set => SetProperty(ref _segmentId, value);
@@ -74,7 +74,7 @@ namespace MrRondon.Pages.Company
                 IsLoading = true;
                 Items.Clear();
                 var service = new CompanyService();
-                var items = await service.GetAsync(SubCategoryId, City, Search);
+                var items = await service.GetAsync(CategoryId, City, Search);
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = "Nenhuma empresa encontrada";
                 Items.ReplaceRange(items);

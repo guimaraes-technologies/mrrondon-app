@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Fastick.ViewModels;
 using MrRondon.Helpers;
+using MrRondon.ViewModels;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 

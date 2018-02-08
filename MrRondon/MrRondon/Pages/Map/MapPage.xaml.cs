@@ -1,8 +1,5 @@
-﻿using System;
-using System.Linq;
-using MrRondon.Auth;
+﻿using MrRondon.Auth;
 using MrRondon.Helpers;
-using Plugin.Geolocator;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
@@ -27,7 +24,8 @@ namespace MrRondon.Pages.Map
             var cityName = await GeolocatorHelper.GetCurrentCityAsync(position.Latitude, position.Longitude);
 
             var account = Account.Current;
-            await account.SetCity(cityName);
+            var city = await account.SetCity(cityName);
+            
             Companies.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude), Distance.FromMiles(1)));
 
             foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);

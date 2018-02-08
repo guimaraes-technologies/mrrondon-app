@@ -62,7 +62,7 @@ namespace MrRondon.Pages.Category
                 NotHasItems = false;
                 Items.Clear();
                 var service = new SubCategoryService();
-                var items = await service.GetAsync(Category.CategoryId);
+                var items = await service.GetAsync(Category.CategoryId.Value);
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = "Nenhuma sub categoria encontrada";
                 Items.ReplaceRange(items);
@@ -81,7 +81,7 @@ namespace MrRondon.Pages.Category
 
         private async Task ExecuteItemSelected(Entities.SubCategory category)
         {
-            var pageModel = new ListCompaniesPageModel(category.CategoryId);
+            var pageModel = new ListCompaniesPageModel(category.SubCategoryId);
             await NavigationService.PushAsync(new ListCompaniesPage(pageModel));
         }
     }

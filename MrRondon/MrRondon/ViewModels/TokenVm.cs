@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft.Json;
 
-namespace Fastick.ViewModels
+namespace MrRondon.ViewModels
 {
     public class TokenVm
     {

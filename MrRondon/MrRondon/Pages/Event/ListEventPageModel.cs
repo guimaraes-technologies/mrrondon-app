@@ -69,7 +69,7 @@ namespace MrRondon.Pages.Event
                 IsLoading = true;
                 Items.Clear();
                 var service = new EventService();
-                var items = await service.GetAsync(Account.Current.City.CityId, Search);
+                var items = await service.GetAsync(Account.Current.CurrentCityId, Search);
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = "Nenhum evento encontrado";
                 Items.ReplaceRange(items);

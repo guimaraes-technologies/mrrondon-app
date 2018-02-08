@@ -10,12 +10,14 @@ namespace MrRondon.Auth
         public AccountManager()
         {
             SetUser();
+            SetCity();
         }
 
         public User User { get; private set; }
         public bool IsLoggedIn { get; private set; }
 
-        public City City { get; private set; } = new City { CityId = 1, Name = "Porto Velho" };
+        public int CurrentCityId { get; private set; }
+        public string CurrentCityName { get; private set; }
 
         private void SetUser()
         {
@@ -27,20 +29,25 @@ namespace MrRondon.Auth
             else IsLoggedIn = false;
         }
 
-        private void SetCity(City city)
+        private void SetCity(City city = null)
         {
-            if (city == null) return;
-
             if (Xamarin.Forms.Application.Current.Properties.ContainsKey("city"))
                 Xamarin.Forms.Application.Current.Properties.Remove("city");
-            Xamarin.Forms.Application.Current.Properties["city"] = City = city;
+            city = city ?? new City { CityId = 1, Name = "Porto Velho" };
+            Xamarin.Forms.Application.Current.Properties["city"] = city;
+
+            CurrentCityId = city.CityId;
+            CurrentCityName = city.Name;
         }
 
-        public async Task SetCity(string cityName)
+        public async Task<City> SetCity(string cityName)
         {
             var cityService = new CityService();
             var cities = await cityService.GetAsync(cityName);
-            SetCity(cities.FirstOrDefault());
+            var city = cities.FirstOrDefault();
+            SetCity(city);
+
+            return city;
         }
     }
 }
