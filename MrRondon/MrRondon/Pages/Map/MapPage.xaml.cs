@@ -23,9 +23,9 @@ namespace MrRondon.Pages.Map
             var position = await GeolocatorHelper.GetCurrentPositionAsync();
             var cityName = await GeolocatorHelper.GetCurrentCityAsync(position.Latitude, position.Longitude);
 
-            var account = Account.Current;
-            var city = await account.SetCity(cityName);
-            
+            //var account = Account.Current;
+            //var city = await account.SetCityAsync(cityName);
+
             Companies.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude), Distance.FromMiles(1)));
 
             foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);
