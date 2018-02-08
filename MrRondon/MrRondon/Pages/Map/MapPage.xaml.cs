@@ -1,8 +1,6 @@
-﻿using MrRondon.Auth;
-using MrRondon.Helpers;
+﻿using MrRondon.Helpers;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
-using Xamarin.Forms.Xaml;
 
 namespace MrRondon.Pages.Map
 {
@@ -21,12 +19,11 @@ namespace MrRondon.Pages.Map
             base.OnAppearing();
             if (_pageModel.Pins.Count == 0) _pageModel.LoadPinsCommand.Execute(null);
             var position = await GeolocatorHelper.GetCurrentPositionAsync();
-            var cityName = await GeolocatorHelper.GetCurrentCityAsync(position.Latitude, position.Longitude);
+            var address = await GeolocatorHelper.GetAddressAsync(position.Latitude, position.Longitude);
+            _pageModel.SetActualCityCommand.Execute(address);
 
-            //var account = Account.Current;
-            //var city = await account.SetCityAsync(cityName);
-
-            Companies.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude), Distance.FromMiles(1)));
+            var mapSpan = MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude), Distance.FromMiles(1));
+            Companies.MoveToRegion(mapSpan);
 
             foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);
         }

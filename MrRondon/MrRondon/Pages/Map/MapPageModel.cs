@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MrRondon.Entities;
@@ -17,9 +18,11 @@ namespace MrRondon.Pages.Map
         {
             Title = Constants.AppName;
             LoadPinsCommand = new Command(async () => await ExecuteLoadPins());
+            SetActualCityCommand = new Command<string>(async (address) => await SetActualCity(address));
         }
 
         public ICommand LoadPinsCommand { get; set; }
+        public ICommand SetActualCityCommand { get; set; }
 
         private List<Pin> _pins = new List<Pin>();
         public List<Pin> Pins
@@ -62,6 +65,18 @@ namespace MrRondon.Pages.Map
                 IsLoading = false;
                 IsPresented = false;
             }
+        }
+
+        public async Task SetActualCity(string address)
+        {
+            var cityName = address?.Replace("- RO, Brasil", "").Trim();
+            cityName = cityName ?? Constants.DefaultSetting.City.Name;
+
+            var cityService = new CityService();
+            var cities = await cityService.GetAsync(cityName);
+            var city = cities.FirstOrDefault() ?? Constants.DefaultSetting.City;
+            CurrentCity = city.Name;
+            ApplicationManager<City>.AddOrUpdate("city", city);
         }
     }
 }
