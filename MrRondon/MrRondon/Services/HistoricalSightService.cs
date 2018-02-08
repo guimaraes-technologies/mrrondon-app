@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MrRondon.Entities;
+using MrRondon.Helpers;
 using MrRondon.Services.Rest;
 
 namespace MrRondon.Services
@@ -11,7 +12,7 @@ namespace MrRondon.Services
         public async Task<IList<HistoricalSight>> GetAsync(string search = "")
         {
             var service = new HistoricalSightRest();
-            var items = await service.GetAsync(search);
+            var items = await service.GetAsync(Constants.DefaultSetting.City.CityId, search);
             
             return items.OrderBy(o => o.Name).ToList();
         }
