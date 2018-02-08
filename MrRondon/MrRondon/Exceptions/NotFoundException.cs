@@ -4,6 +4,6 @@ namespace MrRondon.Exceptions
 {
 	public class NotFoundException : Exception
 	{
-		public NotFoundException(string msg = "Infelizmente o serviço não foi encontrado.\nVerifique sua conexão com a internet") : base(msg){}
+		public NotFoundException(string msg = "Serviço não encontrado.\nJá estamos trabalhando pra resolver") : base(msg){}
 	}
 }

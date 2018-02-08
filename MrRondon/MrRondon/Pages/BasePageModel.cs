@@ -1,4 +1,6 @@
-﻿using MrRondon.Helpers;
+﻿using MrRondon.Auth;
+using MrRondon.Entities;
+using MrRondon.Helpers;
 using MrRondon.Services.Interfaces;
 using Xamarin.Forms;
 
@@ -29,6 +31,8 @@ namespace MrRondon.Pages
             get => _isPresented;
             set => SetProperty(ref _isPresented, value);
         }
+
+        private City City => Account.Current.City;
 
         protected BasePageModel()
         {

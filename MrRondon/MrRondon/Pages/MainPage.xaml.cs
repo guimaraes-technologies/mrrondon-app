@@ -29,7 +29,7 @@ namespace MrRondon.Pages
                             //CurrentPage.BindingContext = pageModel;
                             CurrentPage.BindingContext = new ListCategoriesPageModel
                             {
-                                Items = new ObservableRangeCollection<Entities.Category>(items)
+                                Items = new ObservableRangeCollection<Entities.SubCategory>(items)
                             };
                             return;
                         }

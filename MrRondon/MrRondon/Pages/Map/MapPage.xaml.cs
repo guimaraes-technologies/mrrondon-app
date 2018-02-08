@@ -17,17 +17,17 @@ namespace MrRondon.Pages.Map
         {
             InitializeComponent();
             if (BindingContext == null) BindingContext = _pageModel = _pageModel ?? new MapPageModel();
-            else _pageModel = (MapPageModel)BindingContext;
         }
 
         protected override async void OnAppearing()
         {
             base.OnAppearing();
             if (_pageModel.Pins.Count == 0) _pageModel.LoadPinsCommand.Execute(null);
-            var position =  await GeolocatorHelper.GetCurrentPositionAsync();
+            var position = await GeolocatorHelper.GetCurrentPositionAsync();
             var cityName = await GeolocatorHelper.GetCurrentCityAsync(position.Latitude, position.Longitude);
-            
-            await Account.Current.SetCity(cityName);
+
+            var account = Account.Current;
+            await account.SetCity(cityName);
             Companies.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude), Distance.FromMiles(1)));
 
             foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);

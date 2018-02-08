@@ -8,7 +8,7 @@ namespace MrRondon.Services
 {
     public class CategoryService
     {
-        public async Task<IList<Category>> GetAsync(string search = "")
+        public async Task<IList<SubCategory>> GetAsync(string search = "")
         {
             var service = new CategoryRest();
             var items = await service.GetAsync(search);

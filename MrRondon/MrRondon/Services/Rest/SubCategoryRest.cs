@@ -6,10 +6,10 @@ namespace MrRondon.Services.Rest
 {
     public class SubCategoryRest : BaseRest
     {
-        public async Task<IList<Category>> GetAsync(int categoryId, string search)
+        public async Task<IList<SubCategory>> GetAsync(int categoryId, string search)
         {
             var url = $"{UrlService}/subcategory/{categoryId}/{search}";
-            var content = await GetObjectAsync<IList<Category>>(url);
+            var content = await GetObjectAsync<IList<SubCategory>>(url);
 
             return content;
         }

@@ -17,13 +17,13 @@ namespace MrRondon.Entities
         public byte[] Cover { get; set; }
 
         //Category or subcategory
-        public int SegmentId { get; set; }
-        public Category Segment { get; set; }
+        public int SubCategoryId { get; set; }
+        public SubCategory SubCategory { get; set; }
 
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
 
-        public string SegmentDescription => Segment == null ? "Não informado" : Segment.SubCategory == null ? Segment.Name : $"{Segment.Name} - {Segment.SubCategory.Name}";
+        public string SegmentDescription => SubCategory == null ? "Não informado" : SubCategory.CategoryId == null ? SubCategory.Name : $"{SubCategory.Name} - {SubCategory.Category.Name}";
         public string TelephoneAndEmail { get; set; }
 
         public ImageSource ImageSourceLogo { get { return Logo == null ? ImageSource.FromFile("icon.png") : ImageSource.FromStream(() => new MemoryStream(Logo)); } }

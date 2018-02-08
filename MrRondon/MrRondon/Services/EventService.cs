@@ -13,7 +13,7 @@ namespace MrRondon.Services
         {
             var service = new EventRest();
             var currentPosition = await GeolocatorHelper.GetCurrentPositionAsync();
-            if (currentPosition == null) return null;
+            if (currentPosition == null) return new List<Event>();
 
             var items = await service.GetNearbyAsync(Constants.GetPlacesUntil, currentPosition.Latitude, currentPosition.Longitude);
 

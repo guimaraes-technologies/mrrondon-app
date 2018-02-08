@@ -14,9 +14,9 @@ namespace MrRondon.Pages.Category
         public ListCategoriesPageModel()
         {
             Title = Constants.AppName;
-            Items = new ObservableRangeCollection<Entities.Category>();
+            Items = new ObservableRangeCollection<Entities.SubCategory>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
-            ItemSelectedCommand = new Command<Entities.Category>(async (item) => await ExecuteItemSelected(item));
+            ItemSelectedCommand = new Command<Entities.SubCategory>(async (item) => await ExecuteItemSelected(item));
         }
 
         public ICommand LoadItemsCommand { get; set; }
@@ -36,8 +36,8 @@ namespace MrRondon.Pages.Category
             set => SetProperty(ref _errorMessage, value);
         }
 
-        private ObservableRangeCollection<Entities.Category> _items;
-        public ObservableRangeCollection<Entities.Category> Items
+        private ObservableRangeCollection<Entities.SubCategory> _items;
+        public ObservableRangeCollection<Entities.SubCategory> Items
         {
             get => _items;
             set => SetProperty(ref _items, value);
@@ -70,7 +70,7 @@ namespace MrRondon.Pages.Category
             }
         }
 
-        private async Task ExecuteItemSelected(Entities.Category category)
+        private async Task ExecuteItemSelected(Entities.SubCategory category)
         {
             var model = new ListSubCategoriesPageModel(category);
             var page = new ListSubCategoriesPage(model);
