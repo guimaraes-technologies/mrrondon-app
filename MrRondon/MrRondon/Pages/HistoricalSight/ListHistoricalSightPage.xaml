@@ -18,10 +18,8 @@
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
             <StackLayout Orientation="Horizontal">
-                <Label VerticalOptions="FillAndExpand" Text="Pesquisa" Style="{StaticResource PrimaryLabel}"></Label>
-            </StackLayout>
-            <StackLayout Orientation="Horizontal">
-                <SearchBar HorizontalOptions="FillAndExpand" Text="{Binding Search, Mode=TwoWay}" SearchCommand="{Binding LoadItemsCommand}" TextColor="Black" BackgroundColor="{StaticResource EntryBackgroundColor}" PlaceholderColor="{StaticResource EntryPlaceholderColor}" Placeholder="Qual o nome do ponto turístico?"></SearchBar>
+                <Label Text="Em" FontSize="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryColor}"></Label>
+                <Picker Title="Cidade" ItemsSource="{Binding Cities}" Margin="5,0,0,0"></Picker>
             </StackLayout>
 
             <ListView ItemsSource="{Binding Items}"

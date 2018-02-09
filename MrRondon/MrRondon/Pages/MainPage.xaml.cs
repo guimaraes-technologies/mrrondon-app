@@ -37,20 +37,20 @@ namespace MrRondon.Pages
                         {
                             var service = new EventService();
                             var items = await service.GetAsync();
-                            CurrentPage.BindingContext = new ListEventPageModel
-                            {
-                                Items = new ObservableRangeCollection<Entities.Event>(items)
-                            };
+                            var pageModel = new ListEventPageModel();
+                            pageModel.Items.ReplaceRange(items);
+                            pageModel.LoadCitiesCommand.Execute(null);
+                            CurrentPage.BindingContext = pageModel;
                             return;
                         }
                     case 3:
                         {
                             var service = new HistoricalSightService();
                             var items = await service.GetAsync();
-                            CurrentPage.BindingContext = new ListHistoricalSightPageModel
-                            {
-                                Items = new ObservableRangeCollection<Entities.HistoricalSight>(items)
-                            };
+                            var pageModel = new ListHistoricalSightPageModel();
+                            pageModel.Items.ReplaceRange(items);
+                            pageModel.LoadCitiesCommand.Execute(null);
+                            CurrentPage.BindingContext = pageModel;
                             return;
                         }
                     default:

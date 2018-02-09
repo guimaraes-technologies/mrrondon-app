@@ -15,5 +15,13 @@ namespace MrRondon.Services
 
             return items.OrderBy(o => o.Name).ToList();
         }
+
+        public async Task<string> GetCityName(double latitude, double longitude)
+        {
+            var service = new CityRest();
+            var cityName = await service.GetCityName(latitude, longitude);
+
+            return cityName;
+        }
     }
 }

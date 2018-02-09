@@ -67,19 +67,9 @@ namespace MrRondon.Pages.Map
             }
         }
 
-        public async Task SetActualCity(string address)
+        public async Task SetActualCity(string cityName)
         {
-            if (string.IsNullOrWhiteSpace(address))
-            {
-                var defaultCity = Constants.DefaultSetting.City;
-                ApplicationManager<City>.AddOrUpdate("city", defaultCity);
-                CurrentCity = defaultCity.Name;
-                return;
-            }
-            var items = address.Split(',');
-            var cityAndState = items[items.Length - 2];
-            var names = cityAndState.Split('-');
-            var cityName = names.Any() ? names[0] : Constants.DefaultSetting.City.Name;
+            cityName = string.IsNullOrWhiteSpace(cityName) ? Constants.DefaultSetting.City.Name : cityName;
 
             var cityService = new CityService();
             var cities = await cityService.GetAsync(cityName.Trim());

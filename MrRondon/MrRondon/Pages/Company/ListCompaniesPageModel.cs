@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MrRondon.Auth;
 using MrRondon.Helpers;
 using MrRondon.Services;
 using Xamarin.Forms;
@@ -17,6 +18,7 @@ namespace MrRondon.Pages.Company
             Items = new ObservableRangeCollection<Entities.Company>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
             ItemSelectedCommand = new Command<Entities.Company>(async (item) => await ExecuteLoadItem(item));
+            LoadCitiesCommand = new Command(async () => await ExecuteLoadCities());
         }
 
         private bool _notHhasItems;
@@ -49,12 +51,20 @@ namespace MrRondon.Pages.Company
 
         public ICommand LoadItemsCommand { get; set; }
         public ICommand ItemSelectedCommand { get; set; }
+        public ICommand LoadCitiesCommand { get; set; }
 
         private ObservableRangeCollection<Entities.Company> _items;
         public ObservableRangeCollection<Entities.Company> Items
         {
             get => _items;
             set => SetProperty(ref _items, value);
+        }
+
+        private ObservableRangeCollection<Entities.City> _cities;
+        public ObservableRangeCollection<Entities.City> Cities
+        {
+            get => _cities;
+            set => SetProperty(ref _cities, value);
         }
 
         private async Task ExecuteLoadItems()
@@ -92,6 +102,29 @@ namespace MrRondon.Pages.Company
                 var item = await service.GetByIdAsync(model.CompanyId);
                 var pageModel = new CompanyDetailsPageModel(item);
                 await NavigationService.PushAsync(new CompanyDetailsPage(pageModel));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+            }
+            finally
+            {
+                IsLoading = false;
+                IsPresented = false;
+            }
+        }
+
+        private async Task ExecuteLoadCities()
+        {
+            try
+            {
+                if (IsLoading) return;
+                NotHasItems = false;
+                IsLoading = true;
+                Cities.Clear();
+                var items = await AccountManager.GetCities();
+                Cities.ReplaceRange(items);
             }
             catch (Exception ex)
             {
