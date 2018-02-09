@@ -74,7 +74,7 @@ namespace MrRondon.Pages.Map
             var cityService = new CityService();
             var cities = await cityService.GetAsync(cityName.Trim());
             var city = cities.FirstOrDefault() ?? Constants.DefaultSetting.City;
-            CurrentCity = city.Name;
+            CurrentCity = city;
             ApplicationManager<City>.AddOrUpdate("city", city);
         }
     }

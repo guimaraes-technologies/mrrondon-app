@@ -21,12 +21,8 @@ namespace MrRondon.Pages
                 {
                     case 1:
                         {
-                            //var pageModel = ((ListCategoriesPageModel)CurrentPage.BindingContext);
-                            //if (pageModel.Items.Count == 0) pageModel.LoadItemsCommand.Execute(null);
-
                             var service = new CategoryService();
                             var items = await service.GetAsync();
-                            //CurrentPage.BindingContext = pageModel;
                             CurrentPage.BindingContext = new ListCategoriesPageModel
                             {
                                 Items = new ObservableRangeCollection<Entities.SubCategory>(items)

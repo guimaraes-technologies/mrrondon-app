@@ -1,5 +1,4 @@
-﻿using MrRondon.Auth;
-using MrRondon.Entities;
+﻿using MrRondon.Entities;
 using MrRondon.Helpers;
 using MrRondon.Services.Interfaces;
 using Xamarin.Forms;
@@ -32,8 +31,8 @@ namespace MrRondon.Pages
             set => SetProperty(ref _isPresented, value);
         }
 
-        private string _currentCity;
-        public string CurrentCity
+        private City _currentCity;
+        public City CurrentCity
         {
             get => _currentCity;
             set => SetProperty(ref _currentCity, value);
@@ -44,17 +43,15 @@ namespace MrRondon.Pages
             IsPresented = false;
             IsLoading = false;
             Title = Constants.AppName;
-            var city = ApplicationManager<City>.Find("city") ?? SetDefaultCity();
+            CurrentCity = ApplicationManager<City>.Find("city") ?? GetDefaultCity();
 
-            CurrentCity = city.Name;
             MessageService = DependencyService.Get<IMessageService>();
             NavigationService = DependencyService.Get<INavigationService>();
         }
 
-        private City SetDefaultCity()
+        private static City GetDefaultCity()
         {
             var city = Constants.DefaultSetting.City;
-            CurrentCity = city.Name;
 
             return city;
         }

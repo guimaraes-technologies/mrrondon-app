@@ -18,8 +18,10 @@
     <ContentPage.Content>
         <StackLayout Orientation="Vertical">
             <StackLayout Orientation="Horizontal">
+
                 <Label Text="Em" FontSize="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryColor}"></Label>
-                <Picker Title="Cidade" ItemsSource="{Binding Cities}" Margin="5,0,0,0"></Picker>
+
+                <Picker ItemsSource="{Binding CityNames}" SelectedIndex="{Binding CitySelectedIndex}" TextColor="{StaticResource PrimaryColor}"/>
             </StackLayout>
 
             <ListView ItemsSource="{Binding Items}"

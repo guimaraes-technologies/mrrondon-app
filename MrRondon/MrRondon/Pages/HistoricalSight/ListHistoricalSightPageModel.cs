@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MrRondon.Auth;
+using MrRondon.Entities;
 using MrRondon.Helpers;
 using MrRondon.Services;
 using Xamarin.Forms;
@@ -47,11 +49,36 @@ namespace MrRondon.Pages.HistoricalSight
             set => SetProperty(ref _items, value);
         }
 
-        private ObservableRangeCollection<string> _cities;
-        public ObservableRangeCollection<string> Cities
+        private ObservableRangeCollection<City> _cities;
+        public ObservableRangeCollection<City> Cities
         {
             get => _cities;
             set => SetProperty(ref _cities, value);
+        }
+
+        public List<string> CityNames { get; private set; }
+
+        private int _cityIndex;
+        public int CitySelectedIndex
+        {
+            get => _cityIndex;
+            set
+            {
+                if (_cityIndex == value) return;
+
+                _cityIndex = value;
+                Notify(nameof(CitySelectedIndex));
+
+                var selectedItem = Cities[_cityIndex];
+                CityId = selectedItem.CityId;
+            }
+        }
+
+        private int _cityId;
+        public int CityId
+        {
+            get => _cityId;
+            set => SetProperty(ref _cityId, value);
         }
 
         public ListHistoricalSightPageModel()
@@ -121,7 +148,9 @@ namespace MrRondon.Pages.HistoricalSight
                 IsLoading = true;
                 Cities.Clear();
                 var items = await AccountManager.GetCities();
-                Cities.ReplaceRange(items.Select(s=>s.Name).ToList());
+                Cities.ReplaceRange(items);
+                CityNames = new List<string>(items.Select(s => s.Name));
+                CitySelectedIndex = CityNames.IndexOf(CurrentCity.Name);
             }
             catch (Exception ex)
             {
