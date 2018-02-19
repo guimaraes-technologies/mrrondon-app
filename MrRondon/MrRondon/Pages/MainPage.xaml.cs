@@ -29,26 +29,6 @@ namespace MrRondon.Pages
                             };
                             return;
                         }
-                    case 2:
-                        {
-                            var service = new EventService();
-                            var items = await service.GetAsync();
-                            var pageModel = new ListEventPageModel();
-                            pageModel.Items.ReplaceRange(items);
-                            pageModel.LoadCitiesCommand.Execute(null);
-                            CurrentPage.BindingContext = pageModel;
-                            return;
-                        }
-                    case 3:
-                        {
-                            var service = new HistoricalSightService();
-                            var items = await service.GetAsync();
-                            var pageModel = new ListHistoricalSightPageModel();
-                            pageModel.Items.ReplaceRange(items);
-                            pageModel.LoadCitiesCommand.Execute(null);
-                            CurrentPage.BindingContext = pageModel;
-                            return;
-                        }
                     default:
                         return;
                 }

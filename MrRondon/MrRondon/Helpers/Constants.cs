@@ -18,5 +18,7 @@ namespace MrRondon.Helpers
     {
         public readonly City City = new City { CityId = 1, Name = "Porto Velho" };
         public readonly string TelephoneSetur = "(69) 3216-1044";
+        public readonly double Latitude = -8.7592547;
+        public readonly double Longitude = -63.8769227;
     }
 }

@@ -34,7 +34,7 @@ namespace MrRondon.Helpers
                 //Display error as we have timed out or can't get location.
             }
 
-            return position;
+            return position ?? new Position(Constants.DefaultSetting.Latitude, Constants.DefaultSetting.Longitude);
         }
 
         public static async Task<string> GetAddressAsync(double latitude, double longitude)
