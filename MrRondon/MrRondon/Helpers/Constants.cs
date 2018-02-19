@@ -1,11 +1,12 @@
-﻿using MrRondon.Entities;
+﻿using System;
+using MrRondon.Entities;
 
 namespace MrRondon.Helpers
 {
     public static class Constants
     {
         public const string Host = "http://api.mrrondon.ozielguimaraes.net";
-        public const string GoogleKey = "AIzaSyAxo_Q0PNyuv5zUfQI7xTAzIeZZbn6isjc";
+        public const string GoogleKey = "AIzaSyDHRHwsvyfA7CMzXAUkc50UILekWrxych4";
 
         // public static string Host => "http://localhost:1111";
         public const string AppName = "Mr Rondon Turismo";
