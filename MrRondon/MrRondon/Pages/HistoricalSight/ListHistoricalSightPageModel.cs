@@ -50,11 +50,7 @@ namespace MrRondon.Pages.HistoricalSight
         }
 
         private ObservableRangeCollection<City> _cities;
-        public ObservableRangeCollection<City> Cities
-        {
-            get => _cities;
-            set => SetProperty(ref _cities, value);
-        }
+        public ObservableRangeCollection<City> Cities = new ObservableRangeCollection<City>(AccountManager.GetCities().Result);
 
         public List<string> CityNames { get; private set; }
 

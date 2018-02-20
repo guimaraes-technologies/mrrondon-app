@@ -16,6 +16,8 @@ namespace MrRondon
             DependencyService.Register<IMessageService, MessageService>();
             DependencyService.Register<INavigationService, NavigationService>();
             MainPage = new NavigationPage(new Pages.MainPage()) { Title = Constants.AppName };
+
+            Startup.Run();
             //MainPage = new Pages.MainPage();
         }
         //todo Diminuir o tamanho dos icones de detalhe evento

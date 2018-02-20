@@ -21,7 +21,7 @@ namespace MrRondon.Services.Rest
             HttpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public static async Task ShowError(HttpResponseMessage response)
+        public static async Task<Exception> GenerateError(HttpResponseMessage response)
         {
             var json = await response.Content.ReadAsStringAsync();
             //var error = JsonConvert.DeserializeObject<ErrorMessageRest>(json);
@@ -49,7 +49,7 @@ namespace MrRondon.Services.Rest
                 return JsonConvert.DeserializeObject<TObject>(json);
             }
 
-            await ShowError(response);
+            await GenerateError(response);
             throw new GenericException();
         }
 
@@ -64,7 +64,7 @@ namespace MrRondon.Services.Rest
                 return JsonConvert.DeserializeObject<TObject>(json);
             }
 
-            await ShowError(response);
+            await GenerateError(response);
             throw new GenericException();
         }
 
@@ -79,7 +79,7 @@ namespace MrRondon.Services.Rest
                 return JsonConvert.DeserializeObject<bool>(json);
             }
 
-            await ShowError(response);
+            await GenerateError(response);
             throw new GenericException();
         }
     }

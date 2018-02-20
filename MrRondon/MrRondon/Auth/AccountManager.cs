@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MrRondon.Entities;
@@ -28,7 +29,7 @@ namespace MrRondon.Auth
             }
             else IsLoggedIn = false;
         }
-
+        
         public static async Task<IList<City>> GetCities()
         {
             IList<City> cities;
@@ -43,6 +44,22 @@ namespace MrRondon.Auth
             else cities = JsonConvert.DeserializeObject<IList<City>>(localCities);
 
             return cities;
+        }
+
+        public static class Token
+        {
+            public static string AccessToken => ApplicationManager<string>.Find(nameof(AccessToken));
+        }
+
+        public static async Task<bool> Signin()
+        {
+            var service=new UserRest();//todo do login by telephone number
+            var token = await service.Signin("111.111.111-11", "111111");
+            if (token == null) throw new Exception("Usuário ou senha incorreta");
+
+            var json = JsonConvert.SerializeObject(token);
+            ApplicationManager<string>.AddOrUpdate("token", json);
+            return true;
         }
     }
 }

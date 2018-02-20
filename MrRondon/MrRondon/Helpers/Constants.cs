@@ -13,6 +13,9 @@ namespace MrRondon.Helpers
         //Distance in meters to get places nearby
         public const int GetPlacesUntil = 1000;
         public static readonly DefaultSetting DefaultSetting = new DefaultSetting();
+        public const string TokenType = "Bearer";
+        public const string ClientId = "mrrondon.app";
+        public const string ClientSecret = "Mr.Rondon.Turismo.App";
     }
 
     public class DefaultSetting

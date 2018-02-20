@@ -16,9 +16,9 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <StackLayout Orientation="Vertical">
-        <StackLayout Orientation="Horizontal">
-            <Label Text="Em" FontSize="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryColor}"></Label>
-            <Picker Title="Cidade" ItemsSource="{Binding Cities}" Margin="5,0,0,0"></Picker>
+        <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+            <Label Text="Em" FontSize="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center" Margin="0,5,0,0" ></Label>
+            <Picker Title="Cidade" ItemsSource="{Binding CityNames}" Margin="5,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center"></Picker>
         </StackLayout>
 
         <ListView ItemsSource="{Binding Items}"
