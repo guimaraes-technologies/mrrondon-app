@@ -40,41 +40,12 @@ namespace MrRondon.Pages.HistoricalSight
 
         public ICommand LoadItemsCommand { get; set; }
         public ICommand ItemSelectedCommand { get; set; }
-        public ICommand LoadCitiesCommand { get; set; }
 
         private ObservableRangeCollection<Entities.HistoricalSight> _items;
         public ObservableRangeCollection<Entities.HistoricalSight> Items
         {
             get => _items;
             set => SetProperty(ref _items, value);
-        }
-
-        private ObservableRangeCollection<City> _cities;
-        public ObservableRangeCollection<City> Cities = new ObservableRangeCollection<City>(AccountManager.GetCities().Result);
-
-        public List<string> CityNames { get; private set; }
-
-        private int _cityIndex;
-        public int CitySelectedIndex
-        {
-            get => _cityIndex;
-            set
-            {
-                if (_cityIndex == value) return;
-
-                _cityIndex = value;
-                Notify(nameof(CitySelectedIndex));
-
-                var selectedItem = Cities[_cityIndex];
-                CityId = selectedItem.CityId;
-            }
-        }
-
-        private int _cityId;
-        public int CityId
-        {
-            get => _cityId;
-            set => SetProperty(ref _cityId, value);
         }
 
         public ListHistoricalSightPageModel()
@@ -122,31 +93,6 @@ namespace MrRondon.Pages.HistoricalSight
                 var item = await service.GetByIdAsync(model.HistoricalSightId);
                 var pageModel = new HistoricalSightDetailsPageModel(item);
                 await NavigationService.PushAsync(new HistoricalSightDetailsPage(pageModel));
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
-            }
-            finally
-            {
-                IsLoading = false;
-                IsPresented = false;
-            }
-        }
-
-        private async Task ExecuteLoadCities()
-        {
-            try
-            {
-                if (IsLoading) return;
-                NotHasItems = false;
-                IsLoading = true;
-                Cities.Clear();
-                var items = await AccountManager.GetCities();
-                Cities.ReplaceRange(items);
-                CityNames = new List<string>(items.Select(s => s.Name));
-                CitySelectedIndex = CityNames.IndexOf(CurrentCity.Name);
             }
             catch (Exception ex)
             {

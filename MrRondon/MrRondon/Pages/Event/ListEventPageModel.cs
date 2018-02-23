@@ -27,14 +27,7 @@ namespace MrRondon.Pages.Event
             get => _errorMessage;
             set => SetProperty(ref _errorMessage, value);
         }
-
-        private string _city;
-        public string City
-        {
-            get => _city;
-            set => SetProperty(ref _city, value);
-        }
-
+        
         private string _searchBar;
         public string Search
         {
@@ -51,17 +44,14 @@ namespace MrRondon.Pages.Event
             get => _items;
             set => SetProperty(ref _items, value);
         }
-
-        public List<string> CityNames { get; private set; }
-
+        
         public ListEventPageModel()
         {
             Title = Constants.AppName;
             Items = new ObservableRangeCollection<Entities.Event>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
+            LoadCitiesCommand = new Command(async () => await ExecuteLoadCities());
             ItemSelectedCommand = new Command<Entities.Event>(async (item) => await ExecuteItemSelected(item));
-            var cities = AccountManager.GetCities().Result;
-            CityNames = new List<string>(cities.Select(s => s.Name));
         }
 
         private async Task ExecuteLoadItems()

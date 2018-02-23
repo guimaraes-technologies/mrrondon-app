@@ -1,8 +1,21 @@
-﻿namespace MrRondon.Entities
+﻿using MrRondon.Pages;
+
+namespace MrRondon.Entities
 {
-    public class City
+    public class City : BasePageModel
     {
-        public int CityId { get; set; }
-        public string Name { get; set; }
+        private int _cityId;
+        public int CityId
+        {
+            get => _cityId;
+            set => SetProperty(ref _cityId, value);
+        }
+
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
     }
 }

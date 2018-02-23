@@ -21,10 +21,6 @@ namespace MrRondon.Pages.Map
             if (_pageModel.Pins.Count == 0) _pageModel.LoadPinsCommand.Execute(null);
             var position = await GeolocatorHelper.GetCurrentPositionAsync();
 
-            var cityService = new CityService();
-            var cityName = await cityService.GetCityName(position.Latitude, position.Longitude);
-            _pageModel.SetActualCityCommand.Execute(cityName);
-
             var mapSpan = MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude), Distance.FromMiles(1));
             Companies.MoveToRegion(mapSpan);
 

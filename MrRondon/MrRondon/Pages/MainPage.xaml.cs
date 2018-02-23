@@ -32,8 +32,9 @@ namespace MrRondon.Pages
                     case 2:
                         {
                             var service = new EventService();
-                            var items = await service.GetAsync();
                             var pageModel = new ListEventPageModel();
+                            pageModel.LoadCitiesCommand.Execute(null);
+                            var items = await service.GetAsync();
                             pageModel.Items.ReplaceRange(items);
                             CurrentPage.BindingContext = pageModel;
                             return;
@@ -41,10 +42,10 @@ namespace MrRondon.Pages
                     case 3:
                         {
                             var service = new HistoricalSightService();
-                            var items = await service.GetAsync();
                             var pageModel = new ListHistoricalSightPageModel();
-                            pageModel.Items.ReplaceRange(items);
                             pageModel.LoadCitiesCommand.Execute(null);
+                            var items = await service.GetAsync();
+                            pageModel.Items.ReplaceRange(items);
                             CurrentPage.BindingContext = pageModel;
                             return;
                         }

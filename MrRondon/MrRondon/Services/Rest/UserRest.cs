@@ -37,7 +37,7 @@ namespace MrRondon.Services.Rest
                 return JsonConvert.DeserializeObject<TokenVm>(content);
             }
 
-            await BaseRest.GenerateError(response);
+            await GenerateError(response);
             throw new Exception("Não foi possível concluir a requisição");
         }
 

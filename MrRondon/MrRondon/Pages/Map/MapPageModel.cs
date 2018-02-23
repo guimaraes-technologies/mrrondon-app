@@ -18,7 +18,6 @@ namespace MrRondon.Pages.Map
         {
             Title = Constants.AppName;
             LoadPinsCommand = new Command(async () => await ExecuteLoadPins());
-            SetActualCityCommand = new Command<string>(async (address) => await SetActualCity(address));
         }
 
         public ICommand LoadPinsCommand { get; set; }
@@ -65,17 +64,6 @@ namespace MrRondon.Pages.Map
                 IsLoading = false;
                 IsPresented = false;
             }
-        }
-
-        public async Task SetActualCity(string cityName)
-        {
-            cityName = string.IsNullOrWhiteSpace(cityName) ? Constants.DefaultSetting.City.Name : cityName;
-
-            var cityService = new CityService();
-            var cities = await cityService.GetAsync(cityName.Trim());
-            var city = cities.FirstOrDefault() ?? Constants.DefaultSetting.City;
-            CurrentCity = city;
-            ApplicationManager<City>.AddOrUpdate("city", city);
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MrRondon.Entities;
 using MrRondon.Helpers;
+using MrRondon.Services;
 using MrRondon.Services.Rest;
 using Newtonsoft.Json;
 using Xamarin.Forms;
@@ -60,6 +61,22 @@ namespace MrRondon.Auth
             var json = JsonConvert.SerializeObject(token);
             ApplicationManager<string>.AddOrUpdate("token", json);
             return true;
+        }
+
+        public static async Task<City> SetActualCity()
+        {
+            var position = await GeolocatorHelper.GetCurrentPositionAsync();
+
+            var cityService = new CityService();
+            var cityName = await cityService.GetCityName(position.Latitude, position.Longitude);
+
+            cityName = string.IsNullOrWhiteSpace(cityName) ? Constants.DefaultSetting.City.Name : cityName;
+
+            var cities = await cityService.GetCityAsync(cityName.Trim());
+            var city = cities ?? Constants.DefaultSetting.City;
+            ApplicationManager<City>.AddOrUpdate("city", city);
+
+            return city;
         }
     }
 }

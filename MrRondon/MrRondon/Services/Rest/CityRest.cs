@@ -41,5 +41,13 @@ namespace MrRondon.Services.Rest
 
             return content;
         }
+
+        public async Task<City> GetCityAsync(string search)
+        {
+            var url = $"{UrlService}/city/{search}";
+            var content = await GetObjectAsync<City>(url);
+
+            return content;
+        }
     }
 }

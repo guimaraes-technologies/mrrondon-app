@@ -18,7 +18,7 @@
     <StackLayout Orientation="Vertical">
         <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
             <Label Text="Em" FontSize="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center" Margin="0,5,0,0" ></Label>
-            <Picker Title="Cidade" ItemsSource="{Binding CityNames}" Margin="5,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center"></Picker>
+            <Picker Title="Cidade" ItemsSource="{Binding CityNames}" SelectedIndex="{Binding CitySelectedIndex}" Margin="5,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center"></Picker>
         </StackLayout>
 
         <ListView ItemsSource="{Binding Items}"
@@ -63,7 +63,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.Footer>
-                <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems}" TextColor="{StaticResource Accent}" FontSize="Medium" HorizontalOptions="Center"></Label>
+                <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems}" TextColor="{StaticResource Accent}" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center"></Label>
             </ListView.Footer>
         </ListView>
 

@@ -1,4 +1,11 @@
-﻿using MrRondon.Entities;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
+using MrRondon.Auth;
+using MrRondon.Entities;
 using MrRondon.Helpers;
 using MrRondon.Services.Interfaces;
 using Xamarin.Forms;
@@ -10,6 +17,7 @@ namespace MrRondon.Pages
         protected IMessageService MessageService;
         protected INavigationService NavigationService;
 
+        public ICommand LoadCitiesCommand { get; set; }
         private string _title = Constants.AppName;
         public string Title
         {
@@ -38,13 +46,32 @@ namespace MrRondon.Pages
             set => SetProperty(ref _currentCity, value);
         }
 
+        public ObservableRangeCollection<City> Cities { get; set; }
+        public List<string> CityNames { get; private set; }
+
+        private int _cityIndex;
+        public int CitySelectedIndex
+        {
+            get => _cityIndex;
+            set
+            {
+                if (_cityIndex == value) return;
+
+                _cityIndex = value;
+                Notify(nameof(CitySelectedIndex));
+
+                var selectedItem = Cities[_cityIndex];
+                CurrentCity = selectedItem;
+            }
+        }
+
         protected BasePageModel()
         {
             IsPresented = false;
             IsLoading = false;
             Title = Constants.AppName;
             CurrentCity = ApplicationManager<City>.Find("city") ?? GetDefaultCity();
-
+            Cities = new ObservableRangeCollection<City>();
             MessageService = DependencyService.Get<IMessageService>();
             NavigationService = DependencyService.Get<INavigationService>();
         }
@@ -54,6 +81,29 @@ namespace MrRondon.Pages
             var city = Constants.DefaultSetting.City;
 
             return city;
+        }
+
+        protected async Task ExecuteLoadCities()
+        {
+            try
+            {
+                if (IsLoading) return;
+                IsLoading = true;
+                var items = await AccountManager.GetCities();
+                Cities.ReplaceRange(items);
+                CityNames = new List<string>(items.Select(s => s.Name));
+                CitySelectedIndex = CityNames.Any(a => a.ToLower().Equals(CurrentCity.Name.ToLower())) ? CityNames.IndexOf(CurrentCity.Name) : 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+            }
+            finally
+            {
+                IsLoading = false;
+                IsPresented = false;
+            }
         }
     }
 }
