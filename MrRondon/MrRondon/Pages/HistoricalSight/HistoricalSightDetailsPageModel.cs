@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
+using MrRondon.Auth;
 using MrRondon.Helpers;
 using Plugin.ExternalMaps;
 using Plugin.ExternalMaps.Abstractions;
@@ -35,7 +36,7 @@ namespace MrRondon.Pages.HistoricalSight
 
         private void ExecuteMakeCall()
         {
-            NavigationService.NavigateToUrl(Constants.DefaultSetting.TelephoneSetur);
+            NavigationService.NavigateToUrl(AccountManager.DefaultSetting.TelephoneSetur);
         }
 
         private void OpenMap()

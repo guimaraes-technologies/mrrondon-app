@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Threading.Tasks;
+using MrRondon.Auth;
 using MrRondon.Entities;
 using MrRondon.Helpers;
 using Newtonsoft.Json;
@@ -20,7 +21,7 @@ namespace MrRondon.Services.Rest
                     var result = await client.GetAsync($"https://maps.googleapis.com/maps/api/geocode/json?latlng={latitude},{longitude}&key={Constants.GoogleKey}");
 
                     if (!result.IsSuccessStatusCode)
-                        return Constants.DefaultSetting.City.Name;
+                        return AccountManager.DefaultSetting.City.Name;
                     var json = await result.Content.ReadAsStringAsync();
                     var obj = JsonConvert.DeserializeObject<dynamic>(json);
                     var cityName = obj.results[0].address_components[3].long_name;
@@ -30,7 +31,7 @@ namespace MrRondon.Services.Rest
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-                return Constants.DefaultSetting.City.Name;
+                return AccountManager.DefaultSetting.City.Name;
             }
         }
 

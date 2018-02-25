@@ -78,7 +78,7 @@ namespace MrRondon.Pages
 
         private static City GetDefaultCity()
         {
-            var city = Constants.DefaultSetting.City;
+            var city = AccountManager.DefaultSetting.City;
 
             return city;
         }

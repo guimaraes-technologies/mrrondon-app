@@ -12,7 +12,7 @@ namespace MrRondon.Pages.Map
         public MapPage()
         {
             InitializeComponent();
-            if (BindingContext == null) BindingContext = _pageModel = _pageModel ?? new MapPageModel();
+            BindingContext = _pageModel = _pageModel ?? new MapPageModel();
         }
 
         protected override async void OnAppearing()

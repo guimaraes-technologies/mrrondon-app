@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using MrRondon.Auth;
 using MrRondon.Extensions;
 using Plugin.Geolocator;
 using Xamarin.Forms.Maps;
@@ -34,7 +35,7 @@ namespace MrRondon.Helpers
                 //Display error as we have timed out or can't get location.
             }
 
-            return position ?? new Position(Constants.DefaultSetting.Latitude, Constants.DefaultSetting.Longitude);
+            return position ?? new Position(AccountManager.DefaultSetting.Latitude, AccountManager.DefaultSetting.Longitude);
         }
 
         public static async Task<string> GetAddressAsync(double latitude, double longitude)

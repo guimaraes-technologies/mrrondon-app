@@ -1,6 +1,4 @@
-﻿using MrRondon.Services.Interfaces;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms;
 
 namespace MrRondon.Pages
 {
@@ -20,9 +18,9 @@ namespace MrRondon.Pages
 
 	    protected override bool OnBackButtonPressed()
 	    {
-	        //NavigationService.RemovePage(this);
-	        //NavigationService.PopAsync();
-	        //await NavigationService.PushAsync(CallBackPage);
+	        _pageModel.NavigationService.RemovePage(this);
+	        _pageModel.NavigationService.PopAsync();
+	        _pageModel.NavigationService.PushAsync(_pageModel.CallBackPage);
 	        return base.OnBackButtonPressed();
 	    }
     }

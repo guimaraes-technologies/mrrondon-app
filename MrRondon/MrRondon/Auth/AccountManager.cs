@@ -52,6 +52,14 @@ namespace MrRondon.Auth
             public static string AccessToken => ApplicationManager<string>.Find(nameof(AccessToken));
         }
 
+        public static class DefaultSetting
+        {
+            public static City City = new City { CityId = 1, Name = "Porto Velho" };
+            public static string TelephoneSetur = "(69) 3216-1044";
+            public static double Latitude = -8.7592547;
+            public static double Longitude = -63.8769227;
+        }
+
         public static async Task<bool> Signin()
         {
             var service=new UserRest();//todo do login by telephone number
@@ -70,10 +78,10 @@ namespace MrRondon.Auth
             var cityService = new CityService();
             var cityName = await cityService.GetCityName(position.Latitude, position.Longitude);
 
-            cityName = string.IsNullOrWhiteSpace(cityName) ? Constants.DefaultSetting.City.Name : cityName;
+            cityName = string.IsNullOrWhiteSpace(cityName) ? DefaultSetting.City.Name : cityName;
 
             var cities = await cityService.GetCityAsync(cityName.Trim());
-            var city = cities ?? Constants.DefaultSetting.City;
+            var city = cities ?? DefaultSetting.City;
             ApplicationManager<City>.AddOrUpdate("city", city);
 
             return city;
