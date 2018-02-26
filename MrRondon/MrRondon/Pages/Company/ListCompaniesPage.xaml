@@ -10,12 +10,20 @@
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{Binding CurrentCity.Name}" Order="Secondary"></ToolbarItem>
+    </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:ItemTappedEventArgsToItemTappedConverter x:Key="ItemTappedConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <StackLayout>
+
+    <StackLayout Orientation="Vertical">
+        <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+            <Label Text="Em" FontSize="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center" Margin="0,5,0,0" ></Label>
+            <Picker Title="Cidade" ItemsSource="{Binding CityNames}" SelectedIndex="{Binding CitySelectedIndex}" Margin="5,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center"></Picker>
+        </StackLayout>
         <ListView ItemsSource="{Binding Items}"
                       SeparatorVisibility="None"
                       HasUnevenRows="True"
