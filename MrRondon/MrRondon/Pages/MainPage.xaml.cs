@@ -21,12 +21,16 @@ namespace MrRondon.Pages
                 {
                     case 1:
                         {
-                            var service = new CategoryService();
-                            var items = await service.GetAsync();
-                            CurrentPage.BindingContext = new ListCategoriesPageModel
-                            {
-                                Items = new ObservableRangeCollection<Entities.SubCategory>(items)
-                            };
+                            //var service = new CategoryService();
+                            //var items = await service.GetAsync();
+                            //CurrentPage.BindingContext = new ListCategoriesPageModel
+                            //{
+                            //    Items = new ObservableRangeCollection<ViewModels.CategoryListVm>(items)
+                            //};
+
+                            var pageModel = new ListCategoriesPageModel();
+                            pageModel.LoadItemsCommand.Execute(null);
+                            CurrentPage.BindingContext = pageModel;
                             return;
                         }
                     case 2:

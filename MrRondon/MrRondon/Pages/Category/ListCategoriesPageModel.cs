@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MrRondon.Helpers;
+using MrRondon.Pages.Company;
 using MrRondon.Services;
 using Xamarin.Forms;
 
@@ -14,9 +15,9 @@ namespace MrRondon.Pages.Category
         public ListCategoriesPageModel()
         {
             Title = Constants.AppName;
-            Items = new ObservableRangeCollection<Entities.SubCategory>();
+            Items = new ObservableRangeCollection<ViewModels.CategoryListVm>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
-            ItemSelectedCommand = new Command<Entities.SubCategory>(async (item) => await ExecuteItemSelected(item));
+            ItemSelectedCommand = new Command<ViewModels.CategoryListVm>(async (item) => await ExecuteItemSelected(item));
         }
 
         public ICommand LoadItemsCommand { get; set; }
@@ -36,8 +37,8 @@ namespace MrRondon.Pages.Category
             set => SetProperty(ref _errorMessage, value);
         }
 
-        private ObservableRangeCollection<Entities.SubCategory> _items;
-        public ObservableRangeCollection<Entities.SubCategory> Items
+        private ObservableRangeCollection<ViewModels.CategoryListVm> _items;
+        public ObservableRangeCollection<ViewModels.CategoryListVm> Items
         {
             get => _items;
             set => SetProperty(ref _items, value);
@@ -51,7 +52,6 @@ namespace MrRondon.Pages.Category
                 IsLoading = true;
 
                 NotHasItems = false;
-                Items.Clear();
                 var service = new CategoryService();
                 var items = await service.GetAsync();
                 NotHasItems = IsLoading && items != null && !items.Any();
@@ -70,11 +70,17 @@ namespace MrRondon.Pages.Category
             }
         }
 
-        private async Task ExecuteItemSelected(Entities.SubCategory category)
+        private async Task ExecuteItemSelected(ViewModels.CategoryListVm category)
         {
+            if (category.HasCompany)
+            {
+                var pageModel = new ListCompaniesPageModel(category.SubCategoryId);
+                await NavigationService.PushAsync(new ListCompaniesPage(pageModel));
+                return;
+            }
+
             var model = new ListSubCategoriesPageModel(category);
             var page = new ListSubCategoriesPage(model);
-            NavigationService.RemovePage(typeof(ListCategoriesPage));
             await NavigationService.PushAsync(page);
         }
     }

@@ -18,9 +18,9 @@ namespace MrRondon.Pages
 
 	    protected override bool OnBackButtonPressed()
 	    {
-	        _pageModel.NavigationService.RemovePage(this);
-	        _pageModel.NavigationService.PopAsync();
-	        _pageModel.NavigationService.PushAsync(_pageModel.CallBackPage);
+	        //_pageModel.NavigationService.RemovePage(this);
+	        //_pageModel.NavigationService.PopAsync();
+	        //_pageModel.NavigationService.PushAsync();
 	        return base.OnBackButtonPressed();
 	    }
     }

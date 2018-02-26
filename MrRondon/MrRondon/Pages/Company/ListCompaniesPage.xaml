@@ -15,12 +15,7 @@
             <converters:ItemTappedEventArgsToItemTappedConverter x:Key="ItemTappedConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <StackLayout Orientation="Vertical">
-        <StackLayout Orientation="Vertical">
-            <Label VerticalOptions="FillAndExpand" Text="Pesquisa" Style="{StaticResource PrimaryLabel}"></Label>
-            <SearchBar HorizontalOptions="FillAndExpand" Text="{Binding Search, Mode=TwoWay}" SearchCommand="{Binding LoadItemsCommand}" TextColor="Black" BackgroundColor="{StaticResource EntryBackgroundColor}" PlaceholderColor="{StaticResource EntryPlaceholderColor}" Placeholder="Qual o nome da empresa?"></SearchBar>
-        </StackLayout>
-
+    <StackLayout>
         <ListView ItemsSource="{Binding Items}"
                       SeparatorVisibility="None"
                       HasUnevenRows="True"

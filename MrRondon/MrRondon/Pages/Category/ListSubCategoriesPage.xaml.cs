@@ -9,8 +9,7 @@ namespace MrRondon.Pages.Category
         public ListSubCategoriesPage(ListSubCategoriesPageModel pageModel)
         {
             InitializeComponent();
-            if (BindingContext == null) BindingContext = _pageModel = pageModel;
-            else _pageModel = (ListSubCategoriesPageModel)BindingContext;
+            BindingContext = _pageModel = pageModel;
         }
 
         protected override void OnAppearing()

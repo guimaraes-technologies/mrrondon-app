@@ -12,7 +12,7 @@ namespace MrRondon.Pages.Category
 {
     public class ListSubCategoriesPageModel : BasePageModel
     {
-        public ListSubCategoriesPageModel(Entities.SubCategory category)
+        public ListSubCategoriesPageModel(ViewModels.CategoryListVm category)
         {
             Title = Constants.AppName;
             Category = category;
@@ -38,8 +38,8 @@ namespace MrRondon.Pages.Category
             set => SetProperty(ref _errorMessage, value);
         }
 
-        private Entities.SubCategory _category;
-        public Entities.SubCategory Category
+        private ViewModels.CategoryListVm _category;
+        public ViewModels.CategoryListVm Category
         {
             get => _category;
             set => SetProperty(ref _category, value);
@@ -60,9 +60,8 @@ namespace MrRondon.Pages.Category
                 IsLoading = true;
 
                 NotHasItems = false;
-                Items.Clear();
                 var service = new SubCategoryService();
-                var items = await service.GetAsync(Category.CategoryId.Value);
+                var items = await service.GetAsync(Category.SubCategoryId);
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = "Nenhuma sub categoria encontrada";
                 Items.ReplaceRange(items);
