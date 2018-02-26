@@ -20,8 +20,8 @@ namespace MrRondon.Services.Rest
                 {
                     var result = await client.GetAsync($"https://maps.googleapis.com/maps/api/geocode/json?latlng={latitude},{longitude}&key={Constants.GoogleKey}");
 
-                    if (!result.IsSuccessStatusCode)
-                        return AccountManager.DefaultSetting.City.Name;
+                    if (!result.IsSuccessStatusCode) return AccountManager.DefaultSetting.City.Name;
+
                     var json = await result.Content.ReadAsStringAsync();
                     var obj = JsonConvert.DeserializeObject<dynamic>(json);
                     var cityName = obj.results[0].address_components[3].long_name;

@@ -1,4 +1,5 @@
-﻿using MrRondon.Helpers;
+﻿using System.Threading.Tasks;
+using MrRondon.Helpers;
 using MrRondon.Pages.Category;
 using MrRondon.Pages.Event;
 using MrRondon.Pages.HistoricalSight;
@@ -21,36 +22,31 @@ namespace MrRondon.Pages
                 {
                     case 1:
                         {
-                            //var service = new CategoryService();
-                            //var items = await service.GetAsync();
-                            //CurrentPage.BindingContext = new ListCategoriesPageModel
-                            //{
-                            //    Items = new ObservableRangeCollection<ViewModels.CategoryListVm>(items)
-                            //};
-
                             var pageModel = new ListCategoriesPageModel();
                             pageModel.LoadItemsCommand.Execute(null);
+
                             CurrentPage.BindingContext = pageModel;
+                            await Task.Delay(100);
                             return;
                         }
                     case 2:
                         {
-                            var service = new EventService();
                             var pageModel = new ListEventPageModel();
                             pageModel.LoadCitiesCommand.Execute(null);
-                            var items = await service.GetAsync();
-                            pageModel.Items.ReplaceRange(items);
+                            pageModel.LoadItemsCommand.Execute(null);
+
                             CurrentPage.BindingContext = pageModel;
+                            await Task.Delay(100);
                             return;
                         }
                     case 3:
                         {
-                            var service = new HistoricalSightService();
                             var pageModel = new ListHistoricalSightPageModel();
                             pageModel.LoadCitiesCommand.Execute(null);
-                            var items = await service.GetAsync();
-                            pageModel.Items.ReplaceRange(items);
+                            pageModel.LoadItemsCommand.Execute(null);
+
                             CurrentPage.BindingContext = pageModel;
+                            await Task.Delay(100);
                             return;
                         }
                     default:

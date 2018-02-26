@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MrRondon.Auth;
-using MrRondon.Entities;
 using MrRondon.Helpers;
 using MrRondon.Services;
 using Xamarin.Forms;
@@ -68,7 +65,7 @@ namespace MrRondon.Pages.HistoricalSight
                 var service = new HistoricalSightService();
                 var items = await service.GetAsync(Search);
                 NotHasItems = IsLoading && items != null && !items.Any();
-                if (NotHasItems) ErrorMessage = "Nenhum local histórico encontrado";
+                if (NotHasItems) ErrorMessage = "Nenhum patrimônio histórico encontrado";
                 Items.ReplaceRange(items);
             }
             catch (Exception ex)

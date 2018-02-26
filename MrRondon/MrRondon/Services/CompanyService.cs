@@ -2,19 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MrRondon.Auth;
 using MrRondon.Entities;
-using MrRondon.Helpers;
 using MrRondon.Services.Rest;
 
 namespace MrRondon.Services
 {
     public class CompanyService
     {
-        public async Task<IList<Company>> GetAsync(int categoryId, string search = "")
+        public async Task<IList<Company>> GetAsync(int categoryId, int segmentId, string search = "")
         {
             var service = new CompanyRest();
-            var items = await service.GetAsync(categoryId, AccountManager.DefaultSetting.City.CityId, search);
+            var items = await service.GetAsync(categoryId, segmentId, search);
 
             return items.OrderBy(o => o.Name).ToList();
         }

@@ -62,6 +62,7 @@ namespace MrRondon.Pages
 
                 var selectedItem = Cities[_cityIndex];
                 CurrentCity = selectedItem;
+                ApplicationManager<City>.AddOrUpdate("city", CurrentCity);
             }
         }
 
@@ -70,17 +71,10 @@ namespace MrRondon.Pages
             IsPresented = false;
             IsLoading = false;
             Title = Constants.AppName;
-            CurrentCity = ApplicationManager<City>.Find("city") ?? GetDefaultCity();
+            CurrentCity = ApplicationManager<City>.Find("city") ?? AccountManager.DefaultSetting.City;
             Cities = new ObservableRangeCollection<City>();
             MessageService = DependencyService.Get<IMessageService>();
             NavigationService = DependencyService.Get<INavigationService>();
-        }
-
-        private static City GetDefaultCity()
-        {
-            var city = AccountManager.DefaultSetting.City;
-
-            return city;
         }
 
         protected async Task ExecuteLoadCities()
