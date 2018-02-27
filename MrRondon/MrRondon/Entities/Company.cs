@@ -22,7 +22,7 @@ namespace MrRondon.Entities
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
 
-        public string SegmentDescription => SubCategory.Category == null ? SubCategory.Name : $"{SubCategory.Name} - {SubCategory.Category.Name}";
+        public string SegmentDescription => SubCategory.Category == null ? SubCategory.Name : $"{SubCategory.Category.Name} - {SubCategory.Name}";
         public string TelephoneAndEmail { get; set; }
 
         public ImageSource ImageSourceLogo { get { return Logo == null ? ImageSource.FromFile("icon.png") : ImageSource.FromStream(() => new MemoryStream(Logo)); } }
