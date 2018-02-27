@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
+             xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
+             x:Class="MrRondon.Pages.City.ChangeCityPage"
+             Title="{Binding Title}">
+
+    <StackLayout Orientation="Vertical">
+        <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+            <Label Text="Em" FontSize="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center" VerticalTextAlignment="Center" Margin="0,5,0,0" ></Label>
+        </StackLayout>
+        <ListView ItemsSource="{Binding Items}"
+                      SeparatorVisibility="None"
+                      HasUnevenRows="True"
+                      HorizontalOptions="FillAndExpand"
+                      VerticalOptions="FillAndExpand"
+                      RefreshCommand="{Binding LoadItemsCommand}"
+                      IsPullToRefreshEnabled="True"
+                      IsRefreshing="{Binding IsLoading, Mode=OneWay}">
+            <ListView.Behaviors>
+                <behaviors:EventToCommandBehavior Command="{Binding ItemSelectedCommand}" Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
+            </ListView.Behaviors>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Label VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Name}" FontAttributes="Bold" FontSize="Small" />
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Footer>
+                <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems}" TextColor="{StaticResource Accent}" FontSize="Medium" HorizontalOptions="Center"></Label>
+            </ListView.Footer>
+        </ListView>
+
+        <pages:FooterPage />
+    </StackLayout>
+</ContentPage>

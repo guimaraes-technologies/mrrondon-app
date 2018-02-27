@@ -18,6 +18,7 @@ namespace MrRondon.Pages.Map
         {
             Title = Constants.AppName;
             LoadPinsCommand = new Command(async () => await ExecuteLoadPins());
+            ChangeActualCityCommand = new Command(async () => await ExecuteChangeActualCity(new MapPage()));
         }
 
         public ICommand LoadPinsCommand { get; set; }

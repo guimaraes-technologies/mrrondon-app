@@ -52,6 +52,7 @@ namespace MrRondon.Pages.Event
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
             LoadCitiesCommand = new Command(async () => await ExecuteLoadCities());
             ItemSelectedCommand = new Command<Entities.Event>(async (item) => await ExecuteItemSelected(item));
+            ChangeActualCityCommand = new Command(async () => await ExecuteChangeActualCity(new ListEventPage()));
         }
 
         private async Task ExecuteLoadItems()

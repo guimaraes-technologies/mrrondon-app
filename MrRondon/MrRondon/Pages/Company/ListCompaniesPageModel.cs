@@ -18,6 +18,7 @@ namespace MrRondon.Pages.Company
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
             ItemSelectedCommand = new Command<Entities.Company>(async (item) => await ExecuteLoadItem(item));
             LoadCitiesCommand = new Command(async () => await ExecuteLoadCities());
+            ChangeActualCityCommand = new Command(async () => await ExecuteChangeActualCity(new ListCompaniesPage(this)));
         }
 
         private bool _notHhasItems;

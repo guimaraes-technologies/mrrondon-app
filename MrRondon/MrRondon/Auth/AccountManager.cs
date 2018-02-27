@@ -82,7 +82,7 @@ namespace MrRondon.Auth
 
             var cities = await cityService.GetCityAsync(cityName.Trim());
             var city = cities ?? DefaultSetting.City;
-            ApplicationManager<City>.AddOrUpdate("city", city);
+            city.SetCity();
 
             return city;
         }

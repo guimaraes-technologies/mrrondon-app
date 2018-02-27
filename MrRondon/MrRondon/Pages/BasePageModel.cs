@@ -5,8 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MrRondon.Auth;
-using MrRondon.Entities;
 using MrRondon.Helpers;
+using MrRondon.Pages.City;
 using MrRondon.Services.Interfaces;
 using Xamarin.Forms;
 
@@ -18,6 +18,8 @@ namespace MrRondon.Pages
         protected INavigationService NavigationService;
 
         public ICommand LoadCitiesCommand { get; set; }
+        public ICommand AboutCommand { get; set; }
+        public ICommand ChangeActualCityCommand { get; set; }
         private string _title = Constants.AppName;
         public string Title
         {
@@ -39,14 +41,14 @@ namespace MrRondon.Pages
             set => SetProperty(ref _isPresented, value);
         }
 
-        private City _currentCity;
-        public City CurrentCity
+        private Entities.City _currentCity;
+        public Entities.City CurrentCity
         {
             get => _currentCity;
             set => SetProperty(ref _currentCity, value);
         }
 
-        public ObservableRangeCollection<City> Cities { get; set; }
+        public ObservableRangeCollection<Entities.City> Cities { get; set; }
         public List<string> CityNames { get; private set; }
 
         private int _cityIndex;
@@ -61,8 +63,7 @@ namespace MrRondon.Pages
                 Notify(nameof(CitySelectedIndex));
 
                 var selectedItem = Cities[_cityIndex];
-                CurrentCity = selectedItem;
-                ApplicationManager<City>.AddOrUpdate("city", CurrentCity);
+                selectedItem.SetCity();
             }
         }
 
@@ -71,8 +72,8 @@ namespace MrRondon.Pages
             IsPresented = false;
             IsLoading = false;
             Title = Constants.AppName;
-            CurrentCity = ApplicationManager<City>.Find("city") ?? AccountManager.DefaultSetting.City;
-            Cities = new ObservableRangeCollection<City>();
+            CurrentCity = ApplicationManager<Entities.City>.Find("city") ?? AccountManager.DefaultSetting.City;
+            Cities = new ObservableRangeCollection<Entities.City>();
             MessageService = DependencyService.Get<IMessageService>();
             NavigationService = DependencyService.Get<INavigationService>();
         }
@@ -86,7 +87,10 @@ namespace MrRondon.Pages
                 var items = await AccountManager.GetCities();
                 Cities.ReplaceRange(items);
                 CityNames = new List<string>(items.Select(s => s.Name));
-                CitySelectedIndex = CityNames.Any(a => a.ToLower().Equals(CurrentCity.Name.ToLower())) ? CityNames.IndexOf(CurrentCity.Name) : 0;
+
+                CitySelectedIndex = CityNames.Any(a => a.ToLower().Equals(CurrentCity.Name.ToLower()))
+                    ? CityNames.IndexOf(CurrentCity.Name)
+                    : 1;
             }
             catch (Exception ex)
             {
@@ -98,6 +102,12 @@ namespace MrRondon.Pages
                 IsLoading = false;
                 IsPresented = false;
             }
+        }
+
+        protected async Task ExecuteChangeActualCity(Page previousPage)
+        {
+            var pageModel = new ChangeCityPageModel(previousPage);
+            await NavigationService.PushModalAsync(new ChangeCityPage(pageModel));
         }
     }
 }

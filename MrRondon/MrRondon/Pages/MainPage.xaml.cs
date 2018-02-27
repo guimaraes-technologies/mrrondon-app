@@ -1,9 +1,7 @@
 ﻿using System.Threading.Tasks;
-using MrRondon.Helpers;
 using MrRondon.Pages.Category;
 using MrRondon.Pages.Event;
 using MrRondon.Pages.HistoricalSight;
-using MrRondon.Services;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages

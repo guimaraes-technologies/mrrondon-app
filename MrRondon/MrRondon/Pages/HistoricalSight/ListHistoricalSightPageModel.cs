@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MrRondon.Helpers;
+using MrRondon.Pages.Category;
 using MrRondon.Services;
 using Xamarin.Forms;
 
@@ -52,6 +53,7 @@ namespace MrRondon.Pages.HistoricalSight
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
             LoadCitiesCommand = new Command(async () => await ExecuteLoadCities());
             ItemSelectedCommand = new Command<Entities.HistoricalSight>(async (item) => await ExecuteItemSelected(item));
+            ChangeActualCityCommand = new Command(async () => await ExecuteChangeActualCity(new ListCategoriesPage()));
         }
 
         private async Task ExecuteLoadItems()

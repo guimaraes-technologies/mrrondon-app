@@ -11,8 +11,9 @@
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="{Binding CurrentCity.Name}" Order="Secondary"></ToolbarItem>
+        <ToolbarItem Text="{Binding CurrentCity.Name}" Command="{Binding ChangeActualCityCommand}" Order="Secondary"></ToolbarItem>
     </ContentPage.ToolbarItems>
+
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:ItemTappedEventArgsToItemTappedConverter x:Key="ItemTappedConverter" />

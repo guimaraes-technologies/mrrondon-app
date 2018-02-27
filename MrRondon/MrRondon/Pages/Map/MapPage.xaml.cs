@@ -1,5 +1,4 @@
 ﻿using MrRondon.Helpers;
-using MrRondon.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
