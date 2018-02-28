@@ -15,7 +15,7 @@ namespace MrRondon.Pages.Event
     {
         public EventDetailsPageModel(Entities.Event model)
         {
-            Title = model.Name;
+            Title = "Detalhes do Evento";
             Event = model;
             MakePhoneCallCommand = new Command(MakePhoneCall);
             OpenMapCommand = new Command(OpenMap);

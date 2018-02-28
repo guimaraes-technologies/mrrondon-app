@@ -6,7 +6,7 @@
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
-             Title="{Binding Event.Name}"
+             Title="{Binding Title}"
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
@@ -17,14 +17,16 @@
     </ContentPage.Resources>
     <ScrollView>
         <StackLayout>
+            <Label Text="{Binding Event.Name}" TextColor="Black" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
+
             <ActivityIndicator Style="{StaticResource SpinnerLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}"></ActivityIndicator>
             <Image x:Name="image" Source="{Binding Event.ImageSource}" HorizontalOptions="FillAndExpand" HeightRequest="220" ></Image>
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <ffimageloading:CachedImage 
                     Source="phone"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center"
+                    HorizontalOptions="CenterAndExpand" 
+                    VerticalOptions="CenterAndExpand"
                     CacheType="Memory"
                     Aspect="AspectFit"
                     HeightRequest="50"
@@ -39,7 +41,6 @@
                         </fftransformations:CircleTransformation>
                     </ffimageloading:CachedImage.Transformations>
                 </ffimageloading:CachedImage>
-
 
                 <ffimageloading:CachedImage 
                     Source="map_maker"

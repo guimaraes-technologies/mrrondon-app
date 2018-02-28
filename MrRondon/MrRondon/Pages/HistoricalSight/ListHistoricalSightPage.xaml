@@ -47,14 +47,22 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <ffimageloading:CachedImage 
+                            <ffimageloading:CachedImage
+                                Source="{Binding ImageSource}" 
                                 HorizontalOptions="CenterAndExpand" 
                                 VerticalOptions="CenterAndExpand"
+                                CacheType="Memory"
+                                Aspect="AspectFit"
                                 WidthRequest="70" 
                                 HeightRequest="70"
-                                Source="{Binding ImageSource}">
+                                DownsampleToViewSize="true">
+
                                 <ffimageloading:CachedImage.Transformations>
-                                    <fftransformations:CircleTransformation BorderSize="20" BorderHexColor="#00838F"/>
+                                    <fftransformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
+                                        <fftransformations:CircleTransformation.BorderSize>
+                                            <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
+                                        </fftransformations:CircleTransformation.BorderSize>
+                                    </fftransformations:CircleTransformation>
                                 </ffimageloading:CachedImage.Transformations>
                             </ffimageloading:CachedImage>
 
