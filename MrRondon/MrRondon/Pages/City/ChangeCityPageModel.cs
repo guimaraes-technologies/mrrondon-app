@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MrRondon.Helpers;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages.City
@@ -25,7 +26,8 @@ namespace MrRondon.Pages.City
             {
                 if (IsLoading) return;
                 IsLoading = true;
-                model.SetCity();
+                CurrentCity = model;
+                ApplicationManager<Entities.City>.AddOrUpdate("city", model);
                 await NavigationService.PopAsync();
             }
             catch (Exception ex)

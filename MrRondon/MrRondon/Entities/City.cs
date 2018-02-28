@@ -1,5 +1,4 @@
-﻿using MrRondon.Helpers;
-using MrRondon.Pages;
+﻿using MrRondon.Pages;
 
 namespace MrRondon.Entities
 {
@@ -17,13 +16,6 @@ namespace MrRondon.Entities
         {
             get => _name;
             set => SetProperty(ref _name, value);
-        }
-
-        public void SetCity()
-        {
-            CurrentCity = this;
-
-            ApplicationManager<City>.AddOrUpdate("city", this);
         }
     }
 }

@@ -63,7 +63,9 @@ namespace MrRondon.Pages
                 Notify(nameof(CitySelectedIndex));
 
                 var selectedItem = Cities[_cityIndex];
-                selectedItem.SetCity();
+                CurrentCity = selectedItem;
+                ApplicationManager<Entities.City>.AddOrUpdate("city", selectedItem);
+
             }
         }
 
