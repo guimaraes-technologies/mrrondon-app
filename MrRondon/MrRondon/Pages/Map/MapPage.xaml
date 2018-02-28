@@ -7,6 +7,10 @@
              BackgroundColor="{StaticResource PageBackgroundColor}"
              Title="Mapa">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="{Binding CurrentCity.Name}" Order="Primary"></ToolbarItem>
+    </ContentPage.ToolbarItems>
+
     <StackLayout>
         <maps:Map
             x:Name="Companies"
