@@ -129,6 +129,7 @@ namespace MrRondon.Pages.Event
         private async Task ExecuteItemSelected(Entities.Event model)
         {
             var pageModel = new EventDetailsPageModel(model);
+            pageModel.SetAsFavoriteIconCommand.Execute(null);
             await NavigationService.PushAsync(new EventDetailsPage(pageModel));
         }
     }

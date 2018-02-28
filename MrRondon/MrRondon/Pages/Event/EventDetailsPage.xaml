@@ -20,58 +20,84 @@
             <ActivityIndicator Style="{StaticResource SpinnerLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}"></ActivityIndicator>
             <Image x:Name="image" Source="{Binding Event.ImageSource}" HorizontalOptions="FillAndExpand" HeightRequest="220" ></Image>
 
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <ffimageloading:CachedImage 
-                    HorizontalOptions="CenterAndExpand" 
-                    VerticalOptions="CenterAndExpand"
-                    WidthRequest="70" 
-                    HeightRequest="70"
-                    Source="phone">
+                    Source="phone"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center"
+                    CacheType="Memory"
+                    Aspect="AspectFit"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    DownsampleToViewSize="true">
+
                     <ffimageloading:CachedImage.Transformations>
-                        <fftransformations:CircleTransformation BorderSize="20" BorderHexColor="#00838F"/>
+                        <fftransformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
+                            <fftransformations:CircleTransformation.BorderSize>
+                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
+                            </fftransformations:CircleTransformation.BorderSize>
+                        </fftransformations:CircleTransformation>
                     </ffimageloading:CachedImage.Transformations>
-                    <!--<ffimageloading:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="{Binding MakePhoneCallCommand}" NumberOfTapsRequired="1"></TapGestureRecognizer>
-                    </ffimageloading:CachedImage.GestureRecognizers>-->
                 </ffimageloading:CachedImage>
 
-                <!--<ffimageloading:CachedImage WidthRequest="70"
-                                          HeightRequest="70"
-                                          HorizontalOptions="CenterAndExpand"
-                                          VerticalOptions="CenterAndExpand"
-                                          Aspect="AspectFill"
-                                          Source="phone">
+
+                <ffimageloading:CachedImage 
+                    Source="map_maker"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center"
+                    CacheType="Memory"
+                    Aspect="AspectFit"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    DownsampleToViewSize="true">
+
+                    <ffimageloading:CachedImage.Transformations>
+                        <fftransformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
+                            <fftransformations:CircleTransformation.BorderSize>
+                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
+                            </fftransformations:CircleTransformation.BorderSize>
+                        </fftransformations:CircleTransformation>
+                    </ffimageloading:CachedImage.Transformations>
                 </ffimageloading:CachedImage>
-                <ffimageloading:CachedImage WidthRequest="70"
-                                          HeightRequest="70"
-                                          HorizontalOptions="CenterAndExpand"
-                                          VerticalOptions="CenterAndExpand"
-                                          Aspect="AspectFill"
-                                          Source="map_marker">
-                    <ffimageloading:CachedImage.Behaviors>
-                        <behaviors:EventToCommandBehavior Command="{Binding OpenMapCommand}" Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
-                    </ffimageloading:CachedImage.Behaviors>
+
+
+                <ffimageloading:CachedImage 
+                    Source="share"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center"
+                    CacheType="Memory"
+                    Aspect="AspectFit"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    DownsampleToViewSize="true">
+
+                    <ffimageloading:CachedImage.Transformations>
+                        <fftransformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
+                            <fftransformations:CircleTransformation.BorderSize>
+                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
+                            </fftransformations:CircleTransformation.BorderSize>
+                        </fftransformations:CircleTransformation>
+                    </ffimageloading:CachedImage.Transformations>
                 </ffimageloading:CachedImage>
-                <ffimageloading:CachedImage WidthRequest="70"
-                                          HeightRequest="70"
-                                          HorizontalOptions="CenterAndExpand"
-                                          VerticalOptions="CenterAndExpand"
-                                          Aspect="AspectFill"
-                                          Source="share">
-                    <ffimageloading:CachedImage.Behaviors>
-                        <behaviors:EventToCommandBehavior Command="{Binding ShareCommand}" Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
-                    </ffimageloading:CachedImage.Behaviors>
+
+                <ffimageloading:CachedImage 
+                    Source="{Binding FavoritIcon}"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center"
+                    CacheType="Memory"
+                    Aspect="AspectFit"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    DownsampleToViewSize="true">
+
+                    <ffimageloading:CachedImage.Transformations>
+                        <fftransformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
+                            <fftransformations:CircleTransformation.BorderSize>
+                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
+                            </fftransformations:CircleTransformation.BorderSize>
+                        </fftransformations:CircleTransformation>
+                    </ffimageloading:CachedImage.Transformations>
                 </ffimageloading:CachedImage>
-                <ffimageloading:CachedImage WidthRequest="70"
-                                          HeightRequest="70"
-                                          HorizontalOptions="CenterAndExpand"
-                                          VerticalOptions="CenterAndExpand"
-                                          Aspect="AspectFill"
-                                          Source="{Binding Event.FavoritIcon}">
-                    <ffimageloading:CachedImage.Behaviors>
-                        <behaviors:EventToCommandBehavior Command="{Binding MarkAsFavoriteCommand}" Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
-                    </ffimageloading:CachedImage.Behaviors>
-                </ffimageloading:CachedImage>-->
             </StackLayout>
 
             <Label Text="Valor" Style="{StaticResource PrimaryLabel}" />
@@ -84,7 +110,7 @@
             <Label Text="{Binding Event.EndDate, StringFormat='{0:ddd, dd MMM yyyy}'}" Style="{StaticResource SecondaryLabel}"></Label>
 
             <Label Text="Descrição" Style="{StaticResource PrimaryLabel}" />
-            <Label Text="Ainda falta implementar" Style="{StaticResource SecondaryLabel}" />
+            <Label Text="{Binding Description}" Style="{StaticResource SecondaryLabel}" />
 
             <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
             <Label Text="{Binding Event.Address.FullAddress}" Style="{StaticResource SecondaryLabel}" />

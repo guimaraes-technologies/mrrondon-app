@@ -37,7 +37,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid ColumnSpacing="10" Padding="10" RowSpacing="10" BackgroundColor="{StaticResource PageBackgroundColor}">
+                        <Grid BackgroundColor="{StaticResource PageBackgroundColor}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                                 <RowDefinition Height="*" />
@@ -52,7 +52,6 @@
                                 VerticalOptions="CenterAndExpand"
                                 WidthRequest="70" 
                                 HeightRequest="70"
-                                DownsampleToViewSize="true"
                                 Source = "{Binding ImageSourceLogo}">
                                 <ffimageloading:CachedImage.Transformations>
                                     <fftransformations:CircleTransformation BorderSize="20" BorderHexColor="#00838F"/>

@@ -4381,7 +4381,7 @@ namespace MrRondon.Droid
 			public const int icon = 2130837763;
 			
 			// aapt resource value: 0x7f020104
-			public const int map_marker = 2130837764;
+			public const int map_maker = 2130837764;
 			
 			// aapt resource value: 0x7f020105
 			public const int mr_button_connected_dark = 2130837765;

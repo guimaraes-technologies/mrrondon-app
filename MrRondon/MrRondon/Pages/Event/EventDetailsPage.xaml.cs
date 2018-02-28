@@ -9,5 +9,11 @@ namespace MrRondon.Pages.Event
 			InitializeComponent ();
 		    BindingContext = pageModel;
         }
+
+	    protected override void OnAppearing()
+	    {
+	        base.OnAppearing();
+
+	    }
 	}
 }

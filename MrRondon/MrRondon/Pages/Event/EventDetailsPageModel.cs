@@ -21,13 +21,14 @@ namespace MrRondon.Pages.Event
             OpenMapCommand = new Command(OpenMap);
             MarkAsFavoriteCommand = new Command(async () => await MarkAsFavorite());
             ShareCommand = new Command(async () => await Share());
-            SetFavoritIcon();
+            SetAsFavoriteIconCommand = new Command(async () => await SetFavoritIcon());
         }
 
         public ICommand MakePhoneCallCommand { get; set; }
         public ICommand OpenMapCommand { get; set; }
         public ICommand ShareCommand { get; set; }
         public ICommand MarkAsFavoriteCommand { get; set; }
+        public ICommand SetAsFavoriteIconCommand { get; set; }
 
         private Entities.Event _event;
         public Entities.Event Event
@@ -36,8 +37,8 @@ namespace MrRondon.Pages.Event
             set => SetProperty(ref _event, value);
         }
 
-        public string FavoritIcon { get; }
-        
+        public string FavoritIcon { get; private set; }
+
         private void MakePhoneCall()
         {
             NavigationService.MakePhoneCall(AccountManager.DefaultSetting.TelephoneSetur);
@@ -69,6 +70,8 @@ namespace MrRondon.Pages.Event
 
         private async Task SetFavoritIcon()
         {
+            FavoritIcon = "unfavorite";
+            return;
             var service = new FavoriteEventService();
             var x = await service.GetAsync();
 
