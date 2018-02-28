@@ -4,7 +4,8 @@
              x:Class="MrRondon.Pages.HistoricalSight.ListHistoricalSightPage"
              xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
-             xmlns:controls="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin.Abstractions"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
              Title="Patrimônio Histórico"
              Style="{StaticResource PageStyle}"
@@ -46,15 +47,16 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <controls:CircleImage Grid.RowSpan="2"
-                                                      WidthRequest="70"
-                                                      HeightRequest="70"
-                                                      HorizontalOptions="CenterAndExpand"
-                                                      VerticalOptions="CenterAndExpand"
-                                                      Aspect="AspectFill"
-                                                      BorderColor="White"
-                                                      BorderThickness="2"
-                                                      Source="icon.png"/>
+                            <ffimageloading:CachedImage 
+                                HorizontalOptions="CenterAndExpand" 
+                                VerticalOptions="CenterAndExpand"
+                                WidthRequest="70" 
+                                HeightRequest="70"
+                                Source="{Binding ImageSource}">
+                                <ffimageloading:CachedImage.Transformations>
+                                    <fftransformations:CircleTransformation BorderSize="20" BorderHexColor="#00838F"/>
+                                </ffimageloading:CachedImage.Transformations>
+                            </ffimageloading:CachedImage>
 
                             <Label Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Name}" FontAttributes="Bold" FontSize="Small" />
 

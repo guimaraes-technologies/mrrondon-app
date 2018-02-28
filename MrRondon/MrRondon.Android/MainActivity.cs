@@ -1,7 +1,9 @@
-﻿using Android.App;
+﻿using System;
+using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using ImageCircle.Forms.Plugin.Droid;
+using FFImageLoading;
+using FFImageLoading.Forms.Droid;
 using Plugin.Permissions;
 using Plugin.Toasts;
 using Xamarin;
@@ -26,8 +28,17 @@ namespace MrRondon.Droid
             //Map
             FormsMaps.Init(this, bundle);
 
-            //ImageCircle
-            ImageCircleRenderer.Init();
+            //FFImageLoading initialization
+            CachedImageRenderer.Init(true);
+            var config = new FFImageLoading.Config.Configuration()
+            {
+                VerboseLogging = false,
+                VerbosePerformanceLogging = false,
+                VerboseMemoryCacheLogging = false,
+                VerboseLoadingCancelledLogging = false,
+                Logger = new CustomLogger(),
+            };
+            ImageService.Instance.Initialize(config);
 
             DependencyService.Register<ToastNotification>();
             ToastNotification.Init(this, new PlatformOptions { SmallIconDrawable = Android.Resource.Drawable.IcDialogInfo });
@@ -39,6 +50,24 @@ namespace MrRondon.Droid
         {
             //base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        public class CustomLogger : FFImageLoading.Helpers.IMiniLogger
+        {
+            public void Debug(string message)
+            {
+                Console.WriteLine(message);
+            }
+
+            public void Error(string errorMessage)
+            {
+                Console.WriteLine(errorMessage);
+            }
+
+            public void Error(string errorMessage, Exception ex)
+            {
+                Error(errorMessage + System.Environment.NewLine + ex.ToString());
+            }
         }
     }
 }

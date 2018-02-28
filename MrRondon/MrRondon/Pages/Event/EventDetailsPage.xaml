@@ -3,20 +3,75 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
              x:Class="MrRondon.Pages.Event.EventDetailsPage"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              Title="{Binding Event.Name}"
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ItemTappedEventArgsToItemTappedConverter x:Key="ItemTappedConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ScrollView>
         <StackLayout>
             <ActivityIndicator Style="{StaticResource SpinnerLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}"></ActivityIndicator>
-            <Image x:Name="image" Source="{Binding Event.ImageSource}" HorizontalOptions="FillAndExpand" HeightRequest="220"></Image>
+            <Image x:Name="image" Source="{Binding Event.ImageSource}" HorizontalOptions="FillAndExpand" HeightRequest="220" ></Image>
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
-                <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="phone" Command="{Binding MakePhoneCallCommand}"></Button>
-                <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="map_marker" Command="{Binding OpenMapCommand}"></Button>
-                <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="share" Command="{Binding ShareCommand}"></Button>
-                <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="{Binding Event.FavoritIcon}" Command="{Binding MarkAsFavoriteCommand}"></Button>
+                <ffimageloading:CachedImage 
+                    HorizontalOptions="CenterAndExpand" 
+                    VerticalOptions="CenterAndExpand"
+                    WidthRequest="70" 
+                    HeightRequest="70"
+                    Source="phone">
+                    <ffimageloading:CachedImage.Transformations>
+                        <fftransformations:CircleTransformation BorderSize="20" BorderHexColor="#00838F"/>
+                    </ffimageloading:CachedImage.Transformations>
+                    <!--<ffimageloading:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="{Binding MakePhoneCallCommand}" NumberOfTapsRequired="1"></TapGestureRecognizer>
+                    </ffimageloading:CachedImage.GestureRecognizers>-->
+                </ffimageloading:CachedImage>
+
+                <!--<ffimageloading:CachedImage WidthRequest="70"
+                                          HeightRequest="70"
+                                          HorizontalOptions="CenterAndExpand"
+                                          VerticalOptions="CenterAndExpand"
+                                          Aspect="AspectFill"
+                                          Source="phone">
+                </ffimageloading:CachedImage>
+                <ffimageloading:CachedImage WidthRequest="70"
+                                          HeightRequest="70"
+                                          HorizontalOptions="CenterAndExpand"
+                                          VerticalOptions="CenterAndExpand"
+                                          Aspect="AspectFill"
+                                          Source="map_marker">
+                    <ffimageloading:CachedImage.Behaviors>
+                        <behaviors:EventToCommandBehavior Command="{Binding OpenMapCommand}" Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
+                    </ffimageloading:CachedImage.Behaviors>
+                </ffimageloading:CachedImage>
+                <ffimageloading:CachedImage WidthRequest="70"
+                                          HeightRequest="70"
+                                          HorizontalOptions="CenterAndExpand"
+                                          VerticalOptions="CenterAndExpand"
+                                          Aspect="AspectFill"
+                                          Source="share">
+                    <ffimageloading:CachedImage.Behaviors>
+                        <behaviors:EventToCommandBehavior Command="{Binding ShareCommand}" Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
+                    </ffimageloading:CachedImage.Behaviors>
+                </ffimageloading:CachedImage>
+                <ffimageloading:CachedImage WidthRequest="70"
+                                          HeightRequest="70"
+                                          HorizontalOptions="CenterAndExpand"
+                                          VerticalOptions="CenterAndExpand"
+                                          Aspect="AspectFill"
+                                          Source="{Binding Event.FavoritIcon}">
+                    <ffimageloading:CachedImage.Behaviors>
+                        <behaviors:EventToCommandBehavior Command="{Binding MarkAsFavoriteCommand}" Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
+                    </ffimageloading:CachedImage.Behaviors>
+                </ffimageloading:CachedImage>-->
             </StackLayout>
 
             <Label Text="Valor" Style="{StaticResource PrimaryLabel}" />
@@ -34,7 +89,7 @@
             <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
             <Label Text="{Binding Event.Address.FullAddress}" Style="{StaticResource SecondaryLabel}" />
 
-        <pages:FooterPage />
+            <pages:FooterPage />
         </StackLayout>
     </ScrollView>
 </ContentPage>

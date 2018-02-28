@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using System.Windows.Input;
+using MrRondon.Auth;
 using MrRondon.Helpers;
 using MrRondon.Services;
 using Plugin.ExternalMaps;
@@ -39,7 +40,7 @@ namespace MrRondon.Pages.Event
         
         private void MakePhoneCall()
         {
-            NavigationService.MakePhoneCall("190");
+            NavigationService.MakePhoneCall(AccountManager.DefaultSetting.TelephoneSetur);
         }
 
         private void OpenMap()
