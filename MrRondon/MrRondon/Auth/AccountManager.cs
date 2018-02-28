@@ -30,7 +30,7 @@ namespace MrRondon.Auth
             }
             else IsLoggedIn = false;
         }
-        
+
         public static async Task<IList<City>> GetCities()
         {
             IList<City> cities;
@@ -39,6 +39,22 @@ namespace MrRondon.Auth
             {
                 var rest = new CityRest();
                 cities = await rest.GetAsync(string.Empty);
+                var json = JsonConvert.SerializeObject(cities);
+                ApplicationManager<string>.AddOrUpdate("cities", json);
+            }
+            else cities = JsonConvert.DeserializeObject<IList<City>>(localCities);
+
+            return cities;
+        }
+
+        public static async Task<IList<City>> GetCities(int subCategoryId)
+        {
+            IList<City> cities;
+            var localCities = ApplicationManager<string>.Find("cities");
+            if (string.IsNullOrWhiteSpace(localCities))
+            {
+                var rest = new CityRest();
+                cities = await rest.GetAsync(subCategoryId);
                 var json = JsonConvert.SerializeObject(cities);
                 ApplicationManager<string>.AddOrUpdate("cities", json);
             }
@@ -62,7 +78,7 @@ namespace MrRondon.Auth
 
         public static async Task<bool> Signin()
         {
-            var service=new UserRest();//todo do login by telephone number
+            var service = new UserRest();//todo do login by telephone number
             var token = await service.Signin("111.111.111-11", "111111");
             if (token == null) throw new Exception("Usuário ou senha incorreta");
 

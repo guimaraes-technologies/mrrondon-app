@@ -85,7 +85,7 @@ namespace MrRondon.Pages.HistoricalSight
                 IsLoading = true;
                 Items.Clear();
                 var service = new HistoricalSightService();
-                var items = await service.GetAsync(Search);
+                var items = await service.GetAsync(CurrentCity.CityId, Search);
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = "Nenhum patrimônio histórico encontrado";
                 Items.ReplaceRange(items);

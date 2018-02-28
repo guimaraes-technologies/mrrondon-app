@@ -19,7 +19,7 @@ namespace MrRondon.Pages.Company
             Items = new ObservableRangeCollection<Entities.Company>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
             ItemSelectedCommand = new Command<Entities.Company>(async (item) => await ExecuteLoadItem(item));
-            LoadCitiesCommand = new Command(async () => await ExecuteLoadCities());
+            LoadCitiesCommand = new Command<int>(async (subCategoryId) => await ExecuteLoadCities(subCategoryId));
             ChangeActualCityCommand = new Command(async () => await ExecuteChangeActualCity(new ListCompaniesPage(this)));
         }
 
@@ -69,7 +69,6 @@ namespace MrRondon.Pages.Company
             }
         }
 
-
         public ICommand LoadItemsCommand { get; set; }
         public ICommand ItemSelectedCommand { get; set; }
 
@@ -107,13 +106,13 @@ namespace MrRondon.Pages.Company
             }
         }
 
-        protected async Task ExecuteLoadCities()
+        protected async Task ExecuteLoadCities(int subCategoryId)
         {
             try
             {
                 if (IsLoading) return;
                 IsLoading = true;
-                var items = await AccountManager.GetCities();
+                var items = await AccountManager.GetCities(subCategoryId);
                 Cities.ReplaceRange(items);
                 CityNames = new List<string>(items.Select(s => s.Name));
 

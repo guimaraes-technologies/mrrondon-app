@@ -9,10 +9,10 @@ namespace MrRondon.Services
 {
     public class HistoricalSightService
     {
-        public async Task<IList<HistoricalSight>> GetAsync(string search = "")
+        public async Task<IList<HistoricalSight>> GetAsync(int cityId, string search = "")
         {
             var service = new HistoricalSightRest();
-            var items = await service.GetAsync(AccountManager.DefaultSetting.City.CityId, search);
+            var items = await service.GetAsync(cityId, search);
             
             return items.OrderBy(o => o.Name).ToList();
         }

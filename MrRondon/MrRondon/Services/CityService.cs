@@ -8,10 +8,10 @@ namespace MrRondon.Services
 {
     public class CityService
     {
-        public async Task<IList<City>> GetAsync(string search = "")
+        public async Task<IList<City>> GetAsync(int subCategoryId)
         {
             var service = new CityRest();
-            var items = await service.GetAsync(search);
+            var items = await service.GetAsync(subCategoryId);
 
             return items.OrderBy(o => o.Name).ToList();
         }

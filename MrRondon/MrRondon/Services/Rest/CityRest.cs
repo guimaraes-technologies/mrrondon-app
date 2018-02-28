@@ -35,9 +35,17 @@ namespace MrRondon.Services.Rest
             }
         }
 
-        public async Task<IList<City>> GetAsync(string search)
+        public async Task<IList<City>> GetAsync(int subCategoryId)
         {
-            var url = $"{UrlService}/city/{search}";
+            var url = $"{UrlService}/city/subcategory/{subCategoryId}";
+            var content = await GetObjectAsync<IList<City>>(url);
+
+            return content;
+        }
+
+        public async Task<IList<City>> GetAsync(string name)
+        {
+            var url = $"{UrlService}/city/{name}";
             var content = await GetObjectAsync<IList<City>>(url);
 
             return content;
