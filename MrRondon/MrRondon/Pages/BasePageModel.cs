@@ -49,25 +49,7 @@ namespace MrRondon.Pages
         }
 
         public ObservableRangeCollection<Entities.City> Cities { get; set; }
-        public List<string> CityNames { get; private set; }
-
-        private int _cityIndex;
-        public int CitySelectedIndex
-        {
-            get => _cityIndex;
-            set
-            {
-                if (_cityIndex == value) return;
-
-                _cityIndex = value;
-                Notify(nameof(CitySelectedIndex));
-
-                var selectedItem = Cities[_cityIndex];
-                CurrentCity = selectedItem;
-                ApplicationManager<Entities.City>.AddOrUpdate("city", selectedItem);
-
-            }
-        }
+        public List<string> CityNames { get; set; }
 
         protected BasePageModel()
         {
@@ -78,32 +60,6 @@ namespace MrRondon.Pages
             Cities = new ObservableRangeCollection<Entities.City>();
             MessageService = DependencyService.Get<IMessageService>();
             NavigationService = DependencyService.Get<INavigationService>();
-        }
-
-        protected async Task ExecuteLoadCities()
-        {
-            try
-            {
-                if (IsLoading) return;
-                IsLoading = true;
-                var items = await AccountManager.GetCities();
-                Cities.ReplaceRange(items);
-                CityNames = new List<string>(items.Select(s => s.Name));
-
-                CitySelectedIndex = CityNames.Any(a => a.ToLower().Equals(CurrentCity.Name.ToLower()))
-                    ? CityNames.IndexOf(CurrentCity.Name)
-                    : 1;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
-            }
-            finally
-            {
-                IsLoading = false;
-                IsPresented = false;
-            }
         }
 
         protected async Task ExecuteChangeActualCity(Page previousPage)

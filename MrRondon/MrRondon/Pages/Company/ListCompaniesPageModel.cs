@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MrRondon.Auth;
 using MrRondon.Helpers;
 using MrRondon.Services;
 using Xamarin.Forms;
@@ -49,6 +51,25 @@ namespace MrRondon.Pages.Company
             set => SetProperty(ref _searchBar, value);
         }
 
+        private int _cityIndex;
+        public int CitySelectedIndex
+        {
+            get => _cityIndex;
+            set
+            {
+                if (_cityIndex == value) return;
+
+                _cityIndex = value;
+                Notify(nameof(CitySelectedIndex));
+
+                var selectedItem = Cities[_cityIndex];
+                CurrentCity = selectedItem;
+                ApplicationManager<Entities.City>.AddOrUpdate("city", selectedItem);
+                LoadItemsCommand.Execute(null);
+            }
+        }
+
+
         public ICommand LoadItemsCommand { get; set; }
         public ICommand ItemSelectedCommand { get; set; }
 
@@ -73,6 +94,32 @@ namespace MrRondon.Pages.Company
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = "Nenhuma empresa encontrada";
                 Items.ReplaceRange(items);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+            }
+            finally
+            {
+                IsLoading = false;
+                IsPresented = false;
+            }
+        }
+
+        protected async Task ExecuteLoadCities()
+        {
+            try
+            {
+                if (IsLoading) return;
+                IsLoading = true;
+                var items = await AccountManager.GetCities();
+                Cities.ReplaceRange(items);
+                CityNames = new List<string>(items.Select(s => s.Name));
+
+                CitySelectedIndex = CityNames.Any(a => a.ToLower().Equals(CurrentCity.Name.ToLower()))
+                    ? CityNames.IndexOf(CurrentCity.Name)
+                    : 1;
             }
             catch (Exception ex)
             {

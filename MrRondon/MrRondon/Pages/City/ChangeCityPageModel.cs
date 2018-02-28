@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MrRondon.Auth;
 using MrRondon.Helpers;
 using Xamarin.Forms;
 
@@ -34,6 +37,30 @@ namespace MrRondon.Pages.City
             {
                 Debug.WriteLine(ex);
                 await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title)));
+            }
+            finally
+            {
+                IsLoading = false;
+                IsPresented = false;
+            }
+        }
+
+        protected async Task ExecuteLoadCities()
+        {
+            try
+            {
+                if (IsLoading) return;
+                IsLoading = true;
+                var items = await AccountManager.GetCities();
+                Cities.ReplaceRange(items);
+                CityNames = new List<string>(items.Select(s => s.Name));
+
+               //todo FINISH
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
             }
             finally
             {
