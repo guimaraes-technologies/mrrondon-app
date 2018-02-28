@@ -128,9 +128,27 @@ namespace MrRondon.Pages.Event
 
         private async Task ExecuteItemSelected(Entities.Event model)
         {
-            var pageModel = new EventDetailsPageModel(model);
-            pageModel.SetAsFavoriteIconCommand.Execute(null);
-            await NavigationService.PushAsync(new EventDetailsPage(pageModel));
+            try
+            {
+                if (IsLoading) return;
+                IsLoading = true;
+
+                var service = new EventService();
+                var item = await service.GetAsync(model.EventId);
+                var pageModel = new EventDetailsPageModel(item);
+                pageModel.SetAsFavoriteIconCommand.Execute(null);
+                await NavigationService.PushAsync(new EventDetailsPage(pageModel));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                await MessageService.ShowAsync(ex.Message);
+            }
+            finally
+            {
+                IsLoading = false;
+                IsPresented = false;
+            }
         }
     }
 }
