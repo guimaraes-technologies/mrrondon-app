@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MrRondon.Auth;
-using MrRondon.Entities;
 using MrRondon.Helpers;
 using MrRondon.Services;
 using Xamarin.Forms;

@@ -15,11 +15,7 @@
             <converters:ItemTappedEventArgsToItemTappedConverter x:Key="ItemTappedConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <StackLayout Orientation="Vertical">
-        <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
-            <Label Text="Em" FontSize="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center" Margin="0,5,0,0" ></Label>
-            <Picker Title="Cidade" ItemsSource="{Binding CityNames}" SelectedIndex="{Binding CitySelectedIndex}" Margin="5,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center"></Picker>
-        </StackLayout>
+    <StackLayout>
 
         <ListView ItemsSource="{Binding Items}"
                       SeparatorVisibility="None"
@@ -32,6 +28,12 @@
             <ListView.Behaviors>
                 <behaviors:EventToCommandBehavior Command="{Binding ItemSelectedCommand}" Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
             </ListView.Behaviors>
+            <ListView.Header>
+                <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                    <Label Text="Em" FontSize="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center"></Label>
+                    <Picker Title="Cidade" ItemsSource="{Binding CityNames}" SelectedIndex="{Binding CitySelectedIndex}" Margin="5,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center"></Picker>
+                </StackLayout>
+            </ListView.Header>
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
