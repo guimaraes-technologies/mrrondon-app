@@ -21,11 +21,7 @@ namespace MrRondon.Entities
 
         public void SetCity()
         {
-            CurrentCity = new City
-            {
-                CityId = CityId,
-                Name = Name
-            };
+            CurrentCity = this;
 
             ApplicationManager<City>.AddOrUpdate("city", this);
         }

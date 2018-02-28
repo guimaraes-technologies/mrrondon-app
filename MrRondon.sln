@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrRondon.Android", "MrRondo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrRondon.iOS", "MrRondon\MrRondon.iOS\MrRondon.iOS.csproj", "{EA6343F4-1297-45BD-9DE3-99ED4F485EE9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MrRondon", "MrRondon\MrRondon\MrRondon.csproj", "{9F9010D6-329D-46AA-B4EA-0BA37FC43574}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MrRondon", "MrRondon\MrRondon\MrRondon.csproj", "{9F9010D6-329D-46AA-B4EA-0BA37FC43574}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
