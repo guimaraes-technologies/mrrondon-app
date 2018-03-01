@@ -67,8 +67,7 @@
                             </ffimageloading:CachedImage>
 
                             <Label Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Name}" FontAttributes="Bold" FontSize="Small" />
-
-                            <Label Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Address.FullAddress}" />
+                            <Label Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Address.FullAddressInline}" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
