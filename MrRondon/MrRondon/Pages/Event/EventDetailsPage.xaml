@@ -34,6 +34,9 @@
                             </fftransformations:CircleTransformation.BorderSize>
                         </fftransformations:CircleTransformation>
                     </ffimageloading:CachedImage.Transformations>
+                    <ffimageloading:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding MakePhoneCallCommand}" CommandParameter="." />
+                    </ffimageloading:CachedImage.GestureRecognizers>
                 </ffimageloading:CachedImage>
 
                 <ffimageloading:CachedImage 
