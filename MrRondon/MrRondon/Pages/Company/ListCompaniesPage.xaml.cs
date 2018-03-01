@@ -8,14 +8,15 @@ namespace MrRondon.Pages.Company
 
         public ListCompaniesPage (ListCompaniesPageModel pageModel)
 		{
-			InitializeComponent ();
+			InitializeComponent();
 		    BindingContext = _pageModel = pageModel;
 		}
 
 	    protected override void OnAppearing()
 	    {
 	        base.OnAppearing();
-	        _pageModel.LoadItemsCommand.Execute(null);
-	    }
+            _pageModel.LoadCitiesCommand.Execute(_pageModel.CategoryId);
+	        //_pageModel.LoadItemsCommand.Execute(null);
+        }
 	}
 }

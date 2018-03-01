@@ -112,7 +112,8 @@ namespace MrRondon.Pages.Company
             {
                 if (IsLoading) return;
                 IsLoading = true;
-                var items = await AccountManager.GetCities(subCategoryId);
+                var service = new CityService();
+                var items = await service.GetAsync(subCategoryId);
                 Cities.ReplaceRange(items);
                 CityNames = new List<string>(items.Select(s => s.Name));
 

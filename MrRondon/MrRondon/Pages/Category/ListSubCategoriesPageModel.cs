@@ -81,7 +81,6 @@ namespace MrRondon.Pages.Category
         private async Task ExecuteItemSelected(Entities.SubCategory category)
         {
             var pageModel = new ListCompaniesPageModel(category.SubCategoryId);
-            pageModel.LoadCitiesCommand.Execute(category.SubCategoryId);
             await NavigationService.PushAsync(new ListCompaniesPage(pageModel));
         }
     }

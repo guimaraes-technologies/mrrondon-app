@@ -58,23 +58,7 @@ namespace MrRondon.Auth
 
             return cities;
         }
-
-        public static async Task<IList<City>> GetCities(int subCategoryId)
-        {
-            IList<City> cities;
-            var localCities = ApplicationManager<string>.Find("cities");
-            if (string.IsNullOrWhiteSpace(localCities))
-            {
-                var rest = new CityRest();
-                cities = await rest.GetAsync(subCategoryId);
-                var json = JsonConvert.SerializeObject(cities);
-                ApplicationManager<string>.AddOrUpdate("cities", json);
-            }
-            else cities = JsonConvert.DeserializeObject<IList<City>>(localCities);
-
-            return cities;
-        }
-
+        
         public static class DefaultSetting
         {
             public static City City = new City { CityId = 1, Name = "Porto Velho" };

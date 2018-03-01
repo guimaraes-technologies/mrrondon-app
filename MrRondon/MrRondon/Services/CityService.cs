@@ -2,7 +2,9 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MrRondon.Entities;
+using MrRondon.Helpers;
 using MrRondon.Services.Rest;
+using Newtonsoft.Json;
 
 namespace MrRondon.Services
 {
@@ -13,6 +15,8 @@ namespace MrRondon.Services
             var service = new CityRest();
             var items = await service.GetAsync(subCategoryId);
 
+            var json = JsonConvert.SerializeObject(items);
+            ApplicationManager<string>.AddOrUpdate("cities", json);
             return items.OrderBy(o => o.Name).ToList();
         }
 
