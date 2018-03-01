@@ -5,9 +5,7 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using MrRondon.Auth;
 using MrRondon.Entities;
-using MrRondon.Exceptions;
 using MrRondon.Helpers;
 using MrRondon.ViewModels;
 using Newtonsoft.Json;
@@ -65,20 +63,6 @@ namespace MrRondon.Services.Rest
             var content = await GetObjectAsync<User>(url);
 
             return content;
-        }
-
-        public async Task<FavoriteEvent> GetAsync(FavoriteEvent favoriteEvent)
-        {
-            if (!CrossConnectivity.Current.IsConnected) throw new WithOutInternetConnectionException();
-
-            var jsonObject = JsonConvert.SerializeObject(favoriteEvent);
-
-            var content = new StringContent(jsonObject, Encoding.UTF8, "application/json");
-
-            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.TokenType, AccountManager.Token.AccessToken);
-            var result = await PostObjectAsync<FavoriteEvent>($"{UrlService}/event/favorite", content);
-
-            return result;
         }
 
         public async Task<IList<Event>> GetFavoriteEventsAsync()

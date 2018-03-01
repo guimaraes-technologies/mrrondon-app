@@ -40,6 +40,11 @@ namespace MrRondon.Services.Rest
 
         protected async Task<TObject> GetObjectAsync<TObject>(string url) where TObject : class
         {
+            return await GetAsync<TObject>(url);
+        }
+
+        protected async Task<TObject> GetAsync<TObject>(string url)
+        {
             if (!CrossConnectivity.Current.IsConnected) throw new WithOutInternetConnectionException();
 
             var response = await HttpClient.GetAsync(url);
@@ -54,6 +59,11 @@ namespace MrRondon.Services.Rest
         }
 
         public async Task<TObject> PostObjectAsync<TObject>(string url, StringContent content) where TObject : class
+        {
+            return await PostAsync<TObject>(url, content);
+        }
+
+        public async Task<TObject> PostAsync<TObject>(string url, StringContent content)
         {
             if (!CrossConnectivity.Current.IsConnected) throw new WithOutInternetConnectionException();
 

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using MrRondon.Auth;
 using MrRondon.Entities;
+using MrRondon.Helpers;
 
 namespace MrRondon.Services.Rest
 {
@@ -11,6 +14,11 @@ namespace MrRondon.Services.Rest
         public async Task<Event> GetAsync(Guid eventId)
         {
             var url = $"{UrlService}/event/{eventId}";
+            var token = Account.Current.Token;
+            if(token.IsValid)
+            {
+                HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.TokenType, token.AccessToken);
+            }
             var content = await GetObjectAsync<Event>(url);
 
             return content;

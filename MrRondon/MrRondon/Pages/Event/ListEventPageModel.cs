@@ -136,7 +136,7 @@ namespace MrRondon.Pages.Event
                 var service = new EventService();
                 var item = await service.GetAsync(model.EventId);
                 var pageModel = new EventDetailsPageModel(item);
-                pageModel.SetAsFavoriteIconCommand.Execute(null);
+
                 await NavigationService.PushAsync(new EventDetailsPage(pageModel));
             }
             catch (Exception ex)

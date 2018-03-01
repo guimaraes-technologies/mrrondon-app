@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using MrRondon.Auth;
 using MrRondon.Helpers;
@@ -17,18 +18,17 @@ namespace MrRondon.Pages.Event
         {
             Title = "Detalhes do Evento";
             Event = model;
+            IsFavorit = false;
             MakePhoneCallCommand = new Command(MakePhoneCall);
             OpenMapCommand = new Command(OpenMap);
-            MarkAsFavoriteCommand = new Command(async () => await MarkAsFavorite());
+            MarkAsFavoriteCommand = new Command(async () => await ExecuteFavorite());
             ShareCommand = new Command(async () => await Share());
-            SetAsFavoriteIconCommand = new Command(async () => await SetFavoritIcon());
         }
 
         public ICommand MakePhoneCallCommand { get; set; }
         public ICommand OpenMapCommand { get; set; }
         public ICommand ShareCommand { get; set; }
         public ICommand MarkAsFavoriteCommand { get; set; }
-        public ICommand SetAsFavoriteIconCommand { get; set; }
 
         private Entities.Event _event;
         public Entities.Event Event
@@ -37,7 +37,26 @@ namespace MrRondon.Pages.Event
             set => SetProperty(ref _event, value);
         }
 
-        public string FavoritIcon { get; private set; }
+        private string _favoritIcon;
+        public string FavoritIcon
+        {
+            get => _favoritIcon;
+            set => SetProperty(ref _favoritIcon, value);
+        }
+
+        private bool _isFavorit;
+        public bool IsFavorit
+        {
+            get => _isFavorit;
+            set
+            {
+                if (_isFavorit == value) return;
+
+                _isFavorit = value;
+                Notify(nameof(IsFavorit));
+                FavoritIcon = _isFavorit ? "favorite" : "unfavorite";
+            }
+        }
 
         private void MakePhoneCall()
         {
@@ -49,9 +68,21 @@ namespace MrRondon.Pages.Event
             CrossExternalMaps.Current.NavigateTo(Event.Name, Event.Address.Latitude, Event.Address.Longitude, NavigationType.Driving);
         }
 
-        private async Task MarkAsFavorite()
+        private async Task ExecuteFavorite()
         {
-            await MessageService.ToastAsync($"Ainda não implementado \n{Event.EventId}");
+            try
+            {
+                var service = new FavoriteEventService();
+                IsFavorit = !IsFavorit;
+                var isFavorite = await service.FavoriteAsync(Event.EventId);
+                IsFavorit = isFavorite;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                IsFavorit = false;
+                await MessageService.ShowAsync(ex.Message);
+            }
         }
 
         private async Task Share()
@@ -63,18 +94,23 @@ namespace MrRondon.Pages.Event
             {
                 Title = Constants.AppName,
                 Text = $"Olha o que eu encontrei no {Constants.AppName}:\nEvento: {Event.Name}\nData: {rangeDate}\nLocal: {Event.Address.FullAddressInline}\nMuito TOP, dá uma olhada ;)\n",
-                Url = "https://play.google.com/store/apps/details?id=br.gov.ro.setur.mrrondon"
+                Url = "http://mrrondon.ozielguimaraes.net"
             };
             await CrossShare.Current.Share(message);
         }
 
         private async Task SetFavoritIcon()
         {
-            FavoritIcon = "unfavorite";
-            return;
-            var service = new FavoriteEventService();
-            var x = await service.GetAsync();
-
+            try
+            {
+                var service = new FavoriteEventService();
+                var isFavorite = await service.IsFavorite(Event.EventId);
+                IsFavorit = isFavorite;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
     }
 }

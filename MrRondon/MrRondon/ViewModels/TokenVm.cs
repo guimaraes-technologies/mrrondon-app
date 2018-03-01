@@ -20,6 +20,8 @@ namespace MrRondon.ViewModels
         public DateTimeOffset Issued { get; set; }
 
         [JsonProperty(".expires")]
-        public static DateTimeOffset Expires { get; set; }
+        public DateTimeOffset Expires { get; set; }
+
+        public bool IsValid => Expires > DateTimeOffset.Now;
     }
 }

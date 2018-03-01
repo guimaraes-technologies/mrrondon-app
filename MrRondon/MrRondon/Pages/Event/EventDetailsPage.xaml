@@ -5,16 +5,10 @@
              x:Class="MrRondon.Pages.Event.EventDetailsPage"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
-             xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              Title="{Binding Title}"
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converters:ItemTappedEventArgsToItemTappedConverter x:Key="ItemTappedConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
     <ScrollView>
         <StackLayout>
             <Label Text="{Binding Event.Name}" TextColor="Black" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
@@ -59,8 +53,10 @@
                             </fftransformations:CircleTransformation.BorderSize>
                         </fftransformations:CircleTransformation>
                     </ffimageloading:CachedImage.Transformations>
+                    <ffimageloading:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenMapCommand}" CommandParameter="." />
+                    </ffimageloading:CachedImage.GestureRecognizers>
                 </ffimageloading:CachedImage>
-
 
                 <ffimageloading:CachedImage 
                     Source="share"
@@ -79,6 +75,9 @@
                             </fftransformations:CircleTransformation.BorderSize>
                         </fftransformations:CircleTransformation>
                     </ffimageloading:CachedImage.Transformations>
+                    <ffimageloading:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ShareCommand}" CommandParameter="." />
+                    </ffimageloading:CachedImage.GestureRecognizers>
                 </ffimageloading:CachedImage>
 
                 <ffimageloading:CachedImage 
@@ -98,6 +97,9 @@
                             </fftransformations:CircleTransformation.BorderSize>
                         </fftransformations:CircleTransformation>
                     </ffimageloading:CachedImage.Transformations>
+                    <ffimageloading:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding MarkAsFavoriteCommand}" CommandParameter="." />
+                    </ffimageloading:CachedImage.GestureRecognizers>
                 </ffimageloading:CachedImage>
             </StackLayout>
 
@@ -111,7 +113,7 @@
             <Label Text="{Binding Event.EndDate, StringFormat='{0:ddd, dd MMM yyyy}'}" Style="{StaticResource SecondaryLabel}"></Label>
 
             <Label Text="Descrição" Style="{StaticResource PrimaryLabel}" />
-            <Label Text="{Binding Description}" Style="{StaticResource SecondaryLabel}" />
+            <Label Text="{Binding Event.Description}" Style="{StaticResource SecondaryLabel}" />
 
             <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
             <Label Text="{Binding Event.Address.FullAddress}" Style="{StaticResource SecondaryLabel}" />

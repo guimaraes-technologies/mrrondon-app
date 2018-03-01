@@ -41,7 +41,7 @@ namespace MrRondon.Services
         public async Task<User> GetInformationAsync()
         {
             var service = new UserRest();
-            var user = await service.GetInformationAsync(AccountManager.Token.AccessToken);
+            var user = await service.GetInformationAsync(Account.Current.Token.AccessToken);
 
             return user;
         }
@@ -77,8 +77,7 @@ namespace MrRondon.Services
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(login.UserName)) throw new Exception("- O Email é obrigatório");
-                if (!EmailHelper.IsEmail(login.UserName)) throw new Exception("- Email inválido");
+                if (string.IsNullOrWhiteSpace(login.UserName)) throw new Exception("- O Login é obrigatório");
                 if (string.IsNullOrWhiteSpace(login.Password)) throw new Exception("- A Senha é obrigatória");
                 return true;
             }

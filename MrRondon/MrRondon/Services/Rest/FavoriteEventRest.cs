@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using MrRondon.Auth;
 using MrRondon.Entities;
+using MrRondon.Helpers;
 
 namespace MrRondon.Services.Rest
 {
@@ -14,20 +18,23 @@ namespace MrRondon.Services.Rest
             return content;
         }
 
-        public async Task<FavoriteEvent> MarkAsFavoriteAsync(FavoriteEvent model)
+        public async Task<bool> IsFavorite(Guid eventId)
         {
-            var url = $"{UrlService}/user/event/favorite";
-            var content = await GetObjectAsync<FavoriteEvent>(url);
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.TokenType, Account.Current.Token.AccessToken);
+            var url = $"{UrlService}/event/isfavorite/{eventId}";
+            var isfavorite = await GetAsync<bool>(url);
 
-            return content;
+            return isfavorite;
         }
 
-        public async Task<FavoriteEvent> UnMarkAsFavoriteAsync(FavoriteEvent model)
+        public async Task<bool> FavoriteAsync(Guid eventId)
         {
-            var url = $"{UrlService}/user/event/unfavorite";
-            var content = await GetObjectAsync<FavoriteEvent>(url);
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.TokenType, Account.Current.Token.AccessToken);
 
-            return content;
+            var url = $"{UrlService}/user/event/{eventId}/favorite";
+            var result = await PostAsync<bool>(url, null);
+
+            return result;
         }
     }
 }
