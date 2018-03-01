@@ -48,7 +48,7 @@
                             </Grid.ColumnDefinitions>
 
                             <ffimageloading:CachedImage Grid.RowSpan="2" 
-                                Source="{Binding ImageSource}" 
+                                Source="{Binding ImageSourceLogo}" 
                                 HorizontalOptions="CenterAndExpand" 
                                 VerticalOptions="CenterAndExpand"
                                 CacheType="Memory"

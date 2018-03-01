@@ -5,14 +5,16 @@
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              x:Class="MrRondon.Pages.HistoricalSight.HistoricalSightDetailsPage"
-             Title="{Binding HistoricalSight.Name}"
+             Title="{Binding Title}"
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
     <ScrollView>
         <StackLayout>
+            <Label Text="{Binding HistoricalSight.Name}" TextColor="Black" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
+
             <ActivityIndicator Style="{StaticResource SpinnerLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}"></ActivityIndicator>
-            <Image x:Name="image" Source="{Binding HistoricalSight.ImageSource}" HorizontalOptions="FillAndExpand" HeightRequest="220"></Image>
+            <Image x:Name="image" Source="{Binding HistoricalSight.ImageSourceCover}" HorizontalOptions="FillAndExpand" HeightRequest="220"></Image>
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <ffimageloading:CachedImage 

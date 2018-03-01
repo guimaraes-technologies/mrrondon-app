@@ -12,7 +12,8 @@ namespace MrRondon.Entities
         public decimal Value { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public byte[] Image { get; set; }
+        public byte[] Logo { get; set; }
+        public byte[] Cover { get; set; }
 
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
@@ -20,6 +21,7 @@ namespace MrRondon.Entities
 
         public string GetValue => Value == 0 ? "Gratuito" : $"{Value:C}";
         public string RangeDateAndValue => $"Início: {StartDate.ToShortDateString()}\nTérminio: {EndDate.ToShortDateString()}\nValor: {GetValue}";
-        public ImageSource ImageSource { get { return Image == null ? ImageSource.FromFile("icon.png") : ImageSource.FromStream(() => new MemoryStream(Image)); } }
+        public ImageSource ImageSourceLogo { get { return Logo == null ? ImageSource.FromFile("icon.png") : ImageSource.FromStream(() => new MemoryStream(Logo)); } }
+        public ImageSource ImageSourceCover { get { return Cover == null ? ImageSource.FromFile("icon.png") : ImageSource.FromStream(() => new MemoryStream(Cover)); } }
     }
 }

@@ -9,11 +9,14 @@ namespace MrRondon.Entities
         public int HistoricalSightId { get; set; }
         public string Name { get; set; }
         public string SightHistory { get; set; }
-        public byte[] Image { get; set; }
+        public byte[] Logo { get; set; }
+        public byte[] Cover { get; set; }
 
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
 
-        public ImageSource ImageSource { get { return Image == null ? ImageSource.FromFile("icon.png") : ImageSource.FromStream(() => new MemoryStream(Image)); } }
+        public ImageSource ImageSourceLogo { get { return Logo == null ? ImageSource.FromFile("icon.png") : ImageSource.FromStream(() => new MemoryStream(Logo)); } }
+
+        public ImageSource ImageSourceCover { get { return Cover == null ? ImageSource.FromFile("icon.png") : ImageSource.FromStream(() => new MemoryStream(Cover)); } }
     }
 }
