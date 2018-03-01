@@ -18,7 +18,7 @@ namespace MrRondon.Pages.Event
         {
             Title = "Detalhes do Evento";
             Event = model;
-            IsFavorit = false;
+            IsFavorit = model.IsFavorite;
             MakePhoneCallCommand = new Command(MakePhoneCall);
             OpenMapCommand = new Command(OpenMap);
             MarkAsFavoriteCommand = new Command(async () => await ExecuteFavorite());
@@ -55,6 +55,7 @@ namespace MrRondon.Pages.Event
 
                 _isFavorit = value;
                 Notify(nameof(IsFavorit));
+                FavoritIcon = _isFavorit ? "favorite" : "unfavorite";
             }
         }
 
