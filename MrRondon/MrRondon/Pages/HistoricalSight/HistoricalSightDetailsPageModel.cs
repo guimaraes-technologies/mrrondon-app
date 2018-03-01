@@ -15,7 +15,7 @@ namespace MrRondon.Pages.HistoricalSight
     {
         public HistoricalSightDetailsPageModel(Entities.HistoricalSight model)
         {
-            Title = model.Name;
+            Title = "Patrimônio Histórico";
             HistoricalSight = model;
             OpenMapCommand = new Command(OpenMap);
             MakePhoneCallCommand = new Command(ExecuteMakeCall);

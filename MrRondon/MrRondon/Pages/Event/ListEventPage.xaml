@@ -53,7 +53,7 @@
                                 VerticalOptions="CenterAndExpand"
                                 WidthRequest="70" 
                                 HeightRequest="70"
-                                Source="icon">
+                                Source="{Binding ImageSourceLogo}">
                                 <ffimageloading:CachedImage.Transformations>
                                     <fftransformations:CircleTransformation BorderSize="20" BorderHexColor="#00838F"/>
                                 </ffimageloading:CachedImage.Transformations>

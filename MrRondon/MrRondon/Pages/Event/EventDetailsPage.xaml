@@ -14,7 +14,7 @@
             <Label Text="{Binding Event.Name}" TextColor="Black" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
 
             <ActivityIndicator Style="{StaticResource SpinnerLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}"></ActivityIndicator>
-            <Image x:Name="image" Source="{Binding Event.ImageSource}" HorizontalOptions="FillAndExpand" HeightRequest="220" ></Image>
+            <Image x:Name="image" Source="{Binding Event.ImageSourceCover}" HorizontalOptions="FillAndExpand" HeightRequest="220" ></Image>
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <ffimageloading:CachedImage 

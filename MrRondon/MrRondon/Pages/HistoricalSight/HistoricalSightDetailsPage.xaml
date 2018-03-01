@@ -108,7 +108,6 @@
 
             <Label Text="Descrição" Style="{StaticResource PrimaryLabel}" />
             <Label Text="{Binding HistoricalSight.SightHistory}" Style="{StaticResource SecondaryLabel}" />
-
             <pages:FooterPage />
         </StackLayout>
     </ScrollView>
