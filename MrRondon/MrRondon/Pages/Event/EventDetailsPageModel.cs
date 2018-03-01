@@ -50,11 +50,11 @@ namespace MrRondon.Pages.Event
             get => _isFavorit;
             set
             {
+                FavoritIcon = _isFavorit ? "favorite" : "unfavorite";
                 if (_isFavorit == value) return;
 
                 _isFavorit = value;
                 Notify(nameof(IsFavorit));
-                FavoritIcon = _isFavorit ? "favorite" : "unfavorite";
             }
         }
 

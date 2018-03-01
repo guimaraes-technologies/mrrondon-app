@@ -81,7 +81,7 @@
                 </ffimageloading:CachedImage>
 
                 <ffimageloading:CachedImage 
-                    Source="{Binding FavoritIcon}"
+                    Source="{Binding FavoritIcon, Mode=TwoWay}"
                     HorizontalOptions="Center" 
                     VerticalOptions="Center"
                     CacheType="Memory"
