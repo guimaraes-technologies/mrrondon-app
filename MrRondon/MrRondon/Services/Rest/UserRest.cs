@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using MrRondon.Auth;
 using MrRondon.Entities;
@@ -31,7 +31,7 @@ namespace MrRondon.Services.Rest
             };
 
             var response = await HttpClient.PostAsync("security/token", new FormUrlEncodedContent(login));
-            if (response.IsSuccessStatusCode && response.StatusCode == System.Net.HttpStatusCode.OK)
+            if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.OK)
             {
                 var content = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<TokenVm>(content);
@@ -41,8 +41,26 @@ namespace MrRondon.Services.Rest
             throw new Exception("Não foi possível concluir a requisição");
         }
 
-        public async Task<User> GetInformationAsync()
+        public async Task<UserTokenVm> Register(RegisterVm register)
         {
+            if (!CrossConnectivity.Current.IsConnected) throw new Exception("Você está sem conexão com a internet");
+
+            var jsonObject = JsonConvert.SerializeObject(register);
+
+            var response = await HttpClient.PostAsync($"{UrlService}/user/register", new StringContent(jsonObject, Encoding.UTF8, "application/json"));
+            if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.OK)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<UserTokenVm>(json);
+            }
+            var errors = await response.Content.ReadAsStringAsync();
+
+            throw new Exception(errors);
+        }
+
+        public async Task<User> GetInformationAsync(string token)
+        {
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.TokenType, token);
             var url = $"{UrlService}/user/information";
             var content = await GetObjectAsync<User>(url);
 

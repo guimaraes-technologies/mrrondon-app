@@ -4,6 +4,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using MrRondon.Exceptions;
 using MrRondon.Helpers;
+using MrRondon.Pages.Account;
 using MrRondon.ViewModels;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
@@ -15,15 +16,15 @@ namespace MrRondon.Services.Rest
         private static readonly Uri UrlService = new Uri(Constants.Host);
         private readonly HttpClient _httpClient = new HttpClient { BaseAddress = UrlService };
 
-        public async Task<TokenVm> Login(string login, string password)
+        public async Task<TokenVm> Login(LoginPageModel login)
         {
             var loginInformation = new Dictionary<string, string>
             {
                     {"grant_type", "password"},
                     {"client_id", Constants.ClientId},
                     {"client_secret", Constants.ClientSecret},
-                    {"username", login},
-                    {"password", password}
+                    {"username", login.UserName},
+                    {"password", login.Password}
             };
 
             if (!CrossConnectivity.Current.IsConnected) throw new WithOutInternetConnectionException();

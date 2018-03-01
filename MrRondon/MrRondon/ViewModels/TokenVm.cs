@@ -5,6 +5,8 @@ namespace MrRondon.ViewModels
 {
     public class TokenVm
     {
+        public string UserName { get; set; }
+
         [JsonProperty("access_token")]
         public string AccessToken { get; set; }
 
@@ -14,7 +16,10 @@ namespace MrRondon.ViewModels
         [JsonProperty("expires_in")]
         public int ExpiresIn { get; set; }
 
+        [JsonProperty(".issued")]
+        public DateTimeOffset Issued { get; set; }
+
         [JsonProperty(".expires")]
-        public DateTimeOffset Expires { get; set; }
+        public static DateTimeOffset Expires { get; set; }
     }
 }

@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MrRondon.Entities;
 using MrRondon.Helpers;
 using MrRondon.Services;
 using MrRondon.Services.Rest;
+using MrRondon.ViewModels;
 using Newtonsoft.Json;
-using Xamarin.Forms;
 
 namespace MrRondon.Auth
 {
@@ -16,19 +15,32 @@ namespace MrRondon.Auth
         public AccountManager()
         {
             SetUser();
+            SetToken();
         }
 
         public User User { get; private set; }
+        public static TokenVm Token { get; private set; }
         public bool IsLoggedIn { get; private set; }
 
         private void SetUser()
         {
-            if (Application.Current.Properties.ContainsKey("user"))
+            var user = ApplicationManager<User>.Find("user");
+            if (user == null)
             {
-                User = Application.Current.Properties["user"] as User;
-                IsLoggedIn = true;
+                IsLoggedIn = false;
+                return;
             }
-            else IsLoggedIn = false;
+
+            User = user;
+            IsLoggedIn = true;
+        }
+
+        private void SetToken()
+        {
+            var token = ApplicationManager<TokenVm>.Find("token");
+            if (token == null) return;
+
+            Token = token;
         }
 
         public static async Task<IList<City>> GetCities()
@@ -61,11 +73,6 @@ namespace MrRondon.Auth
             else cities = JsonConvert.DeserializeObject<IList<City>>(localCities);
 
             return cities;
-        }
-
-        public static class Token
-        {
-            public static string AccessToken => ApplicationManager<string>.Find(nameof(AccessToken));
         }
 
         public static class DefaultSetting

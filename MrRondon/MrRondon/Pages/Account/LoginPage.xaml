@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MrRondon.Pages.Account.LoginPage"
+             Title="{Binding Title}">
+
+    <StackLayout Padding="10" Spacing="10">
+        <Label Text="ACESSO" HorizontalTextAlignment="Center" FontSize="Large">
+            <Label.TextColor>
+                <OnPlatform x:TypeArguments="Color" Android="White" iOS="#212121"></OnPlatform>
+            </Label.TextColor>
+        </Label>
+
+        <Entry TextColor="Black" Text="{Binding UserName}" Keyboard="Email" Placeholder="email@domain.com">
+            <Entry.PlaceholderColor>
+                <OnPlatform x:TypeArguments="Color" Android="#757575" iOS="#757575"></OnPlatform>
+            </Entry.PlaceholderColor>
+            <Entry.BackgroundColor>
+                <OnPlatform x:TypeArguments="Color" Android="#FAFAFA" iOS="#FAFAFA"></OnPlatform>
+            </Entry.BackgroundColor>
+        </Entry>
+
+        <Entry TextColor="Black" IsPassword="true" Text="{Binding Password}" Placeholder="senha">
+            <Entry.PlaceholderColor>
+                <OnPlatform x:TypeArguments="Color" Android="#757575" iOS="#757575"></OnPlatform>
+            </Entry.PlaceholderColor>
+            <Entry.BackgroundColor>
+                <OnPlatform x:TypeArguments="Color" Android="#FAFAFA" iOS="#FAFAFA"></OnPlatform>
+            </Entry.BackgroundColor>
+        </Entry>
+        <Button Text="Entrar" TextColor="White" BackgroundColor="#0066CC" Command="{Binding LoginCommand}"></Button>
+
+        <Label Text="OU" HorizontalTextAlignment="Center" TextColor="Black">
+        </Label>
+
+        <Button Text="Não tenho uma conta" TextColor="White" BackgroundColor="#336600" Command="{Binding RegisterCommand}"></Button>
+    </StackLayout>
+</ContentPage>
