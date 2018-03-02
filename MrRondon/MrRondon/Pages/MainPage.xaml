@@ -9,10 +9,6 @@
             BackgroundColor="{StaticResource PrimaryColor}"
             Title="Mr Rondon Turismo">
 
-    <!--<TabbedPage.ToolbarItems>
-        <ToolbarItem Text="Sobre" Command="{Binding AboutCommand}" Order="Secondary"></ToolbarItem>
-    </TabbedPage.ToolbarItems>-->
-
     <map:MapPage />
     <category:ListCategoriesPage />
     <event:ListEventPage />

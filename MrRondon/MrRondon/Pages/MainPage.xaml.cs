@@ -11,7 +11,7 @@ namespace MrRondon.Pages
         public MainPage()
         {
             InitializeComponent();
-            BindingContext = new MainPageModel();
+            
             CurrentPageChanged += async (sender, e) =>
             {
                 var numPage = Children.IndexOf(CurrentPage);

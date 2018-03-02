@@ -15,13 +15,27 @@ namespace MrRondon.Pages
         protected INavigationService NavigationService;
 
         public ICommand LoadCitiesCommand { get; set; }
-        public ICommand AboutCommand { get; set; }
         public ICommand ChangeActualCityCommand { get; set; }
+
         private string _title = Constants.AppName;
         public string Title
         {
             get => _title;
             set => SetProperty(ref _title, value);
+        }
+
+        private string _menuTitle = "Visitante";
+        public string MenuTitle
+        {
+            get => _menuTitle;
+            set
+            {
+                if (_menuTitle == value)
+                    _menuTitle = value;
+                SetProperty(ref _menuTitle, value);
+                var account = Auth.Account.Current;
+                if (account.IsLoggedIn) MenuTitle = account.User.Cpf;
+            }
         }
 
         private bool _isLoading;

@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using MrRondon.Helpers;
+using MrRondon.Pages;
 using MrRondon.Services;
 using MrRondon.Services.Interfaces;
 using Xamarin.Forms;
@@ -18,7 +19,8 @@ namespace MrRondon
             DependencyService.Register<IMessageService, MessageService>();
             DependencyService.Register<INavigationService, NavigationService>();
             Startup.Run();
-            MainPage = new NavigationPage(new Pages.MainPage()) { Title = Constants.AppName };
+            MainPage = new NavigationPage(new MasterPage());
+            //MainPage = new NavigationPage(new Pages.MainPage()) { Title = Constants.AppName };
         }
 
         private void RefactorColorsToHexString()
@@ -31,10 +33,7 @@ namespace MrRondon
                 if (resource is Color color) Resources.Add($"{key}HexString", color.ToHexString());
             }
         }
-
-        //todo Diminuir o tamanho dos icones de detalhe evento
-        //todo nem todas categoria possui SUB categoria
-
+        
         protected override void OnStart()
         {
             // Handle when your app starts

@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:views="clr-namespace:MrRondon.Pages"
+                  x:Class="MrRondon.Pages.MasterPage"
+                  Title="{Binding Title}">
+
+    <MasterDetailPage.Master>
+        <views:MenuPage></views:MenuPage>
+    </MasterDetailPage.Master>
+    <MasterDetailPage.Detail>
+        <views:MainPage></views:MainPage>
+    </MasterDetailPage.Detail>
+</MasterDetailPage>

@@ -90,13 +90,13 @@ namespace MrRondon.Services
         public void Login(UserTokenVm userToken)
         {
             Logout();
-            ApplicationManager<User>.AddOrUpdate("userToken", userToken);
+            ApplicationManager<UserTokenVm>.AddOrUpdate("userToken", userToken);
             //_repo.Insert(user);
         }
 
         public void Logout()
         {
-            ApplicationManager<User>.Remove("userToken");
+            ApplicationManager<UserTokenVm>.Remove("userToken");
             //_repo.DeleteAll();
         }
     }
