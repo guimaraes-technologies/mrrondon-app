@@ -1,4 +1,5 @@
 ﻿using System;
+using MrRondon.Extensions;
 
 namespace MrRondon.Entities
 {
@@ -13,5 +14,7 @@ namespace MrRondon.Entities
 
         public Guid? CompanyId { get; set; }
         public Company Company { get; set; }
+
+        public string ContactDetail => $"{EnumExtensions.GetEnumAttribute(ContactType).Description}: {Description}";
     }
 }

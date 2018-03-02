@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using MrRondon.Auth;
 using MrRondon.Helpers;
 using MrRondon.Services;
 using Xamarin.Forms;
@@ -111,14 +112,12 @@ namespace MrRondon.Pages.Company
             {
                 if (IsLoading) return;
                 IsLoading = true;
-                var service = new CityService();
-                var items = await service.GetAsync(subCategoryId);
+                var items = await AccountManager.GetHasCompanyAsync(subCategoryId);
                 Cities.ReplaceRange(items);
                 CityNames = new List<string>(items.Select(s => s.Name));
 
                 CitySelectedIndex = CityNames.Any(a => a.ToLower().Equals(CurrentCity.Name.ToLower()))
-                    ? CityNames.IndexOf(CurrentCity.Name)
-                    : 1;
+                    ? CityNames.IndexOf(CurrentCity.Name) : 0;
             }
             catch (Exception ex)
             {

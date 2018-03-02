@@ -13,5 +13,7 @@ namespace MrRondon.Entities
         public string Telephone { get; set; }
         public DateTime CreateOn { get; set; }
         public IList<Contact> Contacts { get; set; }
+
+        public string FullName => $"{FirstName} {LastName}";
     }
 }

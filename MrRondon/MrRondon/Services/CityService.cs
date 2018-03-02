@@ -10,17 +10,37 @@ namespace MrRondon.Services
 {
     public class CityService
     {
-        public async Task<IList<City>> GetAsync(int subCategoryId)
+        public async Task<IList<City>> GetHasCompanyAsync(int subCategoryId)
         {
             var service = new CityRest();
-            var items = await service.GetAsync(subCategoryId);
+            var items = await service.GetHasCompanyAsync(subCategoryId);
 
             var json = JsonConvert.SerializeObject(items);
             ApplicationManager<string>.AddOrUpdate("cities", json);
             return items.OrderBy(o => o.Name).ToList();
         }
 
-        public async Task<City> GetCityAsync(string search)
+        public async Task<IList<City>> GetHasEventAsync()
+        {
+            var service = new CityRest();
+            var items = await service.GetHasEventAsync();
+
+            var json = JsonConvert.SerializeObject(items);
+            ApplicationManager<string>.AddOrUpdate("cities", json);
+            return items.OrderBy(o => o.Name).ToList();
+        }
+
+        public async Task<IList<City>> GetHasHistoricalSightAsync()
+        {
+            var service = new CityRest();
+            var items = await service.GetHasHistoricalSightAsync();
+
+            var json = JsonConvert.SerializeObject(items);
+            ApplicationManager<string>.AddOrUpdate("cities", json);
+            return items.OrderBy(o => o.Name).ToList();
+        }
+
+        public async Task<City> GetByNameAsync(string search)
         {
             var service = new CityRest();
             var city = await service.GetCityAsync(search);

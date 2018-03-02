@@ -21,6 +21,7 @@ namespace MrRondon.Auth
         public User User { get; private set; }
         public TokenVm Token { get; private set; }
         public bool IsLoggedIn { get; private set; }
+        public bool IsTokenExpired { get; private set; }
 
         private void SetUserToken()
         {
@@ -30,34 +31,70 @@ namespace MrRondon.Auth
                 IsLoggedIn = false;
                 return;
             }
-
             User = userToken.User;
             Token = userToken.Token;
             IsLoggedIn = true;
+            IsTokenExpired = Token.Expires > DateTimeOffset.Now;
         }
 
-        public static async Task<IList<City>> GetCities()
+        public static async Task<IList<City>> GetAsync()
         {
-            IList<City> cities;
-            var localCities = ApplicationManager<string>.Find("cities");
-            if (string.IsNullOrWhiteSpace(localCities))
-            {
-                var rest = new CityRest();
-                cities = await rest.GetAsync(string.Empty);
-                var json = JsonConvert.SerializeObject(cities);
-                ApplicationManager<string>.AddOrUpdate("cities", json);
-            }
-            else cities = JsonConvert.DeserializeObject<IList<City>>(localCities);
+            var rest = new CityRest();
+            var cities = await rest.GetAsync(string.Empty) ?? GetLocalCities();
 
+            SetLocalCities(cities);
+            return cities;
+        }
+
+        public static async Task<IList<City>> GetHasCompanyAsync(int subCategoryId)
+        {
+            var rest = new CityRest();
+            var cities = await rest.GetHasCompanyAsync(subCategoryId) ?? GetLocalCities();
+
+            SetLocalCities(cities);
+            return cities;
+        }
+
+        public static async Task<IList<City>> GetHasEventAsync()
+        {
+            var rest = new CityRest();
+            var cities = await rest.GetHasEventAsync() ?? GetLocalCities();
+
+            SetLocalCities(cities);
+            return cities;
+        }
+
+        public static async Task<IList<City>> GetHasHistoricalSightAsync()
+        {
+            var rest = new CityRest();
+            var cities = await rest.GetHasHistoricalSightAsync() ?? GetLocalCities();
+
+            SetLocalCities(cities);
+            return cities;
+        }
+
+        public static void SetLocalCities(IList<City> cities)
+        {
+            var json = JsonConvert.SerializeObject(cities);
+            ApplicationManager<string>.AddOrUpdate("cities", json);
+        }
+
+        public static IList<City> GetLocalCities()
+        {
+            var localCities = ApplicationManager<string>.Find("cities");
+            if (string.IsNullOrWhiteSpace(localCities)) return null;
+
+            var cities = JsonConvert.DeserializeObject<IList<City>>(localCities);
             return cities;
         }
 
         public static class DefaultSetting
         {
             public static City City = new City { CityId = 1, Name = "Porto Velho" };
-            public static string TelephoneSetur = "(69) 3216-1044";
+            public static string TelephoneSetur = "6932161044";
             public static double Latitude = -8.7592547;
             public static double Longitude = -63.8769227;
+            public static int PlaceUntil = 2000;
         }
 
         public static async Task<bool> Signin()
@@ -82,7 +119,7 @@ namespace MrRondon.Auth
 
             cityName = string.IsNullOrWhiteSpace(cityName) ? DefaultSetting.City.Name : cityName;
 
-            var cities = await cityService.GetCityAsync(cityName.Trim());
+            var cities = await cityService.GetByNameAsync(cityName.Trim());
             var city = cities ?? DefaultSetting.City;
             ApplicationManager<City>.AddOrUpdate("city", city);
 

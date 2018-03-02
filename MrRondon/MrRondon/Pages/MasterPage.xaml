@@ -6,7 +6,66 @@
                   Title="{Binding Title}">
 
     <MasterDetailPage.Master>
-        <views:MenuPage></views:MenuPage>
+        <ContentPage  BackgroundColor="#E0F7FA">
+            <ContentPage.Content>
+                <StackLayout>
+                    <StackLayout BackgroundColor="#00ACC1" HeightRequest="80">
+                        <Label Text="{Binding MenuTitle, StringFormat='Bem Vindo(a), {0}'}"
+                   FontSize="Small"
+                   VerticalOptions="CenterAndExpand"
+                   TextColor="White"
+                   HorizontalOptions="Center"/>
+                        <BoxView Margin="0" HeightRequest="1" Color="Gray"></BoxView>
+                    </StackLayout>
+
+                    <ListView ItemsSource="{Binding Items}"
+                              HorizontalOptions="FillAndExpand"
+                              VerticalOptions="FillAndExpand"
+                              RowHeight="60"
+                              ItemSelected="OnMenuItemSelected"
+                              SeparatorVisibility="None">
+
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout VerticalOptions="FillAndExpand"
+                                     Orientation="Horizontal"
+                                     Padding="20,10,0,10"
+                                     Spacing="20">
+
+                                        <Image Source="{Binding Icon}"
+                                   WidthRequest="40"
+                                   HeightRequest="40"
+                                   VerticalOptions="Center" />
+
+                                        <Label Text="{Binding Title}"
+                                   FontSize="Medium"
+                                   VerticalOptions="Center"
+                                   TextColor="Black"/>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <StackLayout BackgroundColor="#EAF3FA">
+                        <BoxView Margin="0" HeightRequest="1" Color="Gray"></BoxView>
+                        <Label Margin="10,0,0,0" Text="{Binding SiginSignoutText}" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding SiginSignoutCommand}" NumberOfTapsRequired="1" />
+                            </Label.GestureRecognizers>
+                        </Label>
+
+                        <Label Margin="10,15,0,0" Text="Sobre" TextColor="Black">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding AboutCommand}" NumberOfTapsRequired="1" />
+                            </Label.GestureRecognizers>
+                        </Label>
+                        <Label Margin="10,0,0,0" Text="Versão 1.0" FontSize="Micro"></Label>
+                    </StackLayout>
+                </StackLayout>
+            </ContentPage.Content>
+        </ContentPage>
     </MasterDetailPage.Master>
     <MasterDetailPage.Detail>
         <views:MainPage></views:MainPage>

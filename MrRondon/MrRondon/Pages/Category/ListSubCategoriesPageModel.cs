@@ -82,6 +82,8 @@ namespace MrRondon.Pages.Category
         {
             var pageModel = new ListCompaniesPageModel(category.SubCategoryId);
             await NavigationService.PushAsync(new ListCompaniesPage(pageModel));
+            IsPresented = false;
+            IsLoading = false;
         }
     }
 }

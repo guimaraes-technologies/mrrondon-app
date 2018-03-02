@@ -108,7 +108,7 @@ namespace MrRondon.Pages.HistoricalSight
             {
                 if (IsLoading) return;
                 IsLoading = true;
-                var items = await AccountManager.GetCities();
+                var items = await AccountManager.GetHasHistoricalSightAsync();
                 Cities.ReplaceRange(items);
                 CityNames = new List<string>(items.Select(s => s.Name));
 

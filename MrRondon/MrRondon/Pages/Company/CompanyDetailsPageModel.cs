@@ -13,7 +13,7 @@ namespace MrRondon.Pages.Company
     {
         public CompanyDetailsPageModel(Entities.Company model)
         {
-            Title = model.Name;
+            Title = "Detalhes da Empresa";
             Company = model;
             OpenMapCommand = new Command(OpenMap);
             ShareCommand = new Command(async () => await Share());

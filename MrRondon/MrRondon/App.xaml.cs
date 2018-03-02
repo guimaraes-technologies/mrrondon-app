@@ -20,7 +20,6 @@ namespace MrRondon
             DependencyService.Register<INavigationService, NavigationService>();
             Startup.Run();
             MainPage = new NavigationPage(new MasterPage());
-            //MainPage = new NavigationPage(new Pages.MainPage()) { Title = Constants.AppName };
         }
 
         private void RefactorColorsToHexString()

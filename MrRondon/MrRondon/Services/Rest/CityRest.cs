@@ -35,9 +35,25 @@ namespace MrRondon.Services.Rest
             }
         }
 
-        public async Task<IList<City>> GetAsync(int subCategoryId)
+        public async Task<IList<City>> GetHasCompanyAsync(int subCategoryId)
         {
-            var url = $"{UrlService}/city/subcategory/{subCategoryId}";
+            var url = $"{UrlService}/city/has/company/subcategory/{subCategoryId}";
+            var content = await GetObjectAsync<IList<City>>(url);
+
+            return content;
+        }
+
+        public async Task<IList<City>> GetHasEventAsync()
+        {
+            var url = $"{UrlService}/city/has/event";
+            var content = await GetObjectAsync<IList<City>>(url);
+
+            return content;
+        }
+
+        public async Task<IList<City>> GetHasHistoricalSightAsync()
+        {
+            var url = $"{UrlService}/city/has/historicalsight";
             var content = await GetObjectAsync<IList<City>>(url);
 
             return content;
@@ -53,7 +69,7 @@ namespace MrRondon.Services.Rest
 
         public async Task<City> GetCityAsync(string search)
         {
-            var url = $"{UrlService}/city/{search}";
+            var url = $"{UrlService}/city/first/{search}";
             var content = await GetObjectAsync<City>(url);
 
             return content;

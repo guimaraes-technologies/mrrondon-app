@@ -2,7 +2,6 @@
 using System.Windows.Input;
 using MrRondon.Auth;
 using MrRondon.Helpers;
-using MrRondon.Services;
 using Plugin.ExternalMaps;
 using Plugin.ExternalMaps.Abstractions;
 using Plugin.Share;
@@ -15,7 +14,7 @@ namespace MrRondon.Pages.HistoricalSight
     {
         public HistoricalSightDetailsPageModel(Entities.HistoricalSight model)
         {
-            Title = "Patrimônio Histórico";
+            Title = "Detalhes do Patrimônio Histórico";
             HistoricalSight = model;
             OpenMapCommand = new Command(OpenMap);
             MakePhoneCallCommand = new Command(ExecuteMakeCall);

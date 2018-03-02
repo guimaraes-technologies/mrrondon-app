@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MrRondon.Pages.Account.InformationPage"
+             Title="{Binding Title}"
+             Style="{StaticResource PageStyle}"
+             BackgroundColor="{StaticResource PageBackgroundColor}">
+
+    <StackLayout>
+        <Label Text="Nome" Style="{StaticResource PrimaryLabel}"></Label>
+        <Label Text="{Binding User.FullName}" Style="{StaticResource SecondaryLabel}"></Label>
+
+        <Label Text="CPF" Style="{StaticResource PrimaryLabel}"></Label>
+        <Label Text="{Binding User.Cpf}" Style="{StaticResource SecondaryLabel}"></Label>
+
+        <Label Text="Contatos" Style="{StaticResource PrimaryLabel}"></Label>
+
+        <ListView ItemsSource="{Binding User.Contacts}"
+                  SeparatorVisibility="None"
+                  HasUnevenRows="False"
+                  HorizontalOptions="FillAndExpand"
+                  VerticalOptions="FillAndExpand"
+                  IsPullToRefreshEnabled="False">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <Label Text="{Binding ContactDetail}" Style="{StaticResource SecondaryLabel}"></Label>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Footer>
+                <Label Text="Nenhum informado" IsVisible="{Binding NotHasContacts}" TextColor="{StaticResource SecondaryLabelColor}"></Label>
+            </ListView.Footer>
+        </ListView>
+    </StackLayout>
+</ContentPage>

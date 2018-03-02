@@ -11,7 +11,7 @@ namespace MrRondon.Helpers
             try
             {
                 AccountManager.SetActualCity();
-                AccountManager.GetCities();
+                AccountManager.GetAsync();
                 AccountManager.Signin();
 
                 return true;

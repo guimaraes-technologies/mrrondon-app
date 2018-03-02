@@ -15,8 +15,8 @@ namespace MrRondon.Pages.Company
 	    protected override void OnAppearing()
 	    {
 	        base.OnAppearing();
+	        _pageModel.LoadItemsCommand.Execute(null);
             _pageModel.LoadCitiesCommand.Execute(_pageModel.CategoryId);
-	        //_pageModel.LoadItemsCommand.Execute(null);
         }
 	}
 }
