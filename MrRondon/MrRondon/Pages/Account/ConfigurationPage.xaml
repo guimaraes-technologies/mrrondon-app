@@ -6,11 +6,8 @@
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+    <StackLayout>
+        <Label Text="Escolha abaixo até quantos metros você quer vizualizar lugares no mapa" Style="{StaticResource PrimaryLabel}" HorizontalOptions="Start" />
+        <Slider Value="{Binding PlaceUntil}" HorizontalOptions="FillAndExpand" />
+    </StackLayout>
 </ContentPage>
