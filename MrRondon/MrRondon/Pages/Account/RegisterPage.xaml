@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
+             x:Class="MrRondon.Pages.Account.RegisterPage">
+
+
+    <ScrollView>
+        <StackLayout Padding="10">
+            <Label Text="Nome" TextColor="Black" FontAttributes="Bold"></Label>
+            <Entry Text="{Binding User.FirstName}" TextColor="Black" BackgroundColor="White"></Entry>
+
+            <Label Text="Sobrenome" TextColor="Black" FontAttributes="Bold"></Label>
+            <Entry Text="{Binding User.LastName}" TextColor="Black" BackgroundColor="White"></Entry>
+
+            <Label Text="CPF" TextColor="Black" FontAttributes="Bold"></Label>
+            <Entry TextColor="Black" Text="{Binding User.Cpf}" Placeholder="123.456.789-00" Keyboard="Numeric">
+                <Entry.Behaviors>
+                    <behaviors:CpfFormatterBehavior />
+                </Entry.Behaviors>
+            </Entry>
+
+            <Label Text="Telefone" TextColor="Black" FontAttributes="Bold"></Label>
+            <Entry Text="{Binding User.Telephone}" TextColor="Black" BackgroundColor="White" Keyboard="Telephone">
+                <Entry.Behaviors>
+                    <behaviors:PhoneNumberFormatterBehavior Type="Telephone" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <Label Text="Celular" TextColor="Black" FontAttributes="Bold"></Label>
+            <Entry Text="{Binding User.CellPhone}" TextColor="Black" BackgroundColor="White" Keyboard="Telephone">
+                <Entry.Behaviors>
+                    <behaviors:PhoneNumberFormatterBehavior Type="Cellphone" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <Label Text="Email" TextColor="Black" FontAttributes="Bold"></Label>
+            <Entry Text="{Binding User.Email}" TextColor="Black" BackgroundColor="White" Keyboard="Email"></Entry>
+
+            <Label Text="Senha" TextColor="Black" FontAttributes="Bold"></Label>
+            <Entry IsPassword="true" Text="{Binding Password}" TextColor="Black" BackgroundColor="White"></Entry>
+
+            <Label Text="Confirmação de senha" TextColor="Black" FontAttributes="Bold"></Label>
+            <Entry IsPassword="true" Text="{Binding ConfirmPassword}" TextColor="Black" BackgroundColor="White"></Entry>
+
+            <Button Text="Registrar" Command="{Binding RegisterCommand}" TextColor="{StaticResource SecondaryColor}" HorizontalOptions="Center" BackgroundColor="{StaticResource PrimaryColor}"></Button>
+            <ActivityIndicator IsVisible="True" IsRunning="{Binding IsLoading}"></ActivityIndicator>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>

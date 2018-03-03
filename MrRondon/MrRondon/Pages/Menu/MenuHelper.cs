@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using MrRondon.Auth;
 using MrRondon.Pages.Account;
 using MrRondon.Pages.Event;
 using MrRondon.ViewModels;
@@ -28,14 +28,13 @@ namespace MrRondon.Pages.Menu
             }
         }
 
-        public static async Task<IEnumerable<MenuItemVm>> Build()
+        public static async Task<IEnumerable<MenuItemVm>> Build(AccountManager account)
         {
             var items = new List<MenuItemVm>
             {
                 new MenuItemVm("Início", "home", MenuType.Home)
             };
 
-            var account = Auth.Account.Current;
             if (account.IsValid)
             {
                 items.Add(new MenuItemVm("Eventos Favoritos", "favorite", MenuType.FavoriteEvent));

@@ -17,10 +17,21 @@ namespace MrRondon.Pages
             BindingContext = _pageModel = new MenuPageModel();
         }
 
+        public MasterPage(Page detail)
+        {
+            InitializeComponent();
+            BindingContext = _pageModel = new MenuPageModel();
+            Detail = detail;
+            IsPresented = false;
+        }
+
         protected override void OnAppearing()
         {
             base.OnAppearing();
             _pageModel.LoadItemsCommand.Execute(null);
+            
+            //menuTitle.Text = $"Bem Vindo(a), {_pageModel.MenuTitle}";
+            //signinSignout.Text = _pageModel.SiginSignoutText;
         }
 
         private void OnMenuItemSelected(object sender, SelectedItemChangedEventArgs e)

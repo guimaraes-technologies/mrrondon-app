@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using MrRondon.Entities;
 using MrRondon.Helpers;
+using MrRondon.Pages.Account;
 using MrRondon.ViewModels;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
@@ -39,7 +40,7 @@ namespace MrRondon.Services.Rest
             throw new Exception("Não foi possível concluir a requisição");
         }
 
-        public async Task<UserTokenVm> Register(RegisterVm register)
+        public async Task<UserTokenVm> Register(RegisterPageModel register)
         {
             if (!CrossConnectivity.Current.IsConnected) throw new Exception("Você está sem conexão com a internet");
 

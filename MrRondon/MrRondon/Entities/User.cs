@@ -11,6 +11,7 @@ namespace MrRondon.Entities
         public string LastName { get; set; }
         public string CellPhone { get; set; }
         public string Telephone { get; set; }
+        public string Email { get; set; }
         public DateTime CreateOn { get; set; }
         public IList<Contact> Contacts { get; set; }
 

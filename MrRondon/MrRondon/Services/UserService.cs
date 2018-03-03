@@ -50,11 +50,11 @@ namespace MrRondon.Services
             return items.OrderBy(o => o.Name).ToList();
         }
 
-        public async Task<User> Register(RegisterVm register)
+        public async Task<User> Register(RegisterPageModel register)
         {
             if (string.IsNullOrWhiteSpace(register.FirstName)) throw new Exception("Campo Nome é obrigatório");
             if (string.IsNullOrWhiteSpace(register.LastName)) throw new Exception("Campo Sobrenome é obrigatório");
-            if (string.IsNullOrWhiteSpace(register.Telephone)) throw new Exception("Campo Telefone é obrigatório");
+            if (string.IsNullOrWhiteSpace(register.Telephone) || string.IsNullOrWhiteSpace(register.Telephone)) throw new Exception("Informe pelo menos um número de contato");
             if (string.IsNullOrWhiteSpace(register.Cpf)) throw new Exception("Campo CPF é obrigatório");
             if (string.IsNullOrWhiteSpace(register.Email)) throw new Exception("Campo Email é obrigatório");
             if (!EmailHelper.IsEmail(register.Email)) throw new Exception("Email inválido");

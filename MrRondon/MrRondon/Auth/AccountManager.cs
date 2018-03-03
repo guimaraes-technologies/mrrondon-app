@@ -30,6 +30,8 @@ namespace MrRondon.Auth
             if (userToken == null)
             {
                 IsLoggedIn = false;
+                IsTokenExpired = true;
+                IsValid = IsLoggedIn && !IsTokenExpired;
                 return;
             }
             User = userToken.User;

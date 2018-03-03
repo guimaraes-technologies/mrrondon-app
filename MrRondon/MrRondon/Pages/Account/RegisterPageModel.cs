@@ -1,9 +1,17 @@
-﻿using MrRondon.Pages;
+﻿using System.Windows.Input;
+using MrRondon.Services;
+using Xamarin.Forms;
 
-namespace MrRondon.ViewModels
+namespace MrRondon.Pages.Account
 {
-    public class RegisterVm : BasePageModel
+    public class RegisterPageModel : BasePageModel
     {
+        public RegisterPageModel()
+        {
+            RegisterCommand = new Command(ExecuteRegister);
+            Title = "Registrar";
+        }
+
         private string _firstName;
         public string FirstName
         {
@@ -44,7 +52,7 @@ namespace MrRondon.ViewModels
         {
             get => _confirmPassword;
             set => SetProperty(ref _confirmPassword, value);
-        } 
+        }
 
         private string _cellphone;
         public string CellPhone
@@ -58,6 +66,13 @@ namespace MrRondon.ViewModels
         {
             get => _telephone;
             set => SetProperty(ref _telephone, value);
+        }
+        public ICommand RegisterCommand { get; set; }
+
+        private async void ExecuteRegister()
+        {
+            var service = new UserService();
+            await service.Register(this);
         }
     }
 }

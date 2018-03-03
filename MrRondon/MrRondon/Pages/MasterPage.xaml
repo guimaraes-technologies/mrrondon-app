@@ -10,7 +10,7 @@
             <ContentPage.Content>
                 <StackLayout>
                     <StackLayout BackgroundColor="#00ACC1" HeightRequest="80">
-                        <Label Text="{Binding MenuTitle, StringFormat='Bem Vindo(a), {0}'}"
+                        <Label x:Name="menuTitle" Text="{Binding MenuTitle, StringFormat='Bem Vindo(a), {0}'}"
                    FontSize="Small"
                    VerticalOptions="CenterAndExpand"
                    TextColor="White"
@@ -50,7 +50,7 @@
 
                     <StackLayout BackgroundColor="#EAF3FA">
                         <BoxView Margin="0" HeightRequest="1" Color="Gray"></BoxView>
-                        <Label Margin="10,0,0,0" Text="{Binding SiginSignoutText}" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center">
+                        <Label x:Name="signinSignout" Margin="10,0,0,0" Text="Entrar" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SiginSignoutCommand}" NumberOfTapsRequired="1" />
                             </Label.GestureRecognizers>

@@ -25,13 +25,7 @@ namespace MrRondon.Pages.Menu
         public string SiginSignoutText
         {
             get => _siginSignoutText;
-            set
-            {
-                if (_siginSignoutText == value) return;
-
-                _siginSignoutText = value;
-                SetProperty(ref _siginSignoutText, value);
-            }
+            set => SetProperty(ref _siginSignoutText, value);
         }
 
         public ICommand LoadItemsCommand { get; set; }
@@ -40,7 +34,6 @@ namespace MrRondon.Pages.Menu
 
         public MenuPageModel()
         {
-            Title = "Bem vindo(a), Oziel Guimarães";
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
             AboutCommand = new Command(async () => await ExecuteAbout());
             SiginSignoutCommand = new Command(async () => await ExecuteSigninSignout());
@@ -51,15 +44,27 @@ namespace MrRondon.Pages.Menu
             try
             {
                 if (IsLoading) return;
-
                 IsLoading = true;
-                var items = await MenuHelper.Build();
+
+                var account = Auth.Account.Current;
+                var items = await MenuHelper.Build(account);
+                if (account.IsValid)
+                {
+                    SiginSignoutText = "Sair";
+                    MenuTitle = account.User.FullName;
+                }
+                else
+                {
+                    SiginSignoutText = "Entrar";
+                    MenuTitle = "Visitante";
+                }
+
                 Items = new ObservableRangeCollection<MenuItemVm>(items);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title)));
             }
             finally
             {
@@ -75,17 +80,24 @@ namespace MrRondon.Pages.Menu
 
         private async Task ExecuteSigninSignout()
         {
-            var service = new UserService();
-            var account = Auth.Account.Current;
-            if (account.IsValid)
+            try
             {
+                var service = new UserService();
+                var account = Auth.Account.Current;
+                if (account.IsValid)
+                {
+                    await NavigationService.PushAsync(new MasterPage());
+                    return;
+                }
+
                 service.Logout();
-
-                await NavigationService.PushAsync(new MasterPage());
-                return;
+                await NavigationService.PushModalAsync(new LoginPage());
             }
-
-            await NavigationService.PushModalAsync(new LoginPage());
+            finally
+            {
+                IsLoading = false;
+                IsPresented = false;
+            }
         }
     }
 }

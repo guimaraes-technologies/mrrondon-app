@@ -53,13 +53,15 @@ namespace MrRondon.Pages.Account
                 {
                     NavigationService.RemovePage(new LoginPage());
                     await NavigationService.PopModalAsync();
+                    IsPresented = false;
                     if (CallBackPage != null)
                     {
                         await NavigationService.PushAsync(CallBackPage);
                     }
                     else
                     {
-                        await NavigationService.PushAsync(new MasterPage());
+                        //Application.Current.MainPage = new MasterPage();
+                        await NavigationService.PushAsync(new MasterPage(new MainPage()));
                     }
                 }
                 else await MessageService.ShowAsync("Autenticação", "Usuário ou Senha incorreta");
@@ -84,9 +86,10 @@ namespace MrRondon.Pages.Account
             }
         }
 
-        private void ExecuteRegister()
+        private async void ExecuteRegister()
         {
-            NavigationService.NavigateToUrl("http://mrrondon.ozielguimaraes.net");
+            await NavigationService.PopModalAsync();
+            await NavigationService.PushAsync(new MasterPage(new RegisterPage()));
         }
     }
 }

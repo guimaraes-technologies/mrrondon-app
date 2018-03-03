@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using MrRondon.Helpers;
 using MrRondon.Pages;
+using MrRondon.Pages.Account;
 using MrRondon.Services;
 using MrRondon.Services.Interfaces;
 using Xamarin.Forms;
@@ -18,7 +19,14 @@ namespace MrRondon
 
             DependencyService.Register<IMessageService, MessageService>();
             DependencyService.Register<INavigationService, NavigationService>();
-            Startup.Run();
+            //Startup.Run();
+
+            //MainPage = new LoginPage(isAuthorized => {
+            //    if (isAuthorized)
+            //    {
+            //        MainPage = new MasterPage();
+            //    }
+            //});
             MainPage = new NavigationPage(new MasterPage());
         }
 
@@ -32,7 +40,7 @@ namespace MrRondon
                 if (resource is Color color) Resources.Add($"{key}HexString", color.ToHexString());
             }
         }
-        
+
         protected override void OnStart()
         {
             // Handle when your app starts
