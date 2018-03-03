@@ -8,6 +8,8 @@
 
     <StackLayout>
         <Label Text="Escolha abaixo até quantos metros você quer vizualizar lugares no mapa" Style="{StaticResource PrimaryLabel}" HorizontalOptions="Start" />
-        <Slider Value="{Binding PlaceUntil}" HorizontalOptions="FillAndExpand" />
+
+        <Label Text="{Binding PlaceDescription}" Style="{StaticResource PrimaryLabel}" HorizontalOptions="CenterAndExpand" />
+        <Slider Value="{Binding PlaceUntil}" Minimum="0.10" Maximum="100" ValueChanged="PlaceUntil_OnValueChanged" />
     </StackLayout>
 </ContentPage>

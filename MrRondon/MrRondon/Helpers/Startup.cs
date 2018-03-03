@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using MrRondon.Auth;
 
 namespace MrRondon.Helpers
@@ -12,7 +11,6 @@ namespace MrRondon.Helpers
             {
                 AccountManager.SetActualCity();
                 AccountManager.GetAsync();
-                AccountManager.Signin();
 
                 return true;
             }

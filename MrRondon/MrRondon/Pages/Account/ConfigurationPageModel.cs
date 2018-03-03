@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using MrRondon.Auth;
 using MrRondon.Helpers;
 using Xamarin.Forms;
@@ -12,21 +13,28 @@ namespace MrRondon.Pages.Account
             Title = "Configurações";
             var until = ApplicationManager<object>.Find("PlaceUntil");
 
-            PlaceUntil = until == null ? AccountManager.DefaultSetting.PlaceUntil : int.Parse(until.ToString());
-            UpdateCommand = new Command<int>(ExecuteUpdate);
+            var value = until == null ? AccountManager.DefaultSetting.PlaceUntil : double.Parse(until.ToString());
+            SetValue(value);
         }
-        public ICommand UpdateCommand { get; set; }
 
-        private int _placeUntil;
-        public int PlaceUntil
+        private string _placeDescription;
+        public string PlaceDescription
+        {
+            get => _placeDescription;
+            set => SetProperty(ref _placeDescription, value);
+        }
+
+        private double _placeUntil;
+        public double PlaceUntil
         {
             get => _placeUntil;
             set => SetProperty(ref _placeUntil, value);
         }
 
-        private void ExecuteUpdate(int until)
+        public void SetValue(double until)
         {
-            PlaceUntil = until;
+            PlaceUntil = Math.Round(until);
+            PlaceDescription = $"{PlaceUntil} metros";
             ApplicationManager<object>.AddOrUpdate("PlaceUntil", until);
         }
     }

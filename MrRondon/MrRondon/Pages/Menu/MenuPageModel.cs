@@ -76,11 +76,12 @@ namespace MrRondon.Pages.Menu
         private async Task ExecuteSigninSignout()
         {
             var service = new UserService();
-            if (Auth.Account.Current.IsLoggedIn)
+            var account = Auth.Account.Current;
+            if (account.IsValid)
             {
                 service.Logout();
 
-                await NavigationService.PushAsync(new MainPage());
+                await NavigationService.PushAsync(new MasterPage());
                 return;
             }
 

@@ -17,7 +17,7 @@ namespace MrRondon.Services
         {
             try
             {
-                IsLoginValid(login);
+                ValidateLogin(login);
                 var tokenService = new TokenRest();
                 var token = await tokenService.Login(login);
                 if (token == null) throw new Exception("Usuário ou Senha incorreta");
@@ -73,18 +73,10 @@ namespace MrRondon.Services
             return userToken.User;
         }
 
-        public bool IsLoginValid(LoginPageModel login)
+        public void ValidateLogin(LoginPageModel login)
         {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(login.UserName)) throw new Exception("- O Login é obrigatório");
-                if (string.IsNullOrWhiteSpace(login.Password)) throw new Exception("- A Senha é obrigatória");
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            if (string.IsNullOrWhiteSpace(login.UserName)) throw new Exception("- O Login é obrigatório");
+            if (string.IsNullOrWhiteSpace(login.Password)) throw new Exception("- A Senha é obrigatória");
         }
 
         public void Login(UserTokenVm userToken)

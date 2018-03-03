@@ -22,6 +22,7 @@ namespace MrRondon.Auth
         public TokenVm Token { get; private set; }
         public bool IsLoggedIn { get; private set; }
         public bool IsTokenExpired { get; private set; }
+        public bool IsValid { get; private set; }
 
         private void SetUserToken()
         {
@@ -35,6 +36,7 @@ namespace MrRondon.Auth
             Token = userToken.Token;
             IsLoggedIn = true;
             IsTokenExpired = Token.Expires > DateTimeOffset.Now;
+            IsValid = IsLoggedIn && !IsTokenExpired;
         }
 
         public static async Task<IList<City>> GetAsync()
@@ -94,20 +96,7 @@ namespace MrRondon.Auth
             public static string TelephoneSetur = "6932161044";
             public static double Latitude = -8.7592547;
             public static double Longitude = -63.8769227;
-            public static int PlaceUntil = 2000;
-        }
-
-        public static async Task<bool> Signin()
-        {
-            var service = new UserService();//todo do login by telephone number
-            var isAuthenticated = await service.Authenticate(new LoginPageModel
-            {
-                UserName = "111.111.111-11",
-                Password = "111111"
-            });
-            if (isAuthenticated) throw new Exception("Usuário ou senha incorreta");
-
-            return true;
+            public static double PlaceUntil = 2000;
         }
 
         public static async Task<City> SetActualCity()
