@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
              x:Class="MrRondon.Pages.Account.LoginPage"
              BackgroundImage="login_background"
              Title="{Binding Title}">
@@ -16,26 +17,15 @@
                     </Label.TextColor>
                 </Label>
 
-                <Label Text="Login"></Label>
-                <Entry TextColor="Black" Text="{Binding UserName}" Keyboard="Email" Placeholder="email@domain.com">
-                    <Entry.PlaceholderColor>
-                        <OnPlatform x:TypeArguments="Color" Android="#757575" iOS="#757575"></OnPlatform>
-                    </Entry.PlaceholderColor>
-                    <Entry.BackgroundColor>
-                        <OnPlatform x:TypeArguments="Color" Android="#FAFAFA" iOS="#FAFAFA"></OnPlatform>
-                    </Entry.BackgroundColor>
+                <Label TextColor="Black" Text="Login"></Label>
+                <Entry TextColor="Black" Text="{Binding UserName}" Placeholder="123.456.789-00" Keyboard="Numeric">
+                    <Entry.Behaviors>
+                        <behaviors:CpfFormatterBehavior />
+                    </Entry.Behaviors>
                 </Entry>
 
-                <Label Text="Senha"></Label>
-                <Entry TextColor="Black" IsPassword="true" Text="{Binding Password}" Placeholder="senha">
-                    <Entry.PlaceholderColor>
-                        <OnPlatform x:TypeArguments="Color" Android="#757575" iOS="#757575"></OnPlatform>
-                    </Entry.PlaceholderColor>
-                    <Entry.BackgroundColor>
-                        <OnPlatform x:TypeArguments="Color" Android="#FAFAFA" iOS="#FAFAFA"></OnPlatform>
-                    </Entry.BackgroundColor>
-                </Entry>
-
+                <Label TextColor="Black" Text="Senha"></Label>
+                <Entry TextColor="Black" IsPassword="true" Text="{Binding Password}" Placeholder="senha"></Entry>
                 <Button Text="Entrar" TextColor="White" BackgroundColor="#CC0066CC" Command="{Binding LoginCommand}"></Button>
             </StackLayout>
         </Frame>

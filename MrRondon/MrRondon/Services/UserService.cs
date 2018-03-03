@@ -15,27 +15,23 @@ namespace MrRondon.Services
     {
         public async Task<bool> Authenticate(LoginPageModel login)
         {
-            try
+            ValidateLogin(login);
+            var tokenService = new TokenRest();
+            var token = await tokenService.Login(login);
+            if (token == null) throw new Exception("Usuário ou Senha incorreta");
+
+            var userService = new UserRest();
+            var userVm = await userService.GetInformationAsync(token.AccessToken);
+
+            if (userVm == null) throw new Exception("Usuário ou Senha incorreta");
+
+            var userToken = new UserTokenVm
             {
-                ValidateLogin(login);
-                var tokenService = new TokenRest();
-                var token = await tokenService.Login(login);
-                if (token == null) throw new Exception("Usuário ou Senha incorreta");
-
-                var userService = new UserRest();
-                var userVm = await userService.GetInformationAsync(token.AccessToken);
-
-                if (userVm == null) throw new Exception("Usuário ou Senha incorreta");
-
-                var userToken = new UserTokenVm
-                {
-                    Token = token,
-                    User = userVm
-                };
-                Login(userToken);
-                return true;
-            }
-            catch { return false; }
+                Token = token,
+                User = userVm
+            };
+            Login(userToken);
+            return true;
         }
 
         public async Task<User> GetInformationAsync()

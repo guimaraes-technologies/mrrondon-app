@@ -51,15 +51,15 @@ namespace MrRondon.Pages.Account
                 var isAuthenticated = await userService.Authenticate(this);
                 if (isAuthenticated)
                 {
+                    NavigationService.RemovePage(new LoginPage());
+                    await NavigationService.PopModalAsync();
                     if (CallBackPage != null)
                     {
-                        NavigationService.RemovePage(new LoginPage());
-                        await NavigationService.PopModalAsync();
                         await NavigationService.PushAsync(CallBackPage);
                     }
                     else
                     {
-                        await NavigationService.PushAsync(new MainPage { Title = Constants.AppName });
+                        await NavigationService.PushModalAsync(new MasterPage());
                     }
                 }
                 else await MessageService.ShowAsync("Autenticação", "Usuário ou Senha incorreta");
