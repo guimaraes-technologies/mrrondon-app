@@ -3,6 +3,7 @@
                   xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
                   xmlns:views="clr-namespace:MrRondon.Pages"
                   x:Class="MrRondon.Pages.MasterPage"
+                  IsPresented="{Binding IsPresented}"
                   Title="{Binding Title}">
 
     <MasterDetailPage.Master>
@@ -50,7 +51,7 @@
 
                     <StackLayout BackgroundColor="#EAF3FA">
                         <BoxView Margin="0" HeightRequest="1" Color="Gray"></BoxView>
-                        <Label x:Name="signinSignout" Margin="10,0,0,0" Text="Entrar" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center">
+                        <Label x:Name="signinSignout" Margin="10,0,0,0" Text="{Binding SiginSignoutText}" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Command="{Binding SiginSignoutCommand}" NumberOfTapsRequired="1" />
                             </Label.GestureRecognizers>

@@ -33,6 +33,11 @@ namespace MrRondon.Services
             await Application.Current.MainPage.Navigation.PopAsync();
         }
 
+        public async Task PopToRootAsync()
+        {
+            await Application.Current.MainPage.Navigation.PopToRootAsync();
+        }
+
         public async Task PopModalAsync()
         {
             await Application.Current.MainPage.Navigation.PopModalAsync();

@@ -12,7 +12,8 @@ namespace MrRondon.Services.Interfaces
         Task PushModalAsync(Page page);
         Task PushAsync(Page page);
 	    Task PopAsync();
-	    Task PopModalAsync();
+	    Task PopToRootAsync();
+        Task PopModalAsync();
 		void RemovePage(Type type);
 	    void RemovePage(Page page);
 		IList<Page> GetNavigationStack();

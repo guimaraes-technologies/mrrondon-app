@@ -61,7 +61,7 @@ namespace MrRondon.Pages.Account
                     else
                     {
                         //Application.Current.MainPage = new MasterPage();
-                        await NavigationService.PushAsync(new MasterPage(new MainPage()));
+                        await NavigationService.PopToRootAsync();
                     }
                 }
                 else await MessageService.ShowAsync("Autenticação", "Usuário ou Senha incorreta");

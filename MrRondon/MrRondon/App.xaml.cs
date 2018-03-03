@@ -19,7 +19,8 @@ namespace MrRondon
 
             DependencyService.Register<IMessageService, MessageService>();
             DependencyService.Register<INavigationService, NavigationService>();
-            //Startup.Run();
+            Startup.Run();
+            MainPage = new NavigationPage(new MasterPage());
 
             //MainPage = new LoginPage(isAuthorized => {
             //    if (isAuthorized)
@@ -27,7 +28,6 @@ namespace MrRondon
             //        MainPage = new MasterPage();
             //    }
             //});
-            MainPage = new NavigationPage(new MasterPage());
         }
 
         private void RefactorColorsToHexString()

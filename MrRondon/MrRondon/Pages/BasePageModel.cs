@@ -30,11 +30,10 @@ namespace MrRondon.Pages
             get => _menuTitle;
             set
             {
-                if (_menuTitle == value)
-                    _menuTitle = value;
+                if (_menuTitle == value) return;
                 SetProperty(ref _menuTitle, value);
                 var account = Auth.Account.Current;
-                if (account.IsLoggedIn) MenuTitle = account.User.Cpf;
+                if (account.IsValid) MenuTitle = account.User.FullName;
             }
         }
 
