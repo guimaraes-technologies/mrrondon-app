@@ -18,12 +18,11 @@ namespace MrRondon.Pages.Menu
             {
                 case MenuType.Home: return new MainPage();
                 case MenuType.AccountInformation:
-                    if (!account.IsTokenExpired && account.IsLoggedIn)
-                        return new InformationPage(new InformationPageModel(account.User));
+                    if (account.IsValid) return new InformationPage(new InformationPageModel(account.User));
                     return new LoginPage();
                 case MenuType.Configurations: return new ConfigurationPage();
                 case MenuType.FavoriteEvent:
-                    if (!account.IsTokenExpired && account.IsLoggedIn) return new FavoriteEventsPage();
+                    if (account.IsValid) return new FavoriteEventsPage();
                     return new LoginPage();
                 default: return new MainPage();
             }
@@ -37,7 +36,7 @@ namespace MrRondon.Pages.Menu
             };
 
             var account = Auth.Account.Current;
-            if (account.IsLoggedIn && !account.IsTokenExpired)
+            if (account.IsValid)
             {
                 items.Add(new MenuItemVm("Eventos Favoritos", "favorite", MenuType.FavoriteEvent));
                 items.Add(new MenuItemVm("Minha Conta", "user", MenuType.AccountInformation));

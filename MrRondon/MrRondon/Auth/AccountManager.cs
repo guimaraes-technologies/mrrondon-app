@@ -35,7 +35,7 @@ namespace MrRondon.Auth
             User = userToken.User;
             Token = userToken.Token;
             IsLoggedIn = true;
-            IsTokenExpired = Token.Expires > DateTimeOffset.Now;
+            IsTokenExpired = Token.Expires < DateTimeOffset.Now;
             IsValid = IsLoggedIn && !IsTokenExpired;
         }
 

@@ -59,7 +59,7 @@ namespace MrRondon.Pages.Account
                     }
                     else
                     {
-                        await NavigationService.PushModalAsync(new MasterPage());
+                        await NavigationService.PushAsync(new MasterPage());
                     }
                 }
                 else await MessageService.ShowAsync("Autenticação", "Usuário ou Senha incorreta");
