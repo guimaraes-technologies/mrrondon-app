@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MrRondon.Entities;
+using MrRondon.Exceptions;
 using MrRondon.Helpers;
 using MrRondon.Services;
 using Xamarin.Forms;
@@ -55,10 +55,15 @@ namespace MrRondon.Pages.Map
                     Pins.Add(pin);
                 }
             }
+            catch (CouldNotGetLocationException ex)
+            {
+                Debug.WriteLine(ex);
+                await MessageService.ShowAsync(ex.Message);
+            }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                await MessageService.ShowAsync(ex.Message);
             }
             finally
             {

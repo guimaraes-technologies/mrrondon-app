@@ -5,6 +5,7 @@ using System.Linq;
 using System.Windows.Input;
 using MrRondon.Extensions;
 using MrRondon.Helpers;
+using Plugin.Messaging;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages
@@ -48,8 +49,8 @@ namespace MrRondon.Pages
             set => SetProperty(ref _telephone, value);
         }
 
-        private Subject _subject;
-        public Subject Subject
+        private Subject? _subject;
+        public Subject? Subject
         {
             get => _subject;
             set => SetProperty(ref _subject, value);
@@ -69,17 +70,38 @@ namespace MrRondon.Pages
             set => SetProperty(ref _message, value);
         }
 
-        private void ExecuteSendMessage()
+        private async void ExecuteSendMessage()
         {
             try
             {
+                Validate();
+                var builder = new EmailMessageBuilder()
+                    .To(Auth.AccountManager.DefaultSetting.EmailSetur)
+                    .Subject(EnumExtensions.GetEnumAttribute(Subject).Description)
+                    .BodyAsHtml(Message).Build();
 
+                var emailMessenger = CrossMessaging.Current.EmailMessenger;
+                if (emailMessenger.CanSendEmail) emailMessenger.SendEmail(builder);
+                await MessageService.ToastAsync("Mensagem enviada com sucesso.");
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                throw;
+                await MessageService.ShowAsync("Erro", ex.Message);
             }
+        }
+
+        public bool Validate()
+        {
+            if (string.IsNullOrWhiteSpace(Name)) throw new Exception("O campo Nome é obrigatório.");
+            if (string.IsNullOrWhiteSpace(Email)) throw new Exception("O campo Email é obrigatório.");
+
+            if (string.IsNullOrWhiteSpace(Cellphone) && string.IsNullOrWhiteSpace(Telephone))
+                throw new Exception("É obrigatório informar pelo menos um número para contato");
+
+            if (Subject == null) throw new Exception("O campo Assunto é obrigatório.");
+
+            return true;
         }
     }
 

@@ -37,11 +37,11 @@
         <Label Text="Assunto" TextColor="Black" FontAttributes="Bold"></Label>
         <extensions:BindablePicker 
             Margin="3"
-            BackgroundColor="LightGray"                           
             PlaceholderColor="#c3c3c3"
             TextColor="Black"
             PickerBackgroundColor="White"
             DisplayMemberPath="Description"
+            SelectedValue="{Binding Subject}"
             SelectedValuePath="KeyValue"
             ItemsSource="{Binding Subjects}"
             HorizontalOptions="Fill" />
@@ -49,6 +49,9 @@
         <Label VerticalTextAlignment="Center" Margin="10" Text="{Binding SelSubjects}"></Label>
 
         <Label Text="Mensagem" TextColor="Black" FontAttributes="Bold"></Label>
-        <Editor Text="{Binding Message}"  TextColor="Black" BackgroundColor="White"></Editor>
+        <Editor Text="{Binding Message}" TextColor="Black" BackgroundColor="White"></Editor>
+
+
+        <Button Text="ENVIAR" TextColor="White" BackgroundColor="#FB007351" Command="{Binding SendMessageCommand}"></Button>
     </StackLayout>
 </ContentPage>

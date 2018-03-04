@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MrRondon.Helpers;
 using MrRondon.Services;
 using Xamarin.Forms;
 

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MrRondon.Auth;
+using MrRondon.Exceptions;
 using MrRondon.Extensions;
 using Plugin.Geolocator;
 using Xamarin.Forms.Maps;
@@ -33,6 +34,7 @@ namespace MrRondon.Helpers
             {
                 Console.Write(ex.Message);
                 //Display error as we have timed out or can't get location.
+                throw new CouldNotGetLocationException();
             }
 
             return position ?? new Position(AccountManager.DefaultSetting.Latitude, AccountManager.DefaultSetting.Longitude);
