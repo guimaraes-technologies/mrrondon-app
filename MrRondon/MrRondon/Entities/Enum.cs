@@ -8,6 +8,7 @@ namespace MrRondon.Entities
         Telephone = 1,
         [EnumValueData(Description = "Celular")]
         Cellphone = 2,
+        [EnumValueData(Description = "Email")]
         Email = 3
     }
 }

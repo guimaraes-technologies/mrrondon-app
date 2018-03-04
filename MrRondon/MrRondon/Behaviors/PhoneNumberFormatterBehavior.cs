@@ -28,7 +28,7 @@ namespace MrRondon.Behaviors
             entry.Text = Type == ContactType.Cellphone ? FormatCellphoneNumber(entry.Text) : FormatTelephoneNumber(entry.Text);
         }
 
-        private static string FormatTelephoneNumber(string input)
+        private static string FormatCellphoneNumber(string input)
         {
             var digitsRegex = new Regex(@"[^\d]");
             var digits = digitsRegex.Replace(input, "");
@@ -45,7 +45,7 @@ namespace MrRondon.Behaviors
             return $"({digits.Substring(0, 2)}) {digits.Substring(2, 5)}-{digits.Substring(7, 4)}";
         }
 
-        private static string FormatCellphoneNumber(string input)
+        private static string FormatTelephoneNumber(string input)
         {
             var digitsRegex = new Regex(@"[^\d]");
             var digits = digitsRegex.Replace(input, "");

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:extensions="clr-namespace:MrRondon.Extensions;assembly=MrRondon"
+             xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
+             x:Class="MrRondon.Pages.ContactUsPage"
+             Style="{StaticResource PageStyle}"
+             BackgroundColor="{StaticResource PageBackgroundColor}"
+             Title="{Binding Title}">
+
+    <StackLayout>
+        <Label Text="Nome" TextColor="Black" FontAttributes="Bold"></Label>
+        <Entry Text="{Binding Name}" TextColor="Black" BackgroundColor="White"></Entry>
+
+        <Label Text="Email" TextColor="Black" FontAttributes="Bold"></Label>
+        <Entry Text="{Binding Email}" TextColor="Black" BackgroundColor="White"></Entry>
+
+        <StackLayout Orientation="Horizontal">
+            <Label HorizontalOptions="FillAndExpand" Text="Telefone" TextColor="Black" FontAttributes="Bold"></Label>
+
+            <Label HorizontalOptions="FillAndExpand" Text="Celular" TextColor="Black" FontAttributes="Bold"></Label>
+        </StackLayout>
+        <StackLayout Orientation="Horizontal">
+            <Entry HorizontalOptions="FillAndExpand" Text="{Binding Telephone}" TextColor="Black" BackgroundColor="White" Keyboard="Telephone">
+                <Entry.Behaviors>
+                    <behaviors:PhoneNumberFormatterBehavior Type="Telephone" />
+                </Entry.Behaviors>
+            </Entry>
+
+            <Entry HorizontalOptions="FillAndExpand" Text="{Binding Cellphone}" TextColor="Black" BackgroundColor="White" Keyboard="Telephone">
+                <Entry.Behaviors>
+                    <behaviors:PhoneNumberFormatterBehavior Type="Cellphone" />
+                </Entry.Behaviors>
+            </Entry>
+        </StackLayout>
+
+        <Label Text="Assunto" TextColor="Black" FontAttributes="Bold"></Label>
+        <extensions:BindablePicker 
+            Margin="3"
+            BackgroundColor="LightGray"                           
+            PlaceholderColor="#c3c3c3"
+            TextColor="Black"
+            PickerBackgroundColor="White"
+            DisplayMemberPath="Description"
+            SelectedValuePath="KeyValue"
+            ItemsSource="{Binding Subjects}"
+            HorizontalOptions="Fill" />
+
+        <Label VerticalTextAlignment="Center" Margin="10" Text="{Binding SelSubjects}"></Label>
+
+        <Label Text="Mensagem" TextColor="Black" FontAttributes="Bold"></Label>
+        <Editor Text="{Binding Message}"  TextColor="Black" BackgroundColor="White"></Editor>
+    </StackLayout>
+</ContentPage>

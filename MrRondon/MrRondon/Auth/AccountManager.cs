@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using MrRondon.Entities;
 using MrRondon.Helpers;
-using MrRondon.Pages.Account;
 using MrRondon.Services;
 using MrRondon.Services.Rest;
 using MrRondon.ViewModels;
@@ -96,6 +95,7 @@ namespace MrRondon.Auth
         {
             public static City City = new City { CityId = 1, Name = "Porto Velho" };
             public static string TelephoneSetur = "6932161044";
+            public static string EmailSetur = "contato@ozielguimaraes.net";
             public static double Latitude = -8.7592547;
             public static double Longitude = -63.8769227;
             public static double PlaceUntil = 2000;

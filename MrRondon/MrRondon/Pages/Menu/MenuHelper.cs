@@ -24,6 +24,7 @@ namespace MrRondon.Pages.Menu
                 case MenuType.FavoriteEvent:
                     if (account.IsValid) return new FavoriteEventsPage();
                     return new LoginPage();
+                case MenuType.ContactUs: return new ContactUsPage();
                 default: return new MainPage();
             }
         }
@@ -42,6 +43,7 @@ namespace MrRondon.Pages.Menu
             }
 
             items.Add(new MenuItemVm("Configurações", "configuration", MenuType.Configurations));
+            items.Add(new MenuItemVm("Fale Conosco", "contact", MenuType.ContactUs));
             await Task.Delay(1);
 
             return items;
