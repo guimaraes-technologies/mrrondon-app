@@ -95,7 +95,7 @@ namespace MrRondon.Pages
         {
             if (string.IsNullOrWhiteSpace(Name)) throw new Exception("O campo Nome é obrigatório.");
             if (string.IsNullOrWhiteSpace(Email)) throw new Exception("O campo Email é obrigatório.");
-
+            if(!EmailHelper.IsEmail(Email)) throw new Exception("O Email informado é inválido.");
             if (string.IsNullOrWhiteSpace(Cellphone) && string.IsNullOrWhiteSpace(Telephone))
                 throw new Exception("É obrigatório informar pelo menos um número para contato");
 
@@ -107,13 +107,13 @@ namespace MrRondon.Pages
 
     public enum Subject
     {
-        [EnumValueData(Description = "Cadastro de empresa")]
+        [EnumValueData(Description = "Cadastro de empresa", KeyValue = "1")]
         NewCompany = 1,
-        [EnumValueData(Description = "Atualização de empresa")]
+        [EnumValueData(Description = "Atualização de empresa", KeyValue = "2")]
         UpdateCompany = 2,
-        [EnumValueData(Description = "Cadastro de evento")]
+        [EnumValueData(Description = "Cadastro de evento", KeyValue = "3")]
         NewEvent = 3,
-        [EnumValueData(Description = "Atualização de evento")]
+        [EnumValueData(Description = "Atualização de evento", KeyValue = "4")]
         UpdateEvent = 4
     }
 }

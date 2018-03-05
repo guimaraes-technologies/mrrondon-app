@@ -36,7 +36,6 @@
 
         <Label Text="Assunto" TextColor="Black" FontAttributes="Bold"></Label>
         <extensions:BindablePicker 
-            Margin="3"
             PlaceholderColor="#c3c3c3"
             TextColor="Black"
             PickerBackgroundColor="White"
