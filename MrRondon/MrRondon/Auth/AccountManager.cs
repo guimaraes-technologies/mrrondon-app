@@ -78,17 +78,14 @@ namespace MrRondon.Auth
 
         public static void SetLocalCities(IList<City> cities)
         {
-            var json = JsonConvert.SerializeObject(cities);
-            ApplicationManager<string>.AddOrUpdate("cities", json);
+            ApplicationManager<string>.AddOrUpdate("cities", cities);
         }
 
         public static IList<City> GetLocalCities()
         {
-            var localCities = ApplicationManager<string>.Find("cities");
-            if (string.IsNullOrWhiteSpace(localCities)) return null;
+            var localCities = ApplicationManager<IList<City>>.Find("cities");
 
-            var cities = JsonConvert.DeserializeObject<IList<City>>(localCities);
-            return cities;
+            return localCities;
         }
 
         public static class DefaultSetting

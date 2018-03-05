@@ -15,8 +15,7 @@ namespace MrRondon.Services
             var service = new CityRest();
             var items = await service.GetHasCompanyAsync(subCategoryId);
 
-            var json = JsonConvert.SerializeObject(items);
-            ApplicationManager<string>.AddOrUpdate("cities", json);
+            ApplicationManager<string>.AddOrUpdate("cities", items);
             return items.OrderBy(o => o.Name).ToList();
         }
 
@@ -25,8 +24,7 @@ namespace MrRondon.Services
             var service = new CityRest();
             var items = await service.GetHasEventAsync();
 
-            var json = JsonConvert.SerializeObject(items);
-            ApplicationManager<string>.AddOrUpdate("cities", json);
+            ApplicationManager<string>.AddOrUpdate("cities", items);
             return items.OrderBy(o => o.Name).ToList();
         }
 
@@ -35,8 +33,7 @@ namespace MrRondon.Services
             var service = new CityRest();
             var items = await service.GetHasHistoricalSightAsync();
 
-            var json = JsonConvert.SerializeObject(items);
-            ApplicationManager<string>.AddOrUpdate("cities", json);
+            ApplicationManager<string>.AddOrUpdate("cities", items);
             return items.OrderBy(o => o.Name).ToList();
         }
 

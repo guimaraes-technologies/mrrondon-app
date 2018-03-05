@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace MrRondon.Helpers
 {
@@ -9,15 +10,17 @@ namespace MrRondon.Helpers
             var properties = Xamarin.Forms.Application.Current.Properties;
             if (!Exist(key)) return null;
 
-            var value = properties[key];
-            var convertedValue = value as TObject;
-            return convertedValue;
+            var jsonObject = properties[key].ToString();
+            var value = JsonConvert.DeserializeObject<TObject>(jsonObject);
+
+            return value;
         }
 
         public static void AddOrUpdate(string key, object value)
         {
+            var jsonObject = JsonConvert.SerializeObject(value);
             if (Exist(key)) Remove(key);
-            Xamarin.Forms.Application.Current.Properties.Add(new KeyValuePair<string, object>(key, value));
+            Xamarin.Forms.Application.Current.Properties.Add(new KeyValuePair<string, object>(key, jsonObject));
         }
 
         public static void Remove(string key)

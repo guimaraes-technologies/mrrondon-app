@@ -1,4 +1,6 @@
-﻿using MrRondon.Helpers;
+﻿using System;
+using System.Diagnostics;
+using MrRondon.Helpers;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
@@ -16,14 +18,22 @@ namespace MrRondon.Pages.Map
 
         protected override async void OnAppearing()
         {
-            base.OnAppearing();
-            if (_pageModel.Pins.Count == 0) _pageModel.LoadPinsCommand.Execute(null);
-            var position = await GeolocatorHelper.GetCurrentPositionAsync();
+            try
+            {
+                base.OnAppearing();
+                if (_pageModel.Pins.Count == 0) _pageModel.LoadPinsCommand.Execute(null);
+                var position = await GeolocatorHelper.GetCurrentPositionAsync();
 
-            var mapSpan = MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude), Distance.FromMiles(1));
-            Companies.MoveToRegion(mapSpan);
+                var mapSpan = MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude), Distance.FromMiles(1));
+                Companies.MoveToRegion(mapSpan);
 
-            foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);
+                foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+                await _pageModel.MessageService.ShowAsync(ex.Message);
+            }
         }
     }
 }

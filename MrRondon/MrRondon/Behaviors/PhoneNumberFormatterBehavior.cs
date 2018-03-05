@@ -34,7 +34,10 @@ namespace MrRondon.Behaviors
             var digits = digitsRegex.Replace(input, "");
 
             if (digits.Length <= 1) return $"({digits}";
-            if (digits.Length == 2) return $"({digits.Substring(0, 2)}) ";
+            if (digits.Length == 2)
+            {
+                return input.Length == 5 ? $"({digits.Substring(0, 2)}" : $"({digits.Substring(0, 2)}) ";
+            }
 
             var lenght = digits.Length;
             if (digits.Length > 2 && digits.Length < 7) return $"({digits.Substring(0, 2)}) {digits.Substring(2, lenght - 2)}";
@@ -47,6 +50,9 @@ namespace MrRondon.Behaviors
 
         private static string FormatTelephoneNumber(string input)
         {
+            //var entryText = Regex.Replace(entry.Text, @"\D", "");
+            //entry.Text = Regex.Replace(entryText, @"(\d{3})(\d{0,3})(\d{0,3})(\d{0,3})", @"$1.$2.$3-$4");
+
             var digitsRegex = new Regex(@"[^\d]");
             var digits = digitsRegex.Replace(input, "");
 

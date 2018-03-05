@@ -11,7 +11,7 @@ namespace MrRondon.Pages
 {
     public class BasePageModel : ObservableObject
     {
-        protected IMessageService MessageService;
+        public IMessageService MessageService;
         protected INavigationService NavigationService;
 
         public ICommand LoadCitiesCommand { get; set; }
