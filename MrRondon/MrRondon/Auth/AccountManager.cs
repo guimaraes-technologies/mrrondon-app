@@ -95,7 +95,7 @@ namespace MrRondon.Auth
             public static string EmailSetur = "contato@ozielguimaraes.net";
             public static double Latitude = -8.7592547;
             public static double Longitude = -63.8769227;
-            public static double PlaceUntil = 2000;
+            public static int PlaceUntil = 1000;
         }
 
         public static async Task<City> SetActualCity()

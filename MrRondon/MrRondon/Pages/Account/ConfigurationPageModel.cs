@@ -18,48 +18,50 @@ namespace MrRondon.Pages.Account
 
             var value = until == null ? AccountManager.DefaultSetting.PlaceUntil : double.Parse(until.ToString());
             SetValue(value);
-            ItemSelectedCommand = new Command<EnumValueDataAttribute>(ExecuteItemSelected);
+            ItemSelectedCommand = new Command<DistanceOptions>(ExecuteItemSelected);
         }
 
-        private string _placeDescription;
-        public string PlaceDescription
+        private List<DistanceOptions> _items;
+        public List<DistanceOptions> Items
         {
-            get => _placeDescription;
-            set => SetProperty(ref _placeDescription, value);
+            get => _items;
+            set => SetProperty(ref _items, value);
         }
-
-        public List<EnumValueDataAttribute> PlacesUntil { get; } = EnumExtensions.ConvertEnumToList<GetUntilOption>().ToList();
 
         public ICommand ItemSelectedCommand { get; set; }
-        //public List<string> PlacesUntil { get; } = new List<string>(EnumExtensions.ConvertEnumToList<GetUntilOption>().ToList().Select(s => s.Description));
 
-        //private int _placeUntilIndex;
-        //public int PlaceUntilSelectedIndex
-        //{
-        //    get => _placeUntilIndex;
-        //    set
-        //    {
-        //        if (_placeUntilIndex == value) return;
-
-        //        _placeUntilIndex = value;
-        //        Notify(nameof(PlaceUntilSelectedIndex));
-
-        //        var selectedItem = EnumExtensions.GetEnumByType<GetUntilOption>(PlacesUntil[_placeUntilIndex]);
-        //        PlaceDescription = selectedItem.Description;
-        //        SetValue(double.Parse(selectedItem.KeyValue));
-        //    }
-        //}
-        
         public void SetValue(double until)
         {
-            PlaceDescription = $"{until} metros";
+            var values = EnumExtensions.ConvertEnumToList<GetUntilOption>().ToList();
+            Items = new List<DistanceOptions>();
+            foreach (var item in values)
+            {
+                var distance = double.Parse(item.KeyValue);
+                var isTheSame = distance.Equals(until);
+                var distanceOption = new DistanceOptions(distance, item.Description, isTheSame);
+                Items.Add(distanceOption);
+            }
             ApplicationManager<object>.AddOrUpdate("PlaceUntil", until);
         }
 
-        private void ExecuteItemSelected(EnumValueDataAttribute item)
+        private void ExecuteItemSelected(DistanceOptions item)
         {
-            SetValue(double.Parse(item.KeyValue));
+            SetValue(item.Distance);
         }
+    }
+
+    public class DistanceOptions
+    {
+        public DistanceOptions(double distance, string description, bool isChecked)
+        {
+            Distance = distance;
+            Description = description;
+            Icon = isChecked ? "check" : string.Empty;
+        }
+
+        public double Distance { get; private set; }
+        public string Description { get; private set; }
+        public string Icon { get; private set; }
     }
 
     public enum GetUntilOption

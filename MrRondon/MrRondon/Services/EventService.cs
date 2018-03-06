@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MrRondon.Auth;
 using MrRondon.Entities;
 using MrRondon.Helpers;
 using MrRondon.Services.Rest;
@@ -24,7 +25,7 @@ namespace MrRondon.Services
             var currentPosition = await GeolocatorHelper.GetCurrentPositionAsync();
             if (currentPosition == null) return new List<Event>();
 
-            var items = await service.GetNearbyAsync(Constants.GetPlacesUntil, currentPosition.Latitude, currentPosition.Longitude);
+            var items = await service.GetNearbyAsync(AccountManager.DefaultSetting.PlaceUntil, currentPosition.Latitude, currentPosition.Longitude);
 
             return items.OrderBy(o => o.Name).ToList();
         }

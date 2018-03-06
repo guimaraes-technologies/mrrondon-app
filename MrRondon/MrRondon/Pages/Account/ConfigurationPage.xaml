@@ -17,11 +17,9 @@
     <StackLayout>
         <Label Text="Escolha abaixo até quantos metros você quer vizualizar lugares no mapa" Style="{StaticResource PrimaryLabel}" HorizontalOptions="Start" />
 
-        <Label Text="{Binding PlaceDescription}" Style="{StaticResource PrimaryLabel}" HorizontalOptions="CenterAndExpand" />
-
-        <ListView ItemsSource="{Binding PlacesUntil}"
+        <ListView ItemsSource="{Binding Items}"
                   SeparatorVisibility="None"
-                  HasUnevenRows="True"
+                  HasUnevenRows="False"
                   HorizontalOptions="FillAndExpand"
                   VerticalOptions="FillAndExpand">
             <ListView.Behaviors>
@@ -31,7 +29,13 @@
 
             <ListView.ItemTemplate>
                 <DataTemplate>
-                    <TextCell TextColor="Black" Text="{Binding Description}"></TextCell>
+                    <ViewCell>
+                        <StackLayout Orientation="Horizontal">
+                            <Label TextColor="Black" Text="{Binding Description}" VerticalOptions="Center" HorizontalOptions="StartAndExpand"></Label>
+
+                            <Image Source="{Binding Icon}" VerticalOptions="Center" HorizontalOptions="End"></Image>
+                        </StackLayout>
+                    </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
