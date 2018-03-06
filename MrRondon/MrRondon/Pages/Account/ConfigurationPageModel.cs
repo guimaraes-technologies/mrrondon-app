@@ -16,7 +16,8 @@ namespace MrRondon.Pages.Account
 
             var until = ApplicationManager<object>.Find("PlaceUntil");
 
-            var value = until == null ? AccountManager.DefaultSetting.PlaceUntil : double.Parse(until.ToString());
+            var defaultValue = EnumExtensions.GetEnumAttribute(AccountManager.DefaultSetting.PlaceUntilOption);
+            var value = until == null ? double.Parse(defaultValue.KeyValue) : double.Parse(until.ToString());
             SetValue(value);
             ItemSelectedCommand = new Command<DistanceOptions>(ExecuteItemSelected);
         }
@@ -32,7 +33,7 @@ namespace MrRondon.Pages.Account
 
         public void SetValue(double until)
         {
-            var values = EnumExtensions.ConvertEnumToList<GetUntilOption>().ToList();
+            var values = EnumExtensions.ConvertEnumToList<PlaceUntilOption>().ToList();
             Items = new List<DistanceOptions>();
             foreach (var item in values)
             {
@@ -62,23 +63,5 @@ namespace MrRondon.Pages.Account
         public double Distance { get; private set; }
         public string Description { get; private set; }
         public string Icon { get; private set; }
-    }
-
-    public enum GetUntilOption
-    {
-        [EnumValueData(KeyValue = "100", Description = "100 metros")]
-        Hundred,
-        [EnumValueData(KeyValue = "300", Description = "300 metros")]
-        ThreeHundred,
-        [EnumValueData(KeyValue = "500", Description = "500 metros")]
-        FiveHundred,
-        [EnumValueData(KeyValue = "1000", Description = "1.000 metros")]
-        Thousand,
-        [EnumValueData(KeyValue = "3000", Description = "3.000 metros")]
-        ThreeThousand,
-        [EnumValueData(KeyValue = "5000", Description = "5.000 metros")]
-        FiveThousand,
-        [EnumValueData(KeyValue = "10000", Description = "10.000 metros")]
-        TenThousand
     }
 }

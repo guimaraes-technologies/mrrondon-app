@@ -6,7 +6,6 @@ using MrRondon.Helpers;
 using MrRondon.Services;
 using MrRondon.Services.Rest;
 using MrRondon.ViewModels;
-using Newtonsoft.Json;
 
 namespace MrRondon.Auth
 {
@@ -95,7 +94,7 @@ namespace MrRondon.Auth
             public static string EmailSetur = "contato@ozielguimaraes.net";
             public static double Latitude = -8.7592547;
             public static double Longitude = -63.8769227;
-            public static int PlaceUntil = 1000;
+            public static PlaceUntilOption PlaceUntilOption = PlaceUntilOption.Thousand;
         }
 
         public static async Task<City> SetActualCity()

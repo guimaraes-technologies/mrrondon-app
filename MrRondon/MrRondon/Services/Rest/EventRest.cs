@@ -5,6 +5,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using MrRondon.Auth;
 using MrRondon.Entities;
+using MrRondon.Extensions;
 using MrRondon.Helpers;
 
 namespace MrRondon.Services.Rest
@@ -24,8 +25,9 @@ namespace MrRondon.Services.Rest
             return content;
         }
 
-        public async Task<IList<Event>> GetNearbyAsync(int precision, double latitude, double longitude)
+        public async Task<IList<Event>> GetNearbyAsync(PlaceUntilOption placeUntilOption, double latitude, double longitude)
         {
+            var precision = int.Parse(EnumExtensions.GetEnumAttribute(placeUntilOption).KeyValue);
             var url = $"{UrlService}/event/nearby/meters/{precision}/latitude/{latitude.ToString(CultureInfo.CurrentCulture).Replace(".", ",")}/longitude/{longitude.ToString(CultureInfo.CurrentCulture).Replace(".", ",")}";
             var content = await GetObjectAsync<IList<Event>>(url);
 
