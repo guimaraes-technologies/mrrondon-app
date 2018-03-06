@@ -8,34 +8,35 @@
              BackgroundColor="{StaticResource PageBackgroundColor}"
              Title="{Binding Title}">
 
-    <StackLayout>
-        <Label Text="Nome" TextColor="Black" FontAttributes="Bold"></Label>
-        <Entry Text="{Binding Name}" TextColor="Black" BackgroundColor="White"></Entry>
+    <ScrollView>
+        <StackLayout>
+            <Label Text="Nome" TextColor="Black" FontAttributes="Bold"></Label>
+            <Entry Text="{Binding Name}" TextColor="Black" BackgroundColor="White"></Entry>
 
-        <Label Text="Email" TextColor="Black" FontAttributes="Bold"></Label>
-        <Entry Text="{Binding Email}" TextColor="Black" BackgroundColor="White"></Entry>
+            <Label Text="Email" TextColor="Black" FontAttributes="Bold"></Label>
+            <Entry Text="{Binding Email}" TextColor="Black" BackgroundColor="White"></Entry>
 
-        <StackLayout Orientation="Horizontal">
-            <Label HorizontalOptions="FillAndExpand" Text="Telefone" TextColor="Black" FontAttributes="Bold"></Label>
+            <StackLayout Orientation="Horizontal">
+                <Label HorizontalOptions="FillAndExpand" Text="Telefone" TextColor="Black" FontAttributes="Bold"></Label>
 
-            <Label HorizontalOptions="FillAndExpand" Text="Celular" TextColor="Black" FontAttributes="Bold"></Label>
-        </StackLayout>
-        <StackLayout Orientation="Horizontal">
-            <Entry HorizontalOptions="FillAndExpand" Text="{Binding Telephone}" TextColor="Black" BackgroundColor="White" Keyboard="Telephone">
-                <Entry.Behaviors>
-                    <behaviors:PhoneNumberFormatterBehavior Type="Telephone" />
-                </Entry.Behaviors>
-            </Entry>
+                <Label HorizontalOptions="FillAndExpand" Text="Celular" TextColor="Black" FontAttributes="Bold"></Label>
+            </StackLayout>
+            <StackLayout Orientation="Horizontal">
+                <Entry HorizontalOptions="FillAndExpand" Text="{Binding Telephone}" TextColor="Black" BackgroundColor="White" Keyboard="Telephone">
+                    <Entry.Behaviors>
+                        <behaviors:PhoneNumberFormatterBehavior Type="Telephone" />
+                    </Entry.Behaviors>
+                </Entry>
 
-            <Entry HorizontalOptions="FillAndExpand" Text="{Binding Cellphone}" TextColor="Black" BackgroundColor="White" Keyboard="Telephone">
-                <Entry.Behaviors>
-                    <behaviors:PhoneNumberFormatterBehavior Type="Cellphone" />
-                </Entry.Behaviors>
-            </Entry>
-        </StackLayout>
+                <Entry HorizontalOptions="FillAndExpand" Text="{Binding Cellphone}" TextColor="Black" BackgroundColor="White" Keyboard="Telephone">
+                    <Entry.Behaviors>
+                        <behaviors:PhoneNumberFormatterBehavior Type="Cellphone" />
+                    </Entry.Behaviors>
+                </Entry>
+            </StackLayout>
 
-        <Label Text="Assunto" TextColor="Black" FontAttributes="Bold"></Label>
-        <extensions:BindablePicker 
+            <Label Text="Assunto" TextColor="Black" FontAttributes="Bold"></Label>
+            <extensions:BindablePicker 
             PlaceholderColor="#c3c3c3"
             TextColor="Black"
             PickerBackgroundColor="White"
@@ -45,12 +46,13 @@
             ItemsSource="{Binding Subjects}"
             HorizontalOptions="Fill" />
 
-        <Label VerticalTextAlignment="Center" Margin="10" Text="{Binding SelSubjects}"></Label>
+            <Label VerticalTextAlignment="Center" Margin="10" Text="{Binding SelSubjects}"></Label>
 
-        <Label Text="Mensagem" TextColor="Black" FontAttributes="Bold"></Label>
-        <Editor Text="{Binding Message}" TextColor="Black" BackgroundColor="White" HeightRequest="100"></Editor>
+            <Label Text="Mensagem" TextColor="Black" FontAttributes="Bold"></Label>
+            <Editor Text="{Binding Message}" TextColor="Black" BackgroundColor="White" HeightRequest="100"></Editor>
 
 
-        <Button Text="ENVIAR" TextColor="White" BackgroundColor="#FB007351" Command="{Binding SendMessageCommand}"></Button>
-    </StackLayout>
+            <Button Text="ENVIAR" TextColor="White" BackgroundColor="#FB007351" Command="{Binding SendMessageCommand}"></Button>
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

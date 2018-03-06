@@ -18,7 +18,7 @@ namespace MrRondon.Pages.Account
 
             var value = until == null ? AccountManager.DefaultSetting.PlaceUntil : double.Parse(until.ToString());
             SetValue(value);
-            ItemSelectedCommand = new Command<EnumValueDataAttribute>((item) => ExecuteItemSelected(item));
+            ItemSelectedCommand = new Command<EnumValueDataAttribute>(ExecuteItemSelected);
         }
 
         private string _placeDescription;
@@ -52,12 +52,12 @@ namespace MrRondon.Pages.Account
         
         public void SetValue(double until)
         {
+            PlaceDescription = $"{until} metros";
             ApplicationManager<object>.AddOrUpdate("PlaceUntil", until);
         }
 
         private void ExecuteItemSelected(EnumValueDataAttribute item)
         {
-            PlaceDescription = item.Description;
             SetValue(double.Parse(item.KeyValue));
         }
     }
@@ -66,9 +66,9 @@ namespace MrRondon.Pages.Account
     {
         [EnumValueData(KeyValue = "100", Description = "100 metros")]
         Hundred,
-        [EnumValueData(KeyValue = "100", Description = "300 metros")]
+        [EnumValueData(KeyValue = "300", Description = "300 metros")]
         ThreeHundred,
-        [EnumValueData(KeyValue = "100", Description = "500 metros")]
+        [EnumValueData(KeyValue = "500", Description = "500 metros")]
         FiveHundred,
         [EnumValueData(KeyValue = "1000", Description = "1.000 metros")]
         Thousand,
