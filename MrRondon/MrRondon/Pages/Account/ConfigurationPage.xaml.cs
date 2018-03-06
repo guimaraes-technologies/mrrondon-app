@@ -11,10 +11,5 @@ namespace MrRondon.Pages.Account
 			InitializeComponent ();
             BindingContext = _pageModel = new ConfigurationPageModel();
 		}
-
-	    private void PlaceUntil_OnValueChanged(object sender, ValueChangedEventArgs e)
-	    {
-	        _pageModel.SetValue(e.NewValue);
-	    }
 	}
 }

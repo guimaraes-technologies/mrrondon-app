@@ -1,15 +1,41 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
+             xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
+             xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
              x:Class="MrRondon.Pages.Account.ConfigurationPage"
              Title="{Binding Title}"
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ItemTappedEventArgsToItemTappedConverter x:Key="ItemTappedConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <StackLayout>
         <Label Text="Escolha abaixo até quantos metros você quer vizualizar lugares no mapa" Style="{StaticResource PrimaryLabel}" HorizontalOptions="Start" />
 
         <Label Text="{Binding PlaceDescription}" Style="{StaticResource PrimaryLabel}" HorizontalOptions="CenterAndExpand" />
-        <Slider Value="{Binding PlaceUntil}" Minimum="0.10" Maximum="100" ValueChanged="PlaceUntil_OnValueChanged" />
+
+        <ListView ItemsSource="{Binding PlacesUntil}"
+                  SeparatorVisibility="None"
+                  HasUnevenRows="True"
+                  HorizontalOptions="FillAndExpand"
+                  VerticalOptions="FillAndExpand">
+            <ListView.Behaviors>
+                <behaviors:EventToCommandBehavior Command="{Binding ItemSelectedCommand}"
+    Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
+            </ListView.Behaviors>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell TextColor="Black" Text="{Binding Description}"></TextCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <pages:FooterPage />
     </StackLayout>
 </ContentPage>

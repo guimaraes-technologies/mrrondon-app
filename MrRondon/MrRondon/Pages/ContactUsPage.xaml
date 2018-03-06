@@ -48,7 +48,7 @@
         <Label VerticalTextAlignment="Center" Margin="10" Text="{Binding SelSubjects}"></Label>
 
         <Label Text="Mensagem" TextColor="Black" FontAttributes="Bold"></Label>
-        <Editor Text="{Binding Message}" TextColor="Black" BackgroundColor="White"></Editor>
+        <Editor Text="{Binding Message}" TextColor="Black" BackgroundColor="White" HeightRequest="100"></Editor>
 
 
         <Button Text="ENVIAR" TextColor="White" BackgroundColor="#FB007351" Command="{Binding SendMessageCommand}"></Button>

@@ -14,7 +14,7 @@ namespace MrRondon.Helpers
     {
         public static async Task<Position> GetCurrentPositionAsync()
         {
-            Position position = null;
+            Position position;
             try
             {
                 var locator = CrossGeolocator.Current;
