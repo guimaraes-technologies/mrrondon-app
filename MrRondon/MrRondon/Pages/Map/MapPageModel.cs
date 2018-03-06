@@ -37,18 +37,18 @@ namespace MrRondon.Pages.Map
                 if (IsLoading) return;
                 IsLoading = true;
 
-                var service = new EventService();
-                var events = await service.GetNearbyAsync();
+                var service = new LocationService();
+                var places = await service.NearbyAsync();
 
-                foreach (var item in events)
+                foreach (var item in places)
                 {
                     var pin = new Pin
                     {
-                        Id = item.AddressId,
-                        Label = item.Name,
-                        Address = item.Address.FullAddress,
+                        Id = item.Id,
+                        Label = item.Label,
+                        Address = item.Address,
                         Type = PinType.Place,
-                        Position = new Position(item.Address.Latitude, item.Address.Longitude)
+                        Position = new Position(item.Position.Latitude, item.Position.Longitude)
                     };
 
                     Pins.Add(pin);
