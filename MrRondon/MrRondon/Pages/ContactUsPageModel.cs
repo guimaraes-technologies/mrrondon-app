@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+using MrRondon.Auth;
 using MrRondon.Extensions;
 using MrRondon.Helpers;
+using MrRondon.Services;
+using MrRondon.ViewModels;
 using Plugin.Messaging;
 using Xamarin.Forms;
 
@@ -73,20 +76,40 @@ namespace MrRondon.Pages
         {
             try
             {
+                if (IsLoading) return;
+                IsLoading = true;
                 Validate();
-                var builder = new EmailMessageBuilder()
-                    .To(Auth.AccountManager.DefaultSetting.EmailSetur)
-                    .Subject(Subject.Description)
-                    .BodyAsHtml(Message).Build();
 
-                var emailMessenger = CrossMessaging.Current.EmailMessenger;
-                if (emailMessenger.CanSendEmail) emailMessenger.SendEmail(builder);
+                var contactMessage = new ContactMessageVm
+                {
+                    Name = Name,
+                    Telephone = string.IsNullOrWhiteSpace(Telephone) ? "Não informado" : Telephone,
+                    Cellphone = string.IsNullOrWhiteSpace(Cellphone) ? "Não informado" : Cellphone,
+                    Email = Email.Trim(),
+                    Subject = Subject.Description,
+                    Message = Message
+                };
+                var service = new ContactService();
+                var hasBeenSended = await service.SendAsync(contactMessage);
+
+                if (!hasBeenSended) throw  new Exception();
+                IsLoading = false;
                 await MessageService.ToastAsync("Mensagem enviada com sucesso.");
+
+                //var builder = new EmailMessageBuilder()
+                //    .To(AccountManager.DefaultSetting.EmailSetur)
+                //    .Subject(Subject.Description)
+                //    .BodyAsHtml(Message).Build();
+
+                //var emailMessenger = CrossMessaging.Current.EmailMessenger;
+                //if (emailMessenger.CanSendEmail) emailMessenger.SendEmail(builder);
+                //await MessageService.ToastAsync("Mensagem enviada com sucesso.");
             }
             catch (Exception ex)
             {
+                IsLoading = false;
                 Console.WriteLine(ex);
-                await MessageService.ShowAsync("Erro", ex.Message);
+                await MessageService.ShowAsync("Erro", $"Não foi possível enviar a sua mensagem, mas você pode entrar em contato com a SETUR pelo telefone {AccountManager.DefaultSetting.TelephoneSetur} ou pelo email {AccountManager.DefaultSetting.EmailSetur}.");
             }
         }
 
@@ -94,7 +117,7 @@ namespace MrRondon.Pages
         {
             if (string.IsNullOrWhiteSpace(Name)) throw new Exception("O campo Nome é obrigatório.");
             if (string.IsNullOrWhiteSpace(Email)) throw new Exception("O campo Email é obrigatório.");
-            if(!EmailHelper.IsEmail(Email)) throw new Exception("O Email informado é inválido.");
+            if (!EmailHelper.IsEmail(Email.Trim())) throw new Exception("O Email informado é inválido.");
             if (string.IsNullOrWhiteSpace(Cellphone) && string.IsNullOrWhiteSpace(Telephone))
                 throw new Exception("É obrigatório informar pelo menos um número para contato");
 
