@@ -30,7 +30,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <StackLayout Orientation="Horizontal">
+                        <StackLayout Orientation="Horizontal" Margin="10,0,0,0">
                             <Label TextColor="Black" Text="{Binding Description}" VerticalOptions="Center" HorizontalOptions="StartAndExpand"></Label>
 
                             <Image Source="{Binding Icon}" VerticalOptions="Center" HorizontalOptions="End"></Image>

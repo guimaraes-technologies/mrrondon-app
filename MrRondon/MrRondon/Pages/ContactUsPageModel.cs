@@ -48,8 +48,8 @@ namespace MrRondon.Pages
             set => SetProperty(ref _telephone, value);
         }
 
-        private Subject? _subject;
-        public Subject? Subject
+        private EnumValueDataAttribute _subject;
+        public EnumValueDataAttribute Subject
         {
             get => _subject;
             set => SetProperty(ref _subject, value);
@@ -76,7 +76,7 @@ namespace MrRondon.Pages
                 Validate();
                 var builder = new EmailMessageBuilder()
                     .To(Auth.AccountManager.DefaultSetting.EmailSetur)
-                    .Subject(EnumExtensions.GetEnumAttribute(Subject).Description)
+                    .Subject(Subject.Description)
                     .BodyAsHtml(Message).Build();
 
                 var emailMessenger = CrossMessaging.Current.EmailMessenger;
@@ -99,6 +99,9 @@ namespace MrRondon.Pages
                 throw new Exception("É obrigatório informar pelo menos um número para contato");
 
             if (Subject == null) throw new Exception("O campo Assunto é obrigatório.");
+            if (string.IsNullOrWhiteSpace(Message)) throw new Exception("O campo Mensagem é obrigatório.");
+
+            if (Message.Length < 25) throw new Exception($"Para um melhor entendimento do(a) {Subject.Description}, informe uma mensagem mais detalhada.");
 
             return true;
         }
