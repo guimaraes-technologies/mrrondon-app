@@ -42,7 +42,7 @@ namespace MrRondon.Pages.HistoricalSight
             get => _cityIndex;
             set
             {
-                _cityIndex = value;
+                _cityIndex = value < 0 ? 0 : value;
                 Notify(nameof(CitySelectedIndex));
 
                 var selectedItem = Cities[_cityIndex] ?? AccountManager.DefaultSetting.City;
@@ -108,8 +108,9 @@ namespace MrRondon.Pages.HistoricalSight
                 Cities.ReplaceRange(items);
                 CityNames = new List<string>(items.Select(s => s.Name));
 
-                if (CityNames.Any(a => a.ToLower().Equals(CurrentCity.Name.ToLower())))
-                    CitySelectedIndex = CityNames.IndexOf(CurrentCity.Name);
+                CitySelectedIndex = CityNames.Any(a => a.ToLower().Equals(CurrentCity.Name.ToLower()))
+                    ? CityNames.IndexOf(CurrentCity.Name)
+                    : 0;
             }
             catch (Exception ex)
             {

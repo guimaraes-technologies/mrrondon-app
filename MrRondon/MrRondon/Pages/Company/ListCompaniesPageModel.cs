@@ -57,7 +57,7 @@ namespace MrRondon.Pages.Company
             get => _cityIndex;
             set
             {
-                _cityIndex = value;
+                _cityIndex = value < 0 ? 0 : value;
                 Notify(nameof(CitySelectedIndex));
 
                 var selectedItem = Cities[_cityIndex] ?? AccountManager.DefaultSetting.City;
