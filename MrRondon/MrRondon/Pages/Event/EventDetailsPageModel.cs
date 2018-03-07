@@ -99,19 +99,5 @@ namespace MrRondon.Pages.Event
             };
             await CrossShare.Current.Share(message);
         }
-
-        private async Task SetFavoritIcon()
-        {
-            try
-            {
-                var service = new FavoriteEventService();
-                var isFavorite = await service.IsFavorite(Event.EventId);
-                IsFavorit = isFavorite;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-            }
-        }
     }
 }
