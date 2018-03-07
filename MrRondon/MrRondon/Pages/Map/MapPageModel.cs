@@ -16,7 +16,7 @@ namespace MrRondon.Pages.Map
         public MapPageModel()
         {
             Title = Constants.AppName;
-            LoadPinsCommand = new Command(async () => await ExecuteLoadPins());
+            LoadPinsCommand = new Command<Plugin.Geolocator.Abstractions.Position>(async (currentPosition) => await ExecuteLoadPins(currentPosition));
             ChangeActualCityCommand = new Command(async () => await ExecuteChangeActualCity(new MapPage()));
         }
 
@@ -30,7 +30,7 @@ namespace MrRondon.Pages.Map
             set => SetProperty(ref _pins, value);
         }
 
-        private async Task ExecuteLoadPins()
+        private async Task ExecuteLoadPins(Plugin.Geolocator.Abstractions.Position currentPosition)
         {
             try
             {
@@ -38,7 +38,7 @@ namespace MrRondon.Pages.Map
                 IsLoading = true;
 
                 var service = new LocationService();
-                var places = await service.NearbyAsync();
+                var places = await service.NearbyAsync(currentPosition);
 
                 foreach (var item in places)
                 {

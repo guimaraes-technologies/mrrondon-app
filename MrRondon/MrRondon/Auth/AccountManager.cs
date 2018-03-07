@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MrRondon.Entities;
+using MrRondon.Extensions;
 using MrRondon.Helpers;
 using MrRondon.Services;
 using MrRondon.Services.Rest;
@@ -97,6 +98,14 @@ namespace MrRondon.Auth
             public static PlaceUntilOption PlaceUntilOption = PlaceUntilOption.Thousand;
         }
 
+        public static int GetPrecision()
+        {
+            var until = ApplicationManager<object>.Find("PlaceUntil");
+
+            var defaultValue = EnumExtensions.GetEnumAttribute(DefaultSetting.PlaceUntilOption);
+            return until == null ? int.Parse(defaultValue.KeyValue) : int.Parse($"{until}");
+        }
+        
         public static async Task<City> SetActualCity()
         {
             var position = await GeolocatorHelper.GetCurrentPositionAsync();

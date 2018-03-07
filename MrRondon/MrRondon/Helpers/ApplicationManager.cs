@@ -22,13 +22,7 @@ namespace MrRondon.Helpers
             if (Exist(key)) Remove(key);
             Xamarin.Forms.Application.Current.Properties.Add(new KeyValuePair<string, object>(key, jsonObject));
         }
-
-        //public static void AddOrUpdate(string key, string json)
-        //{
-        //    if (Exist(key)) Remove(key);
-        //    Xamarin.Forms.Application.Current.Properties.Add(new KeyValuePair<string, object>(key, json));
-        //}
-
+        
         public static void Remove(string key)
         {
             Xamarin.Forms.Application.Current.Properties.Remove(key);

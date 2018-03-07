@@ -21,10 +21,11 @@ namespace MrRondon.Pages.Map
             try
             {
                 base.OnAppearing();
-                if (_pageModel.Pins.Count == 0) _pageModel.LoadPinsCommand.Execute(null);
-                var position = await GeolocatorHelper.GetCurrentPositionAsync();
 
-                var mapSpan = MapSpan.FromCenterAndRadius(new Position(position.Latitude, position.Longitude), Distance.FromMiles(1));
+                var currentPosition = await GeolocatorHelper.GetCurrentPositionAsync();
+                if (_pageModel.Pins.Count == 0) _pageModel.LoadPinsCommand.Execute(currentPosition);
+
+                var mapSpan = MapSpan.FromCenterAndRadius(new Position(currentPosition.Latitude, currentPosition.Longitude), Distance.FromKilometers(1));
                 Companies.MoveToRegion(mapSpan);
 
                 foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);

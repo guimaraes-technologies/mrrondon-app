@@ -2,22 +2,20 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MrRondon.Auth;
-using MrRondon.Helpers;
 using MrRondon.Services.Rest;
 using MrRondon.ViewModels;
+using Position = Plugin.Geolocator.Abstractions.Position;
 
 namespace MrRondon.Services
 {
     public class LocationService
     {
-
-        public async Task<IList<LocationVm>> NearbyAsync()
+        public async Task<IList<LocationVm>> NearbyAsync(Position  currentPosition)
         {
             var service = new LocationRest();
-            var currentPosition = await GeolocatorHelper.GetCurrentPositionAsync();
-            if (currentPosition == null) return new List<LocationVm>();
+            var precision = AccountManager.GetPrecision();
 
-            var items = await service.NearbyAsync(AccountManager.DefaultSetting.PlaceUntilOption, currentPosition.Latitude, currentPosition.Longitude);
+            var items = await service.NearbyAsync(precision, currentPosition.Latitude, currentPosition.Longitude);
 
             return items.OrderBy(o => o.Label).ToList();
         }
