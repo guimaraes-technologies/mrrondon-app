@@ -84,7 +84,6 @@ namespace MrRondon.Pages.Company
             try
             {
                 if (IsLoading) return;
-
                 NotHasItems = false;
                 IsLoading = true;
                 Items.Clear();

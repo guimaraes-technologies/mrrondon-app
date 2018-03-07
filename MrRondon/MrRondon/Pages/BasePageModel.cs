@@ -58,8 +58,19 @@ namespace MrRondon.Pages
             set => SetProperty(ref _currentCity, value);
         }
 
-        public ObservableRangeCollection<Entities.City> Cities { get; set; }
-        public List<string> CityNames { get; set; }
+        private ObservableRangeCollection<Entities.City> _cities;
+        public ObservableRangeCollection<Entities.City> Cities
+        {
+            get => _cities;
+            set => SetProperty(ref _cities, value);
+        }
+
+        private List<string> _cityName;
+        public List<string> CityNames
+        {
+            get => _cityName;
+            set => SetProperty(ref _cityName, value);
+        }
 
         protected BasePageModel()
         {
