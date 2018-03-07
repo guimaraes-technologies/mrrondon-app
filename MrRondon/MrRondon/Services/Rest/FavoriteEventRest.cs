@@ -12,6 +12,7 @@ namespace MrRondon.Services.Rest
     {
         public async Task<IList<FavoriteEvent>> GetAsync()
         {
+            HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.TokenType, Account.Current.Token.AccessToken);
             var url = $"{UrlService}/event/favorites";
             var content = await GetObjectAsync<IList<FavoriteEvent>>(url);
 
