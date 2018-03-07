@@ -65,6 +65,11 @@ namespace MrRondon.Pages.Account
                 }
                 else await MessageService.ShowAsync("Autenticação", "Usuário ou Senha incorreta");
             }
+            catch (TaskCanceledException ex)
+            {
+                Console.WriteLine(ex.Message);
+                await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
+            }
             catch (Exception ex)
             {
                 await MessageService.ShowAsync("Autenticação", ex.Message);

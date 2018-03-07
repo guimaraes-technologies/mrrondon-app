@@ -108,9 +108,8 @@ namespace MrRondon.Pages.HistoricalSight
                 Cities.ReplaceRange(items);
                 CityNames = new List<string>(items.Select(s => s.Name));
 
-                CitySelectedIndex = CityNames.Any(a => a.ToLower().Equals(CurrentCity.Name.ToLower()))
-                    ? CityNames.IndexOf(CurrentCity.Name)
-                    : 0;
+                if (CityNames.Any(a => a.ToLower().Equals(CurrentCity.Name.ToLower())))
+                    CitySelectedIndex = CityNames.IndexOf(CurrentCity.Name);
             }
             catch (Exception ex)
             {

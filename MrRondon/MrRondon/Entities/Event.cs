@@ -20,7 +20,7 @@ namespace MrRondon.Entities
         public bool IsFavorite { get; set; }
 
         public string GetValue => Value == 0 ? "Gratuito" : $"{Value:C}";
-        public string RangeDateAndValue => $"Início: {StartDate.ToShortDateString()}\nTérminio: {EndDate.ToShortDateString()}\nValor: {GetValue}";
+        public string RangeDateAndValue => $"Início: {StartDate:dd/MM/yyyy HH:mm}\nTérminio: {EndDate:dd/MM/yyyy HH:mm}\nValor: {GetValue}";
         public ImageSource ImageSourceLogo { get { return Logo == null ? ImageSource.FromFile("icon.png") : ImageSource.FromStream(() => new MemoryStream(Logo)); } }
         public ImageSource ImageSourceCover { get { return Cover == null ? ImageSource.FromFile("icon.png") : ImageSource.FromStream(() => new MemoryStream(Cover)); } }
     }

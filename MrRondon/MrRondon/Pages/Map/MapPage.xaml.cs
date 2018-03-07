@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using MrRondon.Helpers;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
@@ -23,12 +24,17 @@ namespace MrRondon.Pages.Map
                 base.OnAppearing();
 
                 var currentPosition = await GeolocatorHelper.GetCurrentPositionAsync();
-                if (_pageModel.Pins.Count == 0) _pageModel.LoadPinsCommand.Execute(currentPosition);
 
-                var mapSpan = MapSpan.FromCenterAndRadius(new Position(currentPosition.Latitude, currentPosition.Longitude), Distance.FromKilometers(1));
-                Companies.MoveToRegion(mapSpan);
+                var mapSpan = MapSpan.FromCenterAndRadius(new Position(currentPosition.Latitude, currentPosition.Longitude), Distance.FromKilometers(2));
 
                 foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);
+                _pageModel.LoadPinsCommand.Execute(currentPosition);
+                Companies.MoveToRegion(mapSpan);
+            }
+            catch (TaskCanceledException ex)
+            {
+                Debug.WriteLine(ex);
+                await _pageModel.MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
             }
             catch (Exception ex)
             {
