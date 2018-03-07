@@ -14,7 +14,7 @@
             <Label Text="{Binding HistoricalSight.Name}" TextColor="Black" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
 
             <ActivityIndicator Style="{StaticResource SpinnerLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}"></ActivityIndicator>
-            <Image x:Name="image" Source="{Binding HistoricalSight.ImageSourceCover}" HorizontalOptions="FillAndExpand" HeightRequest="220"></Image>
+            <Image x:Name="image" Source="{Binding HistoricalSight.ImageSourceCover}" HeightRequest="200" Aspect="Fill"></Image>
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <ffimageloading:CachedImage 

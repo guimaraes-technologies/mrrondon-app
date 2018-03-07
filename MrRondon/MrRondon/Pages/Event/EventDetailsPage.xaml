@@ -14,7 +14,8 @@
             <Label Text="{Binding Event.Name}" TextColor="Black" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
 
             <ActivityIndicator Style="{StaticResource SpinnerLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}"></ActivityIndicator>
-            <Image x:Name="image" Source="{Binding Event.ImageSourceCover}" HorizontalOptions="FillAndExpand" HeightRequest="220" ></Image>
+
+            <Image x:Name="image" Source="{Binding Event.ImageSourceCover}" HeightRequest="200" Aspect="Fill"></Image>
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
                 <ffimageloading:CachedImage 
@@ -110,10 +111,10 @@
             <Label Text="{Binding Event.GetValue}" Style="{StaticResource SecondaryLabel}"></Label>
 
             <Label Text="Data de Início" Style="{StaticResource PrimaryLabel}" />
-            <Label Text="{Binding Event.StartDate, StringFormat='{0:ddd, dd MMM yyyy}'}" Style="{StaticResource SecondaryLabel}"></Label>
+            <Label Text="{Binding Event.StartDate, StringFormat='{0:ddd, dd MMM yyyy - HH:mm}'}" Style="{StaticResource SecondaryLabel}"></Label>
 
             <Label Text="Data de Término" Style="{StaticResource PrimaryLabel}" />
-            <Label Text="{Binding Event.EndDate, StringFormat='{0:ddd, dd MMM yyyy}'}" Style="{StaticResource SecondaryLabel}"></Label>
+            <Label Text="{Binding Event.EndDate, StringFormat='{0:ddd, dd MMM yyyy - HH:mm}'}" Style="{StaticResource SecondaryLabel}"></Label>
 
             <Label Text="Descrição" Style="{StaticResource PrimaryLabel}" />
             <Label Text="{Binding Event.Description}" Style="{StaticResource SecondaryLabel}" />

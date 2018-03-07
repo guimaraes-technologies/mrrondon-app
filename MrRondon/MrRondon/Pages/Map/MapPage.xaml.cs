@@ -30,6 +30,8 @@ namespace MrRondon.Pages.Map
                 foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);
                 _pageModel.LoadPinsCommand.Execute(currentPosition);
                 Companies.MoveToRegion(mapSpan);
+
+                await Task.Delay(100);
             }
             catch (TaskCanceledException ex)
             {

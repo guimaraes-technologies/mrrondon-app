@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
+using MrRondon.Auth;
+using MrRondon.Entities;
 using MrRondon.Helpers;
 using Plugin.ExternalMaps;
 using Plugin.ExternalMaps.Abstractions;
@@ -15,12 +18,17 @@ namespace MrRondon.Pages.Company
         {
             Title = "Detalhes da Empresa";
             Company = model;
+            NotHasContacts = Company?.Contacts == null || !Company.Contacts.Any();
             OpenMapCommand = new Command(OpenMap);
             ShareCommand = new Command(async () => await Share());
+            MakePhoneCallCommand = new Command(MakePhoneCall);
         }
 
+        public ICommand MakePhoneCallCommand { get; set; }
         public ICommand OpenMapCommand { get; set; }
         public ICommand ShareCommand { get; set; }
+
+        public bool NotHasContacts { get; }
 
         private Entities.Company _company;
         public Entities.Company Company
@@ -43,6 +51,13 @@ namespace MrRondon.Pages.Company
                 Url = "http://mrrondon.ozielguimaraes.net"
             };
             await CrossShare.Current.Share(message);
+        }
+
+        private void MakePhoneCall()
+        {
+            var contact = (Company.Contacts?.FirstOrDefault(f => f.ContactType == ContactType.Cellphone)?.Description ?? Company.Contacts?.FirstOrDefault(f => f.ContactType == ContactType.Telephone)?.Description) ?? AccountManager.DefaultSetting.TelephoneSetur;
+
+            NavigationService.MakePhoneCall(contact);
         }
     }
 }

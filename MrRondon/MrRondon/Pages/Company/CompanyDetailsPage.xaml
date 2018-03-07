@@ -2,6 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              x:Class="MrRondon.Pages.Company.CompanyDetailsPage"
              Title="{Binding Title}"
              Style="{StaticResource PageStyle}"
@@ -10,12 +12,75 @@
     <ScrollView>
         <StackLayout>
             <Label Text="{Binding Company.Name}" TextColor="Black" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
-            
-            <Image Source="{Binding Company.ImageSourceCover}" HorizontalOptions="FillAndExpand" HeightRequest="220"></Image>
 
-            <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
-                <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="map_marker" Command="{Binding OpenMapCommand}"></Button>
-                <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="share" Command="{Binding ShareCommand}"></Button>
+            <Image Source="{Binding Company.ImageSourceCover}" HeightRequest="200" Aspect="Fill"></Image>
+
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <forms:CachedImage 
+                    Source="phone"
+                    HorizontalOptions="CenterAndExpand" 
+                    VerticalOptions="CenterAndExpand"
+                    CacheType="Memory"
+                    Aspect="AspectFit"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    DownsampleToViewSize="true">
+
+                    <forms:CachedImage.Transformations>
+                        <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
+                            <transformations:CircleTransformation.BorderSize>
+                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
+                            </transformations:CircleTransformation.BorderSize>
+                        </transformations:CircleTransformation>
+                    </forms:CachedImage.Transformations>
+                    <forms:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding MakePhoneCallCommand}" CommandParameter="." />
+                    </forms:CachedImage.GestureRecognizers>
+                </forms:CachedImage>
+
+                <forms:CachedImage 
+                    Source="map_maker"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center"
+                    CacheType="Memory"
+                    Aspect="AspectFit"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    DownsampleToViewSize="true">
+
+                    <forms:CachedImage.Transformations>
+                        <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
+                            <transformations:CircleTransformation.BorderSize>
+                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
+                            </transformations:CircleTransformation.BorderSize>
+                        </transformations:CircleTransformation>
+                    </forms:CachedImage.Transformations>
+                    <forms:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenMapCommand}" CommandParameter="." />
+                    </forms:CachedImage.GestureRecognizers>
+                </forms:CachedImage>
+
+                <forms:CachedImage 
+                    Source="share"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center"
+                    CacheType="Memory"
+                    Aspect="AspectFit"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    DownsampleToViewSize="true">
+
+                    <forms:CachedImage.Transformations>
+                        <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
+                            <transformations:CircleTransformation.BorderSize>
+                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
+                            </transformations:CircleTransformation.BorderSize>
+                        </transformations:CircleTransformation>
+                    </forms:CachedImage.Transformations>
+                    <forms:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ShareCommand}" CommandParameter="." />
+                    </forms:CachedImage.GestureRecognizers>
+                </forms:CachedImage>
             </StackLayout>
 
             <Label Text="Nome Fantasia" Style="{StaticResource PrimaryLabel}" />
@@ -30,9 +95,10 @@
             <ListView ItemsSource="{Binding Company.Contacts}"
                       SeparatorVisibility="None"
                       HasUnevenRows="False"
-                      HorizontalOptions="FillAndExpand"
-                      VerticalOptions="FillAndExpand"
-                      IsPullToRefreshEnabled="False">
+                      HeightRequest="40">
+                <ListView.Header>
+                    <Label Text="Contatos:" Style="{StaticResource PrimaryLabel}" />
+                </ListView.Header>
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
@@ -48,7 +114,7 @@
             <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
             <Label Text="{Binding Company.Address.FullAddress}" Style="{StaticResource SecondaryLabel}" />
 
-        <pages:FooterPage />
+            <pages:FooterPage />
         </StackLayout>
     </ScrollView>
 </ContentPage>
