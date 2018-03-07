@@ -15,10 +15,10 @@ namespace MrRondon.Services.Rest
         public async Task<Event> GetAsync(Guid eventId)
         {
             var url = $"{UrlService}/event/{eventId}";
-            var token = Account.Current.Token;
-            if(token.IsValid)
+            var account = Account.Current;
+            if(account.IsValid)
             {
-                HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.TokenType, token.AccessToken);
+                HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.TokenType, account.Token.AccessToken);
             }
             var content = await GetObjectAsync<Event>(url);
 
