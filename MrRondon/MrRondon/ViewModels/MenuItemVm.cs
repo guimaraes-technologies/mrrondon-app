@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MrRondon.ViewModels
+﻿namespace MrRondon.ViewModels
 {
   public  class MenuItemVm
     {

@@ -12,7 +12,7 @@ namespace MrRondon.Services.Rest
     {
         public async Task<IList<FavoriteEvent>> GetAsync()
         {
-            var url = $"{UrlService}/user/event/favorites";
+            var url = $"{UrlService}/event/favorites";
             var content = await GetObjectAsync<IList<FavoriteEvent>>(url);
 
             return content;
@@ -31,7 +31,7 @@ namespace MrRondon.Services.Rest
         {
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.TokenType, Account.Current.Token.AccessToken);
 
-            var url = $"{UrlService}/user/event/{eventId}/favorite";
+            var url = $"{UrlService}/event/{eventId}/favorite";
             var result = await PostAsync<bool>(url, null);
 
             return result;

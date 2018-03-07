@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Xamarin.Forms;
 
@@ -21,6 +22,7 @@ namespace MrRondon.Entities
 
         public Guid AddressId { get; set; }
         public Address Address { get; set; }
+        public ICollection<Contact> Contacts { get; set; }
 
         public string SegmentDescription => SubCategory.Category == null ? SubCategory.Name : $"{SubCategory.Category.Name} - {SubCategory.Name}";
         public string TelephoneAndEmail { get; set; }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MrRondon.Auth;
@@ -88,5 +89,30 @@ namespace MrRondon.Pages
             var pageModel = new ChangeCityPageModel(previousPage);
             await NavigationService.PushModalAsync(new ChangeCityPage(pageModel));
         }
+
+        #region IDisposable Members
+        private bool _disposed;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
+            {
+                // Set the _disposed flag to prevent subsequent disposals.
+                _disposed = true;
+            }
+        }
+
+        ~BasePageModel()
+        {
+            Dispose(false);
+        }
+
+        #endregion
     }
 }

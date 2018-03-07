@@ -11,8 +11,7 @@
         <StackLayout>
             <Label Text="{Binding Company.Name}" TextColor="Black" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
             
-            <ActivityIndicator Style="{StaticResource SpinnerLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}"></ActivityIndicator>
-            <Image x:Name="image" Source="{Binding Company.ImageSourceCover}" HorizontalOptions="FillAndExpand" HeightRequest="220"></Image>
+            <Image Source="{Binding Company.ImageSourceCover}" HorizontalOptions="FillAndExpand" HeightRequest="220"></Image>
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="Start">
                 <Button BorderColor="Transparent" BackgroundColor="Transparent" Image="map_marker" Command="{Binding OpenMapCommand}"></Button>
@@ -27,6 +26,24 @@
 
             <Label Text="CNPJ" Style="{StaticResource PrimaryLabel}" />
             <Label Text="{Binding Company.Cnpj}" Style="{StaticResource SecondaryLabel}" />
+
+            <ListView ItemsSource="{Binding Company.Contacts}"
+                      SeparatorVisibility="None"
+                      HasUnevenRows="False"
+                      HorizontalOptions="FillAndExpand"
+                      VerticalOptions="FillAndExpand"
+                      IsPullToRefreshEnabled="False">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label Text="{Binding ContactDetail}" Style="{StaticResource SecondaryLabel}"></Label>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.Footer>
+                    <Label Text="Nenhum informado" IsVisible="{Binding NotHasContacts}" TextColor="{StaticResource SecondaryLabelColor}"></Label>
+                </ListView.Footer>
+            </ListView>
 
             <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
             <Label Text="{Binding Company.Address.FullAddress}" Style="{StaticResource SecondaryLabel}" />
