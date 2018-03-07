@@ -24,7 +24,7 @@ namespace MrRondon.Pages
                             pageModel.LoadItemsCommand.Execute(null);
 
                             CurrentPage.BindingContext = pageModel;
-                            await Task.Delay(100);
+                            await Task.Delay(1);
                             return;
                         }
                     case 2:
@@ -34,7 +34,7 @@ namespace MrRondon.Pages
                             pageModel.LoadItemsCommand.Execute(null);
 
                             CurrentPage.BindingContext = pageModel;
-                            await Task.Delay(100);
+                            await Task.Delay(1);
                             return;
                         }
                     case 3:
@@ -44,7 +44,7 @@ namespace MrRondon.Pages
                             pageModel.LoadItemsCommand.Execute(null);
 
                             CurrentPage.BindingContext = pageModel;
-                            await Task.Delay(100);
+                            await Task.Delay(1);
                             return;
                         }
                     default:

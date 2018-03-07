@@ -23,8 +23,8 @@ namespace MrRondon.Pages.Map
         public ICommand LoadPinsCommand { get; set; }
         public ICommand SetActualCityCommand { get; set; }
 
-        private List<Pin> _pins = new List<Pin>();
-        public List<Pin> Pins
+        private ObservableRangeCollection<Pin> _pins = new ObservableRangeCollection<Pin>();
+        public ObservableRangeCollection<Pin> Pins
         {
             get => _pins;
             set => SetProperty(ref _pins, value);

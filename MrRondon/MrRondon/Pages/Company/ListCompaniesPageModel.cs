@@ -88,7 +88,7 @@ namespace MrRondon.Pages.Company
                 var service = new CompanyService();
                 var items = await service.GetAsync(CategoryId, CurrentCity.CityId, Search);
                 NotHasItems = IsLoading && items != null && !items.Any();
-                if (NotHasItems) ErrorMessage = "Nenhuma empresa encontrada";
+                if (NotHasItems) ErrorMessage = $"Nenhuma empresa encontrada em {CurrentCity.Name}.";
                 Items.ReplaceRange(items);
             }
             catch (Exception ex)

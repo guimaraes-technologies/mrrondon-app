@@ -83,7 +83,7 @@ namespace MrRondon.Pages.HistoricalSight
                 var service = new HistoricalSightService();
                 var items = await service.GetAsync(CurrentCity.CityId, Search);
                 NotHasItems = IsLoading && items != null && !items.Any();
-                if (NotHasItems) ErrorMessage = "Nenhum Memorial histórico encontrado";
+                if (NotHasItems) ErrorMessage = $"Nenhum Memorial histórico encontrado em {CurrentCity.Name}";
                 Items.ReplaceRange(items);
             }
             catch (Exception ex)
@@ -110,7 +110,7 @@ namespace MrRondon.Pages.HistoricalSight
 
                 CitySelectedIndex = CityNames.Any(a => a.ToLower().Equals(CurrentCity.Name.ToLower()))
                     ? CityNames.IndexOf(CurrentCity.Name)
-                    : 1;
+                    : 0;
             }
             catch (Exception ex)
             {
