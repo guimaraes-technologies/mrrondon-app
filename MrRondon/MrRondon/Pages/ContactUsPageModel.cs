@@ -92,8 +92,12 @@ namespace MrRondon.Pages
                 var service = new ContactService();
                 var hasBeenSended = await service.SendAsync(contactMessage);
 
-                if (!hasBeenSended) throw  new Exception();
                 IsLoading = false;
+                if (!hasBeenSended)
+                {
+                    await MessageService.ShowAsync("Erro", $"Não foi possível enviar a sua mensagem, mas você pode entrar em contato com a SETUR pelo telefone {AccountManager.DefaultSetting.TelephoneSetur} ou pelo email {AccountManager.DefaultSetting.EmailSetur}.");
+                }
+
                 await MessageService.ToastAsync("Mensagem enviada com sucesso.");
 
                 //var builder = new EmailMessageBuilder()
@@ -109,7 +113,7 @@ namespace MrRondon.Pages
             {
                 IsLoading = false;
                 Console.WriteLine(ex);
-                await MessageService.ShowAsync("Erro", $"Não foi possível enviar a sua mensagem, mas você pode entrar em contato com a SETUR pelo telefone {AccountManager.DefaultSetting.TelephoneSetur} ou pelo email {AccountManager.DefaultSetting.EmailSetur}.");
+                await MessageService.ShowAsync("Erro", ex.Message);
             }
         }
 

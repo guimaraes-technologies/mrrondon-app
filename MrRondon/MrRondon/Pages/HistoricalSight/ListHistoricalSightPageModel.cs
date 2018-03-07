@@ -15,7 +15,6 @@ namespace MrRondon.Pages.HistoricalSight
     public class ListHistoricalSightPageModel : BasePageModel
     {
         private bool _notHhasItems;
-
         public bool NotHasItems
         {
             get => _notHhasItems;
@@ -31,7 +30,6 @@ namespace MrRondon.Pages.HistoricalSight
         }
 
         private string _search;
-
         public string Search
         {
             get => _search;
