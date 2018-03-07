@@ -40,12 +40,10 @@ namespace MrRondon.Pages.Event
             get => _cityIndex;
             set
             {
-                if (_cityIndex == value) return;
-
                 _cityIndex = value;
                 Notify(nameof(CitySelectedIndex));
 
-                var selectedItem = Cities[_cityIndex];
+                var selectedItem = Cities[_cityIndex] ?? AccountManager.DefaultSetting.City;
                 CurrentCity = selectedItem;
                 ApplicationManager<Entities.City>.AddOrUpdate("city", selectedItem);
                 LoadItemsCommand.Execute(null);

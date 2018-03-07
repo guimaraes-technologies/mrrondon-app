@@ -35,25 +35,23 @@ namespace MrRondon.Pages.HistoricalSight
             get => _search;
             set => SetProperty(ref _search, value);
         }
-        
+
         private int _cityIndex;
         public int CitySelectedIndex
         {
             get => _cityIndex;
             set
             {
-                if (_cityIndex == value) return;
-
                 _cityIndex = value;
                 Notify(nameof(CitySelectedIndex));
 
-                var selectedItem = Cities[_cityIndex];
+                var selectedItem = Cities[_cityIndex] ?? AccountManager.DefaultSetting.City;
                 CurrentCity = selectedItem;
                 ApplicationManager<Entities.City>.AddOrUpdate("city", selectedItem);
                 LoadItemsCommand.Execute(null);
             }
         }
-        
+
         public ICommand LoadItemsCommand { get; set; }
         public ICommand ItemSelectedCommand { get; set; }
 

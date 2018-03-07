@@ -1,8 +1,9 @@
-﻿using MrRondon.Pages;
+﻿using MrRondon.Helpers;
+using MrRondon.Pages;
 
 namespace MrRondon.Entities
 {
-    public class City : BasePageModel
+    public class City : ObservableObject
     {
         private int _cityId;
         public int CityId
