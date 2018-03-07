@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MrRondon.Auth;
-using MrRondon.Exceptions;
 using MrRondon.Extensions;
 using Plugin.Geolocator;
 using Xamarin.Forms.Maps;
@@ -14,28 +13,18 @@ namespace MrRondon.Helpers
     {
         public static async Task<Position> GetCurrentPositionAsync()
         {
-            Position position;
-            try
-            {
-                var locator = CrossGeolocator.Current;
-                locator.DesiredAccuracy = 50;
+            var locator = CrossGeolocator.Current;
+            locator.DesiredAccuracy = 50;
 
-                position = await locator.GetLastKnownLocationAsync();
+            var position = await locator.GetLastKnownLocationAsync();
 
-                //got a cahched position, so let's use it.
-                if (position != null) return position;
+            //got a cahched position, so let's use it.
+            if (position != null) return position;
 
-                //not available or not enabled
-                if (!locator.IsGeolocationAvailable || !locator.IsGeolocationEnabled) return null;
+            //not available or not enabled
+            if (!locator.IsGeolocationAvailable || !locator.IsGeolocationEnabled) return null;
 
-                position = await locator.GetPositionAsync(TimeSpan.FromMilliseconds(1000), null, true);
-            }
-            catch (Exception ex)
-            {
-                Console.Write(ex.Message);
-                //Display error as we have timed out or can't get location.
-                throw new CouldNotGetLocationException();
-            }
+            position = await locator.GetPositionAsync(TimeSpan.FromMilliseconds(2000), null, true);
 
             return position ?? new Position(AccountManager.DefaultSetting.Latitude, AccountManager.DefaultSetting.Longitude);
         }
