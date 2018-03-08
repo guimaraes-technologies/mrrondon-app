@@ -28,6 +28,8 @@ namespace MrRondon.Entities
             }
         }
 
+        public string ParcialAddress => $"{Street}, {Number} - {Neighborhood}";
+
         public string FullAddress
         {
             get
