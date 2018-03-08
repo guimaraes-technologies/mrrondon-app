@@ -19,7 +19,7 @@
 
     <StackLayout>
         <ListView ItemsSource="{Binding Items}"
-                  SeparatorVisibility="None"
+                  SeparatorVisibility="Default"
                   HasUnevenRows="True"
                   HorizontalOptions="FillAndExpand"
                   VerticalOptions="FillAndExpand"
@@ -34,7 +34,7 @@
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid ColumnSpacing="10" RowSpacing="12" BackgroundColor="{StaticResource PageBackgroundColor}">
+                        <Grid Padding="4" ColumnSpacing="10" BackgroundColor="{StaticResource PageBackgroundColor}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
