@@ -55,7 +55,12 @@ namespace MrRondon.Services
             if (string.IsNullOrWhiteSpace(register.FirstName)) throw new Exception("Campo Nome é obrigatório");
             if (string.IsNullOrWhiteSpace(register.LastName)) throw new Exception("Campo Sobrenome é obrigatório");
             if (string.IsNullOrWhiteSpace(register.Telephone) || string.IsNullOrWhiteSpace(register.Telephone)) throw new Exception("Informe pelo menos um número de contato");
+
+            if (register.Telephone != null && register.Telephone.Length != 14) throw new Exception("Campo Telefone é inválido");
+            if (register.CellPhone != null && register.CellPhone.Length != 15) throw new Exception("Campo Celular é inválido");
+
             if (string.IsNullOrWhiteSpace(register.Cpf)) throw new Exception("Campo CPF é obrigatório");
+            if (register.Cpf.Length != 11) throw new Exception("Campo CPF é inválido");
             if (string.IsNullOrWhiteSpace(register.Email)) throw new Exception("Campo Email é obrigatório");
             if (!EmailHelper.IsEmail(register.Email)) throw new Exception("Email inválido");
             if (string.IsNullOrWhiteSpace(register.Password)) throw new Exception("Campo Senha é obrigatório");
@@ -63,8 +68,14 @@ namespace MrRondon.Services
             if (!string.Equals(register.Password, register.ConfirmPassword)) throw new Exception("A senha e confirmação não confere");
 
             var userRest = new UserRest();
-            var userToken = await userRest.Register(register);
-
+            var user = await userRest.Register(register);
+            var tokenRest=new TokenRest();
+            var token = await tokenRest.Login(new LoginPageModel {UserName = user.Cpf, Password = register.Password});
+            var userToken = new UserTokenVm
+            {
+                User = user,
+                Token = token
+            };
             Login(userToken);
             return userToken.User;
         }

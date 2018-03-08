@@ -40,7 +40,7 @@ namespace MrRondon.Services.Rest
             throw new Exception("Não foi possível concluir a requisição");
         }
 
-        public async Task<UserTokenVm> Register(RegisterPageModel register)
+        public async Task<User> Register(RegisterPageModel register)
         {
             if (!CrossConnectivity.Current.IsConnected) throw new Exception("Você está sem conexão com a internet");
 
@@ -50,7 +50,7 @@ namespace MrRondon.Services.Rest
             if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.OK)
             {
                 var json = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<UserTokenVm>(json);
+                return JsonConvert.DeserializeObject<User>(json);
             }
             var errors = await response.Content.ReadAsStringAsync();
 

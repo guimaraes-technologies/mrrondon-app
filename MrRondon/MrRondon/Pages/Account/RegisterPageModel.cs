@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using MrRondon.Services;
 using Xamarin.Forms;
 
@@ -71,8 +72,17 @@ namespace MrRondon.Pages.Account
 
         private async void ExecuteRegister()
         {
-            var service = new UserService();
-            await service.Register(this);
+            try
+            {
+                if (IsLoading) return;
+                IsLoading = true;
+                var service = new UserService();
+                await service.Register(this);
+            }
+            catch (Exception ex)
+            {
+                await MessageService.ShowAsync(ex.Message);
+            }
         }
     }
 }

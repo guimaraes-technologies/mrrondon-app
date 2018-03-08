@@ -27,11 +27,10 @@ namespace MrRondon.Pages.Map
 
                 var mapSpan = MapSpan.FromCenterAndRadius(new Position(currentPosition.Latitude, currentPosition.Longitude), Distance.FromKilometers(2));
 
-                foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);
                 _pageModel.LoadPinsCommand.Execute(currentPosition);
+                foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);
                 Companies.MoveToRegion(mapSpan);
 
-                await Task.Delay(100);
             }
             catch (TaskCanceledException ex)
             {
