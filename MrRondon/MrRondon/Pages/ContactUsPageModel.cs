@@ -19,7 +19,7 @@ namespace MrRondon.Pages
         public ContactUsPageModel()
         {
             Title = "Fale Conosco";
-            Subjects = EnumExtensions.ConvertEnumToList<Subject>().ToList();
+            Subjects = EnumExtensions.ConvertToList<Subject>().ToList();
             SendMessageCommand = new Command(ExecuteSendMessage);
         }
 
@@ -143,6 +143,8 @@ namespace MrRondon.Pages
         [EnumValueData(Description = "Cadastro de evento", KeyValue = "3")]
         NewEvent = 3,
         [EnumValueData(Description = "Atualização de evento", KeyValue = "4")]
-        UpdateEvent = 4
+        UpdateEvent = 4,
+        [EnumValueData(Description = "Sugestão", KeyValue = "5")]
+        Suggestion = 5
     }
 }
