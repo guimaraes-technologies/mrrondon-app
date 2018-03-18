@@ -109,8 +109,7 @@ namespace MrRondon.Pages.HistoricalSight
                 CityNames = new List<string>(items.Select(s => s.Name));
 
                 CitySelectedIndex = CityNames.Any(a => a.ToLower().Equals(CurrentCity.Name.ToLower()))
-                    ? CityNames.IndexOf(CurrentCity.Name)
-                    : 0;
+                    ? CityNames.IndexOf(CurrentCity.Name) : 0;
             }
             catch (Exception ex)
             {
