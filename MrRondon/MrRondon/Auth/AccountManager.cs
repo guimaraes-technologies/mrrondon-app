@@ -102,7 +102,7 @@ namespace MrRondon.Auth
         {
             var until = ApplicationManager<object>.Find("PlaceUntil");
 
-            var defaultValue = EnumExtensions.GetEnumAttribute(DefaultSetting.PlaceUntilOption);
+            var defaultValue = EnumExtensions.GetAttribute(DefaultSetting.PlaceUntilOption);
             return until == null ? int.Parse(defaultValue.KeyValue) : int.Parse($"{until}");
         }
         

@@ -19,25 +19,24 @@ namespace MrRondon.Extensions
                 .FirstOrDefault();
         }
 
-        public static IEnumerable<EnumValueDataAttribute> ConvertEnumToList<TEnum>()
+        public static IEnumerable<EnumValueDataAttribute> ConvertToList<TEnum>()
             where TEnum : struct // can't constrain to enums so closest thing
         {
             return Enum.GetValues(typeof(TEnum)).Cast<Enum>()
                 .Select(val => val.GetAttribute<EnumValueDataAttribute>())
-                .ToList();
+                .OrderBy(o => o.Description).ToList();
         }
 
-        public static EnumValueDataAttribute GetEnumAttribute(Enum value)
+        public static EnumValueDataAttribute GetAttribute(Enum value)
         {
             return value.GetAttribute<EnumValueDataAttribute>();
         }
 
-        public static EnumValueDataAttribute GetEnumByType<TEnum>(string value) where TEnum : struct // can't constrain to enums so closest thing
+        public static EnumValueDataAttribute GetByType<TEnum>(string value) where TEnum : struct // can't constrain to enums so closest thing
         {
             return Enum.GetValues(typeof(TEnum)).Cast<Enum>()
                 .Select(val => val.GetAttribute<EnumValueDataAttribute>())
                 .ToList().FirstOrDefault(v => v.KeyValue.Equals(value));
         }
-
     }
 }

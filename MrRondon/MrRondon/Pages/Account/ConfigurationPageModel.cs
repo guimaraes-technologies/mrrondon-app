@@ -30,7 +30,7 @@ namespace MrRondon.Pages.Account
 
         public void SetValue(int until)
         {
-            var values = EnumExtensions.ConvertEnumToList<PlaceUntilOption>().ToList();
+            var values = EnumExtensions.ConvertToList<PlaceUntilOption>().ToList();
             Items = new List<DistanceOptions>();
             foreach (var item in values)
             {

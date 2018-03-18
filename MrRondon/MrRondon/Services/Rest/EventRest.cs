@@ -27,7 +27,7 @@ namespace MrRondon.Services.Rest
 
         public async Task<IList<Event>> GetNearbyAsync(PlaceUntilOption placeUntilOption, double latitude, double longitude)
         {
-            var precision = int.Parse(EnumExtensions.GetEnumAttribute(placeUntilOption).KeyValue);
+            var precision = int.Parse(EnumExtensions.GetAttribute(placeUntilOption).KeyValue);
             var url = $"{UrlService}/event/nearby/meters/{precision}/latitude/{latitude.ToString(CultureInfo.CurrentCulture).Replace(".", ",")}/longitude/{longitude.ToString(CultureInfo.CurrentCulture).Replace(".", ",")}";
             var content = await GetObjectAsync<IList<Event>>(url);
 
