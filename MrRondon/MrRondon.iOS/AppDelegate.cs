@@ -1,6 +1,7 @@
 ﻿using System;
 using FFImageLoading;
 using FFImageLoading.Forms.Touch;
+using FFImageLoading.Transformations;
 using Foundation;
 using Plugin.Toasts;
 using UIKit;
@@ -25,6 +26,7 @@ namespace MrRondon.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             Forms.Init();
+            var ignore = new CircleTransformation();
             //FFImageLoading initialization
             CachedImageRenderer.Init();
             var config = new FFImageLoading.Config.Configuration()
