@@ -2,6 +2,7 @@
 using MrRondon.Pages.Category;
 using MrRondon.Pages.Event;
 using MrRondon.Pages.HistoricalSight;
+using MrRondon.Pages.Map;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages
@@ -20,15 +21,6 @@ namespace MrRondon.Pages
                 {
                     case 1:
                         {
-                            var pageModel = new ListCategoriesPageModel();
-                            pageModel.LoadItemsCommand.Execute(null);
-
-                            CurrentPage.BindingContext = pageModel;
-                            await Task.Delay(1);
-                            return;
-                        }
-                    case 2:
-                        {
                             var pageModel = new ListEventPageModel();
                             pageModel.LoadCitiesCommand.Execute(null);
                             pageModel.LoadItemsCommand.Execute(null);
@@ -37,11 +29,10 @@ namespace MrRondon.Pages
                             await Task.Delay(1);
                             return;
                         }
-                    case 3:
+                    case 2:
                         {
-                            var pageModel = new ListHistoricalSightPageModel();
-                            pageModel.LoadCitiesCommand.Execute(null);
-                            pageModel.LoadItemsCommand.Execute(null);
+                            var pageModel = new MapPageModel();
+                            pageModel.LoadPinsCommand.Execute(null);
 
                             CurrentPage.BindingContext = pageModel;
                             await Task.Delay(1);
@@ -52,6 +43,5 @@ namespace MrRondon.Pages
                 }
             };
         }
-
     }
 }

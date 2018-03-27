@@ -7,7 +7,7 @@
              xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
              xmlns:pages="clr-namespace:MrRondon.Pages"
-             Title="Categoria"
+             Title="EXPLORE"
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 

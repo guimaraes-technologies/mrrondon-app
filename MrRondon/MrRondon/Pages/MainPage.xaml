@@ -9,8 +9,7 @@
             BackgroundColor="{StaticResource PrimaryColor}"
             Title="Mr Rondon Turismo">
 
-    <map:MapPage />
     <category:ListCategoriesPage />
     <event:ListEventPage />
-    <historicalSight:ListHistoricalSightPage />
+    <map:MapPage />
 </TabbedPage>
