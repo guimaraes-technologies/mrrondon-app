@@ -1,10 +1,10 @@
-﻿using DLToolkit.Forms.Controls;
+﻿//using DLToolkit.Forms.Controls;
 using MrRondon.Droid.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using ListView = Android.Widget.ListView;
 
-[assembly: ExportRenderer(typeof(FlowListViewInternalCell), typeof(FlowListViewInternalCellRenderer))]
+//[assembly: ExportRenderer(typeof(FlowListViewInternalCell), typeof(FlowListViewInternalCellRenderer))]
 namespace MrRondon.Droid.Renderers
 {
     // DISABLES FLOWLISTVIEW ROW HIGHLIGHT

@@ -18,7 +18,7 @@ namespace MrRondon.Pages
 
         public ContactUsPageModel()
         {
-            Title = "Fale Conosco";
+            Title = "Fale com a gente";
             Subjects = EnumExtensions.ConvertToList<Subject>().ToList();
             SendMessageCommand = new Command(ExecuteSendMessage);
         }

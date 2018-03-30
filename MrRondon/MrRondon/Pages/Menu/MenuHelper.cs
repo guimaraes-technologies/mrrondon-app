@@ -33,19 +33,20 @@ namespace MrRondon.Pages.Menu
         {
             var items = new List<MenuItemVm>
             {
-                new MenuItemVm("Início", "home", MenuType.Home)
+                new MenuItemVm("Início", "home", MenuType.Home),
+                new MenuItemVm("Fale com a gente", "contact", MenuType.ContactUs)
             };
 
             if (account.IsValid)
             {
                 items.Add(new MenuItemVm("Eventos Favoritos", "favorite", MenuType.FavoriteEvent));
-                items.Add(new MenuItemVm("Minha Conta", "user", MenuType.AccountInformation));
             }
-
             items.Add(new MenuItemVm("Configurações", "configuration", MenuType.Configurations));
-            items.Add(new MenuItemVm("Fale Conosco", "contact", MenuType.ContactUs));
-            await Task.Delay(1);
 
+            if(account.IsValid)items.Add(new MenuItemVm("Sair", "logout", MenuType.Logout));
+            else items.Add(new MenuItemVm("Entrar", string.Empty, MenuType.Logout));
+
+            await Task.Delay(1);
             return items;
         }
     }

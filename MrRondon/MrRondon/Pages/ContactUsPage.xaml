@@ -10,45 +10,43 @@
 
     <ScrollView>
         <StackLayout>
-            <Label Text="Nome" TextColor="Black" FontAttributes="Bold"></Label>
-            <Entry Text="{Binding Name}" TextColor="Black" BackgroundColor="{StaticResource EntryBackgroundColor}"></Entry>
+            <Label Text="Nome" TextColor="{StaticResource PrimaryLabelColor}"></Label>
+            <Entry Text="{Binding Name}" PlaceholderColor="{StaticResource PrimaryLabelColor}" TextColor="{StaticResource EntryColor}"></Entry>
 
-            <Label Text="Email" TextColor="Black" FontAttributes="Bold"></Label>
-            <Entry Text="{Binding Email}" TextColor="Black" BackgroundColor="{StaticResource EntryBackgroundColor}"></Entry>
+            <Label Text="Email" TextColor="{StaticResource PrimaryLabelColor}"></Label>
+            <Entry Text="{Binding Email}" PlaceholderColor="{StaticResource EntryPlaceholderColor}" TextColor="{StaticResource EntryColor}"></Entry>
 
             <StackLayout Orientation="Horizontal">
-                <Label HorizontalOptions="FillAndExpand" Text="Telefone" TextColor="Black" FontAttributes="Bold"></Label>
+                <Label HorizontalOptions="FillAndExpand" Text="Telefone" TextColor="{StaticResource PrimaryLabelColor}"></Label>
 
-                <Label HorizontalOptions="FillAndExpand" Text="Celular" TextColor="Black" FontAttributes="Bold"></Label>
+                <Label HorizontalOptions="FillAndExpand" Text="Celular" TextColor="{StaticResource PrimaryLabelColor}"></Label>
             </StackLayout>
             <StackLayout Orientation="Horizontal">
-                <Entry HorizontalOptions="FillAndExpand" Text="{Binding Telephone}" TextColor="Black" BackgroundColor="{StaticResource EntryBackgroundColor}" Keyboard="Telephone">
+                <Entry HorizontalOptions="FillAndExpand" Text="{Binding Telephone}" PlaceholderColor="{StaticResource PrimaryLabelColor}" TextColor="{StaticResource EntryColor}" Keyboard="Telephone">
                     <Entry.Behaviors>
                         <behaviors:PhoneNumberFormatterBehavior Type="Telephone" />
                     </Entry.Behaviors>
                 </Entry>
 
-                <Entry HorizontalOptions="FillAndExpand" Text="{Binding Cellphone}" TextColor="Black" BackgroundColor="{StaticResource EntryBackgroundColor}" Keyboard="Telephone">
+                <Entry HorizontalOptions="FillAndExpand" Text="{Binding Cellphone}" PlaceholderColor="{StaticResource PrimaryLabelColor}" TextColor="{StaticResource EntryColor}" Keyboard="Telephone">
                     <Entry.Behaviors>
                         <behaviors:PhoneNumberFormatterBehavior Type="Cellphone" />
                     </Entry.Behaviors>
                 </Entry>
             </StackLayout>
 
-            <Label Text="Assunto" TextColor="Black" FontAttributes="Bold"></Label>
+            <Label Text="Assunto" TextColor="{StaticResource PrimaryLabelColor}"></Label>
             <extensions:BindablePicker
-                Title="Escolha um assunto"
-                PlaceholderColor="{StaticResource EntryBackgroundColor}"
-                TextColor="Black"
-                PickerBackgroundColor="White"
+                TextColor="{StaticResource EntryColor}"
+                PickerBackgroundColor="{StaticResource EntryBackgroundColor}"
                 DisplayMemberPath="Description"
                 SelectedItem="{Binding Subject}"
                 SelectedValuePath="KeyValue"
                 ItemsSource="{Binding Subjects}"
                 HorizontalOptions="Fill" />
 
-            <Label Text="Mensagem" TextColor="Black" FontAttributes="Bold"></Label>
-            <Editor Text="{Binding Message}" TextColor="Black" BackgroundColor="{StaticResource EntryBackgroundColor}" HeightRequest="100"></Editor>
+            <Label Text="Mensagem" TextColor="{StaticResource PrimaryLabelColor}"></Label>
+            <Editor Text="{Binding Message}" TextColor="{StaticResource EntryColor}" HeightRequest="100"></Editor>
 
             <Button Text="ENVIAR" TextColor="White" BackgroundColor="#FB007351" Command="{Binding SendMessageCommand}"></Button>
             <ActivityIndicator Margin="0,5,0,5" IsRunning="{Binding IsLoading}" Color="{StaticResource PrimaryColor}"></ActivityIndicator>

@@ -26,12 +26,17 @@ namespace MrRondon.Pages.Category
 	        catch (TaskCanceledException ex)
 	        {
 	            Debug.WriteLine(ex);
-	            await _pageModel.MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
+	            await _pageModel.MessageService.ShowAsync("Informação",
+	                "A requisição está demorando muito, verifique sua conexão com a internet.");
 	        }
 	        catch (Exception ex)
 	        {
 	            Debug.WriteLine(ex);
 	            await _pageModel.MessageService.ShowAsync(ex.Message);
+	        }
+	        finally
+	        {
+	            _pageModel.IsLoading = false;
 	        }
         }
     }

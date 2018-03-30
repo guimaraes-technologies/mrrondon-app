@@ -10,10 +10,11 @@
             <Color x:Key="SecondaryColor">#CFD8DC</Color>
             <Color x:Key="Accent">#00C168</Color>
             <Color x:Key="PageBackgroundColor">#ffffff</Color>
-            <Color x:Key="EntryBackgroundColor">#E6E6E6</Color>
-            <Color x:Key="EntryPlaceholderColor">#ACB9BF</Color>
-            <Color x:Key="PrimaryLabelColor">#212121</Color>
-            <Color x:Key="SecondaryLabelColor">#616161</Color>
+            <Color x:Key="EntryBackgroundColor">#ffffff</Color>
+            <Color x:Key="EntryPlaceholderColor">#404040</Color>
+            <Color x:Key="EntryColor">#404040</Color>
+            <Color x:Key="PrimaryLabelColor">#9a9a9a</Color>
+            <Color x:Key="SecondaryLabelColor">#404040</Color>
             
             <Style TargetType="Label" x:Key="PrimaryLabel">
                 <Setter Property="FontAttributes" Value="Bold" />
