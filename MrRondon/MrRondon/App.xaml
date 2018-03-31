@@ -5,7 +5,7 @@
     <Application.Resources>
         <ResourceDictionary>
             <Color x:Key="PrimaryColor">#00bfc1</Color>
-            <Color x:Key="PrimaryDarkColor">#34000000</Color>
+            <Color x:Key="PrimaryDarkColor">#00999a</Color>
             <Color x:Key="TextPrimaryColor">#FFFFFF</Color>
             <Color x:Key="SecondaryColor">#CFD8DC</Color>
             <Color x:Key="Accent">#00C168</Color>
@@ -34,7 +34,7 @@
             </OnPlatform>
 
             <Style TargetType="ContentPage">
-                <Setter Property="Title" Value="Mr Rondon Turismo" />
+                <Setter Property="Title" Value="Turismo Rondônia" />
                 <Setter Property="Padding" Value="{StaticResource PagePadding}" />
             </Style>
 
