@@ -61,7 +61,7 @@ namespace MrRondon.Pages.Category
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                await MessageService.ShowAsync(ex.Message);
             }
             finally
             {

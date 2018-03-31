@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using MrRondon.Auth;
 using MrRondon.Extensions;
@@ -92,28 +94,29 @@ namespace MrRondon.Pages
                 var service = new ContactService();
                 var hasBeenSended = await service.SendAsync(contactMessage);
 
-                IsLoading = false;
                 if (!hasBeenSended)
                 {
                     await MessageService.ShowAsync("Erro", $"Não foi possível enviar a sua mensagem, mas você pode entrar em contato com a SETUR pelo telefone {AccountManager.DefaultSetting.TelephoneSetur} ou pelo email {AccountManager.DefaultSetting.EmailSetur}.");
                 }
 
+                Message = string.Empty;
+                Subject = null;
                 await MessageService.ToastAsync("Mensagem enviada com sucesso.");
-
-                //var builder = new EmailMessageBuilder()
-                //    .To(AccountManager.DefaultSetting.EmailSetur)
-                //    .Subject(Subject.Description)
-                //    .BodyAsHtml(Message).Build();
-
-                //var emailMessenger = CrossMessaging.Current.EmailMessenger;
-                //if (emailMessenger.CanSendEmail) emailMessenger.SendEmail(builder);
-                //await MessageService.ToastAsync("Mensagem enviada com sucesso.");
+            }
+            catch (TaskCanceledException ex)
+            {
+                Debug.WriteLine(ex);
+                await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
             }
             catch (Exception ex)
             {
-                IsLoading = false;
+                Debug.WriteLine(ex);
                 Console.WriteLine(ex);
                 await MessageService.ShowAsync("Erro", ex.Message);
+            }
+            finally
+            {
+                IsLoading = false;
             }
         }
 

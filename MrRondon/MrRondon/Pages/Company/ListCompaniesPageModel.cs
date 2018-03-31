@@ -91,10 +91,15 @@ namespace MrRondon.Pages.Company
                 if (NotHasItems) ErrorMessage = $"Nenhuma empresa encontrada em {CurrentCity.Name}.";
                 Items.ReplaceRange(items);
             }
+            catch (TaskCanceledException ex)
+            {
+                Debug.WriteLine(ex);
+                await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
+            }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                await MessageService.ShowAsync(ex.Message);
             }
             finally
             {
@@ -119,7 +124,7 @@ namespace MrRondon.Pages.Company
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                await MessageService.ShowAsync(ex.Message);
             }
             finally
             {
@@ -140,7 +145,7 @@ namespace MrRondon.Pages.Company
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                await MessageService.ShowAsync(ex.Message);
             }
             finally
             {

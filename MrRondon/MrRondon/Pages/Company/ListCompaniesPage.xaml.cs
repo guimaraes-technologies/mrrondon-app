@@ -1,5 +1,4 @@
-﻿using MrRondon.Auth;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace MrRondon.Pages.Company
 {

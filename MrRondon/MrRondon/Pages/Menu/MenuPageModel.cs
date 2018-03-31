@@ -64,7 +64,7 @@ namespace MrRondon.Pages.Menu
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title)));
+                await MessageService.ShowAsync(ex.Message);
             }
             finally
             {

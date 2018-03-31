@@ -26,7 +26,7 @@ namespace MrRondon.Pages.Event
             get => _errorMessage;
             set => SetProperty(ref _errorMessage, value);
         }
-        
+
         private string _searchBar;
         public string Search
         {
@@ -42,7 +42,7 @@ namespace MrRondon.Pages.Event
             {
                 _cityIndex = value < 0 ? 0 : value;
                 Notify(nameof(CitySelectedIndex));
-                
+
                 var selectedItem = Cities[_cityIndex] ?? AccountManager.DefaultSetting.City;
                 CurrentCity = selectedItem;
                 ApplicationManager<Entities.City>.AddOrUpdate("city", selectedItem);
@@ -59,7 +59,7 @@ namespace MrRondon.Pages.Event
             get => _items;
             set => SetProperty(ref _items, value);
         }
-        
+
         public ListEventPageModel()
         {
             Title = Constants.AppName;
@@ -85,10 +85,15 @@ namespace MrRondon.Pages.Event
                 if (NotHasItems) ErrorMessage = $"Nenhum evento encontrado em {CurrentCity.Name}";
                 Items.ReplaceRange(items);
             }
+            catch (TaskCanceledException ex)
+            {
+                Debug.WriteLine(ex);
+                await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
+            }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                await MessageService.ShowAsync(ex.Message);
             }
             finally
             {
@@ -114,7 +119,7 @@ namespace MrRondon.Pages.Event
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                await MessageService.ShowAsync(ex.Message);
             }
             finally
             {

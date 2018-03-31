@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MrRondon.Auth;
@@ -77,6 +78,11 @@ namespace MrRondon.Pages.Event
                 IsFavorit = !IsFavorit;
                 var isFavorite = await service.FavoriteAsync(Event.EventId);
                 IsFavorit = isFavorite;
+            }
+            catch (TaskCanceledException ex)
+            {
+                Debug.WriteLine(ex);
+                await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
             }
             catch (Exception ex)
             {
