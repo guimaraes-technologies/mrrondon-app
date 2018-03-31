@@ -43,8 +43,7 @@ namespace MrRondon.Pages.Menu
             }
             items.Add(new MenuItemVm("Configurações", "configuration", MenuType.Configurations));
 
-            if(account.IsValid)items.Add(new MenuItemVm("Sair", "logout", MenuType.Logout));
-            else items.Add(new MenuItemVm("Entrar", string.Empty, MenuType.Logout));
+            items.Add(account.IsValid ? new MenuItemVm("Sair", "logout", MenuType.Logout) : new MenuItemVm("Entrar", "logout", MenuType.Logout));
 
             await Task.Delay(1);
             return items;
