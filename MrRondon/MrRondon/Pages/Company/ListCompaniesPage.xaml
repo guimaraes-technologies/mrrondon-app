@@ -74,7 +74,5 @@
                 <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems}" TextColor="{StaticResource Accent}" FontSize="Medium" HorizontalOptions="Center"></Label>
             </ListView.Footer>
         </ListView>
-
-        <pages:FooterPage />
     </StackLayout>
 </ContentPage>

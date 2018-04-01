@@ -6,8 +6,7 @@
              xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
-             xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
-             Title="Mr Rondon Turismo"
+             Title="{Binding Title}"
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
@@ -63,7 +62,5 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-
-        <pages:FooterPage />
     </StackLayout>
 </ContentPage>

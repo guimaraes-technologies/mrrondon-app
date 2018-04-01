@@ -17,9 +17,6 @@ namespace MrRondon.Pages.Menu
             switch (item.Type)
             {
                 case MenuType.Home: return new MainPage();
-                case MenuType.AccountInformation:
-                    if (account.IsValid) return new InformationPage(new InformationPageModel(account.User));
-                    return new LoginPage();
                 case MenuType.Configurations: return new ConfigurationPage();
                 case MenuType.FavoriteEvent:
                     if (account.IsValid) return new FavoriteEventsPage();

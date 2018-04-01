@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
              xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
              x:Class="MrRondon.Pages.City.ChangeCityPage"
              Title="{Binding Title}">
@@ -32,7 +31,5 @@
                 <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems}" TextColor="{StaticResource Accent}" FontSize="Medium" HorizontalOptions="Center"></Label>
             </ListView.Footer>
         </ListView>
-
-        <pages:FooterPage />
     </StackLayout>
 </ContentPage>

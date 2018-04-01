@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Input;
 using MrRondon.Auth;
+using MrRondon.Entities;
 using MrRondon.Extensions;
 using MrRondon.Helpers;
 using Xamarin.Forms;
@@ -16,6 +17,8 @@ namespace MrRondon.Pages.Account
 
             var precision = AccountManager.GetPrecision();
             SetValue(precision);
+            var account = Auth.Account.Current;
+            Account = account;
             ItemSelectedCommand = new Command<DistanceOptions>(ExecuteItemSelected);
         }
 
@@ -25,6 +28,9 @@ namespace MrRondon.Pages.Account
             get => _items;
             set => SetProperty(ref _items, value);
         }
+
+        public AccountManager Account { get; set; }
+        public bool NotHasContacts => !Account.User?.Contacts?.Any() ?? true;
 
         public ICommand ItemSelectedCommand { get; set; }
 
