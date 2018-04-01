@@ -9,13 +9,13 @@
     <StackLayout>
         <Label Text="Raio de abrangência do mapa" TextColor="{StaticResource PrimaryColor}" />
 
-        <Label Text="{Binding MapRange}" Style="{StaticResource PrimaryLabel}" />
-        <Slider Margin="0" ></Slider>
+        <Label Text="{Binding MapRange}" TextColor="{StaticResource SecondaryLabelColor}" />
+        <Slider Margin="0"></Slider>
 
+        <StackLayout Orientation="Horizontal">
+            <BoxView Color="{StaticResource PrimaryLabelColor}" HeightRequest="1"></BoxView>
+        </StackLayout>
         <StackLayout IsVisible="{Binding Account.IsLoggedIn}">
-            <StackLayout Orientation="Horizontal">
-                <BoxView Color="{StaticResource PrimaryLabelColor}" HeightRequest="1"></BoxView>
-            </StackLayout>
             <Label Text="Minha Conta" TextColor="{StaticResource PrimaryColor}" />
 
             <Label Text="Nome" Style="{StaticResource PrimaryLabel}" Margin="0, 10, 0, 0"></Label>

@@ -17,54 +17,18 @@ namespace MrRondon.Pages.Account
 
             var precision = AccountManager.GetPrecision();
             SetValue(precision);
-            var account = Auth.Account.Current;
-            Account = account;
-            ItemSelectedCommand = new Command<DistanceOptions>(ExecuteItemSelected);
+            Account = Auth.Account.Current;
         }
 
-        private List<DistanceOptions> _items;
-        public List<DistanceOptions> Items
-        {
-            get => _items;
-            set => SetProperty(ref _items, value);
-        }
-
-        public AccountManager Account { get; set; }
+        public string MapRange { get; private set; }
+        public AccountManager Account { get; }
         public bool NotHasContacts => !Account.User?.Contacts?.Any() ?? true;
 
-        public ICommand ItemSelectedCommand { get; set; }
-
-        public void SetValue(int until)
+        public void SetValue(int distance)
         {
-            var values = EnumExtensions.ConvertToList<PlaceUntilOption>().ToList();
-            Items = new List<DistanceOptions>();
-            foreach (var item in values)
-            {
-                var distance = int.Parse(item.KeyValue);
-                var isTheSame = distance.Equals(until);
-                var distanceOption = new DistanceOptions(distance, item.Description, isTheSame);
-                Items.Add(distanceOption);
-                if (isTheSame) ApplicationManager<object>.AddOrUpdate("PlaceUntil", distance);
-            }
+            var unity = distance < 1000 ? "metros" : distance < 2000 ? "quilômetro" : "quilômetros";
+            MapRange = $"{distance} {unity}";
+            ApplicationManager<object>.AddOrUpdate("PlaceUntil", distance);
         }
-
-        private void ExecuteItemSelected(DistanceOptions item)
-        {
-            SetValue(item.Distance);
-        }
-    }
-
-    public class DistanceOptions
-    {
-        public DistanceOptions(int distance, string description, bool isChecked)
-        {
-            Distance = distance;
-            Description = description;
-            Icon = isChecked ? "check" : string.Empty;
-        }
-
-        public int Distance { get; private set; }
-        public string Description { get; private set; }
-        public string Icon { get; private set; }
     }
 }

@@ -96,7 +96,7 @@ namespace MrRondon.Auth
             public static double Latitude = -8.7592547;
             public static double Longitude = -63.8769227;
             public static PlaceUntilOption PlaceUntilOption = PlaceUntilOption.Thousand;
-        }
+        } 
 
         public static int GetPrecision()
         {
