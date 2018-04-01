@@ -16,6 +16,7 @@ namespace MrRondon.Pages
 {
     public class ContactUsPageModel : BasePageModel
     {
+        private const int MessageMaxLength = 250;
         public ICommand SendMessageCommand { get; set; }
 
         public ContactUsPageModel()
@@ -71,7 +72,20 @@ namespace MrRondon.Pages
         public string Message
         {
             get => _message;
-            set => SetProperty(ref _message, value);
+            set
+            {
+                _message = value;
+                var letters = value?.Length ?? 0;
+                CountLetter = $"{letters.ToString().PadLeft(3, '0')} / {MessageMaxLength}";
+                Notify(nameof(Message));
+            }
+        }
+
+        private string _countLetter = $"000 / {MessageMaxLength}";
+        public string CountLetter
+        {
+            get => _countLetter;
+            set => SetProperty(ref _countLetter, value);
         }
 
         private async void ExecuteSendMessage()
@@ -112,7 +126,7 @@ namespace MrRondon.Pages
             {
                 Debug.WriteLine(ex);
                 Console.WriteLine(ex);
-                await MessageService.ShowAsync("Erro", ex.Message);
+                await MessageService.ShowAsync(ex.Message);
             }
             finally
             {
@@ -132,8 +146,7 @@ namespace MrRondon.Pages
             if (string.IsNullOrWhiteSpace(Message)) throw new Exception("O campo Mensagem é obrigatório.");
 
             if (Message.Length < 25) throw new Exception($"Para um melhor entendimento do(a) {Subject.Description}, informe uma mensagem mais detalhada.");
-
-            return true;
+            return Message.Length < MessageMaxLength;
         }
     }
 
