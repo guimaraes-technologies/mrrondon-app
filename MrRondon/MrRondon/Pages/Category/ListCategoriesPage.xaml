@@ -4,69 +4,60 @@
              x:Class="MrRondon.Pages.Category.ListCategoriesPage"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
-             xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
-             xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
-             xmlns:pages="clr-namespace:MrRondon.Pages"
+             xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
              Title="EXPLORE"
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converters:ItemTappedEventArgsToItemTappedConverter x:Key="ItemTappedConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
+    <StackLayout Margin="0, 20, 0, 0">
+        <flv:FlowListView x:Name="flowListView" 
+                          FlowColumnCount="2" 
+                          SeparatorVisibility="None" 
+                          HasUnevenRows="True"
+                          FlowItemTappedCommand="{Binding ItemSelectedCommand}" 
+                          FlowItemsSource="{Binding Items}"
+                          RefreshCommand="{Binding LoadItemsCommand}"
+                          IsRefreshing="{Binding IsLoading}"
+                          HeightRequest="120">
 
-    <StackLayout>
-        <ListView ItemsSource="{Binding Items}"
-                  SeparatorVisibility="Default"
-                  HasUnevenRows="True"
-                  HorizontalOptions="FillAndExpand"
-                  VerticalOptions="FillAndExpand"
-                  RefreshCommand="{Binding LoadItemsCommand}"
-                  IsPullToRefreshEnabled="True"
-                  IsRefreshing="{Binding IsLoading, Mode=OneWay}">
-            <ListView.Behaviors>
-                <behaviors:EventToCommandBehavior Command="{Binding ItemSelectedCommand}"
-    Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
-            </ListView.Behaviors>
-
-            <ListView.ItemTemplate>
+            <flv:FlowListView.FlowLoadingTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid Padding="4" ColumnSpacing="10" BackgroundColor="{StaticResource PageBackgroundColor}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-
-                            <ffimageloading:CachedImage
-                                Source="{Binding ImageSource}" 
-                                HorizontalOptions="CenterAndExpand" 
-                                VerticalOptions="CenterAndExpand"
-                                WidthRequest="50" 
-                                HeightRequest="50"
-                                CacheType="Memory"
-                                Aspect="AspectFit"
-                                DownsampleToViewSize="true">
-
-                                <ffimageloading:CachedImage.Transformations>
-                                    <fftransformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                                        <fftransformations:CircleTransformation.BorderSize>
-                                            <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                                        </fftransformations:CircleTransformation.BorderSize>
-                                    </fftransformations:CircleTransformation>
-                                </ffimageloading:CachedImage.Transformations>
-                            </ffimageloading:CachedImage>
-
-                            <Label Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Name}" FontSize="Medium" FontAttributes="Bold" />
-                        </Grid>
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"
+                            TextColor="{StaticResource SecondaryLabelColor}"
+                            Text="Carregando..."
+                        ></Label>
                     </ViewCell>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            </flv:FlowListView.FlowLoadingTemplate>
+            <flv:FlowListView.FlowColumnTemplate>
+                <DataTemplate>
+                    <StackLayout Margin="0, 25, 0, 0">
+                        <ffimageloading:CachedImage
+                            Source="{Binding ImageSource}" 
+                            HorizontalOptions="Center" 
+                            VerticalOptions="Center"
+                            WidthRequest="80" 
+                            HeightRequest="80"
+                            CacheType="Memory"
+                            Aspect="AspectFit"
+                            DownsampleToViewSize="true">
+
+                            <ffimageloading:CachedImage.Transformations>
+                                <fftransformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
+                                    <fftransformations:CircleTransformation.BorderSize>
+                                        <OnPlatform x:TypeArguments="x:Double" Android="10" iOS="20" />
+                                    </fftransformations:CircleTransformation.BorderSize>
+                                </fftransformations:CircleTransformation>
+                            </ffimageloading:CachedImage.Transformations>
+                        </ffimageloading:CachedImage>
+
+                        <Label VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="#0c9796" Text="{Binding Name}" FontSize="Medium" />
+                    </StackLayout>
+                </DataTemplate>
+            </flv:FlowListView.FlowColumnTemplate>
+        </flv:FlowListView>
     </StackLayout>
 </ContentPage>

@@ -3,9 +3,11 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using DLToolkit.Forms.Controls;
 using MrRondon.Helpers;
 using MrRondon.Pages.Company;
 using MrRondon.Services;
+using MrRondon.ViewModels;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages.Category
@@ -15,7 +17,7 @@ namespace MrRondon.Pages.Category
         public ListCategoriesPageModel()
         {
             Title = Constants.AppName;
-            Items = new ObservableRangeCollection<ViewModels.CategoryListVm>();
+            Items = new FlowObservableCollection<CategoryListVm>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
             ItemSelectedCommand = new Command<ViewModels.CategoryListVm>(async (item) => await ExecuteItemSelected(item));
         }
@@ -37,8 +39,8 @@ namespace MrRondon.Pages.Category
             set => SetProperty(ref _errorMessage, value);
         }
 
-        private ObservableRangeCollection<ViewModels.CategoryListVm> _items;
-        public ObservableRangeCollection<ViewModels.CategoryListVm> Items
+        private FlowObservableCollection<CategoryListVm> _items;
+        public FlowObservableCollection<CategoryListVm> Items
         {
             get => _items;
             set => SetProperty(ref _items, value);
@@ -56,7 +58,7 @@ namespace MrRondon.Pages.Category
                 var items = await service.GetAsync();
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = "Nenhuma categoria encontrada";
-                Items.ReplaceRange(items);
+                Items = new FlowObservableCollection<CategoryListVm>(items);
             }
             catch (Exception ex)
             {
