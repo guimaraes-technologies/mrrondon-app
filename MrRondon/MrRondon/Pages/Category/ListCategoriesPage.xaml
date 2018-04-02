@@ -18,6 +18,7 @@
                           FlowItemsSource="{Binding Items}"
                           RefreshCommand="{Binding LoadItemsCommand}"
                           IsRefreshing="{Binding IsLoading}"
+                          IsPullToRefreshEnabled="True"
                           HeightRequest="120">
 
             <flv:FlowListView.FlowLoadingTemplate>

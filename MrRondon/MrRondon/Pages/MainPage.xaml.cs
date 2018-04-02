@@ -24,6 +24,7 @@ namespace MrRondon.Pages
                             var pageModel = new ListEventPageModel();
                             pageModel.LoadCitiesCommand.Execute(null);
                             pageModel.LoadItemsCommand.Execute(null);
+                            pageModel.IsLoading = false;
 
                             CurrentPage.BindingContext = pageModel;
                             await Task.Delay(1);
@@ -33,7 +34,7 @@ namespace MrRondon.Pages
                         {
                             var pageModel = new MapPageModel();
                             pageModel.LoadPinsCommand.Execute(null);
-
+                            pageModel.IsLoading = false;
                             CurrentPage.BindingContext = pageModel;
                             await Task.Delay(1);
                             return;

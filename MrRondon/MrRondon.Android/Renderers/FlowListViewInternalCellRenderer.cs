@@ -1,5 +1,4 @@
 ﻿//using DLToolkit.Forms.Controls;
-using MrRondon.Droid.Renderers;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 using ListView = Android.Widget.ListView;

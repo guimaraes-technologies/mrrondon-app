@@ -9,7 +9,10 @@ namespace MrRondon.Pages.Event
         public EventDetailsPage (EventDetailsPageModel pageModel)
 		{
 			InitializeComponent ();
-		    BindingContext = _pageModel = pageModel;
+            //Window.AddFlags(WindowManagerFlags.TranslucentNavigation);
+            //Window.AddFlags(WindowManagerFlags.TranslucentStatus);
+            
+            BindingContext = _pageModel = pageModel;
         }
 	}
 }
