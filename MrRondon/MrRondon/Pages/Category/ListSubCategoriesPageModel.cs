@@ -14,7 +14,7 @@ namespace MrRondon.Pages.Category
     {
         public ListSubCategoriesPageModel(ViewModels.CategoryListVm category)
         {
-            Title = Constants.AppName;
+            Title = category.Name;
             Category = category;
             Items = new ObservableRangeCollection<Entities.SubCategory>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());

@@ -20,14 +20,12 @@
                           IsRefreshing="{Binding IsLoading}"
                           HeightRequest="120">
 
-            <flv:FlowListView.HeaderTemplate>
-                <DataTemplate>
-                    <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
-                        <Label Text="Em" FontSize="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center"></Label>
-                        <Picker Title="Cidade" ItemsSource="{Binding CityNames}" SelectedIndex="{Binding CitySelectedIndex}" Margin="5,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center"></Picker>
-                    </StackLayout>
-                </DataTemplate>
-            </flv:FlowListView.HeaderTemplate>
+            <flv:FlowListView.Header>
+                <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                    <Label Text="Em" FontSize="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center"></Label>
+                    <Picker Title="Cidade" ItemsSource="{Binding CityNames}" SelectedIndex="{Binding CitySelectedIndex}" Margin="5,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center"></Picker>
+                </StackLayout>
+            </flv:FlowListView.Header>
             <flv:FlowListView.FlowLoadingTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -42,8 +40,9 @@
             </flv:FlowListView.FlowLoadingTemplate>
             <flv:FlowListView.FlowColumnTemplate>
                 <DataTemplate>
-                    <RelativeLayout>
-                        <ffimageloading:CachedImage
+                    <Grid>
+                        <RelativeLayout>
+                            <ffimageloading:CachedImage
                                 Source="{Binding ImageSourceLogo}" 
                                 HorizontalOptions="Center" 
                                 VerticalOptions="Center"
@@ -52,10 +51,11 @@
                                 CacheType="Memory"
                                 Aspect="AspectFit"
                                 DownsampleToViewSize="true">
-                        </ffimageloading:CachedImage>
+                            </ffimageloading:CachedImage>
 
-                        <Label Margin="15, 0, 0, 0" VerticalOptions="End" TextColor="White" Text="{Binding Name}" FontSize="Large" />
-                    </RelativeLayout>
+                            <Label Margin="15, 0, 0, 0" VerticalOptions="End" TextColor="White" Text="{Binding Name}" FontSize="Large" />
+                        </RelativeLayout>
+                    </Grid>
                 </DataTemplate>
             </flv:FlowListView.FlowColumnTemplate>
             <flv:FlowListView.FooterTemplate>

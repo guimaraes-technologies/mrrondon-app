@@ -1,7 +1,5 @@
 ﻿using System.Threading.Tasks;
-using MrRondon.Pages.Category;
 using MrRondon.Pages.Event;
-using MrRondon.Pages.HistoricalSight;
 using MrRondon.Pages.Map;
 using Xamarin.Forms;
 
@@ -24,7 +22,6 @@ namespace MrRondon.Pages
                             var pageModel = new ListEventPageModel();
                             pageModel.LoadCitiesCommand.Execute(null);
                             pageModel.LoadItemsCommand.Execute(null);
-                            pageModel.IsLoading = false;
 
                             CurrentPage.BindingContext = pageModel;
                             await Task.Delay(1);

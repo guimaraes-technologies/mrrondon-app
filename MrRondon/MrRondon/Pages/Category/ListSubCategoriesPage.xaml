@@ -2,8 +2,6 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MrRondon.Pages.Category.ListSubCategoriesPage"
-             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
              Title="{Binding Title}"
@@ -17,22 +15,6 @@
     </ContentPage.Resources>
 
     <StackLayout>
-        <StackLayout Orientation="Horizontal">
-            <ffimageloading:CachedImage 
-                HorizontalOptions="Start" 
-                VerticalOptions="CenterAndExpand"
-                WidthRequest="70" 
-                HeightRequest="70"
-                DownsampleToViewSize="true"
-                Source = "{Binding Category.ImageSource}">
-                <ffimageloading:CachedImage.Transformations>
-                    <fftransformations:CircleTransformation BorderSize="20" BorderHexColor="#00838F"/>
-                </ffimageloading:CachedImage.Transformations>
-            </ffimageloading:CachedImage>
-
-            <Label FontSize="Large" VerticalOptions="Center" HorizontalOptions="FillAndExpand" TextColor="Black" Text="{Binding Category.Name}" FontAttributes="Bold" />
-        </StackLayout>
-
         <ListView ItemsSource="{Binding Items}"
                   HasUnevenRows="False"
                   HorizontalOptions="FillAndExpand"
@@ -44,7 +26,6 @@
                 <behaviors:EventToCommandBehavior Command="{Binding ItemSelectedCommand}"
     Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
             </ListView.Behaviors>
-
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
