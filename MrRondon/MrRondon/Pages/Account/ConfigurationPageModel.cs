@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Windows.Input;
 using MrRondon.Auth;
-using MrRondon.Entities;
-using MrRondon.Extensions;
 using MrRondon.Helpers;
-using Xamarin.Forms;
 
 namespace MrRondon.Pages.Account
 {
@@ -16,18 +12,43 @@ namespace MrRondon.Pages.Account
             Title = "Configurações";
 
             var precision = AccountManager.GetPrecision();
-            SetValue(precision);
+            MapRange = precision;
             Account = Auth.Account.Current;
+            Minimum = 0.100d;
+            Maximum = 10000d;
         }
 
-        public string MapRange { get; private set; }
+        private double _mapRange;
+        public double MapRange
+        {
+            get => _mapRange;
+            set
+            {
+                SetProperty(ref _mapRangeDescription, nameof(MapRange));
+                SetValue(value);
+            }
+        }
+
+        private string _mapRangeDescription;
+        public string MapRangeDescription
+        {
+            get => _mapRangeDescription;
+            set => SetProperty(ref _mapRangeDescription, value);
+        }
+
+        public double Minimum { get; set; }
+        public double Maximum { get; set; }
+
         public AccountManager Account { get; }
         public bool NotHasContacts => !Account.User?.Contacts?.Any() ?? true;
 
-        public void SetValue(int distance)
+        public void SetValue(double distance)
         {
-            var unity = distance < 1000 ? "metros" : distance < 2000 ? "quilômetro" : "quilômetros";
-            MapRange = $"{distance} {unity}";
+            _mapRange = distance;
+            var unity = distance < 1000 ? distance > 1 ? "metros" : "metro" : distance < 2000 ? "quilômetro" : "quilômetros";
+            var value = Math.Round(distance / 1000);
+            MapRangeDescription = $"{(distance < 1000 ? $"{Math.Round(distance)}" : $"{value}")} {unity}";
+
             ApplicationManager<object>.AddOrUpdate("PlaceUntil", distance);
         }
     }

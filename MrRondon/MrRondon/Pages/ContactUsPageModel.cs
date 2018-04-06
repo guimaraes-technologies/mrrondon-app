@@ -9,7 +9,6 @@ using MrRondon.Extensions;
 using MrRondon.Helpers;
 using MrRondon.Services;
 using MrRondon.ViewModels;
-using Plugin.Messaging;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages

@@ -29,9 +29,6 @@ namespace MrRondon.Pages
         {
             base.OnAppearing();
             _pageModel.LoadItemsCommand.Execute(null);
-            
-            //menuTitle.Text = $"Bem Vindo(a), {_pageModel.MenuTitle}";
-            //signinSignout.Text = _pageModel.SiginSignoutText;
         }
 
         private void OnMenuItemSelected(object sender, SelectedItemChangedEventArgs e)

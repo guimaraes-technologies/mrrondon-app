@@ -98,12 +98,12 @@ namespace MrRondon.Auth
             public static PlaceUntilOption PlaceUntilOption = PlaceUntilOption.Thousand;
         } 
 
-        public static int GetPrecision()
+        public static double GetPrecision()
         {
             var until = ApplicationManager<object>.Find("PlaceUntil");
 
             var defaultValue = EnumExtensions.GetAttribute(DefaultSetting.PlaceUntilOption);
-            return until == null ? int.Parse(defaultValue.KeyValue) : int.Parse($"{until}");
+            return until == null ? double.Parse(defaultValue.KeyValue) : double.Parse($"{until}");
         }
         
         public static async Task<City> SetActualCity()
