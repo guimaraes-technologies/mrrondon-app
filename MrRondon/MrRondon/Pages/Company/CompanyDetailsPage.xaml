@@ -6,115 +6,60 @@
              xmlns:transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              x:Class="MrRondon.Pages.Company.CompanyDetailsPage"
              Title="{Binding Title}"
-             Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
     <ScrollView>
-        <StackLayout>
-            <Label Text="{Binding Company.Name}" TextColor="Black" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
-
+        <StackLayout Margin="0" Padding="0">
             <Image Source="{Binding Company.ImageSourceCover}" HeightRequest="200" Aspect="Fill"></Image>
+            <StackLayout Padding="{StaticResource PagePadding}">
+                <Label Text="{Binding Company.Name}" TextColor="Black" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
 
-            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                <forms:CachedImage 
-                    Source="phone"
-                    HorizontalOptions="CenterAndExpand" 
-                    VerticalOptions="CenterAndExpand"
-                    CacheType="Memory"
-                    Aspect="AspectFit"
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    DownsampleToViewSize="true">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="LIGAR" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="Start">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding MakePhoneCallCommand}"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label Text="VER LOCAL NO MAPA" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="EndAndExpand">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenMapCommand}"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
 
-                    <forms:CachedImage.Transformations>
-                        <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                            <transformations:CircleTransformation.BorderSize>
-                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                            </transformations:CircleTransformation.BorderSize>
-                        </transformations:CircleTransformation>
-                    </forms:CachedImage.Transformations>
-                    <forms:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding MakePhoneCallCommand}" CommandParameter="." />
-                    </forms:CachedImage.GestureRecognizers>
-                </forms:CachedImage>
+                <Label Text="Nome Fantasia" Style="{StaticResource PrimaryLabel}" />
+                <Label Text="{Binding Company.FancyName}" Style="{StaticResource SecondaryLabel}" />
 
-                <forms:CachedImage 
-                    Source="map_maker"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center"
-                    CacheType="Memory"
-                    Aspect="AspectFit"
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    DownsampleToViewSize="true">
+                <Label Text="Segmento" Style="{StaticResource PrimaryLabel}" />
+                <Label Text="{Binding Company.SegmentDescription}" Style="{StaticResource SecondaryLabel}" />
 
-                    <forms:CachedImage.Transformations>
-                        <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                            <transformations:CircleTransformation.BorderSize>
-                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                            </transformations:CircleTransformation.BorderSize>
-                        </transformations:CircleTransformation>
-                    </forms:CachedImage.Transformations>
-                    <forms:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding OpenMapCommand}" CommandParameter="." />
-                    </forms:CachedImage.GestureRecognizers>
-                </forms:CachedImage>
+                <Label Text="CNPJ" Style="{StaticResource PrimaryLabel}" />
+                <Label Text="{Binding Company.Cnpj}" Style="{StaticResource SecondaryLabel}" />
 
-                <forms:CachedImage 
-                    Source="share"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center"
-                    CacheType="Memory"
-                    Aspect="AspectFit"
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    DownsampleToViewSize="true">
-
-                    <forms:CachedImage.Transformations>
-                        <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                            <transformations:CircleTransformation.BorderSize>
-                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                            </transformations:CircleTransformation.BorderSize>
-                        </transformations:CircleTransformation>
-                    </forms:CachedImage.Transformations>
-                    <forms:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ShareCommand}" CommandParameter="." />
-                    </forms:CachedImage.GestureRecognizers>
-                </forms:CachedImage>
-            </StackLayout>
-
-            <Label Text="Nome Fantasia" Style="{StaticResource PrimaryLabel}" />
-            <Label Text="{Binding Company.FancyName}" Style="{StaticResource SecondaryLabel}" />
-
-            <Label Text="Segmento" Style="{StaticResource PrimaryLabel}" />
-            <Label Text="{Binding Company.SegmentDescription}" Style="{StaticResource SecondaryLabel}" />
-
-            <Label Text="CNPJ" Style="{StaticResource PrimaryLabel}" />
-            <Label Text="{Binding Company.Cnpj}" Style="{StaticResource SecondaryLabel}" />
-
-            <ListView ItemsSource="{Binding Company.Contacts}"
+                <ListView ItemsSource="{Binding Company.Contacts}"
                       SeparatorVisibility="None"
                       HasUnevenRows="False"
                       HeightRequest="40">
-                <ListView.Header>
-                    <Label Text="Contatos:" Style="{StaticResource PrimaryLabel}" />
-                </ListView.Header>
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Label Text="{Binding ContactDetail}" Style="{StaticResource SecondaryLabel}"></Label>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-                <ListView.Footer>
-                    <Label Text="Nenhum informado" IsVisible="{Binding NotHasContacts}" TextColor="{StaticResource SecondaryLabelColor}"></Label>
-                </ListView.Footer>
-            </ListView>
+                    <ListView.Header>
+                        <Label Text="Contatos:" Style="{StaticResource PrimaryLabel}" />
+                    </ListView.Header>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Label Text="{Binding ContactDetail}" Style="{StaticResource SecondaryLabel}"></Label>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                    <ListView.Footer>
+                        <Label Text="Nenhum informado" IsVisible="{Binding NotHasContacts}" TextColor="{StaticResource SecondaryLabelColor}"></Label>
+                    </ListView.Footer>
+                </ListView>
 
-            <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
-            <Label Text="{Binding Company.Address.FullAddress}" Style="{StaticResource SecondaryLabel}" />
+                <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
+                <Label Text="{Binding Company.Address.FullAddress}" Style="{StaticResource SecondaryLabel}" />
 
-            <pages:FooterPage />
+                <pages:FooterPage />
+            </StackLayout>
         </StackLayout>
     </ScrollView>
 </ContentPage>
