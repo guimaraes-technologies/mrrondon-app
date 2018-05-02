@@ -7,6 +7,7 @@ using MrRondon.Helpers;
 using MrRondon.Pages.Account;
 using MrRondon.Pages.Event;
 using MrRondon.Services;
+using MrRondon.Services.Interfaces;
 using MrRondon.ViewModels;
 using Xamarin.Forms;
 
@@ -20,6 +21,8 @@ namespace MrRondon.Pages.Menu
             get => _items;
             set => SetProperty(ref _items, value);
         }
+
+        public string AppVersion { get; set; }
 
         private string _siginSignoutText = "Entrar";
         public string SiginSignoutText
@@ -37,6 +40,7 @@ namespace MrRondon.Pages.Menu
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
             AboutCommand = new Command(async () => await ExecuteAbout());
             SiginSignoutCommand = new Command(async () => await ExecuteSigninSignout());
+            AppVersion = $"Versão {DependencyService.Get<IAppVersion>().GetVersion()}";
         }
 
         private async Task ExecuteLoadItems()
