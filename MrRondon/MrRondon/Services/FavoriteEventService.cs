@@ -15,7 +15,7 @@ namespace MrRondon.Services
             var account = Account.Current;
             if (!account.IsLoggedIn) throw new Exception("Para marcar um evento como favorito é necessário fazer login no aplicativo.");
 
-            if (account.IsLoggedIn && account.IsTokenExpired)
+            if (account.IsLoggedIn && account.IsTokenExpired) 
                 throw new Exception("O seu login expirou, por favor, faça o login novamente.");
 
             var service = new FavoriteEventRest();

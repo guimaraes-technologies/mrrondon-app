@@ -19,11 +19,11 @@ namespace MrRondon.Pages.Event
         {
             Title = "Detalhes do Evento";
             Event = model;
-            IsFavorit = model.IsFavorite;
+            IsFavorite = model.IsFavorite;
             MakePhoneCallCommand = new Command(MakePhoneCall);
             OpenMapCommand = new Command(OpenMap);
             MarkAsFavoriteCommand = new Command(async () => await ExecuteFavorite());
-            ShareCommand = new Command(async () => await Share());
+            ShareCommand = new Command(async () => await ExecuteShare());
         }
 
         public ICommand MakePhoneCallCommand { get; set; }
@@ -45,18 +45,18 @@ namespace MrRondon.Pages.Event
             set => SetProperty(ref _favoritIcon, value);
         }
 
-        private bool _isFavorit;
-        public bool IsFavorit
+        private bool _isFavorite;
+        public bool IsFavorite
         {
-            get => _isFavorit;
+            get => _isFavorite;
             set
             {
-                FavoritIcon = _isFavorit ? "favorite" : "unfavorite";
-                if (_isFavorit == value) return;
+                FavoritIcon = _isFavorite ? "favorite" : "unfavorite";
+                if (_isFavorite == value) return;
 
-                _isFavorit = value;
-                Notify(nameof(IsFavorit));
-                FavoritIcon = _isFavorit ? "favorite" : "unfavorite";
+                _isFavorite = value;
+                Notify(nameof(IsFavorite));
+                FavoritIcon = _isFavorite ? "favorite" : "unfavorite";
             }
         }
 
@@ -75,9 +75,9 @@ namespace MrRondon.Pages.Event
             try
             {
                 var service = new FavoriteEventService();
-                IsFavorit = !IsFavorit;
+                IsFavorite = !IsFavorite;
                 var isFavorite = await service.FavoriteAsync(Event.EventId);
-                IsFavorit = isFavorite;
+                IsFavorite = isFavorite;
             }
             catch (TaskCanceledException ex)
             {
@@ -87,21 +87,23 @@ namespace MrRondon.Pages.Event
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                IsFavorit = false;
+                IsFavorite = false;
                 await MessageService.ShowAsync(ex.Message);
             }
         }
 
-        private async Task Share()
+        private async Task ExecuteShare()
         {
-            var rangeDate = Event.StartDate.Date == Event.EndDate.Date
-                ? Event.StartDate.ToShortDateString()
-                : $"{Event.StartDate.ToShortDateString()} até {Event.EndDate.ToShortDateString()}";
+            var service = new EventService();
+            var eventInformation = await service.GetAsync(Event.EventId);
+            var rangeDate = eventInformation.StartDate.Date == eventInformation.EndDate.Date
+                ? eventInformation.StartDate.ToShortDateString()
+                : $"{eventInformation.StartDate.ToShortDateString()} até {eventInformation.EndDate.ToShortDateString()}";
             var message = new ShareMessage
             {
                 Title = Constants.AppName,
-                Text = $"Olha o que eu encontrei no {Constants.AppName}:\nEvento: {Event.Name}\nData: {rangeDate}\nLocal: {Event.Address.FullAddressInline}\nMuito TOP, dá uma olhada ;)\n",
-                Url = "http://mrrondon.ozielguimaraes.net"
+                Text = $"Olha o que eu encontrei no {Constants.AppName}:\nEvento: {eventInformation.Name}\nData: {rangeDate}\nLocal: {eventInformation.Address.FullAddressInline}\nMuito TOP, dá uma olhada ;)\n",
+                Url = Constants.SystemUrl
             };
             await CrossShare.Current.Share(message);
         }

@@ -36,7 +36,7 @@ namespace MrRondon.Pages.Menu
 
             if (account.IsValid)
             {
-                items.Add(new MenuItemVm("Eventos Favoritos", "favorite", MenuType.FavoriteEvent));
+                items.Add(new MenuItemVm("Favoritos", "favorite", MenuType.FavoriteEvent));
             }
             items.Add(new MenuItemVm("Configurações", "configuration", MenuType.Configurations));
 

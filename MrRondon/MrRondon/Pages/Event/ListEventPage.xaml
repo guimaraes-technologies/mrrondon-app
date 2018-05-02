@@ -57,13 +57,21 @@
                                 HorizontalOptions="Fill" 
                                 VerticalOptions="Fill" 
                                 Aspect="AspectFill" 
-                                Source="{Binding ImageSourceLogo}"
+                                Source="{Binding Event.ImageSourceLogo}"
                                 CacheType="Memory"
                                 DownsampleToViewSize="true" />
 
-                            <Image Margin="10,10,0,0" Grid.Column="0" Grid.Row="0" HorizontalOptions="Start" VerticalOptions="Start" Source="unfavorite" WidthRequest="20" HeightRequest="20" />
-                            <Image Margin="35,10,0,0" Grid.Row="0" HorizontalOptions="Start" VerticalOptions="Start" Source="share" WidthRequest="20" HeightRequest="20" />
-                            <Label Grid.Column="0" Grid.Row="1" Margin="10,-60,0,0" LineBreakMode="WordWrap" FontSize="Large" Text="{Binding Name}" TextColor="White" VerticalOptions="End" />
+                            <Image Margin="10,10,0,0" Grid.Column="0" Grid.Row="0" HorizontalOptions="Start" VerticalOptions="Start" Source="unfavorite" WidthRequest="20" HeightRequest="20">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding MarkAsFavoriteCommand}"></TapGestureRecognizer>
+                                </Image.GestureRecognizers>
+                            </Image>
+                            <Image Margin="35,10,0,0" Grid.Row="0" HorizontalOptions="Start" VerticalOptions="Start" Source="share" WidthRequest="20" HeightRequest="20" >
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding ShareCommand}"></TapGestureRecognizer>
+                                </Image.GestureRecognizers>
+                            </Image>
+                            <Label Grid.Column="0" Grid.Row="1" Margin="10,-60,0,0" LineBreakMode="WordWrap" FontSize="Large" Text="{Binding Event.Name}" TextColor="White" VerticalOptions="End" />
                         </Grid>
                     </StackLayout>
                 </DataTemplate>

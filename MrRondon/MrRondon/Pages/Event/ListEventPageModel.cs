@@ -53,8 +53,8 @@ namespace MrRondon.Pages.Event
         public ICommand LoadItemsCommand { get; set; }
         public ICommand ItemSelectedCommand { get; set; }
 
-        private ObservableRangeCollection<Entities.Event> _items;
-        public ObservableRangeCollection<Entities.Event> Items
+        private ObservableRangeCollection<EventDetailsPageModel> _items;
+        public ObservableRangeCollection<EventDetailsPageModel> Items
         {
             get => _items;
             set => SetProperty(ref _items, value);
@@ -63,7 +63,7 @@ namespace MrRondon.Pages.Event
         public ListEventPageModel()
         {
             Title = Constants.AppName;
-            Items = new ObservableRangeCollection<Entities.Event>();
+            Items = new ObservableRangeCollection<EventDetailsPageModel>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
             LoadCitiesCommand = new Command(async () => await ExecuteLoadCities());
             ItemSelectedCommand = new Command<Entities.Event>(async (item) => await ExecuteItemSelected(item));
@@ -82,8 +82,8 @@ namespace MrRondon.Pages.Event
                 var service = new EventService();
                 var items = await service.GetAsync(CurrentCity.CityId, Search);
                 NotHasItems = IsLoading && items != null && !items.Any();
+                Items = new ObservableRangeCollection<EventDetailsPageModel>(items.Select(s => new EventDetailsPageModel(s)));
                 if (NotHasItems) ErrorMessage = $"Nenhum evento encontrado em {CurrentCity.Name}";
-                Items.ReplaceRange(items);
             }
             catch (TaskCanceledException ex)
             {
