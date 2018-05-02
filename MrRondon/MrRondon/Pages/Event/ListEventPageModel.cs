@@ -82,8 +82,8 @@ namespace MrRondon.Pages.Event
                 var service = new EventService();
                 var items = await service.GetAsync(CurrentCity.CityId, Search);
                 NotHasItems = IsLoading && items != null && !items.Any();
-                Items = new ObservableRangeCollection<EventDetailsPageModel>(items.Select(s => new EventDetailsPageModel(s)));
                 if (NotHasItems) ErrorMessage = $"Nenhum evento encontrado em {CurrentCity.Name}";
+                Items = new ObservableRangeCollection<EventDetailsPageModel>(items.Select(s => new EventDetailsPageModel(s)));
             }
             catch (TaskCanceledException ex)
             {

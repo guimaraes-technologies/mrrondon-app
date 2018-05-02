@@ -16,7 +16,7 @@ namespace MrRondon.Pages.Company
         public ListCompaniesPageModel(int segmentId)
         {
             CategoryId = segmentId;
-            Items = new ObservableRangeCollection<Entities.Company>();
+            Items = new ObservableRangeCollection<CompanyDetailsPageModel>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
             ItemSelectedCommand = new Command<Entities.Company>(async (item) => await ExecuteLoadItem(item));
             LoadCitiesCommand = new Command<int>(async (subCategoryId) => await ExecuteLoadCities(subCategoryId));
@@ -70,8 +70,8 @@ namespace MrRondon.Pages.Company
         public ICommand LoadItemsCommand { get; set; }
         public ICommand ItemSelectedCommand { get; set; }
 
-        private ObservableRangeCollection<Entities.Company> _items;
-        public ObservableRangeCollection<Entities.Company> Items
+        private ObservableRangeCollection<CompanyDetailsPageModel> _items;
+        public ObservableRangeCollection<CompanyDetailsPageModel> Items
         {
             get => _items;
             set => SetProperty(ref _items, value);
@@ -89,7 +89,7 @@ namespace MrRondon.Pages.Company
                 var items = await service.GetAsync(CategoryId, CurrentCity.CityId, Search);
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = $"Nenhuma empresa encontrada em {CurrentCity.Name}.";
-                Items.ReplaceRange(items);
+                Items = new ObservableRangeCollection<CompanyDetailsPageModel>(items.Select(s => new CompanyDetailsPageModel(s)));
             }
             catch (TaskCanceledException ex)
             {
