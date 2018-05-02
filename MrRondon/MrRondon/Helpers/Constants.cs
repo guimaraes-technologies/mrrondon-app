@@ -10,5 +10,6 @@
         public const string TokenType = "Bearer";
         public const string ClientId = "mrrondon.app";
         public const string ClientSecret = "Mr.Rondon.Turismo.App";
+        public const string SystemUrl = "http://turismo.sistemas.ro.gov.br";
     }
 }
