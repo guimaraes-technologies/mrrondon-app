@@ -40,22 +40,32 @@
             </flv:FlowListView.FlowLoadingTemplate>
             <flv:FlowListView.FlowColumnTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <RelativeLayout>
-                            <ffimageloading:CachedImage
-                                Source="{Binding ImageSourceLogo}" 
-                                HorizontalOptions="Center" 
-                                VerticalOptions="Center"
-                                WidthRequest="175" 
-                                HeightRequest="175"
-                                CacheType="Memory"
-                                Aspect="AspectFit"
-                                DownsampleToViewSize="true">
-                            </ffimageloading:CachedImage>
+                    <StackLayout>
+                        <Grid HeightRequest="150" Padding="5">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
 
-                            <Label Margin="15, 0, 0, 0" VerticalOptions="End" TextColor="White" Text="{Binding Name}" FontSize="Large" />
-                        </RelativeLayout>
-                    </Grid>
+                            <ffimageloading:CachedImage 
+                                Grid.Row="0" 
+                                Grid.RowSpan="2" 
+                                Grid.Column="0" 
+                                HorizontalOptions="Fill" 
+                                VerticalOptions="Fill" 
+                                Aspect="AspectFill" 
+                                Source="{Binding ImageSourceLogo}"
+                                CacheType="Memory"
+                                DownsampleToViewSize="true" />
+
+                            <Image Margin="10,10,0,0" Grid.Column="0" Grid.Row="0" HorizontalOptions="Start" VerticalOptions="Start" Source="unfavorite" WidthRequest="20" HeightRequest="20" />
+                            <Image Margin="35,10,0,0" Grid.Row="0" HorizontalOptions="Start" VerticalOptions="Start" Source="share" WidthRequest="20" HeightRequest="20" />
+                            <Label Grid.Column="0" Grid.Row="1" Margin="10,-60,0,0" LineBreakMode="WordWrap" FontSize="Large" Text="{Binding Name}" TextColor="White" VerticalOptions="End" />
+                        </Grid>
+                    </StackLayout>
                 </DataTemplate>
             </flv:FlowListView.FlowColumnTemplate>
             <flv:FlowListView.FooterTemplate>
