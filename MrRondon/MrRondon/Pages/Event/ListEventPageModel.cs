@@ -66,7 +66,7 @@ namespace MrRondon.Pages.Event
             Items = new ObservableRangeCollection<EventDetailsPageModel>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
             LoadCitiesCommand = new Command(async () => await ExecuteLoadCities());
-            ItemSelectedCommand = new Command<Entities.Event>(async (item) => await ExecuteItemSelected(item));
+            ItemSelectedCommand = new Command<EventDetailsPageModel>(async (item) => await ExecuteItemSelected(item));
             ChangeActualCityCommand = new Command(async () => await ExecuteChangeActualCity(new ListEventPage()));
         }
 
@@ -128,7 +128,7 @@ namespace MrRondon.Pages.Event
             }
         }
 
-        private async Task ExecuteItemSelected(Entities.Event model)
+        private async Task ExecuteItemSelected(EventDetailsPageModel model)
         {
             try
             {
@@ -136,7 +136,7 @@ namespace MrRondon.Pages.Event
                 IsLoading = true;
 
                 var service = new EventService();
-                var item = await service.GetAsync(model.EventId);
+                var item = await service.GetAsync(model.Event.EventId);
                 var pageModel = new EventDetailsPageModel(item);
 
                 await NavigationService.PushAsync(new EventDetailsPage(pageModel));

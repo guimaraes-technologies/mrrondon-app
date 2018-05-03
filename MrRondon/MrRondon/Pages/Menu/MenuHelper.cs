@@ -22,6 +22,8 @@ namespace MrRondon.Pages.Menu
                     if (account.IsValid) return new FavoriteEventsPage();
                     return new LoginPage();
                 case MenuType.ContactUs: return new ContactUsPage();
+                case MenuType.Logout: return new LogoutPage();
+                case MenuType.Login: return new LoginPage();
                 default: return new MainPage();
             }
         }
@@ -40,7 +42,7 @@ namespace MrRondon.Pages.Menu
             }
             items.Add(new MenuItemVm("Configurações", "configuration", MenuType.Configurations));
 
-            items.Add(account.IsValid ? new MenuItemVm("Sair", "logout", MenuType.Logout) : new MenuItemVm("Entrar", "logout", MenuType.Logout));
+            items.Add(account.IsValid ? new MenuItemVm("Sair", "logout", MenuType.Logout) : new MenuItemVm("Entrar", "logout", MenuType.Login));
 
             await Task.Delay(1);
             return items;

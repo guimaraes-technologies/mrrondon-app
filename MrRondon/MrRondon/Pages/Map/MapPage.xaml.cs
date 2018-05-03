@@ -22,7 +22,7 @@ namespace MrRondon.Pages.Map
             try
             {
                 base.OnAppearing();
-
+                
                 var currentPosition = await GeolocatorHelper.GetCurrentPositionAsync();
 
                 var mapSpan = MapSpan.FromCenterAndRadius(new Position(currentPosition.Latitude, currentPosition.Longitude), Distance.FromKilometers(2));

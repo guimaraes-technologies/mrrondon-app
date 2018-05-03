@@ -18,7 +18,7 @@ namespace MrRondon.Pages.Company
             CategoryId = segmentId;
             Items = new ObservableRangeCollection<CompanyDetailsPageModel>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
-            ItemSelectedCommand = new Command<Entities.Company>(async (item) => await ExecuteLoadItem(item));
+            ItemSelectedCommand = new Command<CompanyDetailsPageModel>(async (item) => await ExecuteLoadItem(item));
             LoadCitiesCommand = new Command<int>(async (subCategoryId) => await ExecuteLoadCities(subCategoryId));
             ChangeActualCityCommand = new Command(async () => await ExecuteChangeActualCity(new ListCompaniesPage(this)));
         }
@@ -133,12 +133,12 @@ namespace MrRondon.Pages.Company
             }
         }
 
-        private async Task ExecuteLoadItem(Entities.Company model)
+        private async Task ExecuteLoadItem(CompanyDetailsPageModel model)
         {
             try
             {
                 var service = new CompanyService();
-                var item = await service.GetByIdAsync(model.CompanyId);
+                var item = await service.GetByIdAsync(model.Company.CompanyId);
                 var pageModel = new CompanyDetailsPageModel(item);
                 await NavigationService.PushAsync(new CompanyDetailsPage(pageModel));
             }

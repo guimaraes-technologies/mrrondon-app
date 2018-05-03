@@ -67,17 +67,18 @@ namespace MrRondon.Pages.Account
             }
             catch (TaskCanceledException ex)
             {
+                IsLoading = false;
                 Console.WriteLine(ex.Message);
                 await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
             }
             catch (Exception ex)
             {
+                IsLoading = false;
                 await MessageService.ShowAsync("Autenticação", ex.Message);
             }
             finally
             {
                 IsLoading = false;
-                IsPresented = false;
             }
         }
 

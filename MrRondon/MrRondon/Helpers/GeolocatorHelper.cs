@@ -13,20 +13,31 @@ namespace MrRondon.Helpers
     {
         public static async Task<Position> GetCurrentPositionAsync()
         {
-            var locator = CrossGeolocator.Current;
-            locator.DesiredAccuracy = 50;
+            try
+            {
+                var locator = CrossGeolocator.Current;
+                var defaultPosition = new Position(AccountManager.DefaultSetting.Latitude,
+                    AccountManager.DefaultSetting.Longitude);
+                if (!locator.IsGeolocationEnabled || !locator.IsGeolocationAvailable) return defaultPosition;
 
-            var position = await locator.GetLastKnownLocationAsync();
+                locator.DesiredAccuracy = 50;
 
-            //got a cahched position, so let's use it.
-            if (position != null) return position;
+                var position = await locator.GetLastKnownLocationAsync();
 
-            //not available or not enabled
-            if (!locator.IsGeolocationAvailable || !locator.IsGeolocationEnabled) return null;
+                //got a cahched position, so let's use it.
+                if (position != null) return position;
 
-            position = await locator.GetPositionAsync(TimeSpan.FromMilliseconds(2000), null, true);
+                //not available or not enabled
+                if (!locator.IsGeolocationAvailable || !locator.IsGeolocationEnabled) return null;
 
-            return position ?? new Position(AccountManager.DefaultSetting.Latitude, AccountManager.DefaultSetting.Longitude);
+                position = await locator.GetPositionAsync(TimeSpan.FromMilliseconds(2000), null, true);
+
+                return position ?? defaultPosition;
+            }
+            catch (Exception ex) {
+                Console.WriteLine();
+                throw;
+            }
         }
 
         public static async Task<string> GetAddressAsync(double latitude, double longitude)

@@ -21,5 +21,6 @@ public enum MenuType
     FavoriteEvent,
     ContactUs,
     Configurations,
-    Logout
+    Logout,
+    Login
 }

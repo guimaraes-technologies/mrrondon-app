@@ -7,7 +7,6 @@ namespace MrRondon.Pages.Company
 		public CompanyDetailsPage (CompanyDetailsPageModel pageModel)
 		{
 			InitializeComponent ();
-		    NavigationPage.SetHasNavigationBar(this, false);
             BindingContext = pageModel; 
         }
 	}
