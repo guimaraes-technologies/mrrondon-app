@@ -10,7 +10,7 @@
         <Label Text="Raio de abrangência do mapa" TextColor="{StaticResource PrimaryColor}" />
 
         <Label Text="{Binding MapRangeDescription}" TextColor="{StaticResource SecondaryLabelColor}" />
-        <Slider x:Name="mapRange" Value="{Binding MapRange}" Minimum="{Binding Minimum}" Maximum="{Binding Maximum}" Margin="0"></Slider>
+        <Slider Value="{Binding MapRange}" Minimum="0.100" Maximum="10000" Margin="0"></Slider>
 
         <StackLayout IsVisible="{Binding Account.IsLoggedIn}">
             <Label Text="Minha Conta" TextColor="{StaticResource PrimaryColor}" />
