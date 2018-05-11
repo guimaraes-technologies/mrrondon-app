@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MrRondon.Exceptions;
+using MrRondon.Extensions;
 using MrRondon.Helpers;
 using MrRondon.Services;
 using Xamarin.Forms;
@@ -17,14 +18,16 @@ namespace MrRondon.Pages.Map
         {
             Title = Constants.AppName;
             LoadPinsCommand = new Command<Plugin.Geolocator.Abstractions.Position>(async (currentPosition) => await ExecuteLoadPins(currentPosition));
-            ChangeActualCityCommand = new Command(async () => await ExecuteChangeActualCity(new MapPage()));
+            GetCurrentPositionCommand = new Command(async () => await ExecuteGetCurrentPosition());
         }
 
         public ICommand LoadPinsCommand { get; set; }
-        public ICommand SetActualCityCommand { get; set; }
+        public ICommand GetCurrentPositionCommand { get; set; }
 
-        private ObservableRangeCollection<Pin> _pins = new ObservableRangeCollection<Pin>();
-        public ObservableRangeCollection<Pin> Pins
+        public Plugin.Geolocator.Abstractions.Position CurrentPosition { get; set; }
+
+        private ObservableRangeCollection<PinExtension> _pins = new ObservableRangeCollection<PinExtension>();
+        public ObservableRangeCollection<PinExtension> Pins
         {
             get => _pins;
             set => SetProperty(ref _pins, value);
@@ -40,19 +43,16 @@ namespace MrRondon.Pages.Map
                 var service = new LocationService();
                 var places = await service.NearbyAsync(currentPosition);
 
-                foreach (var item in places)
-                {
-                    var pin = new Pin
+                var url = UrlHelper.ConvertImageUrlToBase64("http://mrrondon.ozielguimaraes.net/Content/Images/android.png");
+                Pins.AddRange(places.Select(item =>
+                    new PinExtension
                     {
                         Id = item.Id,
                         Label = item.Label,
                         Address = item.Address,
                         Type = PinType.Place,
-                        Position = new Position(item.Position.Latitude, item.Position.Longitude)
-                    };
-
-                    Pins.Add(pin);
-                }
+                        Position = new Position(item.Position.Latitude, item.Position.Longitude),
+                    }));
             }
             catch (CouldNotGetLocationException ex)
             {
@@ -69,6 +69,11 @@ namespace MrRondon.Pages.Map
                 IsLoading = false;
                 IsPresented = false;
             }
+        }
+
+        private async Task ExecuteGetCurrentPosition()
+        {
+            CurrentPosition = await GeolocatorHelper.GetCurrentPositionAsync();
         }
     }
 }

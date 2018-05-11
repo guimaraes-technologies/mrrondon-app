@@ -72,7 +72,7 @@ namespace MrRondon.Pages.Category
             }
         }
 
-        private async Task ExecuteItemSelected(ViewModels.CategoryListVm category)
+        private async Task ExecuteItemSelected(CategoryListVm category)
         {
             if (category.HasCompany)
             {

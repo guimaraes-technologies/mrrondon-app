@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using MrRondon.Entities;
 using MrRondon.ViewModels;
 
 namespace MrRondon.Services.Rest

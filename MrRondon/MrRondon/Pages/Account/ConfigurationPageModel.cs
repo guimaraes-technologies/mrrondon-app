@@ -39,13 +39,5 @@ namespace MrRondon.Pages.Account
 
         public AccountManager Account { get; }
         public bool NotHasContacts => !Account.User?.Contacts?.Any() ?? true;
-
-        public void SetValue(double distance)
-        {
-            var unity = distance < 1000 ? distance > 1 ? "metros" : "metro" : distance < 2000 ? "quilômetro" : "quilômetros";
-            MapRangeDescription = $"{(distance < 1000 ? $"{MapRange}" : $"{Math.Round(distance / 1000)}")} {unity}";
-
-            ApplicationManager<object>.AddOrUpdate("PlaceUntil", MapRange);
-        }
     }
 }

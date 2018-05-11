@@ -1,6 +1,5 @@
 ﻿namespace MrRondon.ViewModels
 {
-
     public class LocationVm
     {
         public string Id { get; set; }
