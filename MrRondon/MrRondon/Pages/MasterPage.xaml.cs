@@ -35,6 +35,11 @@ namespace MrRondon.Pages
         {
             var item = (MenuItemVm)e.SelectedItem;
             if (item == null) return;
+            if (item.Type == MenuType.Login)
+            {
+                _pageModel.LoginCommand.Execute(null);
+                return;
+            }
 
             var page = MenuHelper.GetPage(item);
             if (!string.IsNullOrWhiteSpace(page.Title)) Title = page.Title;

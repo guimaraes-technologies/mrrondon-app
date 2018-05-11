@@ -41,5 +41,11 @@
                 </ListView.Footer>
             </ListView>
         </StackLayout>
+
+        <Label Text="Este aplicativo foi desenvolvido pela equipe GoNew(Marcel Rios, Mirian Rios e Oziel Guimarães) em parceria com EPR" TextColor="{StaticResource SecondaryLabelColor}" VerticalOptions="EndAndExpand">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding AboutCommand}"></TapGestureRecognizer>
+            </Label.GestureRecognizers>
+        </Label>
     </StackLayout>
 </ContentPage>

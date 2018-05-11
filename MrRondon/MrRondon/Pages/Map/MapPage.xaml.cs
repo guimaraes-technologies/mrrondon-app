@@ -18,18 +18,13 @@ namespace MrRondon.Pages.Map
         {
             InitializeComponent();
 
-            var customMap = new MapExtension
-            {
-                IsShowingUser = true,
-                HeightRequest = 400,
-                MapType = MapType.Street,
-                HorizontalOptions = LayoutOptions.FillAndExpand
-            };
-            parentStack.Children.Add(customMap);
-            var pageModel = new MapPageModel();
-            pageModel.GetCurrentPositionCommand.Execute(null);
-            pageModel.LoadPinsCommand.Execute(pageModel.CurrentPosition);
-            customMap.Items = pageModel.Pins;
+        protected override async void OnAppearing()
+        {
+            try
+            { 
+                base.OnAppearing();
+                
+                var currentPosition = await GeolocatorHelper.GetCurrentPositionAsync();
 
             customMap.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(pageModel.CurrentPosition.Latitude, pageModel.CurrentPosition.Longitude), Distance.FromMiles(1.0)));
         }

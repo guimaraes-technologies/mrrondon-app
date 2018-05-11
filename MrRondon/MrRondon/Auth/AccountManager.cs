@@ -121,5 +121,11 @@ namespace MrRondon.Auth
 
             return city;
         }
+
+        public static void Logout()
+        {
+            var userService = new UserService();
+            userService.Logout();
+        }
     }
 }
