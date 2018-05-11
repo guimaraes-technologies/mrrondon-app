@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using MrRondon.Helpers;
 using MrRondon.Pages;
-using MrRondon.Pages.Account;
 using MrRondon.Services;
 using MrRondon.Services.Interfaces;
 using Xamarin.Forms;

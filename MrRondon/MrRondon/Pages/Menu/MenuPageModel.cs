@@ -35,12 +35,14 @@ namespace MrRondon.Pages.Menu
         public ICommand AboutCommand { get; set; }
         public ICommand VersionCommand { get; set; }
         public ICommand SiginSignoutCommand { get; set; }
+        public ICommand LoginCommand { get; set; }
 
         public MenuPageModel()
         {
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
             AboutCommand = new Command(ExecuteAbout);
             VersionCommand = new Command(async () => await ExecuteVersion());
+            LoginCommand = new Command(async () => await ExecuteLogin());
             SiginSignoutCommand = new Command(async () => await ExecuteSigninSignout());
             AppVersion = $"Versão {DependencyService.Get<IAppVersion>().GetVersion()}";
         }
@@ -84,9 +86,14 @@ namespace MrRondon.Pages.Menu
             NavigationService.NavigateToUrl(Constants.SystemUrl);
         }
 
+        private async Task ExecuteLogin()
+        {
+            await NavigationService.PushAsync(new LoginPage());
+        }
+
         private async Task ExecuteVersion()
         {
-            var wannaToContactDeveloper = await MessageService.ShowConfirmationAsync($"O aplicativo {Constants.AppName}, foi desenvolvido pela equipe GoNew(Marcel Rios, Mirian Rios e Oziel Guimarães), para a SETUR - Superintendência Estadual do Turismo no desafio da HACKATHON 2017.\nDeseja entrar em contato com o desenvolvedor?","Sim", "Agora não");
+            var wannaToContactDeveloper = await MessageService.ShowConfirmationAsync($"O aplicativo {Constants.AppName}, foi desenvolvido pela equipe GoNew(Marcel Rios, Mirian Rios e Oziel Guimarães), para a SETUR - Superintendência Estadual do Turismo no desafio da HACKATHON 2017.\nDeseja entrar em contato com o desenvolvedor?", "Sim", "Agora não");
             if (wannaToContactDeveloper) NavigationService.NavigateToUrl(Constants.DeveloperUrl);
         }
 

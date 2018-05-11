@@ -50,7 +50,6 @@ namespace MrRondon.Pages.Account
                 var isAuthenticated = await userService.Authenticate(this);
                 if (isAuthenticated)
                 {
-                    NavigationService.RemovePage(new LoginPage());
                     await NavigationService.PopAsync();
                     IsPresented = false;
                     if (CallBackPage != null)
@@ -59,7 +58,6 @@ namespace MrRondon.Pages.Account
                     }
                     else
                     {
-                        //Application.Current.MainPage = new MasterPage();
                         await NavigationService.PopToRootAsync();
                     }
                 }
