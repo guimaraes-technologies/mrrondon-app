@@ -28,6 +28,7 @@
                   HasUnevenRows="False"
                   HorizontalOptions="FillAndExpand"
                   VerticalOptions="FillAndExpand"
+                      ItemSelected="OnItemSelected"
                   IsPullToRefreshEnabled="False">
                 <ListView.ItemTemplate>
                     <DataTemplate>

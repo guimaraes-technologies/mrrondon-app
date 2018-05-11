@@ -9,5 +9,10 @@ namespace MrRondon.Pages.Account
             InitializeComponent();
             BindingContext = new ConfigurationPageModel();
         }
+
+        private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            ((ListView)sender).SelectedItem = null;
+        }
     }
 }
