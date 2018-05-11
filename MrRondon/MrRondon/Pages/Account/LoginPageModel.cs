@@ -51,7 +51,7 @@ namespace MrRondon.Pages.Account
                 if (isAuthenticated)
                 {
                     NavigationService.RemovePage(new LoginPage());
-                    await NavigationService.PopModalAsync();
+                    await NavigationService.PopAsync();
                     IsPresented = false;
                     if (CallBackPage != null)
                     {

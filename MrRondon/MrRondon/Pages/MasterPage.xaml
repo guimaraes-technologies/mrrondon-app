@@ -59,9 +59,18 @@
                         <ColumnDefinition Width=".50*" />
                     </Grid.ColumnDefinitions>
 
-                    <Label Grid.Column="0" Grid.Row="0" Margin="10,0,0,0" Text="{Binding AppVersion}" TextColor="#3f3f3f" FontSize="Small"></Label>
+                    <Label Grid.Column="0" Grid.Row="0" Margin="10,0,0,0" Text="{Binding AppVersion}" TextColor="#3f3f3f" FontSize="Small">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding VersionCommand}"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>
+
                     <Label Grid.Column="0" Grid.Row="1" Margin="10,0,0,0" Text="SETUR - Superintendência Estadual do Turismo" TextColor="{StaticResource PrimaryLabelColor}" FontSize="Micro"></Label>
-                    <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="brasao" HeightRequest="25"></Image>
+                    <Image Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" Source="brasao" HeightRequest="25">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding AboutCommand}"></TapGestureRecognizer>
+                        </Image.GestureRecognizers>
+                    </Image>
                 </Grid>
             </StackLayout>
         </ContentPage>

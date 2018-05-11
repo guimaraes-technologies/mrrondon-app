@@ -29,8 +29,8 @@ namespace MrRondon.Pages
                         }
                     case 2:
                         {
-                            var pageModel = new MapPageModel();
-                            CurrentPage.BindingContext = pageModel;
+                            //var pageModel = new MapPageModel();
+                            //CurrentPage.BindingContext = pageModel;
                             return;
                         }
                     default:

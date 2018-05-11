@@ -110,10 +110,14 @@ namespace MrRondon.Pages
                 if (!hasBeenSended)
                 {
                     await MessageService.ShowAsync("Erro", $"Não foi possível enviar a sua mensagem, mas você pode entrar em contato com a SETUR pelo telefone {AccountManager.DefaultSetting.TelephoneSetur} ou pelo email {AccountManager.DefaultSetting.EmailSetur}.");
+                    return;
                 }
 
-                Message = string.Empty;
+                Email = string.Empty;
+                Telephone = string.Empty;
+                Cellphone = string.Empty;
                 Subject = null;
+                Message = string.Empty;
                 await MessageService.ToastAsync("Mensagem enviada com sucesso.");
             }
             catch (TaskCanceledException ex)
