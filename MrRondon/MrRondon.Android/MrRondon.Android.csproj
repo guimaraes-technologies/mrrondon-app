@@ -97,6 +97,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppManager.cs" />
     <Compile Include="AppVersion.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Renderers\FlowListViewInternalCellRenderer.cs" />

@@ -18,5 +18,7 @@ namespace MrRondon.Services.Interfaces
 	    void RemovePage(Page page);
 		IList<Page> GetNavigationStack();
 	    Page GetCurrentPage();
+	    void NavigateOut();
+
 	}
 }

@@ -30,10 +30,7 @@ namespace MrRondon.Pages
                     case 2:
                         {
                             var pageModel = new MapPageModel();
-                            pageModel.LoadPinsCommand.Execute(null);
-                            pageModel.IsLoading = false;
                             CurrentPage.BindingContext = pageModel;
-                            await Task.Delay(1);
                             return;
                         }
                     default:

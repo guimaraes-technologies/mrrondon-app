@@ -20,7 +20,7 @@ namespace MrRondon.Pages.Map
         protected override async void OnAppearing()
         {
             try
-            {
+            { 
                 base.OnAppearing();
                 
                 var currentPosition = await GeolocatorHelper.GetCurrentPositionAsync();
