@@ -61,6 +61,11 @@ namespace MrRondon.Pages.Category
                 if (NotHasItems) ErrorMessage = "Nenhuma categoria encontrada";
                 Items = new FlowObservableCollection<CategoryListVm>(items);
             }
+            catch (TaskCanceledException ex)
+            {
+                Debug.WriteLine(ex);
+                await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
+            }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);

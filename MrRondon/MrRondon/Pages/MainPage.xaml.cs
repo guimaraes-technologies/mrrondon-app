@@ -1,7 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using MrRondon.Extensions;
 using MrRondon.Helpers;
+using MrRondon.Pages.Category;
 using MrRondon.Pages.Event;
 using MrRondon.Pages.Map;
 using Xamarin.Forms;
@@ -21,23 +20,28 @@ namespace MrRondon.Pages
 
                 switch (numPage)
                 {
-                    case 1:
-                        {
-                            var pageModel = new ListEventPageModel();
-                            pageModel.LoadCitiesCommand.Execute(null);
-                            pageModel.LoadItemsCommand.Execute(null);
+                    case 0: //EXPLORE
+                        var categoryPageModel = new ListCategoriesPageModel();
+                        categoryPageModel.LoadItemsCommand.Execute(null);
 
-                            CurrentPage.BindingContext = pageModel;
+                        CurrentPage.BindingContext = categoryPageModel;
+                        return;
+                    case 1: //EVENTS
+                        {
+                            var eventPageModel = new ListEventPageModel();
+                            eventPageModel.LoadCitiesCommand.Execute(null);
+                            eventPageModel.LoadItemsCommand.Execute(null);
+
+                            CurrentPage.BindingContext = eventPageModel;
                             return;
                         }
-                    case 2:
+                    case 2: //MAP
                         {
                             //var pageModel = new MapPageModel();
                             //CurrentPage.BindingContext = pageModel;
                             return;
                         }
-                    default:
-                        return;
+                    default: return;
                 }
             };
         }

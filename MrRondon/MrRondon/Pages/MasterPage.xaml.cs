@@ -1,5 +1,4 @@
-﻿using System;
-using MrRondon.Helpers;
+﻿using MrRondon.Helpers;
 using MrRondon.Pages.Menu;
 using MrRondon.ViewModels;
 using Xamarin.Forms;
