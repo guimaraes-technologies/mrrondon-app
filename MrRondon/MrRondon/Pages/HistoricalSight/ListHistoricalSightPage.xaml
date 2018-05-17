@@ -2,79 +2,85 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MrRondon.Pages.HistoricalSight.ListHistoricalSightPage"
-             xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
-             xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
-             xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
+             xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
              Title="Memoriais"
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converters:ItemTappedEventArgsToItemTappedConverter x:Key="ItemTappedConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
-    <StackLayout>
-        <ListView ItemsSource="{Binding Items}"
-                      SeparatorVisibility="None"
-                      HasUnevenRows="True"
-                      HorizontalOptions="FillAndExpand"
-                      VerticalOptions="FillAndExpand"
-                      RefreshCommand="{Binding LoadItemsCommand}"
-                      IsPullToRefreshEnabled="True"
-                      IsRefreshing="{Binding IsLoading, Mode=OneWay}">
-            <ListView.Behaviors>
-                <behaviors:EventToCommandBehavior Command="{Binding ItemSelectedCommand}" Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
-            </ListView.Behaviors>
-            <ListView.Header>
+    <StackLayout Margin="0, 10, 0, 0">
+        <flv:FlowListView x:Name="flowListView" 
+                          FlowColumnCount="2" 
+                          SeparatorVisibility="None" 
+                          HasUnevenRows="True"
+                          FlowItemTappedCommand="{Binding ItemSelectedCommand}" 
+                          FlowItemsSource="{Binding Items}"
+                          IsPullToRefreshEnabled="True"
+                          RefreshCommand="{Binding LoadItemsCommand}"
+                          IsRefreshing="{Binding IsLoading}"
+                          HeightRequest="120">
+
+            <flv:FlowListView.Header>
                 <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
                     <Label Text="Em" FontSize="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center"></Label>
                     <Picker Title="Cidade" ItemsSource="{Binding CityNames}" SelectedIndex="{Binding CitySelectedIndex}" Margin="5,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center"></Picker>
                 </StackLayout>
-            </ListView.Header>
-            <ListView.ItemTemplate>
+            </flv:FlowListView.Header>
+            <flv:FlowListView.FlowLoadingTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid ColumnSpacing="10" Padding="10" RowSpacing="10" BackgroundColor="{StaticResource PageBackgroundColor}">
+                        <Label
+                            HorizontalTextAlignment="Center"
+                            VerticalTextAlignment="Center"
+                            TextColor="{StaticResource SecondaryLabelColor}"
+                            Text="Carregando..."
+                        ></Label>
+                    </ViewCell>
+                </DataTemplate>
+            </flv:FlowListView.FlowLoadingTemplate>
+            <flv:FlowListView.FlowColumnTemplate>
+                <DataTemplate>
+                    <StackLayout>
+                        <Grid HeightRequest="150" Padding="5">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <ffimageloading:CachedImage Grid.RowSpan="2" 
-                                Source="{Binding ImageSourceLogo}" 
-                                HorizontalOptions="CenterAndExpand" 
-                                VerticalOptions="CenterAndExpand"
+                            <ffimageloading:CachedImage 
+                                Grid.Row="0" 
+                                Grid.RowSpan="2" 
+                                Grid.Column="0" 
+                                HorizontalOptions="Fill" 
+                                VerticalOptions="Fill" 
+                                Aspect="AspectFill" 
+                                Source="{Binding HistoricalSight.ImageSourceLogo}"
                                 CacheType="Memory"
-                                Aspect="AspectFit"
-                                WidthRequest="70" 
-                                HeightRequest="70"
-                                DownsampleToViewSize="true">
+                                DownsampleToViewSize="true" />
 
-                                <ffimageloading:CachedImage.Transformations>
-                                    <fftransformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                                        <fftransformations:CircleTransformation.BorderSize>
-                                            <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                                        </fftransformations:CircleTransformation.BorderSize>
-                                    </fftransformations:CircleTransformation>
-                                </ffimageloading:CachedImage.Transformations>
-                            </ffimageloading:CachedImage>
-
-                            <Label Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Name}" FontAttributes="Bold" FontSize="Small" />
-                            <Label Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Address.FullAddressInline}" />
+                            <!--<Image Margin="10,10,0,0" Grid.Column="0" Grid.Row="0" HorizontalOptions="Start" VerticalOptions="Start" Source="unfavorite" WidthRequest="20" HeightRequest="20">
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding MarkAsFavoriteCommand}"></TapGestureRecognizer>
+                                </Image.GestureRecognizers>
+                            </Image>-->
+                            <Image Margin="10,10,0,0" Grid.Row="0" HorizontalOptions="Start" VerticalOptions="Start" Source="share" WidthRequest="20" HeightRequest="20" >
+                                <Image.GestureRecognizers>
+                                    <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding ShareCommand}"></TapGestureRecognizer>
+                                </Image.GestureRecognizers>
+                            </Image>
+                            <Label Grid.Column="0" Grid.Row="1" Margin="10,-60,0,0" LineBreakMode="WordWrap" FontSize="Large" Text="{Binding HistoricalSight.Name}" TextColor="White" VerticalOptions="End" />
                         </Grid>
-                    </ViewCell>
+                    </StackLayout>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.Footer>
-                <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems}" TextColor="{StaticResource Accent}" FontSize="Medium" HorizontalOptions="Center"></Label>
-            </ListView.Footer>
-        </ListView>
+            </flv:FlowListView.FlowColumnTemplate>
+            <flv:FlowListView.FooterTemplate>
+                <DataTemplate>
+                    <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems}" TextColor="{StaticResource Accent}" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center"></Label>
+                </DataTemplate>
+            </flv:FlowListView.FooterTemplate>
+        </flv:FlowListView>
     </StackLayout>
 </ContentPage>

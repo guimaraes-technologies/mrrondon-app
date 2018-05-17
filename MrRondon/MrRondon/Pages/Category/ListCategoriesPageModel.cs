@@ -6,6 +6,7 @@ using System.Windows.Input;
 using DLToolkit.Forms.Controls;
 using MrRondon.Helpers;
 using MrRondon.Pages.Company;
+using MrRondon.Pages.HistoricalSight;
 using MrRondon.Services;
 using MrRondon.ViewModels;
 using Xamarin.Forms;
@@ -74,6 +75,11 @@ namespace MrRondon.Pages.Category
 
         private async Task ExecuteItemSelected(CategoryListVm category)
         {
+            if (category.SubCategoryId == Constants.HistoricalSightId)
+            {
+                await NavigationService.PushAsync(new ListHistoricalSightPage(new ListHistoricalSightPageModel()));
+                return;
+            }
             if (category.HasCompany)
             {
                 var pageModel = new ListCompaniesPageModel(category.SubCategoryId);

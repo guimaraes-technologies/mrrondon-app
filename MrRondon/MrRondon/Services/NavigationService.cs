@@ -14,9 +14,12 @@ namespace MrRondon.Services
         {
             Device.OpenUri(new Uri(url));
         }
+
         public void MakePhoneCall(string number)
         {
-            NavigateToUrl($"tel:{number}");
+            if (string.IsNullOrWhiteSpace(number)) return;
+
+            NavigateToUrl($"tel:{number.Replace("(", "").Replace("-", "")}");
         }
 
         public async Task PushAsync(Page page)

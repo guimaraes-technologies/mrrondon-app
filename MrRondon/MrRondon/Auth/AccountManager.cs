@@ -91,8 +91,6 @@ namespace MrRondon.Auth
         public static class DefaultSetting
         {
             public static City City = new City { CityId = 37, Name = "Porto Velho" };
-            public static string TelephoneSetur = "6932161044";
-            public static string EmailSetur = "contato@ozielguimaraes.net";
             public static double Latitude = -8.7592547;
             public static double Longitude = -63.8769227;
             public static PlaceUntilOption PlaceUntilOption = PlaceUntilOption.Thousand;

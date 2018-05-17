@@ -11,6 +11,6 @@ namespace MrRondon.ViewModels
         public bool HasCompany { get; set; }
         public bool HasSubCategory { get; set; }
 
-        public ImageSource ImageSource { get { return Image == null ? ImageSource.FromFile("sad_face") : ImageSource.FromStream(() => new MemoryStream(Image)); } }
+        public ImageSource ImageSource { get { return Image == null ? ImageSource.FromFile("icon.png") : ImageSource.FromStream(() => new MemoryStream(Image)); } }
     }
 }

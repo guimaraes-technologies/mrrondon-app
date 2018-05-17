@@ -62,7 +62,7 @@ namespace MrRondon.Pages.Event
 
         private void MakePhoneCall()
         {
-            NavigationService.MakePhoneCall(AccountManager.DefaultSetting.TelephoneSetur);
+            NavigationService.MakePhoneCall(Constants.TelephoneSetur);
         }
 
         private void OpenMap()

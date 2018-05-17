@@ -1,9 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              x:Class="MrRondon.Pages.HistoricalSight.HistoricalSightDetailsPage"
              Title="{Binding Title}"
              Style="{StaticResource PageStyle}"
@@ -11,82 +9,65 @@
 
     <ScrollView>
         <StackLayout>
-            <Label Text="{Binding HistoricalSight.Name}" TextColor="Black" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
+            <Grid HeightRequest="230" Padding="5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-            <ActivityIndicator Style="{StaticResource SpinnerLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}"></ActivityIndicator>
-            <Image x:Name="image" Source="{Binding HistoricalSight.ImageSourceCover}" HeightRequest="200" Aspect="Fill"></Image>
-
-            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <ActivityIndicator Style="{StaticResource SpinnerLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}"></ActivityIndicator>
                 <ffimageloading:CachedImage 
-                    Source="phone"
-                    HorizontalOptions="CenterAndExpand" 
-                    VerticalOptions="CenterAndExpand"
+                    x:Name="image"
+                    Grid.Row="0" 
+                    Grid.RowSpan="2" 
+                    Grid.Column="0" 
+                    HorizontalOptions="Fill" 
+                    VerticalOptions="Fill" 
+                    Aspect="AspectFill" 
+                    Source="{Binding HistoricalSight.ImageSourceCover}"
                     CacheType="Memory"
-                    Aspect="AspectFit"
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    DownsampleToViewSize="true">
+                    DownsampleToViewSize="true" />
 
-                    <ffimageloading:CachedImage.Transformations>
-                        <fftransformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                            <fftransformations:CircleTransformation.BorderSize>
-                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                            </fftransformations:CircleTransformation.BorderSize>
-                        </fftransformations:CircleTransformation>
-                    </ffimageloading:CachedImage.Transformations>
-                </ffimageloading:CachedImage>
+                <Image Margin="0,0,40,10" Grid.Row="1" HorizontalOptions="End" VerticalOptions="End" Source="{Binding FavoritIcon}" WidthRequest="20" HeightRequest="20" >
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding MarkAsFavoriteCommand}"></TapGestureRecognizer>
+                    </Image.GestureRecognizers>
+                </Image>
 
-                <ffimageloading:CachedImage 
-                    Source="map_maker"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center"
-                    CacheType="Memory"
-                    Aspect="AspectFit"
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    DownsampleToViewSize="true">
+                <Image Margin="0,0,10,10" Grid.Row="1" HorizontalOptions="End" VerticalOptions="EndAndExpand" Source="share" WidthRequest="20" HeightRequest="20" >
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding ShareCommand}"></TapGestureRecognizer>
+                    </Image.GestureRecognizers>
+                </Image>
+            </Grid>
 
-                    <ffimageloading:CachedImage.Transformations>
-                        <fftransformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                            <fftransformations:CircleTransformation.BorderSize>
-                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                            </fftransformations:CircleTransformation.BorderSize>
-                        </fftransformations:CircleTransformation>
-                    </ffimageloading:CachedImage.Transformations>
-                    <ffimageloading:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding OpenMapCommand}" CommandParameter="." />
-                    </ffimageloading:CachedImage.GestureRecognizers>
-                </ffimageloading:CachedImage>
+            <StackLayout Padding="{StaticResource PagePadding}">
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="GRÁTIS" TextColor="Black" HorizontalOptions="StartAndExpand" />
+                    <Label Text="LIGAR" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="Start">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding MakePhoneCallCommand}"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Label Text="VER LOCAL NO MAPA" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="EndAndExpand">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding OpenMapCommand}"></TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
 
-                <ffimageloading:CachedImage 
-                    Source="share"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center"
-                    CacheType="Memory"
-                    Aspect="AspectFit"
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    DownsampleToViewSize="true">
+                <Label Text="{Binding HistoricalSight.Name}" TextColor="Black" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
+                <Label Text="Sempre aberto" TextColor="{StaticResource PrimaryLabelColor}" FontSize="Small" Margin="0,0,0,20"></Label>
 
-                    <ffimageloading:CachedImage.Transformations>
-                        <fftransformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                            <fftransformations:CircleTransformation.BorderSize>
-                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                            </fftransformations:CircleTransformation.BorderSize>
-                        </fftransformations:CircleTransformation>
-                    </ffimageloading:CachedImage.Transformations>
-                    <ffimageloading:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ShareCommand}" CommandParameter="." />
-                    </ffimageloading:CachedImage.GestureRecognizers>
-                </ffimageloading:CachedImage>
+                <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
+                <Label Text="{Binding HistoricalSight.Address.FullAddress}" Style="{StaticResource SecondaryLabel}"></Label>
+
+                <Label Text="Descrição" Style="{StaticResource PrimaryLabel}" />
+                <Label Text="{Binding HistoricalSight.SightHistory}" Style="{StaticResource SecondaryLabel}"></Label>
             </StackLayout>
-
-            <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
-            <Label Text="{Binding HistoricalSight.Address.FullAddress}" Style="{StaticResource SecondaryLabel}" />
-
-            <Label Text="Descrição" Style="{StaticResource PrimaryLabel}" />
-            <Label Text="{Binding HistoricalSight.SightHistory}" Style="{StaticResource SecondaryLabel}" />
-            <pages:FooterPage />
         </StackLayout>
     </ScrollView>
 </ContentPage>

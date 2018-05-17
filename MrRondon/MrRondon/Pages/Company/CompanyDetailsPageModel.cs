@@ -55,7 +55,7 @@ namespace MrRondon.Pages.Company
 
         private void ExecuteMakePhoneCall()
         {
-            var contact = (Company.Contacts?.FirstOrDefault(f => f.ContactType == ContactType.Cellphone)?.Description ?? Company.Contacts?.FirstOrDefault(f => f.ContactType == ContactType.Telephone)?.Description) ?? AccountManager.DefaultSetting.TelephoneSetur;
+            var contact = (Company.Contacts?.FirstOrDefault(f => f.ContactType == ContactType.Cellphone)?.Description ?? Company.Contacts?.FirstOrDefault(f => f.ContactType == ContactType.Telephone)?.Description) ?? Constants.TelephoneSetur;
 
             NavigationService.MakePhoneCall(contact);
         }

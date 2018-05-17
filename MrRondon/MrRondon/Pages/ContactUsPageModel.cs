@@ -109,7 +109,7 @@ namespace MrRondon.Pages
 
                 if (!hasBeenSended)
                 {
-                    await MessageService.ShowAsync("Erro", $"Não foi possível enviar a sua mensagem, mas você pode entrar em contato com a SETUR pelo telefone {AccountManager.DefaultSetting.TelephoneSetur} ou pelo email {AccountManager.DefaultSetting.EmailSetur}.");
+                    await MessageService.ShowAsync("Erro", $"Não foi possível enviar a sua mensagem, mas você pode entrar em contato com a SETUR pelo telefone {Constants.TelephoneSetur} ou pelo email {Constants.EmailSetur}.");
                     return;
                 }
 

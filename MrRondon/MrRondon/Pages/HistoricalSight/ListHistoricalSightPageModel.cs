@@ -55,8 +55,8 @@ namespace MrRondon.Pages.HistoricalSight
         public ICommand LoadItemsCommand { get; set; }
         public ICommand ItemSelectedCommand { get; set; }
 
-        private ObservableRangeCollection<Entities.HistoricalSight> _items;
-        public ObservableRangeCollection<Entities.HistoricalSight> Items
+        private ObservableRangeCollection<HistoricalSightDetailsPageModel> _items;
+        public ObservableRangeCollection<HistoricalSightDetailsPageModel> Items
         {
             get => _items;
             set => SetProperty(ref _items, value);
@@ -65,10 +65,10 @@ namespace MrRondon.Pages.HistoricalSight
         public ListHistoricalSightPageModel()
         {
             Title = Constants.AppName;
-            Items = new ObservableRangeCollection<Entities.HistoricalSight>();
+            Items = new ObservableRangeCollection<HistoricalSightDetailsPageModel>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
             LoadCitiesCommand = new Command(async () => await ExecuteLoadCities());
-            ItemSelectedCommand = new Command<Entities.HistoricalSight>(async (item) => await ExecuteItemSelected(item));
+            ItemSelectedCommand = new Command<HistoricalSightDetailsPageModel>(async (item) => await ExecuteItemSelected(item));
             ChangeActualCityCommand = new Command(async () => await ExecuteChangeActualCity(new ListCategoriesPage()));
         }
 
@@ -84,7 +84,7 @@ namespace MrRondon.Pages.HistoricalSight
                 var items = await service.GetAsync(CurrentCity.CityId, Search);
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = $"Nenhum Memorial histórico encontrado em {CurrentCity.Name}";
-                Items.ReplaceRange(items);
+                Items = new ObservableRangeCollection<HistoricalSightDetailsPageModel>(items.Select(s => new HistoricalSightDetailsPageModel(s)));
             }
             catch (TaskCanceledException ex)
             {
@@ -128,14 +128,14 @@ namespace MrRondon.Pages.HistoricalSight
             }
         }
 
-        private async Task ExecuteItemSelected(Entities.HistoricalSight model)
+        private async Task ExecuteItemSelected(HistoricalSightDetailsPageModel model)
         {
             try
             {
                 if (IsLoading) return;
                 IsLoading = true;
                 var service = new HistoricalSightService();
-                var item = await service.GetByIdAsync(model.HistoricalSightId);
+                var item = await service.GetByIdAsync(model.HistoricalSight.HistoricalSightId);
                 var pageModel = new HistoricalSightDetailsPageModel(item);
                 await NavigationService.PushAsync(new HistoricalSightDetailsPage(pageModel));
             }
