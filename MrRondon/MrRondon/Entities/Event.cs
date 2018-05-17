@@ -19,7 +19,8 @@ namespace MrRondon.Entities
         public Address Address { get; set; }
         public bool IsFavorite { get; set; }
 
-        public string GetValue => Value == 0 ? "Gratuito" : $"{Value:C}";
+        public string GetValue => Value == 0 ? "GRÁTIS" : $"{Value:C}";
+        public string RangeDate => StartDate.Date == EndDate.Date ? $"{StartDate:dd.MM.yyyy} a partir das {StartDate:HH:mm}" : $"{StartDate:dd.MM.yyyy HH:mm} - {EndDate:dd/MM/yyyy HH:mm}";
         public string RangeDateAndValue => $"Início: {StartDate:dd/MM/yyyy HH:mm}\nTérminio: {EndDate:dd/MM/yyyy HH:mm}\nValor: {GetValue}";
         public ImageSource ImageSourceLogo { get { return Logo == null ? ImageSource.FromFile("icon.png") : ImageSource.FromStream(() => new MemoryStream(Logo)); } }
         public ImageSource ImageSourceCover { get { return Cover == null ? ImageSource.FromFile("icon.png") : ImageSource.FromStream(() => new MemoryStream(Cover)); } }
