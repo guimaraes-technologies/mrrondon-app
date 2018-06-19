@@ -85,7 +85,7 @@ namespace MrRondon.Pages.Category
 
         private async Task ExecuteItemSelected(Entities.SubCategory category)
         {
-            var pageModel = new ListCompaniesPageModel(category.SubCategoryId);
+            var pageModel = new ListCompaniesPageModel(category.SubCategoryId, category.Name);
             await NavigationService.PushAsync(new ListCompaniesPage(pageModel));
             IsPresented = false;
             IsLoading = false;

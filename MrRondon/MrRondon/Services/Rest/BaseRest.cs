@@ -46,6 +46,7 @@ namespace MrRondon.Services.Rest
         protected async Task<TObject> GetAsync<TObject>(string url)
         {
             if (!CrossConnectivity.Current.IsConnected) throw new WithOutInternetConnectionException();
+            //if (!await CrossConnectivity.Current.IsRemoteReachable(Constants.Host.Replace("http://",""))) throw new WithOutInternetConnectionException($"Serviço do {Constants.AppName} não está disponível");
 
             var response = await HttpClient.GetAsync(url);
             if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.OK)

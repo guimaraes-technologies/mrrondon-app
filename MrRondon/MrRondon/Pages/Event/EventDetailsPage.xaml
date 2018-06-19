@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
+             xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              x:Class="MrRondon.Pages.Event.EventDetailsPage"
-             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              Title="{Binding Title}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
     <ScrollView>
-        <StackLayout>
-            <Grid HeightRequest="230" Padding="5">
+        <StackLayout Margin="0" Padding="0">
+            <Grid HeightRequest="150" Padding="5">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
@@ -17,36 +18,37 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <ActivityIndicator Style="{StaticResource SpinnerLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}"></ActivityIndicator>
+                <ffimage:CachedImage 
+                                Grid.Row="0" 
+                                Grid.RowSpan="2" 
+                                Grid.Column="0" 
+                                HorizontalOptions="Fill" 
+                                VerticalOptions="Fill" 
+                                Aspect="AspectFill" 
+                                Source="{Binding Event.ImageSourceCover}"
+                                CacheType="Memory"
+                                DownsampleToViewSize="true" />
 
-                <ffimageloading:CachedImage 
-                    x:Name="image"
-                    Grid.Row="0" 
-                    Grid.RowSpan="2" 
-                    Grid.Column="0" 
-                    HorizontalOptions="Fill" 
-                    VerticalOptions="Fill" 
-                    Aspect="AspectFill" 
-                    Source="{Binding Event.ImageSourceCover}"
-                    CacheType="Memory"
-                    DownsampleToViewSize="true" />
+                <ActivityIndicator Style="{StaticResource SpinnerLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2"></ActivityIndicator>
 
-                <Image Margin="0,0,40,10" Grid.Row="1" HorizontalOptions="End" VerticalOptions="End" Source="{Binding FavoritIcon}" WidthRequest="20" HeightRequest="20" >
+                <Image Margin="10,10,0,0" Grid.Column="0" Grid.Row="0" HorizontalOptions="Start" VerticalOptions="Start" Source="unfavorite" WidthRequest="20" HeightRequest="20">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding MarkAsFavoriteCommand}"></TapGestureRecognizer>
                     </Image.GestureRecognizers>
                 </Image>
-
-                <Image Margin="0,0,10,10" Grid.Row="1" HorizontalOptions="End" VerticalOptions="EndAndExpand" Source="share" WidthRequest="20" HeightRequest="20" >
+                <Image Margin="150,10,0,0" Grid.Row="0" HorizontalOptions="End" VerticalOptions="End" Source="share" WidthRequest="20" HeightRequest="20" >
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding ShareCommand}"></TapGestureRecognizer>
                     </Image.GestureRecognizers>
                 </Image>
+                <Label Grid.Column="0" Grid.Row="1" Margin="10,-60,0,0" LineBreakMode="WordWrap" FontSize="Large" Text="{Binding Event.Name}" TextColor="White" VerticalOptions="End" />
             </Grid>
-
+            
             <StackLayout Padding="{StaticResource PagePadding}">
+                <Label Text="{Binding Event.Name}" TextColor="Black" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
+
                 <StackLayout Orientation="Horizontal">
-                    <Label Text="{Binding Event.GetValue}" TextColor="Black" HorizontalOptions="StartAndExpand" />
+                    <Label Text="{Binding Event.GetValue}" TextColor="Black" HorizontalOptions="Start" Margin="0,0,5,0" />
                     <Label Text="LIGAR" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="Start">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Command="{Binding MakePhoneCallCommand}"></TapGestureRecognizer>
@@ -59,9 +61,6 @@
                     </Label>
                 </StackLayout>
 
-                <Label Text="{Binding Event.Name}" TextColor="Black" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
-                <Label Text="{Binding Event.RangeDate}" TextColor="{StaticResource PrimaryLabelColor}" FontSize="Small" Margin="0,0,0,20"></Label>
-
                 <Label Text="Data de Início" Style="{StaticResource PrimaryLabel}" />
                 <Label Text="{Binding Event.StartDate, StringFormat='{0:ddd, dd MMM yyyy - HH:mm}'}" Style="{StaticResource SecondaryLabel}"></Label>
 
@@ -73,8 +72,8 @@
 
                 <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
                 <Label Text="{Binding Event.Address.FullAddress}" Style="{StaticResource SecondaryLabel}" />
-
+                <pages:FooterPage />
             </StackLayout>
         </StackLayout>
     </ScrollView>
-</ContentPage>
+    </ContentPage>

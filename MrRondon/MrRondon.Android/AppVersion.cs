@@ -1,8 +1,6 @@
 ﻿using MrRondon.Services.Interfaces;
-using Xamarin.Forms;
 
-[assembly: Dependency(typeof(MrRondon.Droid.AppVersion))]
-
+[assembly: Xamarin.Forms.Dependency(typeof(MrRondon.Droid.AppVersion))]
 namespace MrRondon.Droid
 {
     public class AppVersion : IAppVersion

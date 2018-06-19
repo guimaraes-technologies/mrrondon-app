@@ -13,9 +13,10 @@ namespace MrRondon.Pages.Company
 {
     public class ListCompaniesPageModel : BasePageModel
     {
-        public ListCompaniesPageModel(int segmentId)
+        public ListCompaniesPageModel(int id, string name)
         {
-            CategoryId = segmentId;
+            Title = name;
+            CategoryId = id;
             Items = new ObservableRangeCollection<CompanyDetailsPageModel>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
             ItemSelectedCommand = new Command<CompanyDetailsPageModel>(async (item) => await ExecuteLoadItem(item));

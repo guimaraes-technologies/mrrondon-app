@@ -4,7 +4,7 @@
              x:Class="MrRondon.Pages.Company.ListCompaniesPage"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
-             Title="Empresas"
+             Title="{Binding Title}"
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 

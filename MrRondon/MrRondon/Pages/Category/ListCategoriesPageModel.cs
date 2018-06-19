@@ -87,7 +87,7 @@ namespace MrRondon.Pages.Category
             }
             if (category.HasCompany)
             {
-                var pageModel = new ListCompaniesPageModel(category.SubCategoryId);
+                var pageModel = new ListCompaniesPageModel(category.SubCategoryId, category.Name);
                 pageModel.LoadCitiesCommand.Execute(null);
                 await NavigationService.PushAsync(new ListCompaniesPage(pageModel));
                 return;
