@@ -21,11 +21,6 @@ namespace MrRondon.Pages
                 switch (numPage)
                 {
                     case 0: //EXPLORE
-                        var categoryPageModel = new ListCategoriesPageModel();
-                        categoryPageModel.LoadItemsCommand.Execute(null);
-
-                        CurrentPage.BindingContext = categoryPageModel;
-                        return;
                     case 1: //EVENTS
                         {
                             var eventPageModel = new ListEventPageModel();
@@ -36,11 +31,6 @@ namespace MrRondon.Pages
                             return;
                         }
                     case 2: //MAP
-                        {
-                            //var pageModel = new MapPageModel();
-                            //CurrentPage.BindingContext = pageModel;
-                            return;
-                        }
                     default: return;
                 }
             };
