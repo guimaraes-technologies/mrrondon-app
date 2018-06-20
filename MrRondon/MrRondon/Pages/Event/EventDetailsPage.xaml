@@ -18,11 +18,11 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <ffimage:CachedImage 
+                <ffimage:CachedImage x:Name="image" 
                                 Grid.Row="0" 
                                 Grid.RowSpan="2" 
                                 Grid.Column="0" 
-                                HorizontalOptions="Fill" 
+                                HorizontalOptions="FillAndExpand" 
                                 VerticalOptions="Fill" 
                                 Aspect="AspectFill" 
                                 Source="{Binding Event.ImageSourceCover}"

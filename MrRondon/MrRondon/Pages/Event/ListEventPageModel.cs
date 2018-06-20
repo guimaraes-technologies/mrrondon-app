@@ -42,10 +42,21 @@ namespace MrRondon.Pages.Event
             {
                 _cityIndex = value < 0 ? 0 : value;
                 Notify(nameof(CitySelectedIndex));
-
+                var lastFilteredCity = ApplicationManager<Entities.City>.Find("city");
                 var selectedItem = Cities[_cityIndex] ?? AccountManager.DefaultSetting.City;
-                CurrentCity = selectedItem;
-                ApplicationManager<Entities.City>.AddOrUpdate("city", selectedItem);
+
+                if (selectedItem.CityId == lastFilteredCity.CityId)
+                {
+                    LoadItemsCommand.Execute(null);
+                    return;
+                }
+
+                if (Cities.Any(a => a.CityId == selectedItem.CityId))
+                {
+                    CurrentCity = selectedItem;
+                    ApplicationManager<Entities.City>.AddOrUpdate("city", selectedItem);
+                }
+
                 LoadItemsCommand.Execute(null);
             }
         }
@@ -83,7 +94,7 @@ namespace MrRondon.Pages.Event
                 var items = await service.GetAsync(CurrentCity.CityId, Search);
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = $"Nenhum evento encontrado em {CurrentCity.Name}";
-                Items = new ObservableRangeCollection<EventDetailsPageModel>(items.Select(s => new EventDetailsPageModel(s)));
+                Items = new ObservableRangeCollection<EventDetailsPageModel>(items?.Select(s => new EventDetailsPageModel(s)));
             }
             catch (TaskCanceledException ex)
             {

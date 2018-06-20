@@ -1,10 +1,6 @@
-﻿using MrRondon.Extensions;
-using MrRondon.Helpers;
-using MrRondon.Pages.Category;
+﻿using MrRondon.Pages.Category;
 using MrRondon.Pages.Event;
-using MrRondon.Pages.Map;
 using Xamarin.Forms;
-using Xamarin.Forms.Maps;
 
 namespace MrRondon.Pages
 {
@@ -20,7 +16,12 @@ namespace MrRondon.Pages
 
                 switch (numPage)
                 {
-                    case 0: //EXPLORE
+                    case 0: //EXPLORE 
+                        var categoryPageModel = new ListCategoriesPageModel(); 
+                        categoryPageModel.LoadItemsCommand.Execute(null);
+
+                        CurrentPage.BindingContext = categoryPageModel;
+                        return;
                     case 1: //EVENTS
                         {
                             var eventPageModel = new ListEventPageModel();

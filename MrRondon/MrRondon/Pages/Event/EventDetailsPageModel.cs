@@ -1,14 +1,13 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using MrRondon.Auth;
-using MrRondon.Helpers;
+﻿using MrRondon.Helpers;
 using MrRondon.Services;
 using Plugin.ExternalMaps;
 using Plugin.ExternalMaps.Abstractions;
 using Plugin.Share;
 using Plugin.Share.Abstractions;
+using System;
+using System.Diagnostics;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages.Event

@@ -1,5 +1,4 @@
-﻿using System.Text.RegularExpressions;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace MrRondon.Behaviors
 {
@@ -23,43 +22,32 @@ namespace MrRondon.Behaviors
 
         private void OnTextChanged(object sender, TextChangedEventArgs args)
         {
-            var entry = (Entry)sender;
+            if (args.OldTextValue == null) return;
+            if (args.NewTextValue.Length < args.OldTextValue.Length) return;
 
-            entry.Text = Type == ContactType.Cellphone ? FormatCellphoneNumber(entry.Text) : FormatTelephoneNumber(entry.Text);
+            var entry = (Entry) sender;
+
+            entry.Text = FormatCellphoneNumber(entry.Text);
         }
 
         private static string FormatCellphoneNumber(string input)
         {
-            var digitsRegex = new Regex(@"[^\d]");
-            var digits = digitsRegex.Replace(input, "");
+            if (input.Length > 15)
+            {
+                input = input.Remove(input.Length - 1);
+            }
+            else switch (input.Length)
+            {
+                case 2:
+                    input = "(" + input + ") ";
+                    break;
+                case 10:
+                    input = input + "-";
+                    break;
+                    default: return input;
+            }
 
-            if (digits.Length <= 1) return $"({digits}";
-            if (digits.Length == 2) return $"({digits.Substring(0, 2)}) ";
-
-            var lenght = digits.Length;
-            if (digits.Length > 2 && digits.Length < 7) return $"({digits.Substring(0, 2)}) {digits.Substring(2, lenght - 2)}";
-
-            if (digits.Length >= 7 && digits.Length < 11)
-                return $"({digits.Substring(0, 2)}) {digits.Substring(2, 5)}-{digits.Substring(7, lenght - 7)}";
-
-            return $"({digits.Substring(0, 2)}) {digits.Substring(2, 5)}-{digits.Substring(7, 4)}";
-        }
-
-        private static string FormatTelephoneNumber(string input)
-        {
-            var digitsRegex = new Regex(@"[^\d]");
-            var digits = digitsRegex.Replace(input, "");
-
-            if (digits.Length <= 1) return $"({digits}";
-            if (digits.Length == 2) return $"({digits.Substring(0, 2)}) ";
-
-            var lenght = digits.Length;
-            if (digits.Length > 2 && digits.Length < 6) return $"({digits.Substring(0, 2)}) {digits.Substring(2, lenght - 2)}";
-
-            if (digits.Length >= 6 && digits.Length < 11)
-                return $"({digits.Substring(0, 2)}) {digits.Substring(2, 4)}-{digits.Substring(6, lenght - 6)}";
-
-            return $"({digits.Substring(0, 2)}) {digits.Substring(2, 4)}-{digits.Substring(6, 4)}";
+            return input;
         }
     }
 

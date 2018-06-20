@@ -18,14 +18,14 @@
                 </Label>
 
                 <Label TextColor="Black" Text="Login"></Label>
-                <Entry TextColor="Black" Text="{Binding UserName}" Placeholder="123.456.789-00" Keyboard="Numeric">
+                <Entry TextColor="Black" BackgroundColor="White" Text="{Binding UserName}" Placeholder="123.456.789-00" Keyboard="Numeric">
                     <Entry.Behaviors>
                         <behaviors:CpfFormatterBehavior />
                     </Entry.Behaviors>
                 </Entry>
 
                 <Label TextColor="Black" Text="Senha"></Label>
-                <Entry TextColor="Black" IsPassword="true" Text="{Binding Password}" Placeholder="senha"></Entry>
+                <Entry TextColor="Black" BackgroundColor="White" IsPassword="true" Text="{Binding Password}" Placeholder="senha"></Entry>
                 <Button Text="Entrar" TextColor="White" BackgroundColor="#CC0066CC" Command="{Binding LoginCommand}"></Button>
 
                 <ActivityIndicator Margin="0,5,0,5" IsRunning="{Binding IsLoading}" Color="{StaticResource PrimaryColor}"></ActivityIndicator>
