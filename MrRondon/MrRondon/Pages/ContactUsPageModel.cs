@@ -118,7 +118,7 @@ namespace MrRondon.Pages
                 Cellphone = string.Empty;
                 Subject = null;
                 Message = string.Empty;
-                await MessageService.ToastAsync("Mensagem enviada com sucesso.");
+                await MessageService.ShowAsync("A sua mensagem foi enviada para o setor responsável da SETUR.");
             }
             catch (TaskCanceledException ex)
             {
