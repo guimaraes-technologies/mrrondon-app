@@ -91,8 +91,7 @@ namespace MrRondon.Pages.Account
 
         private async void ExecuteRegister()
         {
-            await NavigationService.PopModalAsync();
-            await NavigationService.PushAsync(new MasterPage(new RegisterPage()));
-        }
+            await NavigationService.PushAsync(new RegisterPage());
+        }   
     }
 }

@@ -7,6 +7,7 @@ namespace MrRondon.Pages.Account
 		public RegisterPage ()
 		{
 			InitializeComponent ();
+            BindingContext = new RegisterPageModel();
 		}
 	}
 }

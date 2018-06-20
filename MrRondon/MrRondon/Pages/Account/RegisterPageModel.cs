@@ -78,10 +78,15 @@ namespace MrRondon.Pages.Account
                 IsLoading = true;
                 var service = new UserService();
                 await service.Register(this);
+                await NavigationService.PopModalAsync();
             }
             catch (Exception ex)
             {
                 await MessageService.ShowAsync(ex.Message);
+            }
+            finally
+            {
+                IsLoading = false;
             }
         }
     }

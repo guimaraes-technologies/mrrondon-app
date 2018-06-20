@@ -3,7 +3,7 @@ using Xamarin.Forms;
 
 namespace MrRondon.Behaviors
 {
-    public class PhoneNumberValidatorBehavior : Behavior<Entry>
+    public class CpfValidatorBehavior : Behavior<Entry>
     {
         protected override void OnAttachedTo(Entry bindable)
         {
@@ -21,16 +21,17 @@ namespace MrRondon.Behaviors
 
         private static void OnTextChanged(object sender, TextChangedEventArgs args)
         {
-            var isValid = IsValidPhoneNumber(args.NewTextValue);
+            if (string.IsNullOrWhiteSpace(args.NewTextValue)) return;
+            var isValid = IsValidCpf(args.NewTextValue);
 
             ((Entry)sender).TextColor = isValid ? Color.Default : Color.Red;
         }
 
-        public static bool IsValidPhoneNumber(string input)
+        public static bool IsValidCpf(string input)
         {
             var digitsRegex = new Regex(@"[^\d]");
             var digits = digitsRegex.Replace(input, "");
-            return digits.Length == 10 || digits.Length == 11;
+            return digits.Length == 11;
         }
     }
 }
