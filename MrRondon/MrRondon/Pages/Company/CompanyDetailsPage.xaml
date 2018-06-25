@@ -57,9 +57,6 @@
                 <Label Text="Segmento" Style="{StaticResource PrimaryLabel}" />
                 <Label Text="{Binding Company.SegmentDescription}" Style="{StaticResource SecondaryLabel}" />
 
-                <Label Text="CNPJ" Style="{StaticResource PrimaryLabel}" />
-                <Label Text="{Binding Company.Cnpj}" Style="{StaticResource SecondaryLabel}" />
-
                 <ListView ItemsSource="{Binding Company.Contacts}"
                       SeparatorVisibility="None"
                       HasUnevenRows="False"
