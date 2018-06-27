@@ -85,17 +85,17 @@ namespace MrRondon.Pages.Category
                 await NavigationService.PushAsync(new ListHistoricalSightPage(new ListHistoricalSightPageModel()));
                 return;
             }
-            if (category.HasCompany)
+            if (category.HasSubCategory)
             {
-                var pageModel = new ListCompaniesPageModel(category.SubCategoryId, category.Name);
-                pageModel.LoadCitiesCommand.Execute(null);
-                await NavigationService.PushAsync(new ListCompaniesPage(pageModel));
+                var model = new ListSubCategoriesPageModel(category);
+                var page = new ListSubCategoriesPage(model);
+                await NavigationService.PushAsync(page);
                 return;
             }
 
-            var model = new ListSubCategoriesPageModel(category);
-            var page = new ListSubCategoriesPage(model);
-            await NavigationService.PushAsync(page);
+            var pageModel = new ListCompaniesPageModel(category.SubCategoryId, category.Name);
+            pageModel.LoadCitiesCommand.Execute(null);
+            await NavigationService.PushAsync(new ListCompaniesPage(pageModel));
         }
     }
 }

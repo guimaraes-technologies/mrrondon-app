@@ -6,6 +6,7 @@ namespace MrRondon.Pages.Event
     {
         public ListEventPage()
         {
+            if (Device.RuntimePlatform.Equals(Device.iOS)) Icon = "ic_event";
             InitializeComponent();
         }
     }

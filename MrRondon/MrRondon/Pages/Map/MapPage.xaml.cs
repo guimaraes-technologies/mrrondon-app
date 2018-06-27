@@ -14,7 +14,9 @@ namespace MrRondon.Pages.Map
         public MapPage()
         {
             InitializeComponent();
-            BindingContext = _pageModel = _pageModel ?? new MapPageModel();
+            if (Device.RuntimePlatform.Equals(Device.iOS)) Icon = "ic_map";
+            BindingContext = _pageModel = _pageModel ?? new MapPageModel(); 
+
 
             //var customMap = new MapExtension
             //{

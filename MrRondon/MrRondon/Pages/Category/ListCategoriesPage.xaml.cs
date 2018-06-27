@@ -12,6 +12,7 @@ namespace MrRondon.Pages.Category
         public ListCategoriesPage()
         {
             InitializeComponent();
+            if (Device.RuntimePlatform.Equals(Device.iOS)) Icon = "ic_category";
             BindingContext = _pageModel = new ListCategoriesPageModel();
         }
 
