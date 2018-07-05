@@ -45,7 +45,7 @@ namespace MrRondon.Pages.Event
                 var lastFilteredCity = ApplicationManager<Entities.City>.Find("city");
                 var selectedItem = Cities[_cityIndex] ?? AccountManager.DefaultSetting.City;
 
-                if (selectedItem.CityId == lastFilteredCity.CityId)
+                if (selectedItem.CityId == lastFilteredCity?.CityId)
                 {
                     LoadItemsCommand.Execute(null);
                     return;

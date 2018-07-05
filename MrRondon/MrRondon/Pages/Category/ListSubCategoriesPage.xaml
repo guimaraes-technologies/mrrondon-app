@@ -34,7 +34,7 @@
             <flv:FlowListView.FlowColumnTemplate>
                 <DataTemplate>
                     <StackLayout Margin="0, 25, 0, 0">
-                        <Label VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="#0c9796" Text="{Binding Name}" FontSize="Medium" />
+                        <Label VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" BackgroundColor="DarkGray" TextColor="#0c9796" Text="{Binding Name}" FontSize="Medium" />
                     </StackLayout>
                 </DataTemplate>
             </flv:FlowListView.FlowColumnTemplate>

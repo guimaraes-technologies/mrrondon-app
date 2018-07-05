@@ -44,10 +44,21 @@ namespace MrRondon.Pages.HistoricalSight
             {
                 _cityIndex = value < 0 ? 0 : value;
                 Notify(nameof(CitySelectedIndex));
-
+                var lastFilteredCity = ApplicationManager<Entities.City>.Find("city");
                 var selectedItem = Cities[_cityIndex] ?? AccountManager.DefaultSetting.City;
-                CurrentCity = selectedItem;
-                ApplicationManager<Entities.City>.AddOrUpdate("city", selectedItem);
+
+                if (selectedItem.CityId == lastFilteredCity?.CityId)
+                {
+                    LoadItemsCommand.Execute(null);
+                    return;
+                }
+
+                if (Cities.Any(a => a.CityId == selectedItem.CityId))
+                {
+                    CurrentCity = selectedItem;
+                    ApplicationManager<Entities.City>.AddOrUpdate("city", selectedItem);
+                }
+
                 LoadItemsCommand.Execute(null);
             }
         }
