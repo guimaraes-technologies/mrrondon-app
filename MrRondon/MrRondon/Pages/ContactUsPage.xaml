@@ -37,6 +37,8 @@
 
             <Label Text="Assunto" TextColor="{StaticResource PrimaryLabelColor}"></Label>
             <extensions:BindablePicker
+                Title="Selecione"
+                PlaceholderColor="{StaticResource EntryColor}"
                 TextColor="{StaticResource EntryColor}"
                 PickerBackgroundColor="{StaticResource EntryBackgroundColor}"
                 DisplayMemberPath="Description"
