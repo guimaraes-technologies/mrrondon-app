@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -24,7 +25,8 @@ namespace MrRondon.Services.Rest
         public static async Task<Exception> GenerateError(HttpResponseMessage response)
         {
             var json = await response.Content.ReadAsStringAsync();
-            //var error = JsonConvert.DeserializeObject<ErrorMessageRest>(json);
+            if (json?.ToLower().Contains("usuário ou senha incorreta") ?? false)
+                throw new Exception("Usuário ou Senha incorreta");
 
             switch (response.StatusCode)
             {
