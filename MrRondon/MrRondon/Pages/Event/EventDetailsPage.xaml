@@ -3,77 +3,129 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
              xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              x:Class="MrRondon.Pages.Event.EventDetailsPage"
              Title="{Binding Title}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ItemTappedEventArgsToItemTappedConverter x:Key="ItemTappedConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ScrollView>
-        <StackLayout Margin="0" Padding="0">
-            <Grid HeightRequest="150" Padding="5">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+        <StackLayout Margin="10,0,0,0">
+            <ActivityIndicator Style="{StaticResource SpinnerLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}"></ActivityIndicator>
+            <Image x:Name="image" Source="{Binding Event.ImageSourceCover}" HorizontalOptions="FillAndExpand" HeightRequest="220" ></Image>
 
-                <ffimage:CachedImage x:Name="image" 
-                                Grid.Row="0" 
-                                Grid.RowSpan="2" 
-                                Grid.Column="0" 
-                                HorizontalOptions="FillAndExpand" 
-                                VerticalOptions="Fill" 
-                                Aspect="AspectFill" 
-                                Source="{Binding Event.ImageSourceCover}"
-                                CacheType="Memory"
-                                DownsampleToViewSize="true" />
+            <Label Text="{Binding Event.Name}" TextColor="Black" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
 
-                <ActivityIndicator Style="{StaticResource SpinnerLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}" Grid.Column="0" Grid.RowSpan="2" Grid.ColumnSpan="2"></ActivityIndicator>
+            <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
+                <ffimage:CachedImage 
+                    Source="phone"
+                    HorizontalOptions="CenterAndExpand" 
+                    VerticalOptions="CenterAndExpand"
+                    CacheType="Memory"
+                    Aspect="AspectFit"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    DownsampleToViewSize="true">
 
-                <Image Margin="10,10,0,0" Grid.Column="0" Grid.Row="0" HorizontalOptions="Start" VerticalOptions="Start" Source="unfavorite" WidthRequest="20" HeightRequest="20">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding MarkAsFavoriteCommand}"></TapGestureRecognizer>
-                    </Image.GestureRecognizers>
-                </Image>
-                <Image Margin="150,10,0,0" Grid.Row="0" HorizontalOptions="End" VerticalOptions="End" Source="share" WidthRequest="20" HeightRequest="20" >
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer NumberOfTapsRequired="1" Command="{Binding ShareCommand}"></TapGestureRecognizer>
-                    </Image.GestureRecognizers>
-                </Image>
-                <Label Grid.Column="0" Grid.Row="1" Margin="10,-60,0,0" LineBreakMode="WordWrap" FontSize="Large" Text="{Binding Event.Name}" TextColor="White" VerticalOptions="End" />
-            </Grid>
-            
-            <StackLayout Padding="{StaticResource PagePadding}">
-                <Label Text="{Binding Event.Name}" TextColor="Black" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
+                    <ffimage:CachedImage.Transformations>
+                        <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
+                            <transformations:CircleTransformation.BorderSize>
+                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
+                            </transformations:CircleTransformation.BorderSize>
+                        </transformations:CircleTransformation>
+                    </ffimage:CachedImage.Transformations>
+                    <ffimage:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding MakePhoneCallCommand}"></TapGestureRecognizer>
+                    </ffimage:CachedImage.GestureRecognizers>
+                </ffimage:CachedImage>
 
-                <StackLayout Orientation="Horizontal">
-                    <Label Text="{Binding Event.GetValue}" TextColor="Black" HorizontalOptions="Start" Margin="0,0,5,0" />
-                    <Label Text="LIGAR" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="Start">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding MakePhoneCallCommand}"></TapGestureRecognizer>
-                        </Label.GestureRecognizers>
-                    </Label>
-                    <Label Text="VER LOCAL NO MAPA" TextColor="{StaticResource PrimaryColor}" HorizontalOptions="EndAndExpand">
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding OpenMapCommand}"></TapGestureRecognizer>
-                        </Label.GestureRecognizers>
-                    </Label>
-                </StackLayout>
+                <ffimage:CachedImage 
+                    Source="map_marker"
+                    HorizontalOptions="Center" 
+                    VerticalOptions="Center"
+                    CacheType="Memory"
+                    Aspect="AspectFit"
+                    HeightRequest="50"
+                    WidthRequest="50"
+                    DownsampleToViewSize="true">
+                    <ffimage:CachedImage.Transformations>
+                        <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
+                            <transformations:CircleTransformation.BorderSize>
+                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
+                            </transformations:CircleTransformation.BorderSize>
+                        </transformations:CircleTransformation>
+                    </ffimage:CachedImage.Transformations>
+                    <ffimage:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding OpenMapCommand}"></TapGestureRecognizer>
+                    </ffimage:CachedImage.GestureRecognizers>
+                </ffimage:CachedImage>
 
-                <Label Text="Data de Início" Style="{StaticResource PrimaryLabel}" />
-                <Label Text="{Binding Event.StartDate, StringFormat='{0:ddd, dd MMM yyyy - HH:mm}'}" Style="{StaticResource SecondaryLabel}"></Label>
+                <ffimage:CachedImage 
+            Source="share"
+            HorizontalOptions="Center" 
+            VerticalOptions="Center"
+            CacheType="Memory"
+            Aspect="AspectFit"
+            HeightRequest="50"
+            WidthRequest="50"
+            DownsampleToViewSize="true">
 
-                <Label Text="Data de Término" Style="{StaticResource PrimaryLabel}" />
-                <Label Text="{Binding Event.EndDate, StringFormat='{0:ddd, dd MMM yyyy - HH:mm}'}" Style="{StaticResource SecondaryLabel}"></Label>
+                    <ffimage:CachedImage.Transformations>
+                        <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
+                            <transformations:CircleTransformation.BorderSize>
+                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
+                            </transformations:CircleTransformation.BorderSize>
+                        </transformations:CircleTransformation>
+                    </ffimage:CachedImage.Transformations>
+                    <ffimage:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ShareCommand}"></TapGestureRecognizer>
+                    </ffimage:CachedImage.GestureRecognizers>
+                </ffimage:CachedImage>
 
-                <Label Text="Descrição" Style="{StaticResource PrimaryLabel}" />
-                <Label Text="{Binding Event.Description}" Style="{StaticResource SecondaryLabel}" />
+                <ffimage:CachedImage 
+            Source="{Binding FavoritIcon}"
+            HorizontalOptions="Center" 
+            VerticalOptions="Center"
+            CacheType="Memory"
+            Aspect="AspectFit"
+            HeightRequest="50"
+            WidthRequest="50"
+            DownsampleToViewSize="true">
 
-                <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
-                <Label Text="{Binding Event.Address.FullAddress}" Style="{StaticResource SecondaryLabel}" />
-                <pages:FooterPage />
+                    <ffimage:CachedImage.Transformations>
+                        <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
+                            <transformations:CircleTransformation.BorderSize>
+                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
+                            </transformations:CircleTransformation.BorderSize>
+                        </transformations:CircleTransformation>
+                    </ffimage:CachedImage.Transformations>
+                    <ffimage:CachedImage.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding MarkAsFavoriteCommand}"></TapGestureRecognizer>
+                    </ffimage:CachedImage.GestureRecognizers>
+                </ffimage:CachedImage>
             </StackLayout>
+
+            <Label Text="Valor" Style="{StaticResource PrimaryLabel}" />
+            <Label Text="{Binding Event.GetValue}" Style="{StaticResource SecondaryLabel}"></Label>
+
+            <Label Text="Data de Início" Style="{StaticResource PrimaryLabel}" />
+            <Label Text="{Binding Event.StartDate, StringFormat='{0:ddd, dd MMM yyyy}'}" Style="{StaticResource SecondaryLabel}"></Label>
+
+            <Label Text="Data de Término" Style="{StaticResource PrimaryLabel}" />
+            <Label Text="{Binding Event.EndDate, StringFormat='{0:ddd, dd MMM yyyy}'}" Style="{StaticResource SecondaryLabel}"></Label>
+
+            <Label Text="Descrição" Style="{StaticResource PrimaryLabel}" />
+            <Label Text="{Binding Event.Description}" Style="{StaticResource SecondaryLabel}" />
+
+            <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
+            <Label Text="{Binding Event.Address.FullAddress}" Style="{StaticResource SecondaryLabel}" />
+
+            <pages:FooterPage />
         </StackLayout>
     </ScrollView>
-    </ContentPage>
+</ContentPage>

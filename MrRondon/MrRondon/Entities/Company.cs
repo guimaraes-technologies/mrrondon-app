@@ -8,11 +8,8 @@ namespace MrRondon.Entities
     public class Company
     {
         public Guid CompanyId { get; set; }
-
         public string Name { get; set; }
-
         public string FancyName { get; set; }
-
         public string Cnpj { get; set; }
         public byte[] Logo { get; set; }
         public byte[] Cover { get; set; }

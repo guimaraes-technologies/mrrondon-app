@@ -2,42 +2,44 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MrRondon.Pages.Category.ListSubCategoriesPage"
-             xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+             xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
+             xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
+             xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              Title="{Binding Title}"
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ItemTappedEventArgsToItemTappedConverter x:Key="ItemTappedConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <StackLayout Margin="0, 20, 0, 0">
-        <flv:FlowListView x:Name="flowListView" 
-                          FlowColumnCount="2" 
-                          SeparatorVisibility="None" 
-                          HasUnevenRows="True"
-                          FlowItemTappedCommand="{Binding ItemSelectedCommand}" 
-                          FlowItemsSource="{Binding Items}"
-                          RefreshCommand="{Binding LoadItemsCommand}"
-                          IsRefreshing="{Binding IsLoading}"
-                          IsPullToRefreshEnabled="True"
-                          HeightRequest="120">
+        <ListView 
+            SeparatorVisibility="Default" 
+            HasUnevenRows="True"
+            ItemsSource="{Binding Items}"
+            RefreshCommand="{Binding LoadItemsCommand}"
+            IsRefreshing="{Binding IsLoading}"
+            IsPullToRefreshEnabled="True"
+            CachingStrategy="RecycleElement"
+            HeightRequest="120">
 
-            <flv:FlowListView.FlowLoadingTemplate>
+            <ListView.Behaviors>
+                <behaviors:EventToCommandBehavior Command="{Binding ItemSelectedCommand}"
+                                                  Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
+            </ListView.Behaviors>
+            <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Label
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            TextColor="{StaticResource SecondaryLabelColor}"
-                            Text="Carregando..."
-                        ></Label>
+                        <StackLayout BackgroundColor="{StaticResource PrimaryColor}" >
+                            <Label Margin="63,0,0,0" TextColor="White" Text="{Binding Name}" FontSize="Medium" />
+                        </StackLayout>
                     </ViewCell>
                 </DataTemplate>
-            </flv:FlowListView.FlowLoadingTemplate>
-            <flv:FlowListView.FlowColumnTemplate>
-                <DataTemplate>
-                    <StackLayout Margin="0, 25, 0, 0">
-                        <Label VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" BackgroundColor="DarkGray" TextColor="#0c9796" Text="{Binding Name}" FontSize="Medium" />
-                    </StackLayout>
-                </DataTemplate>
-            </flv:FlowListView.FlowColumnTemplate>
-        </flv:FlowListView>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <pages:FooterPage />
     </StackLayout>
 </ContentPage>

@@ -4405,7 +4405,7 @@ namespace MrRondon.Droid
 			public const int logout = 2130837771;
 			
 			// aapt resource value: 0x7f02010c
-			public const int map_maker = 2130837772;
+			public const int map_marker = 2130837772;
 			
 			// aapt resource value: 0x7f02010d
 			public const int menu = 2130837773;
