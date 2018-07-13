@@ -26,6 +26,7 @@ namespace MrRondon.Helpers
                 var response = (HttpWebResponse)req.GetResponse();
                 var stream = response.GetResponseStream();
 
+                if (stream == null) return null;
                 using (var br = new BinaryReader(stream))
                 {
                     var len = (int)(response.ContentLength);

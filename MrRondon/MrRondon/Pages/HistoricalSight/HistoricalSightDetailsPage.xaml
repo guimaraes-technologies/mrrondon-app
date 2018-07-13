@@ -1,9 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
-             xmlns:transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:buttons="clr-namespace:MrRondon.Pages.Buttons;assembly=MrRondon"
              x:Class="MrRondon.Pages.HistoricalSight.HistoricalSightDetailsPage"
              Title="{Binding Title}"
              Style="{StaticResource PageStyle}"
@@ -15,56 +14,9 @@
             <Image x:Name="image" Source="{Binding HistoricalSight.ImageSourceCover}" HorizontalOptions="FillAndExpand" HeightRequest="220"></Image>
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                <ffimageloading:CachedImage
-                    Source="phone"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center"
-                    CacheType="Memory"
-                    Aspect="AspectFit"
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    DownsampleToViewSize="true">
-                    <ffimageloading:CachedImage.Transformations>
-                        <transformations:CircleTransformation BorderSize="20" BorderHexColor="#00838F"/>
-                    </ffimageloading:CachedImage.Transformations>
-                    <ffimageloading:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding MakePhoneCallCommand}" NumberOfTapsRequired="1"></TapGestureRecognizer>
-                    </ffimageloading:CachedImage.GestureRecognizers>
-                </ffimageloading:CachedImage>
-
-                <ffimageloading:CachedImage
-                    Source="map_marker"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center"
-                    CacheType="Memory"
-                    Aspect="AspectFit"
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    DownsampleToViewSize="true">
-                    <ffimageloading:CachedImage.Transformations>
-                        <transformations:CircleTransformation BorderSize="20" BorderHexColor="#00838F"/>
-                    </ffimageloading:CachedImage.Transformations>
-                    <ffimageloading:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding OpenMapCommand}" NumberOfTapsRequired="1"></TapGestureRecognizer>
-                    </ffimageloading:CachedImage.GestureRecognizers>
-                </ffimageloading:CachedImage>
-
-                <ffimageloading:CachedImage
-                    Source="share"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center"
-                    CacheType="Memory"
-                    Aspect="AspectFit"
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    DownsampleToViewSize="true">
-                    <ffimageloading:CachedImage.Transformations>
-                        <transformations:CircleTransformation BorderSize="20" BorderHexColor="#00838F"/>
-                    </ffimageloading:CachedImage.Transformations>
-                    <ffimageloading:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ShareCommand}" NumberOfTapsRequired="1"></TapGestureRecognizer>
-                    </ffimageloading:CachedImage.GestureRecognizers>
-                </ffimageloading:CachedImage>
+                <buttons:PhoneButton />
+                <buttons:MapButton />
+                <buttons:ShareButton />
             </StackLayout>
 
             <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />

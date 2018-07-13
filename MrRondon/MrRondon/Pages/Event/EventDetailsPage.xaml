@@ -2,9 +2,8 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
-             xmlns:ffimage="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             xmlns:transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
+             xmlns:buttons="clr-namespace:MrRondon.Pages.Buttons"
              x:Class="MrRondon.Pages.Event.EventDetailsPage"
              Title="{Binding Title}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
@@ -22,92 +21,10 @@
             <Label Text="{Binding Event.Name}" TextColor="Black" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                <ffimage:CachedImage 
-                    Source="phone"
-                    HorizontalOptions="CenterAndExpand" 
-                    VerticalOptions="CenterAndExpand"
-                    CacheType="Memory"
-                    Aspect="AspectFit"
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    DownsampleToViewSize="true">
-
-                    <ffimage:CachedImage.Transformations>
-                        <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                            <transformations:CircleTransformation.BorderSize>
-                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                            </transformations:CircleTransformation.BorderSize>
-                        </transformations:CircleTransformation>
-                    </ffimage:CachedImage.Transformations>
-                    <ffimage:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding MakePhoneCallCommand}"></TapGestureRecognizer>
-                    </ffimage:CachedImage.GestureRecognizers>
-                </ffimage:CachedImage>
-
-                <ffimage:CachedImage 
-                    Source="map_marker"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center"
-                    CacheType="Memory"
-                    Aspect="AspectFit"
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    DownsampleToViewSize="true">
-                    <ffimage:CachedImage.Transformations>
-                        <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                            <transformations:CircleTransformation.BorderSize>
-                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                            </transformations:CircleTransformation.BorderSize>
-                        </transformations:CircleTransformation>
-                    </ffimage:CachedImage.Transformations>
-                    <ffimage:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding OpenMapCommand}"></TapGestureRecognizer>
-                    </ffimage:CachedImage.GestureRecognizers>
-                </ffimage:CachedImage>
-
-                <ffimage:CachedImage 
-            Source="share"
-            HorizontalOptions="Center" 
-            VerticalOptions="Center"
-            CacheType="Memory"
-            Aspect="AspectFit"
-            HeightRequest="50"
-            WidthRequest="50"
-            DownsampleToViewSize="true">
-
-                    <ffimage:CachedImage.Transformations>
-                        <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                            <transformations:CircleTransformation.BorderSize>
-                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                            </transformations:CircleTransformation.BorderSize>
-                        </transformations:CircleTransformation>
-                    </ffimage:CachedImage.Transformations>
-                    <ffimage:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ShareCommand}"></TapGestureRecognizer>
-                    </ffimage:CachedImage.GestureRecognizers>
-                </ffimage:CachedImage>
-
-                <ffimage:CachedImage 
-            Source="{Binding FavoritIcon}"
-            HorizontalOptions="Center" 
-            VerticalOptions="Center"
-            CacheType="Memory"
-            Aspect="AspectFit"
-            HeightRequest="50"
-            WidthRequest="50"
-            DownsampleToViewSize="true">
-
-                    <ffimage:CachedImage.Transformations>
-                        <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                            <transformations:CircleTransformation.BorderSize>
-                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                            </transformations:CircleTransformation.BorderSize>
-                        </transformations:CircleTransformation>
-                    </ffimage:CachedImage.Transformations>
-                    <ffimage:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding MarkAsFavoriteCommand}"></TapGestureRecognizer>
-                    </ffimage:CachedImage.GestureRecognizers>
-                </ffimage:CachedImage>
+                <buttons:PhoneButton />
+                <buttons:MapButton />
+                <buttons:ShareButton />
+                <buttons:FavoritButton />
             </StackLayout>
 
             <Label Text="Valor" Style="{StaticResource PrimaryLabel}" />
