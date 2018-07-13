@@ -15,13 +15,13 @@
         WidthRequest="36"
         DownsampleToViewSize="true">
 
-        <forms:CachedImage.Transformations>
+        <!--<forms:CachedImage.Transformations>
             <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
                 <transformations:CircleTransformation.BorderSize>
                     <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
                 </transformations:CircleTransformation.BorderSize>
             </transformations:CircleTransformation>
-        </forms:CachedImage.Transformations>
+        </forms:CachedImage.Transformations>-->
         <forms:CachedImage.GestureRecognizers>
             <TapGestureRecognizer Command="{Binding MakePhoneCallCommand}"></TapGestureRecognizer>
         </forms:CachedImage.GestureRecognizers>
