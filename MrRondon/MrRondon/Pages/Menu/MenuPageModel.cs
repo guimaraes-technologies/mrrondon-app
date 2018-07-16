@@ -68,7 +68,7 @@ namespace MrRondon.Pages.Menu
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                ExceptionService.TrackError(ex);
                 await MessageService.ShowAsync(ex.Message);
             }
             finally

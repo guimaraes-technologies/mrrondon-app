@@ -15,5 +15,11 @@
         public const int HistoricalSightId = 56;
         public const string TelephoneSetur = "6932161044";
         public const string EmailSetur = "setur@setur.ro.gov.br";
+
+        public static class AppCenter
+        {
+            public const string Android = "c43bf719-1547-44c8-a7a7-88a2c08354f8";
+            public const string iOS = "7141574a-7716-4659-9e78-982e24bcc88d";
+        }
     }
 }

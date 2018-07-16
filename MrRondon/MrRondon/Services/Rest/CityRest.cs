@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Threading.Tasks;
-using MrRondon.Auth;
+﻿using MrRondon.Auth;
 using MrRondon.Entities;
 using MrRondon.Helpers;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using MrRondon.Services.Interfaces;
+using Xamarin.Forms;
 
 namespace MrRondon.Services.Rest
 {
@@ -30,7 +31,8 @@ namespace MrRondon.Services.Rest
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                var exceptionService = DependencyService.Get<IExceptionService>();
+                exceptionService.TrackError(ex.Message);
                 return AccountManager.DefaultSetting.City.Name;
             }
         }

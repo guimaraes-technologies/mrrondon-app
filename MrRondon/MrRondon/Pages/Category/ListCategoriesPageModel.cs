@@ -1,14 +1,13 @@
-﻿using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using DLToolkit.Forms.Controls;
+﻿using DLToolkit.Forms.Controls;
 using MrRondon.Helpers;
 using MrRondon.Pages.Company;
 using MrRondon.Pages.HistoricalSight;
 using MrRondon.Services;
 using MrRondon.ViewModels;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages.Category
@@ -63,12 +62,12 @@ namespace MrRondon.Pages.Category
             }
             catch (TaskCanceledException ex)
             {
-                Debug.WriteLine(ex);
+                ExceptionService.TrackError(ex);
                 await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                ExceptionService.TrackError(ex);
                 await MessageService.ShowAsync(ex.Message);
             }
             finally

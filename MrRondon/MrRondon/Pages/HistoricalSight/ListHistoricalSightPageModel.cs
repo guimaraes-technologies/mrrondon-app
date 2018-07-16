@@ -99,12 +99,12 @@ namespace MrRondon.Pages.HistoricalSight
             }
             catch (TaskCanceledException ex)
             {
-                Debug.WriteLine(ex);
+                ExceptionService.TrackError(ex);
                 await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                ExceptionService.TrackError(ex);
                 await MessageService.ShowAsync(ex.Message);
             }
             finally
@@ -129,7 +129,7 @@ namespace MrRondon.Pages.HistoricalSight
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                ExceptionService.TrackError(ex);
                 await MessageService.ShowAsync(ex.Message);
             }
             finally
@@ -152,7 +152,7 @@ namespace MrRondon.Pages.HistoricalSight
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                ExceptionService.TrackError(ex);
                 await MessageService.ShowAsync(ex.Message);
             }
             finally

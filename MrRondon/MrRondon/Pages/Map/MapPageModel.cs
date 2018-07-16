@@ -43,7 +43,6 @@ namespace MrRondon.Pages.Map
                 var service = new LocationService();
                 var places = await service.NearbyAsync(currentPosition);
 
-                var url = UrlHelper.ConvertImageUrlToBase64("http://mrrondon.ozielguimaraes.net/Content/Images/android.png");
                 Pins.AddRange(places.Select(item =>
                     new PinExtension
                     {
@@ -56,12 +55,12 @@ namespace MrRondon.Pages.Map
             }
             catch (CouldNotGetLocationException ex)
             {
-                Debug.WriteLine(ex);
+                ExceptionService.TrackError(ex);
                 await MessageService.ShowAsync(ex.Message);
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
+                ExceptionService.TrackError(ex);
                 await MessageService.ShowAsync(ex.Message);
             }
             finally
