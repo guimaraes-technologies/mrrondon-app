@@ -14,7 +14,7 @@
             <converters:ItemTappedEventArgsToItemTappedConverter x:Key="ItemTappedConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <StackLayout Margin="0, 20, 0, 0">
+    <StackLayout>
         <ListView 
             SeparatorVisibility="Default" 
             HasUnevenRows="True"
@@ -34,7 +34,7 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout BackgroundColor="{StaticResource PrimaryColor}" >
-                            <Label Margin="63,0,0,0" TextColor="White" Text="{Binding Name}" FontSize="Small" />
+                            <Label Margin="63,8,0,8" TextColor="White" Text="{Binding Name}" FontSize="Small" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>
