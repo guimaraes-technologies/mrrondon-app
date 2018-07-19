@@ -27,7 +27,7 @@
 
         public static class Pagination
         {
-            public const int Take = 10;
+            public const int Take = 6;
         }
     }
 }

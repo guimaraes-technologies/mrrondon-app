@@ -93,7 +93,7 @@ namespace MrRondon.Pages.Company
                 if (NotHasItems) ErrorMessage = $"Nenhuma empresa encontrada em {CurrentCity.Name}.";
 
                 if (items == null) return;
-                Items = new ObservableRangeCollection<CompanyDetailsPageModel>(items.Select(s => new CompanyDetailsPageModel(s)));
+                Items.AddRange(items.Select(s => new CompanyDetailsPageModel(s)));
             }
             catch (TaskCanceledException ex)
             {
@@ -123,7 +123,9 @@ namespace MrRondon.Pages.Company
                 Items.Clear();
                 var service = new CompanyService();
                 var items = await service.GetAsync(CategoryId, CurrentCity.CityId, Search, Items.Count);
-                foreach(var item in items) Items.Add( new CompanyDetailsPageModel(item));
+
+                if (items == null) return;
+                Items.AddRange(items.Select(s => new CompanyDetailsPageModel(s)));
             }
             catch (TaskCanceledException ex)
             {

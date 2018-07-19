@@ -97,7 +97,7 @@ namespace MrRondon.Pages.Event
                 if (NotHasItems) ErrorMessage = $"Nenhum evento encontrado em {CurrentCity.Name}";
 
                 if (items == null) return;
-                Items = new ObservableRangeCollection<EventDetailsPageModel>(items.Select(s => new EventDetailsPageModel(s)));
+                Items.AddRange(items.Select(s => new EventDetailsPageModel(s)));
             }
             catch (TaskCanceledException ex)
             {
@@ -128,7 +128,8 @@ namespace MrRondon.Pages.Event
                 var service = new EventService();
                 var items = await service.GetAsync(CurrentCity.CityId, Search, Items.Count);
 
-                foreach (var item in items) Items.Add(new EventDetailsPageModel(item));
+                if (items == null) return;
+                Items.AddRange(items.Select(s => new EventDetailsPageModel(s)));
             }
             catch (TaskCanceledException ex)
             {
