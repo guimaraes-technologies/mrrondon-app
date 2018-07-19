@@ -82,7 +82,7 @@ namespace MrRondon.Pages.Account
             }
             catch (Exception ex)
             {
-                await MessageService.ShowAsync(ex.Message);
+                await MessageService.ShowAsync(ex);
             }
             finally
             {

@@ -87,7 +87,7 @@ namespace MrRondon.Pages.Event
             {
                 Console.WriteLine(ex);
                 IsFavorite = false;
-                await MessageService.ShowAsync(ex.Message);
+                await MessageService.ShowAsync(ex);
             }
         }
 

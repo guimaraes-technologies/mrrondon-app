@@ -23,7 +23,8 @@
             IsRefreshing="{Binding IsLoading}"
             IsPullToRefreshEnabled="True"
             CachingStrategy="RecycleElement"
-            HeightRequest="120">
+            Margin="0,10,0,10"
+            HeightRequest="150">
 
             <ListView.Behaviors>
                 <behaviors:EventToCommandBehavior Command="{Binding ItemSelectedCommand}"
@@ -33,7 +34,7 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout BackgroundColor="{StaticResource PrimaryColor}" >
-                            <Label Margin="63,0,0,0" TextColor="White" Text="{Binding Name}" FontSize="Medium" />
+                            <Label Margin="63,0,0,0" TextColor="White" Text="{Binding Name}" FontSize="Small" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

@@ -19,7 +19,7 @@ namespace MrRondon.Services
         public void TrackError(Exception e)
         {
             WriteError(e);
-            //Crashes.TrackError(e);
+            Crashes.TrackError(e);
         }
 
         public void TrackError(Exception e, Dictionary<string, string> properties)
@@ -30,10 +30,12 @@ namespace MrRondon.Services
 
         private void WriteError(Exception ex)
         {
+            if (ex == null) return;
+
             var error = ex.Message;
             Debug.WriteLine("-------------START--------------");
 
-            var stackTrace = new System.Diagnostics.StackTrace(ex, true);
+            var stackTrace = new StackTrace(ex, true);
             var errorFileName = stackTrace.GetFrame(0).GetFileName();
             if (!string.IsNullOrWhiteSpace(errorFileName)) Debug.WriteLine($"File: {errorFileName}");
 

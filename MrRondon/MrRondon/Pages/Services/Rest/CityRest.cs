@@ -25,6 +25,9 @@ namespace MrRondon.Services.Rest
 
                     var json = await result.Content.ReadAsStringAsync();
                     var obj = JsonConvert.DeserializeObject<dynamic>(json);
+
+                    if (obj.status == "REQUEST_DENIED") return AccountManager.DefaultSetting.City.Name;
+
                     var cityName = obj.results[0].address_components[3].long_name;
                     return cityName;
                 }
@@ -32,7 +35,7 @@ namespace MrRondon.Services.Rest
             catch (Exception ex)
             {
                 var exceptionService = DependencyService.Get<IExceptionService>();
-                exceptionService.TrackError(ex.Message);
+                exceptionService.TrackError(ex);
                 return AccountManager.DefaultSetting.City.Name;
             }
         }

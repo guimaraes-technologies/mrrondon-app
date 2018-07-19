@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -19,6 +18,7 @@ namespace MrRondon.Pages.Company
             CategoryId = id;
             Items = new ObservableRangeCollection<CompanyDetailsPageModel>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
+            LoadMoreCommand = new Command(async () => await ExecuteLoadMoreItems());
             ItemSelectedCommand = new Command<CompanyDetailsPageModel>(async (item) => await ExecuteLoadItem(item));
             LoadCitiesCommand = new Command<int>(async (subCategoryId) => await ExecuteLoadCities(subCategoryId));
             ChangeActualCityCommand = new Command(async () => await ExecuteChangeActualCity(new ListCompaniesPage(this)));
@@ -69,6 +69,7 @@ namespace MrRondon.Pages.Company
         }
 
         public ICommand LoadItemsCommand { get; set; }
+        public ICommand LoadMoreCommand { get; set; }
         public ICommand ItemSelectedCommand { get; set; }
 
         private ObservableRangeCollection<CompanyDetailsPageModel> _items;
@@ -87,9 +88,11 @@ namespace MrRondon.Pages.Company
                 IsLoading = true;
                 Items.Clear();
                 var service = new CompanyService();
-                var items = await service.GetAsync(CategoryId, CurrentCity.CityId, Search);
+                var items = await service.GetAsync(CategoryId, CurrentCity.CityId, Search, Items.Count);
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = $"Nenhuma empresa encontrada em {CurrentCity.Name}.";
+
+                if (items == null) return;
                 Items = new ObservableRangeCollection<CompanyDetailsPageModel>(items.Select(s => new CompanyDetailsPageModel(s)));
             }
             catch (TaskCanceledException ex)
@@ -100,7 +103,36 @@ namespace MrRondon.Pages.Company
             catch (Exception ex)
             {
                 ExceptionService.TrackError(ex);
-                await MessageService.ShowAsync(ex.Message);
+                await MessageService.ShowAsync(ex);
+            }
+            finally
+            {
+                IsLoading = false;
+                IsPresented = false;
+            }
+        }
+
+        private async Task ExecuteLoadMoreItems()
+        {
+            try
+            {
+                if (IsLoading) return;
+
+                NotHasItems = false;
+                IsLoading = true;
+                Items.Clear();
+                var service = new CompanyService();
+                var items = await service.GetAsync(CategoryId, CurrentCity.CityId, Search, Items.Count);
+                foreach(var item in items) Items.Add( new CompanyDetailsPageModel(item));
+            }
+            catch (TaskCanceledException ex)
+            {
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
+            }
+            catch (Exception ex)
+            {
+                ExceptionService.TrackError(ex);
             }
             finally
             {
@@ -125,7 +157,7 @@ namespace MrRondon.Pages.Company
             catch (Exception ex)
             {
                 ExceptionService.TrackError(ex);
-                await MessageService.ShowAsync(ex.Message);
+                await MessageService.ShowAsync(ex);
             }
             finally
             {
@@ -146,7 +178,7 @@ namespace MrRondon.Pages.Company
             catch (Exception ex)
             {
                 ExceptionService.TrackError(ex);
-                await MessageService.ShowAsync(ex.Message);
+                await MessageService.ShowAsync(ex);
             }
             finally
             {

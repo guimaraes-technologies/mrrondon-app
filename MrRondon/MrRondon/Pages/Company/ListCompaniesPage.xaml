@@ -7,6 +7,7 @@
              xmlns:transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
+             xmlns:controls="clr-namespace:MrRondon.Controls;assembly=MrRondon"
              Title="{Binding Title}"
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
@@ -17,7 +18,7 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <StackLayout>
-        <ListView ItemsSource="{Binding Items}"
+        <controls:InfiniteListView ItemsSource="{Binding Items}"
                       SeparatorVisibility="None"
                       HasUnevenRows="True"
                       HorizontalOptions="FillAndExpand"
@@ -25,16 +26,16 @@
                       RefreshCommand="{Binding LoadItemsCommand}"
                       IsPullToRefreshEnabled="True"
                       IsRefreshing="{Binding IsLoading, Mode=OneWay}">
-            <ListView.Behaviors>
+            <controls:InfiniteListView.Behaviors>
                 <behaviors:EventToCommandBehavior Command="{Binding ItemSelectedCommand}" Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
-            </ListView.Behaviors>
-            <ListView.Header>
+            </controls:InfiniteListView.Behaviors>
+            <controls:InfiniteListView.Header>
                 <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
                     <Label Text="Em" FontSize="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center"></Label>
                     <Picker Title="Cidade" ItemsSource="{Binding CityNames}" SelectedIndex="{Binding CitySelectedIndex}" Margin="5,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center"></Picker>
                 </StackLayout>
-            </ListView.Header>
-            <ListView.ItemTemplate>
+            </controls:InfiniteListView.Header>
+            <controls:InfiniteListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <Grid ColumnSpacing="10" Padding="10" RowSpacing="10" BackgroundColor="{StaticResource PageBackgroundColor}">
@@ -66,11 +67,11 @@
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.Footer>
+            </controls:InfiniteListView.ItemTemplate>
+            <controls:InfiniteListView.Footer>
                 <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems}" TextColor="{StaticResource Accent}" FontSize="Medium" HorizontalOptions="Center"></Label>
-            </ListView.Footer>
-        </ListView>
+            </controls:InfiniteListView.Footer>
+        </controls:InfiniteListView>
 
         <pages:FooterPage />
     </StackLayout>

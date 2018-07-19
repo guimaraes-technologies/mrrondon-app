@@ -1,12 +1,11 @@
-﻿using System;
+﻿using MrRondon.Auth;
+using MrRondon.Helpers;
+using MrRondon.Services;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MrRondon.Auth;
-using MrRondon.Helpers;
-using MrRondon.Services;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages.Event
@@ -62,6 +61,7 @@ namespace MrRondon.Pages.Event
         }
 
         public ICommand LoadItemsCommand { get; set; }
+        public ICommand LoadMoreCommand { get; set; }
         public ICommand ItemSelectedCommand { get; set; }
 
         private ObservableRangeCollection<EventDetailsPageModel> _items;
@@ -76,6 +76,7 @@ namespace MrRondon.Pages.Event
             Title = Constants.AppName;
             Items = new ObservableRangeCollection<EventDetailsPageModel>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
+            LoadMoreCommand = new Command(async () => await ExecuteLoadMoreItems());
             LoadCitiesCommand = new Command(async () => await ExecuteLoadCities());
             ItemSelectedCommand = new Command<EventDetailsPageModel>(async (item) => await ExecuteItemSelected(item));
             ChangeActualCityCommand = new Command(async () => await ExecuteChangeActualCity(new ListEventPage()));
@@ -91,10 +92,12 @@ namespace MrRondon.Pages.Event
                 IsLoading = true;
                 Items.Clear();
                 var service = new EventService();
-                var items = await service.GetAsync(CurrentCity.CityId, Search);
+                var items = await service.GetAsync(CurrentCity.CityId, Search, Items.Count);
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = $"Nenhum evento encontrado em {CurrentCity.Name}";
-                Items = new ObservableRangeCollection<EventDetailsPageModel>(items?.Select(s => new EventDetailsPageModel(s)));
+
+                if (items == null) return;
+                Items = new ObservableRangeCollection<EventDetailsPageModel>(items.Select(s => new EventDetailsPageModel(s)));
             }
             catch (TaskCanceledException ex)
             {
@@ -104,7 +107,37 @@ namespace MrRondon.Pages.Event
             catch (Exception ex)
             {
                 ExceptionService.TrackError(ex);
-                await MessageService.ShowAsync(ex.Message);
+                await MessageService.ShowAsync(ex);
+            }
+            finally
+            {
+                IsLoading = false;
+                IsPresented = false;
+            }
+        }
+
+        private async Task ExecuteLoadMoreItems()
+        {
+            try
+            {
+                if (IsLoading) return;
+
+                NotHasItems = false;
+                IsLoading = true;
+                Items.Clear();
+                var service = new EventService();
+                var items = await service.GetAsync(CurrentCity.CityId, Search, Items.Count);
+
+                foreach (var item in items) Items.Add(new EventDetailsPageModel(item));
+            }
+            catch (TaskCanceledException ex)
+            {
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
+            }
+            catch (Exception ex)
+            {
+                ExceptionService.TrackError(ex);
             }
             finally
             {
@@ -130,7 +163,7 @@ namespace MrRondon.Pages.Event
             catch (Exception ex)
             {
                 ExceptionService.TrackError(ex);
-                await MessageService.ShowAsync(ex.Message);
+                await MessageService.ShowAsync(ex);
             }
             finally
             {
@@ -155,7 +188,7 @@ namespace MrRondon.Pages.Event
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                await MessageService.ShowAsync(ex.Message);
+                await MessageService.ShowAsync(ex);
             }
             finally
             {

@@ -33,7 +33,7 @@ namespace MrRondon.Pages.HistoricalSight
             catch (Exception ex)
             {
                 _pageModel.ExceptionService.TrackError(ex);
-                await _pageModel.MessageService.ShowAsync(ex.Message);
+                await _pageModel.MessageService.ShowAsync(ex);
             }
             finally
             {

@@ -129,7 +129,7 @@ namespace MrRondon.Pages
             {
                 ExceptionService.TrackError(ex);
                 Console.WriteLine(ex);
-                await MessageService.ShowAsync(ex.Message);
+                await MessageService.ShowAsync(ex);
             }
             finally
             {

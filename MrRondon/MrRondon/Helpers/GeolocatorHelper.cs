@@ -3,7 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using MrRondon.Auth;
 using MrRondon.Extensions;
+using MrRondon.Services.Interfaces;
 using Plugin.Geolocator;
+using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Position = Plugin.Geolocator.Abstractions.Position;
 
@@ -13,11 +15,11 @@ namespace MrRondon.Helpers
     {
         public static async Task<Position> GetCurrentPositionAsync()
         {
+            var defaultPosition = new Position(AccountManager.DefaultSetting.Latitude,
+                AccountManager.DefaultSetting.Longitude);
             try
             {
                 var locator = CrossGeolocator.Current;
-                var defaultPosition = new Position(AccountManager.DefaultSetting.Latitude,
-                    AccountManager.DefaultSetting.Longitude);
                 if (!locator.IsGeolocationEnabled || !locator.IsGeolocationAvailable) return defaultPosition;
 
                 locator.DesiredAccuracy = 50;
@@ -34,9 +36,12 @@ namespace MrRondon.Helpers
 
                 return position ?? defaultPosition;
             }
-            catch (Exception ex) {
-                Console.WriteLine();
-                throw;
+            catch (Exception ex)
+            {
+                var exceptionService = DependencyService.Get<IExceptionService>();
+                exceptionService.TrackError(ex);
+
+                return defaultPosition;
             }
         }
 

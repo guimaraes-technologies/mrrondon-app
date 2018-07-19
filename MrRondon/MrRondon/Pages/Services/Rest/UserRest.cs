@@ -1,16 +1,14 @@
-﻿using System;
+﻿using MrRondon.Entities;
+using MrRondon.Helpers;
+using MrRondon.Pages.Account;
+using MrRondon.ViewModels;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using MrRondon.Entities;
-using MrRondon.Helpers;
-using MrRondon.Pages.Account;
-using MrRondon.ViewModels;
-using Newtonsoft.Json;
-using Plugin.Connectivity;
 
 namespace MrRondon.Services.Rest
 {
@@ -18,7 +16,7 @@ namespace MrRondon.Services.Rest
     {
         public async Task<TokenVm> Signin(string userName, string password)
         {
-            if (!CrossConnectivity.Current.IsConnected) throw new Exception("Você está sem conexão com a internet");
+            ValidateConnection();
 
             var login = new Dictionary<string, string>
             {
@@ -29,32 +27,36 @@ namespace MrRondon.Services.Rest
                 {"password", password}
             };
 
-            var response = await HttpClient.PostAsync("security/token", new FormUrlEncodedContent(login));
-            if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.OK)
+            var httpResponse = await HttpClient.PostAsync("security/token", new FormUrlEncodedContent(login));
+            
+            if (httpResponse.IsSuccessStatusCode && httpResponse.StatusCode == HttpStatusCode.OK)
             {
-                var content = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<TokenVm>(content);
+                var json = await httpResponse.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<TokenVm>(json);
+                return result;
             }
 
-            await GenerateError(response);
-            throw new Exception("Não foi possível concluir a requisição");
+            var error = await GenerateError(httpResponse);
+            throw error;
         }
 
         public async Task<User> Register(RegisterPageModel register)
         {
-            if (!CrossConnectivity.Current.IsConnected) throw new Exception("Você está sem conexão com a internet");
+            ValidateConnection();
 
             var jsonObject = JsonConvert.SerializeObject(register);
 
-            var response = await HttpClient.PostAsync($"{UrlService}/user/register", new StringContent(jsonObject, Encoding.UTF8, "application/json"));
-            if (response.IsSuccessStatusCode && response.StatusCode == HttpStatusCode.OK)
+            var httpResponse = await HttpClient.PostAsync($"{UrlService}/user/register", new StringContent(jsonObject, Encoding.UTF8, "application/json"));
+            
+            if (httpResponse.IsSuccessStatusCode && httpResponse.StatusCode == HttpStatusCode.OK)
             {
-                var json = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<User>(json);
+                var json = await httpResponse.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<User>(json);
+                return result;
             }
-            var errors = await response.Content.ReadAsStringAsync();
 
-            throw new Exception(errors);
+            var error = await GenerateError(httpResponse);
+            throw error;
         }
 
         public async Task<User> GetInformationAsync(string token)

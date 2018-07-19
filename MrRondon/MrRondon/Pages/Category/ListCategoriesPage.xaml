@@ -55,7 +55,7 @@
                             </ffimageloading:CachedImage.Transformations>
                         </ffimageloading:CachedImage>
 
-                        <Label VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="#0c9796" Text="{Binding Name}" FontSize="Medium" />
+                        <Label VerticalOptions="Center" HorizontalOptions="Center" HorizontalTextAlignment="Center" TextColor="#0c9796" Text="{Binding Name}" FontSize="Small" />
                     </StackLayout>
                 </DataTemplate>
             </flv:FlowListView.FlowColumnTemplate>
