@@ -8,7 +8,7 @@
         //public const string GoogleKey = "AIzaSyCcgB2BCyqL_oPm1ZyDdEUstH_e7GJAU_I";
         public const string GoogleKey = "AIzaSyDHRHwsvyfA7CMzXAUkc50UILekWrxych4";
 
-        //public static string Host => "http://192.168.56.1:1111";
+        //public static string Host => "http://192.168.56.1:1111";  
         public const string AppName = "Turismo Rondônia";
         public const string TokenType = "Bearer";
         public const string ClientId = "mrrondon.app";

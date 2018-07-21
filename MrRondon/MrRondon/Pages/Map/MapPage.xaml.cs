@@ -15,7 +15,7 @@ namespace MrRondon.Pages.Map
         {
             InitializeComponent();
             if (Device.RuntimePlatform.Equals(Device.iOS)) Icon = "ic_map";
-            BindingContext = _pageModel = _pageModel ?? new MapPageModel(); 
+            BindingContext = _pageModel = _pageModel ?? new MapPageModel();
 
 
             //var customMap = new MapExtension
@@ -43,17 +43,24 @@ namespace MrRondon.Pages.Map
 
                 foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);
 
-                Companies.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(currentPosition.Latitude, currentPosition.Longitude), Distance.FromKilometers(2)));
+                Companies.MoveToRegion(MapSpan.FromCenterAndRadius(
+                    new Position(currentPosition.Latitude, currentPosition.Longitude), Distance.FromKilometers(2)));
             }
             catch (TaskCanceledException ex)
             {
                 _pageModel.ExceptionService.TrackError(ex);
-                await _pageModel.MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
+                await _pageModel.MessageService.ShowAsync("Informação",
+                    "A requisição está demorando muito, verifique sua conexão com a internet.");
             }
             catch (Exception ex)
             {
                 _pageModel.ExceptionService.TrackError(ex);
                 await _pageModel.MessageService.ShowAsync(ex);
+            }
+            finally
+            {
+                _pageModel.IsLoading = false;
+                _pageModel.IsPresented = false;
             }
         }
     }

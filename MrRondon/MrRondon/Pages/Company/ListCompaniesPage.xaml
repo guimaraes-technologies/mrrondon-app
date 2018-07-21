@@ -19,13 +19,12 @@
     </ContentPage.Resources>
     <StackLayout>
         <controls:InfiniteListView ItemsSource="{Binding Items}"
-                      SeparatorVisibility="None"
-                      HasUnevenRows="True"
-                      HorizontalOptions="FillAndExpand"
-                      VerticalOptions="FillAndExpand"
-                      RefreshCommand="{Binding LoadItemsCommand}"
-                      IsPullToRefreshEnabled="True"
-                      IsRefreshing="{Binding IsLoading, Mode=OneWay}">
+                                   SeparatorVisibility="None"
+                                   HasUnevenRows="True"
+            IsRefreshing="{Binding IsLoading, Mode=TwoWay}"
+                                   HorizontalOptions="FillAndExpand"
+                                   VerticalOptions="FillAndExpand"
+                                   LoadMoreCommand="{Binding LoadMoreCommand}">
             <controls:InfiniteListView.Behaviors>
                 <behaviors:EventToCommandBehavior Command="{Binding ItemSelectedCommand}" Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
             </controls:InfiniteListView.Behaviors>
@@ -69,7 +68,7 @@
                 </DataTemplate>
             </controls:InfiniteListView.ItemTemplate>
             <controls:InfiniteListView.Footer>
-                <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems}" TextColor="{StaticResource Accent}" FontSize="Medium" HorizontalOptions="Center"></Label>
+                <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems, Mode=TwoWay}" TextColor="{StaticResource Accent}" FontSize="Small" HorizontalOptions="Center"></Label>
             </controls:InfiniteListView.Footer>
         </controls:InfiniteListView>
 

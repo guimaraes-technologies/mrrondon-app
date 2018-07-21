@@ -19,9 +19,6 @@
             SeparatorVisibility="Default" 
             HasUnevenRows="True"
             ItemsSource="{Binding Items}"
-            RefreshCommand="{Binding LoadItemsCommand}"
-            IsRefreshing="{Binding IsLoading}"
-            IsPullToRefreshEnabled="True"
             CachingStrategy="RecycleElement"
             Margin="0,10,0,10"
             HeightRequest="150">
@@ -34,7 +31,7 @@
                 <DataTemplate>
                     <ViewCell>
                         <StackLayout BackgroundColor="{StaticResource PrimaryColor}" >
-                            <Label Margin="63,8,0,8" TextColor="White" Text="{Binding Name}" FontSize="Small" />
+                            <Label Margin="63,10,0,10" TextColor="White" Text="{Binding Name}" FontSize="Small" />
                         </StackLayout>
                     </ViewCell>
                 </DataTemplate>

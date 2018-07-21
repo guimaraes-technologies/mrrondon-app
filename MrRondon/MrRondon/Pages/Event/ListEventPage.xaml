@@ -28,7 +28,7 @@
             RefreshCommand="{Binding LoadItemsCommand}"
             LoadMoreCommand="{Binding LoadMoreCommand}"
             IsPullToRefreshEnabled="True"
-            IsRefreshing="{Binding IsLoading, Mode=OneWay}">
+            IsRefreshing="{Binding IsLoading, Mode=TwoWay}">
             <controls:InfiniteListView.Behaviors>
                 <behaviors:EventToCommandBehavior Command="{Binding ItemSelectedCommand}" Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
             </controls:InfiniteListView.Behaviors>
@@ -72,7 +72,7 @@
                 </DataTemplate>
             </controls:InfiniteListView.ItemTemplate>
             <controls:InfiniteListView.Footer>
-                <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems}" TextColor="{StaticResource Accent}" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center"></Label>
+                <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems, Mode=TwoWay}" TextColor="{StaticResource Accent}" FontSize="Small" HorizontalOptions="Center" VerticalOptions="Center"></Label>
             </controls:InfiniteListView.Footer>
         </controls:InfiniteListView>
 

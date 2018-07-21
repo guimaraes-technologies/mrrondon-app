@@ -93,7 +93,9 @@ namespace MrRondon.Pages.Company
                 if (NotHasItems) ErrorMessage = $"Nenhuma empresa encontrada em {CurrentCity.Name}.";
 
                 if (items == null) return;
-                Items.AddRange(items.Select(s => new CompanyDetailsPageModel(s)));
+                Items.AddRange(items.Where(x => Items.All(a => a.Company.CompanyId != x.CompanyId))
+                    .Select(s => new CompanyDetailsPageModel(s))
+                );
             }
             catch (TaskCanceledException ex)
             {
@@ -120,12 +122,12 @@ namespace MrRondon.Pages.Company
 
                 NotHasItems = false;
                 IsLoading = true;
-                Items.Clear();
                 var service = new CompanyService();
                 var items = await service.GetAsync(CategoryId, CurrentCity.CityId, Search, Items.Count);
 
                 if (items == null) return;
-                Items.AddRange(items.Select(s => new CompanyDetailsPageModel(s)));
+                Items.AddRange(items.Where(x => Items.All(a => a.Company.CompanyId != x.CompanyId))
+                    .Select(s => new CompanyDetailsPageModel(s)));
             }
             catch (TaskCanceledException ex)
             {

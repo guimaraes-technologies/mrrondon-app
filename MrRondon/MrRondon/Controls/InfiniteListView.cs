@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Windows.Input;
+using MrRondon.Helpers;
 using Xamarin.Forms;
 
 namespace MrRondon.Controls
@@ -22,9 +23,9 @@ namespace MrRondon.Controls
         private void InfiniteListView_ItemAppearing(object sender, ItemVisibilityEventArgs e)
         {
             if (!(ItemsSource is IList items) || e.Item != items[items.Count - 1]) return;
+            if (items.Count < Constants.Pagination.Take) return;
 
-            if (LoadMoreCommand != null && LoadMoreCommand.CanExecute(null))
-                LoadMoreCommand.Execute(null);
+            if (LoadMoreCommand != null && LoadMoreCommand.CanExecute(null)) LoadMoreCommand.Execute(null);
         }
     }
 }
