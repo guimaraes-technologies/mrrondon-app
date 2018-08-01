@@ -21,6 +21,9 @@ namespace MrRondon.Behaviors
 
         private static void OnTextChanged(object sender, TextChangedEventArgs args)
         {
+            if (args.OldTextValue == null) return;
+            if (args.NewTextValue.Length < args.OldTextValue.Length) return;
+
             var entry = (Entry)sender;
 
             entry.Text = FormatCpfNumber(entry.Text);
@@ -28,20 +31,24 @@ namespace MrRondon.Behaviors
 
         private static string FormatCpfNumber(string input)
         {
-            var digitsRegex = new Regex(@"[^\d]");
-            var digits = digitsRegex.Replace(input, "");
-
-            if (digits.Length < 3) return digits;
-            if (digits.Length == 3) return $"{digits}.";
-            if (digits.Length < 6) return $"{digits.Substring(0, 3)}.{digits.Substring(3)}";
-            if (digits.Length == 6) return $"{digits.Substring(0, 3)}.{digits.Substring(3, 3)}.{digits.Substring(6)}";
-            if (digits.Length < 9) return $"{digits.Substring(0, 3)}.{digits.Substring(3, 3)}.{digits.Substring(6)}";
-            if (digits.Length == 9) return $"{digits.Substring(0, 3)}.{digits.Substring(3, 3)}.{digits.Substring(6)}-";
-
-            if(digits.Length < 11)
-                return $"{digits.Substring(0, 3)}.{digits.Substring(3, 3)}.{digits.Substring(6, 3)}-{digits.Substring(9, 1)}";
-
-            return $"{digits.Substring(0, 3)}.{digits.Substring(3, 3)}.{digits.Substring(6, 3)}-{digits.Substring(9, 2)}";
+            if (input.Length > 14)
+            {
+                input = input.Remove(input.Length - 1);
+            }
+            else switch (input.Length)
+                {
+                    case 3:
+                        input = input + ".";
+                        break;
+                    case 7:
+                        input = input + ".";
+                        break;
+                    case 11:
+                        input = input + "-";
+                        break;
+                    default: return input;
+                }
+            return input;
         }
     }
 }

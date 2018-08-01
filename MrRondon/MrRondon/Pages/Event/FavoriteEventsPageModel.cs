@@ -57,10 +57,15 @@ namespace MrRondon.Pages.Event
                 if (NotHasItems) ErrorMessage = "Nenhum evento foi marcado como favorito";
                 Items.ReplaceRange(items);
             }
+            catch (TaskCanceledException ex)
+            {
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
+            }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync(ex);
             }
             finally
             {

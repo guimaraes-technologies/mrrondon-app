@@ -9,12 +9,7 @@ namespace MrRondon.Pages.Event
         public EventDetailsPage (EventDetailsPageModel pageModel)
 		{
 			InitializeComponent ();
-		    BindingContext = _pageModel = pageModel;
+            BindingContext = _pageModel = pageModel;
         }
-
-	    protected override void OnAppearing()
-	    {
-	        base.OnAppearing();
-	    }
 	}
 }

@@ -17,14 +17,13 @@ namespace MrRondon.Pages.Menu
             switch (item.Type)
             {
                 case MenuType.Home: return new MainPage();
-                case MenuType.AccountInformation:
-                    if (account.IsValid) return new InformationPage(new InformationPageModel(account.User));
-                    return new LoginPage();
                 case MenuType.Configurations: return new ConfigurationPage();
                 case MenuType.FavoriteEvent:
                     if (account.IsValid) return new FavoriteEventsPage();
                     return new LoginPage();
                 case MenuType.ContactUs: return new ContactUsPage();
+                case MenuType.Logout: return new LogoutPage();
+                case MenuType.Login: return new LoginPage();
                 default: return new MainPage();
             }
         }
@@ -33,19 +32,19 @@ namespace MrRondon.Pages.Menu
         {
             var items = new List<MenuItemVm>
             {
-                new MenuItemVm("Início", "home", MenuType.Home)
+                new MenuItemVm("Início", "home", MenuType.Home),
+                new MenuItemVm("Fale com a gente", "contact", MenuType.ContactUs)
             };
 
             if (account.IsValid)
             {
-                items.Add(new MenuItemVm("Eventos Favoritos", "favorite", MenuType.FavoriteEvent));
-                items.Add(new MenuItemVm("Minha Conta", "user", MenuType.AccountInformation));
+                items.Add(new MenuItemVm("Favoritos", "favorite", MenuType.FavoriteEvent));
             }
-
             items.Add(new MenuItemVm("Configurações", "configuration", MenuType.Configurations));
-            items.Add(new MenuItemVm("Fale Conosco", "contact", MenuType.ContactUs));
-            await Task.Delay(1);
 
+            items.Add(account.IsValid ? new MenuItemVm("Sair", "logout", MenuType.Logout) : new MenuItemVm("Entrar", "logout", MenuType.Login));
+
+            await Task.Delay(1);
             return items;
         }
     }

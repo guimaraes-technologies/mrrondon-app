@@ -35,8 +35,8 @@ namespace MrRondon.Pages.City
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title)));
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync(ex);
             }
             finally
             {
@@ -55,12 +55,17 @@ namespace MrRondon.Pages.City
                 Cities.ReplaceRange(items);
                 CityNames = new List<string>(items.Select(s => s.Name));
 
-               //todo FINISH
+                //todo FINISH
+            }
+            catch (TaskCanceledException ex)
+            {
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync(ex);
             }
             finally
             {

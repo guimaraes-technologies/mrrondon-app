@@ -14,7 +14,7 @@ namespace MrRondon.Pages.Category
     {
         public ListSubCategoriesPageModel(ViewModels.CategoryListVm category)
         {
-            Title = Constants.AppName;
+            Title = category.Name;
             Category = category;
             Items = new ObservableRangeCollection<Entities.SubCategory>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
@@ -66,10 +66,15 @@ namespace MrRondon.Pages.Category
                 if (NotHasItems) ErrorMessage = "Nenhuma sub categoria encontrada";
                 Items.ReplaceRange(items);
             }
+            catch (TaskCanceledException ex)
+            {
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
+            }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync(ex);
             }
             finally
             {
@@ -80,7 +85,7 @@ namespace MrRondon.Pages.Category
 
         private async Task ExecuteItemSelected(Entities.SubCategory category)
         {
-            var pageModel = new ListCompaniesPageModel(category.SubCategoryId);
+            var pageModel = new ListCompaniesPageModel(category.SubCategoryId, category.Name);
             await NavigationService.PushAsync(new ListCompaniesPage(pageModel));
             IsPresented = false;
             IsLoading = false;

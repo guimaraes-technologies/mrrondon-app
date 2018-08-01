@@ -19,7 +19,8 @@ public enum MenuType
 {
     Home,
     FavoriteEvent,
-    AccountInformation,
     ContactUs,
-    Configurations
+    Configurations,
+    Logout,
+    Login
 }

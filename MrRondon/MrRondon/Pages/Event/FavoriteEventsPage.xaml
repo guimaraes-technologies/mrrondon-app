@@ -61,7 +61,7 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.Footer>
-                <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems}" TextColor="{StaticResource Accent}" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center"></Label>
+                <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems, Mode=TwoWay}" TextColor="{StaticResource Accent}" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center"></Label>
             </ListView.Footer>
         </ListView>
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using MrRondon.Converters;
 using Newtonsoft.Json;
 
@@ -34,8 +35,14 @@ namespace MrRondon.Entities
         {
             get
             {
-                var address = $"{Street}, {Number}\n{Neighborhood}";
-                return City == null ? address : $"{address}\n{City.Name} - RO\n{ZipCode}";
+                var address = new StringBuilder();
+                if (!string.IsNullOrWhiteSpace(Street)) address.Append($"{Street}, ");
+                if (!string.IsNullOrWhiteSpace(Number)) address.Append($"{Number}\n");
+                if (!string.IsNullOrWhiteSpace(Neighborhood)) address.Append($"{Neighborhood}");
+                if (City == null) return address.ToString();
+
+                address.Append($"\n{City.Name} - RO\n{ZipCode}");
+                return address.ToString();
             }
         }
     }

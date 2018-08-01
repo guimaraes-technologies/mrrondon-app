@@ -2,8 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
-             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:buttons="clr-namespace:MrRondon.Pages.Buttons;assembly=MrRondon"
              x:Class="MrRondon.Pages.HistoricalSight.HistoricalSightDetailsPage"
              Title="{Binding Title}"
              Style="{StaticResource PageStyle}"
@@ -11,74 +10,13 @@
 
     <ScrollView>
         <StackLayout>
-            <Label Text="{Binding HistoricalSight.Name}" TextColor="Black" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
-
             <ActivityIndicator Style="{StaticResource SpinnerLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}"></ActivityIndicator>
-            <Image x:Name="image" Source="{Binding HistoricalSight.ImageSourceCover}" HeightRequest="200" Aspect="Fill"></Image>
+            <Image x:Name="image" Source="{Binding HistoricalSight.ImageSourceCover}" HorizontalOptions="FillAndExpand" HeightRequest="220"></Image>
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                <ffimageloading:CachedImage 
-                    Source="phone"
-                    HorizontalOptions="CenterAndExpand" 
-                    VerticalOptions="CenterAndExpand"
-                    CacheType="Memory"
-                    Aspect="AspectFit"
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    DownsampleToViewSize="true">
-
-                    <ffimageloading:CachedImage.Transformations>
-                        <fftransformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                            <fftransformations:CircleTransformation.BorderSize>
-                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                            </fftransformations:CircleTransformation.BorderSize>
-                        </fftransformations:CircleTransformation>
-                    </ffimageloading:CachedImage.Transformations>
-                </ffimageloading:CachedImage>
-
-                <ffimageloading:CachedImage 
-                    Source="map_maker"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center"
-                    CacheType="Memory"
-                    Aspect="AspectFit"
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    DownsampleToViewSize="true">
-
-                    <ffimageloading:CachedImage.Transformations>
-                        <fftransformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                            <fftransformations:CircleTransformation.BorderSize>
-                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                            </fftransformations:CircleTransformation.BorderSize>
-                        </fftransformations:CircleTransformation>
-                    </ffimageloading:CachedImage.Transformations>
-                    <ffimageloading:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding OpenMapCommand}" CommandParameter="." />
-                    </ffimageloading:CachedImage.GestureRecognizers>
-                </ffimageloading:CachedImage>
-
-                <ffimageloading:CachedImage 
-                    Source="share"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center"
-                    CacheType="Memory"
-                    Aspect="AspectFit"
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    DownsampleToViewSize="true">
-
-                    <ffimageloading:CachedImage.Transformations>
-                        <fftransformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                            <fftransformations:CircleTransformation.BorderSize>
-                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                            </fftransformations:CircleTransformation.BorderSize>
-                        </fftransformations:CircleTransformation>
-                    </ffimageloading:CachedImage.Transformations>
-                    <ffimageloading:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ShareCommand}" CommandParameter="." />
-                    </ffimageloading:CachedImage.GestureRecognizers>
-                </ffimageloading:CachedImage>
+                <buttons:PhoneButton />
+                <buttons:MapButton />
+                <buttons:ShareButton />
             </StackLayout>
 
             <Label Text="Endereço" Style="{StaticResource PrimaryLabel}" />
@@ -86,6 +24,7 @@
 
             <Label Text="Descrição" Style="{StaticResource PrimaryLabel}" />
             <Label Text="{Binding HistoricalSight.SightHistory}" Style="{StaticResource SecondaryLabel}" />
+
             <pages:FooterPage />
         </StackLayout>
     </ScrollView>

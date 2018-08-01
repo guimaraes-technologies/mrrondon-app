@@ -44,10 +44,21 @@ namespace MrRondon.Pages.HistoricalSight
             {
                 _cityIndex = value < 0 ? 0 : value;
                 Notify(nameof(CitySelectedIndex));
-
+                var lastFilteredCity = ApplicationManager<Entities.City>.Find("city");
                 var selectedItem = Cities[_cityIndex] ?? AccountManager.DefaultSetting.City;
-                CurrentCity = selectedItem;
-                ApplicationManager<Entities.City>.AddOrUpdate("city", selectedItem);
+
+                if (selectedItem.CityId == lastFilteredCity?.CityId)
+                {
+                    LoadItemsCommand.Execute(null);
+                    return;
+                }
+
+                if (Cities.Any(a => a.CityId == selectedItem.CityId))
+                {
+                    CurrentCity = selectedItem;
+                    ApplicationManager<Entities.City>.AddOrUpdate("city", selectedItem);
+                }
+
                 LoadItemsCommand.Execute(null);
             }
         }
@@ -55,8 +66,8 @@ namespace MrRondon.Pages.HistoricalSight
         public ICommand LoadItemsCommand { get; set; }
         public ICommand ItemSelectedCommand { get; set; }
 
-        private ObservableRangeCollection<Entities.HistoricalSight> _items;
-        public ObservableRangeCollection<Entities.HistoricalSight> Items
+        private ObservableRangeCollection<HistoricalSightDetailsPageModel> _items;
+        public ObservableRangeCollection<HistoricalSightDetailsPageModel> Items
         {
             get => _items;
             set => SetProperty(ref _items, value);
@@ -65,10 +76,10 @@ namespace MrRondon.Pages.HistoricalSight
         public ListHistoricalSightPageModel()
         {
             Title = Constants.AppName;
-            Items = new ObservableRangeCollection<Entities.HistoricalSight>();
+            Items = new ObservableRangeCollection<HistoricalSightDetailsPageModel>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
             LoadCitiesCommand = new Command(async () => await ExecuteLoadCities());
-            ItemSelectedCommand = new Command<Entities.HistoricalSight>(async (item) => await ExecuteItemSelected(item));
+            ItemSelectedCommand = new Command<HistoricalSightDetailsPageModel>(async (item) => await ExecuteItemSelected(item));
             ChangeActualCityCommand = new Command(async () => await ExecuteChangeActualCity(new ListCategoriesPage()));
         }
 
@@ -84,12 +95,17 @@ namespace MrRondon.Pages.HistoricalSight
                 var items = await service.GetAsync(CurrentCity.CityId, Search);
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = $"Nenhum Memorial histórico encontrado em {CurrentCity.Name}";
-                Items.ReplaceRange(items);
+                Items = new ObservableRangeCollection<HistoricalSightDetailsPageModel>(items.Select(s => new HistoricalSightDetailsPageModel(s)));
+            }
+            catch (TaskCanceledException ex)
+            {
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync(ex);
             }
             finally
             {
@@ -113,8 +129,8 @@ namespace MrRondon.Pages.HistoricalSight
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync(ex);
             }
             finally
             {
@@ -123,21 +139,21 @@ namespace MrRondon.Pages.HistoricalSight
             }
         }
 
-        private async Task ExecuteItemSelected(Entities.HistoricalSight model)
+        private async Task ExecuteItemSelected(HistoricalSightDetailsPageModel model)
         {
             try
             {
                 if (IsLoading) return;
                 IsLoading = true;
                 var service = new HistoricalSightService();
-                var item = await service.GetByIdAsync(model.HistoricalSightId);
+                var item = await service.GetByIdAsync(model.HistoricalSight.HistoricalSightId);
                 var pageModel = new HistoricalSightDetailsPageModel(item);
                 await NavigationService.PushAsync(new HistoricalSightDetailsPage(pageModel));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync(ex);
             }
             finally
             {

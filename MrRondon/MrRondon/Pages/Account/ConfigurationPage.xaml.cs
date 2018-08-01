@@ -2,14 +2,17 @@
 
 namespace MrRondon.Pages.Account
 {
-	public partial class ConfigurationPage : ContentPage
-	{
-	    private readonly ConfigurationPageModel _pageModel;
+    public partial class ConfigurationPage : ContentPage
+    {
+        public ConfigurationPage()
+        {
+            InitializeComponent();
+            BindingContext = new ConfigurationPageModel();
+        }
 
-		public ConfigurationPage ()
-		{
-			InitializeComponent ();
-            BindingContext = _pageModel = new ConfigurationPageModel();
-		}
-	}
+        private void OnItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            ((ListView)sender).SelectedItem = null;
+        }
+    }
 }

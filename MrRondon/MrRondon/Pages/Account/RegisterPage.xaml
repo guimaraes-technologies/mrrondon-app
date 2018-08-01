@@ -4,45 +4,44 @@
              xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
              x:Class="MrRondon.Pages.Account.RegisterPage"
              Title="{Binding Title}">
-
-
+ 
     <ScrollView>
         <StackLayout Padding="10">
             <Label Text="Nome" TextColor="Black" FontAttributes="Bold"></Label>
-            <Entry Text="{Binding User.FirstName}" TextColor="Black" BackgroundColor="White"></Entry>
+            <Entry Text="{Binding FirstName}" Placeholder="Oziel"  TextColor="Black" BackgroundColor="White"></Entry>
 
             <Label Text="Sobrenome" TextColor="Black" FontAttributes="Bold"></Label>
-            <Entry Text="{Binding User.LastName}" TextColor="Black" BackgroundColor="White"></Entry>
+            <Entry Text="{Binding LastName}" Placeholder="Guimarães" TextColor="Black" BackgroundColor="White"></Entry>
 
             <Label Text="CPF" TextColor="Black" FontAttributes="Bold"></Label>
-            <Entry TextColor="Black" Text="{Binding User.Cpf}" Placeholder="123.456.789-00" Keyboard="Numeric">
+            <Entry TextColor="Black" Text="{Binding Cpf}" Placeholder="123.456.789-00" Keyboard="Numeric">
                 <Entry.Behaviors>
                     <behaviors:CpfFormatterBehavior />
                 </Entry.Behaviors>
             </Entry>
 
             <Label Text="Telefone" TextColor="Black" FontAttributes="Bold"></Label>
-            <Entry Text="{Binding User.Telephone}" TextColor="Black" BackgroundColor="White" Keyboard="Telephone">
+            <Entry Text="{Binding Telephone}" Placeholder="(69)99999-9999" TextColor="Black" BackgroundColor="White" Keyboard="Telephone">
                 <Entry.Behaviors>
                     <behaviors:PhoneNumberFormatterBehavior Type="Telephone" />
                 </Entry.Behaviors>
             </Entry>
 
             <Label Text="Celular" TextColor="Black" FontAttributes="Bold"></Label>
-            <Entry Text="{Binding User.CellPhone}" TextColor="Black" BackgroundColor="White" Keyboard="Telephone">
+            <Entry Text="{Binding CellPhone}" Placeholder="(69)99999-9999" TextColor="Black" BackgroundColor="White" Keyboard="Telephone">
                 <Entry.Behaviors>
                     <behaviors:PhoneNumberFormatterBehavior Type="Cellphone" />
                 </Entry.Behaviors>
             </Entry>
 
             <Label Text="Email" TextColor="Black" FontAttributes="Bold"></Label>
-            <Entry Text="{Binding User.Email}" TextColor="Black" BackgroundColor="White" Keyboard="Email"></Entry>
+            <Entry Text="{Binding Email}" Placeholder="exemplo@gmail.com" TextColor="Black" BackgroundColor="White" Keyboard="Email"></Entry>
 
             <Label Text="Senha" TextColor="Black" FontAttributes="Bold"></Label>
-            <Entry IsPassword="true" Text="{Binding Password}" TextColor="Black" BackgroundColor="White"></Entry>
+            <Entry IsPassword="true" Text="{Binding Password}" Placeholder="uma senha" TextColor="Black" BackgroundColor="White"></Entry>
 
             <Label Text="Confirmação de senha" TextColor="Black" FontAttributes="Bold"></Label>
-            <Entry IsPassword="true" Text="{Binding ConfirmPassword}" TextColor="Black" BackgroundColor="White"></Entry>
+            <Entry IsPassword="true" Text="{Binding ConfirmPassword}" Placeholder="repita sua senha" TextColor="Black" BackgroundColor="White"></Entry>
 
             <Button Text="Registrar" Command="{Binding RegisterCommand}" TextColor="{StaticResource SecondaryColor}" HorizontalOptions="Center" BackgroundColor="{StaticResource PrimaryColor}"></Button>
             <ActivityIndicator IsVisible="True" IsRunning="{Binding IsLoading}"></ActivityIndicator>

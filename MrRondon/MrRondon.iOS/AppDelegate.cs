@@ -3,6 +3,10 @@ using FFImageLoading;
 using FFImageLoading.Forms.Touch;
 using FFImageLoading.Transformations;
 using Foundation;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using MrRondon.Helpers;
 using Plugin.Toasts;
 using UIKit;
 using UserNotifications;
@@ -59,6 +63,8 @@ namespace MrRondon.iOS
 
                 app.RegisterUserNotificationSettings(notificationSettings);
             }
+
+            AppCenter.Start(Constants.AppCenter.iOS, typeof(Analytics), typeof(Crashes));
 
             return base.FinishedLaunching(app, options);
         }

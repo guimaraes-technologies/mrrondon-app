@@ -1,45 +1,52 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
-             xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
-             xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
              x:Class="MrRondon.Pages.Account.ConfigurationPage"
              Title="{Binding Title}"
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converters:ItemTappedEventArgsToItemTappedConverter x:Key="ItemTappedConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
     <StackLayout>
-        <Label Text="Escolha abaixo até quantos metros você quer vizualizar lugares no mapa" Style="{StaticResource PrimaryLabel}" HorizontalOptions="Start" />
+        <Label Text="Raio de abrangência do mapa" TextColor="{StaticResource PrimaryColor}" />
 
-        <ListView ItemsSource="{Binding Items}"
+        <Label Text="{Binding MapRangeDescription}" TextColor="{StaticResource SecondaryLabelColor}" />
+        <Slider Value="{Binding MapRange}" Minimum="0.100" Maximum="10000" Margin="0"></Slider>
+
+        <StackLayout IsVisible="{Binding Account.IsLoggedIn}">
+            <Label Text="Minha Conta" TextColor="{StaticResource PrimaryColor}" />
+
+            <Label Text="Nome" Style="{StaticResource PrimaryLabel}" Margin="0, 10, 0, 0"></Label>
+            <Label Text="{Binding Account.FullName}" Style="{StaticResource SecondaryLabel}"></Label>
+
+            <Label Text="CPF" Style="{StaticResource PrimaryLabel}"></Label>
+            <Label Text="{Binding Account.Cpf}" Style="{StaticResource SecondaryLabel}"></Label>
+
+            <Label Text="Contatos" Style="{StaticResource PrimaryLabel}"></Label>
+
+            <ListView ItemsSource="{Binding Account.Contacts}"
                   SeparatorVisibility="None"
                   HasUnevenRows="False"
                   HorizontalOptions="FillAndExpand"
-                  VerticalOptions="FillAndExpand">
-            <ListView.Behaviors>
-                <behaviors:EventToCommandBehavior Command="{Binding ItemSelectedCommand}"
-    Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
-            </ListView.Behaviors>
+                  VerticalOptions="FillAndExpand"
+                      ItemSelected="OnItemSelected"
+                  IsPullToRefreshEnabled="False">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Label Text="{Binding ContactDetail}" Style="{StaticResource SecondaryLabel}"></Label>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.Footer>
+                    <Label Text="Nenhum informado" IsVisible="{Binding NotHasContacts}" TextColor="{StaticResource SecondaryLabelColor}"></Label>
+                </ListView.Footer>
+            </ListView>
+        </StackLayout>
 
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <StackLayout Orientation="Horizontal" Margin="10,0,0,0">
-                            <Label TextColor="Black" Text="{Binding Description}" VerticalOptions="Center" HorizontalOptions="StartAndExpand"></Label>
-
-                            <Image Source="{Binding Icon}" VerticalOptions="Center" HorizontalOptions="End"></Image>
-                        </StackLayout>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-
-        <pages:FooterPage />
+        <Label Text="Este aplicativo foi desenvolvido pela equipe GoNew(Marcel Rios, Mirian Rios e Oziel Guimarães) em parceria com EPR" TextColor="{StaticResource SecondaryLabelColor}" VerticalOptions="EndAndExpand">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding AboutCommand}"></TapGestureRecognizer>
+            </Label.GestureRecognizers>
+        </Label>
     </StackLayout>
 </ContentPage>

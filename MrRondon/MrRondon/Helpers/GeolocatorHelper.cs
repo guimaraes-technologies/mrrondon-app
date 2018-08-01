@@ -3,7 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using MrRondon.Auth;
 using MrRondon.Extensions;
+using MrRondon.Services.Interfaces;
 using Plugin.Geolocator;
+using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Position = Plugin.Geolocator.Abstractions.Position;
 
@@ -13,20 +15,34 @@ namespace MrRondon.Helpers
     {
         public static async Task<Position> GetCurrentPositionAsync()
         {
-            var locator = CrossGeolocator.Current;
-            locator.DesiredAccuracy = 50;
+            var defaultPosition = new Position(AccountManager.DefaultSetting.Latitude,
+                AccountManager.DefaultSetting.Longitude);
+            try
+            {
+                var locator = CrossGeolocator.Current;
+                if (!locator.IsGeolocationEnabled || !locator.IsGeolocationAvailable) return defaultPosition;
 
-            var position = await locator.GetLastKnownLocationAsync();
+                locator.DesiredAccuracy = 50;
 
-            //got a cahched position, so let's use it.
-            if (position != null) return position;
+                var position = await locator.GetLastKnownLocationAsync();
 
-            //not available or not enabled
-            if (!locator.IsGeolocationAvailable || !locator.IsGeolocationEnabled) return null;
+                //got a cahched position, so let's use it.
+                if (position != null) return position;
 
-            position = await locator.GetPositionAsync(TimeSpan.FromMilliseconds(2000), null, true);
+                //not available or not enabled
+                if (!locator.IsGeolocationAvailable || !locator.IsGeolocationEnabled) return null;
 
-            return position ?? new Position(AccountManager.DefaultSetting.Latitude, AccountManager.DefaultSetting.Longitude);
+                position = await locator.GetPositionAsync(TimeSpan.FromMilliseconds(2000), null, true);
+
+                return position ?? defaultPosition;
+            }
+            catch (Exception ex)
+            {
+                var exceptionService = DependencyService.Get<IExceptionService>();
+                exceptionService.TrackError(ex);
+
+                return defaultPosition;
+            }
         }
 
         public static async Task<string> GetAddressAsync(double latitude, double longitude)

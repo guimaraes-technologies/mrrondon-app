@@ -3,84 +3,22 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
              xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:buttons="clr-namespace:MrRondon.Pages.Buttons"
              xmlns:transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              x:Class="MrRondon.Pages.Company.CompanyDetailsPage"
              Title="{Binding Title}"
-             Style="{StaticResource PageStyle}"
+             Padding="{StaticResource PagePadding}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
     <ScrollView>
         <StackLayout>
-            <Label Text="{Binding Company.Name}" TextColor="Black" FontSize="Large" HorizontalOptions="CenterAndExpand"></Label>
-
-            <Image Source="{Binding Company.ImageSourceCover}" HeightRequest="200" Aspect="Fill"></Image>
+            <ActivityIndicator Style="{StaticResource SpinnerLoading}" IsRunning="{Binding Source={x:Reference image}, Path=IsLoading}" IsVisible="{Binding Source={x:Reference image}, Path=IsLoading}"></ActivityIndicator>
+            <Image x:Name="image" Source="{Binding Company.ImageSourceCover}" HorizontalOptions="FillAndExpand" HeightRequest="220"></Image>
 
             <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand">
-                <forms:CachedImage 
-                    Source="phone"
-                    HorizontalOptions="CenterAndExpand" 
-                    VerticalOptions="CenterAndExpand"
-                    CacheType="Memory"
-                    Aspect="AspectFit"
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    DownsampleToViewSize="true">
-
-                    <forms:CachedImage.Transformations>
-                        <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                            <transformations:CircleTransformation.BorderSize>
-                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                            </transformations:CircleTransformation.BorderSize>
-                        </transformations:CircleTransformation>
-                    </forms:CachedImage.Transformations>
-                    <forms:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding MakePhoneCallCommand}" CommandParameter="." />
-                    </forms:CachedImage.GestureRecognizers>
-                </forms:CachedImage>
-
-                <forms:CachedImage 
-                    Source="map_maker"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center"
-                    CacheType="Memory"
-                    Aspect="AspectFit"
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    DownsampleToViewSize="true">
-
-                    <forms:CachedImage.Transformations>
-                        <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                            <transformations:CircleTransformation.BorderSize>
-                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                            </transformations:CircleTransformation.BorderSize>
-                        </transformations:CircleTransformation>
-                    </forms:CachedImage.Transformations>
-                    <forms:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding OpenMapCommand}" CommandParameter="." />
-                    </forms:CachedImage.GestureRecognizers>
-                </forms:CachedImage>
-
-                <forms:CachedImage 
-                    Source="share"
-                    HorizontalOptions="Center" 
-                    VerticalOptions="Center"
-                    CacheType="Memory"
-                    Aspect="AspectFit"
-                    HeightRequest="50"
-                    WidthRequest="50"
-                    DownsampleToViewSize="true">
-
-                    <forms:CachedImage.Transformations>
-                        <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                            <transformations:CircleTransformation.BorderSize>
-                                <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                            </transformations:CircleTransformation.BorderSize>
-                        </transformations:CircleTransformation>
-                    </forms:CachedImage.Transformations>
-                    <forms:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding ShareCommand}" CommandParameter="." />
-                    </forms:CachedImage.GestureRecognizers>
-                </forms:CachedImage>
+                <buttons:PhoneButton />
+                <buttons:MapButton />
+                <buttons:ShareButton />
             </StackLayout>
 
             <Label Text="Nome Fantasia" Style="{StaticResource PrimaryLabel}" />
@@ -88,13 +26,9 @@
 
             <Label Text="Segmento" Style="{StaticResource PrimaryLabel}" />
             <Label Text="{Binding Company.SegmentDescription}" Style="{StaticResource SecondaryLabel}" />
-
-            <Label Text="CNPJ" Style="{StaticResource PrimaryLabel}" />
-            <Label Text="{Binding Company.Cnpj}" Style="{StaticResource SecondaryLabel}" />
-
-            <ListView ItemsSource="{Binding Company.Contacts}"
-                      SeparatorVisibility="None"
-                      HasUnevenRows="False"
+            <ListView ItemsSource="{Binding Company.Contacts}" 
+                      SeparatorVisibility="None" 
+                      HasUnevenRows="False" 
                       HeightRequest="40">
                 <ListView.Header>
                     <Label Text="Contatos:" Style="{StaticResource PrimaryLabel}" />

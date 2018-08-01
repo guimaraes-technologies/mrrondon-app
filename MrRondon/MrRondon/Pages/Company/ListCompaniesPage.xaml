@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MrRondon.Pages.Company.ListCompaniesPage"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
+             xmlns:transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
-             xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
-             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
-             x:Class="MrRondon.Pages.Company.ListCompaniesPage"
-             Title="Empresas"
+             xmlns:controls="clr-namespace:MrRondon.Controls;assembly=MrRondon"
+             Title="{Binding Title}"
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
@@ -17,24 +18,23 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <StackLayout>
-        <ListView ItemsSource="{Binding Items}"
-                      SeparatorVisibility="None"
-                      HasUnevenRows="True"
-                      HorizontalOptions="FillAndExpand"
-                      VerticalOptions="FillAndExpand"
-                      RefreshCommand="{Binding LoadItemsCommand}"
-                      IsPullToRefreshEnabled="True"
-                      IsRefreshing="{Binding IsLoading, Mode=OneWay}">
-            <ListView.Behaviors>
+        <controls:InfiniteListView ItemsSource="{Binding Items}"
+                                   SeparatorVisibility="None"
+                                   HasUnevenRows="True"
+            IsRefreshing="{Binding IsLoading, Mode=TwoWay}"
+                                   HorizontalOptions="FillAndExpand"
+                                   VerticalOptions="FillAndExpand"
+                                   LoadMoreCommand="{Binding LoadMoreCommand}">
+            <controls:InfiniteListView.Behaviors>
                 <behaviors:EventToCommandBehavior Command="{Binding ItemSelectedCommand}" Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
-            </ListView.Behaviors>
-            <ListView.Header>
+            </controls:InfiniteListView.Behaviors>
+            <controls:InfiniteListView.Header>
                 <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
                     <Label Text="Em" FontSize="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center"></Label>
                     <Picker Title="Cidade" ItemsSource="{Binding CityNames}" SelectedIndex="{Binding CitySelectedIndex}" Margin="5,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center"></Picker>
                 </StackLayout>
-            </ListView.Header>
-            <ListView.ItemTemplate>
+            </controls:InfiniteListView.Header>
+            <controls:InfiniteListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <Grid ColumnSpacing="10" Padding="10" RowSpacing="10" BackgroundColor="{StaticResource PageBackgroundColor}">
@@ -47,33 +47,30 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <ffimageloading:CachedImage Grid.RowSpan="2" 
+                            <ffimageloading:CachedImage 
+                                Grid.RowSpan="2" 
+                                Source="{Binding Company.ImageSourceLogo}" 
                                 HorizontalOptions="CenterAndExpand" 
                                 VerticalOptions="CenterAndExpand"
+                                CacheType="Memory"
                                 WidthRequest="70" 
-                                HeightRequest="70"
-                                Source = "{Binding ImageSourceLogo}">
+                                HeightRequest="70">
 
                                 <ffimageloading:CachedImage.Transformations>
-                                    <fftransformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                                        <fftransformations:CircleTransformation.BorderSize>
-                                            <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                                        </fftransformations:CircleTransformation.BorderSize>
-                                    </fftransformations:CircleTransformation>
+                                    <transformations:CircleTransformation BorderSize="20" BorderHexColor="#00838F"/>
                                 </ffimageloading:CachedImage.Transformations>
                             </ffimageloading:CachedImage>
 
-                            <Label Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Name}" FontAttributes="Bold" FontSize="Small" />
-
-                            <Label Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Address.ParcialAddress}" />
+                            <Label Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Company.Name}" FontAttributes="Bold" FontSize="Small" />
+                            <Label Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Company.Address.FullAddressInline}" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.Footer>
-                <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems}" TextColor="{StaticResource Accent}" FontSize="Medium" HorizontalOptions="Center"></Label>
-            </ListView.Footer>
-        </ListView>
+            </controls:InfiniteListView.ItemTemplate>
+            <controls:InfiniteListView.Footer>
+                <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems, Mode=TwoWay}" TextColor="{StaticResource Accent}" FontSize="Small" HorizontalOptions="Center"></Label>
+            </controls:InfiniteListView.Footer>
+        </controls:InfiniteListView>
 
         <pages:FooterPage />
     </StackLayout>

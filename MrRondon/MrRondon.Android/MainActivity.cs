@@ -4,6 +4,11 @@ using Android.Content.PM;
 using Android.OS;
 using FFImageLoading;
 using FFImageLoading.Forms.Droid;
+using FFImageLoading.Transformations;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
+using MrRondon.Helpers;
 using Plugin.Permissions;
 using Plugin.Toasts;
 using Xamarin;
@@ -39,9 +44,12 @@ namespace MrRondon.Droid
                 Logger = new CustomLogger(),
             };
             ImageService.Instance.Initialize(config);
+            CachedImageRenderer.Init(true);
+            var ignore1 = typeof(CircleTransformation);
 
             DependencyService.Register<ToastNotification>();
             ToastNotification.Init(this, new PlatformOptions { SmallIconDrawable = Android.Resource.Drawable.IcDialogInfo });
+            AppCenter.Start(Constants.AppCenter.Android, typeof(Analytics), typeof(Crashes));
 
             LoadApplication(new App());
         }

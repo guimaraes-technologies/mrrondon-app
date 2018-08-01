@@ -4,8 +4,9 @@
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
              x:Class="MrRondon.Pages.Map.MapPage"
              BackgroundColor="{StaticResource PageBackgroundColor}"
-             Title="Mapa">
+             Title="MAPA">
 
+    <!--<StackLayout x:Name="parentStack" Spacing="0"></StackLayout>-->
     <StackLayout>
         <maps:Map
             x:Name="Companies"
@@ -13,7 +14,5 @@
             HeightRequest="400"
             IsShowingUser="True"
             MapType="Street"  />
-
-        <!--<pages:FooterPage />-->
     </StackLayout>
 </ContentPage>

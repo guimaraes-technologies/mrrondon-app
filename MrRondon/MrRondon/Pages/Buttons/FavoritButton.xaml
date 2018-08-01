@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             x:Class="MrRondon.Pages.Buttons.FavoritButton"
+             Margin="0,0,15,0">
+
+    <forms:CachedImage 
+        Source="{Binding FavoritIcon}"
+        HorizontalOptions="Center" 
+        VerticalOptions="Center"
+        CacheType="Memory"
+        Aspect="AspectFit"
+        HeightRequest="36"
+        WidthRequest="36"
+        DownsampleToViewSize="true">
+
+        <!--<forms:CachedImage.Transformations>
+            <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
+                <transformations:CircleTransformation.BorderSize>
+                    <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
+                </transformations:CircleTransformation.BorderSize>
+            </transformations:CircleTransformation>
+        </forms:CachedImage.Transformations>-->
+        <forms:CachedImage.GestureRecognizers>
+            <TapGestureRecognizer Command="{Binding MarkAsFavoriteCommand}"></TapGestureRecognizer>
+        </forms:CachedImage.GestureRecognizers>
+    </forms:CachedImage>
+</ContentView>

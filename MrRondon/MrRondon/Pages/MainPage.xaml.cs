@@ -1,7 +1,5 @@
-﻿using System.Threading.Tasks;
-using MrRondon.Pages.Category;
+﻿using MrRondon.Pages.Category;
 using MrRondon.Pages.Event;
-using MrRondon.Pages.HistoricalSight;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages
@@ -11,47 +9,32 @@ namespace MrRondon.Pages
         public MainPage()
         {
             InitializeComponent();
-            
-            CurrentPageChanged += async (sender, e) =>
+
+            CurrentPageChanged += (sender, e) =>
             {
                 var numPage = Children.IndexOf(CurrentPage);
 
                 switch (numPage)
                 {
-                    case 1:
-                        {
-                            var pageModel = new ListCategoriesPageModel();
-                            pageModel.LoadItemsCommand.Execute(null);
-
-                            CurrentPage.BindingContext = pageModel;
-                            await Task.Delay(1);
-                            return;
-                        }
-                    case 2:
-                        {
-                            var pageModel = new ListEventPageModel();
-                            pageModel.LoadCitiesCommand.Execute(null);
-                            pageModel.LoadItemsCommand.Execute(null);
-
-                            CurrentPage.BindingContext = pageModel;
-                            await Task.Delay(1);
-                            return;
-                        }
-                    case 3:
-                        {
-                            var pageModel = new ListHistoricalSightPageModel();
-                            pageModel.LoadCitiesCommand.Execute(null);
-                            pageModel.LoadItemsCommand.Execute(null);
-
-                            CurrentPage.BindingContext = pageModel;
-                            await Task.Delay(1);
-                            return;
-                        }
-                    default:
+                    case 0: //EXPLORE 
+                        //var categoryPageModel = new ListCategoriesPageModel(); 
+                        //categoryPageModel.LoadItemsCommand.Execute(null);
+                        //
+                        //CurrentPage.BindingContext = categoryPageModel;
                         return;
+                    case 1: //EVENTS
+                        
+                            //var eventPageModel = new ListEventPageModel();
+                            //eventPageModel.LoadCitiesCommand.Execute(null);
+                            //eventPageModel.LoadItemsCommand.Execute(null);
+                            //
+                            //CurrentPage.BindingContext = eventPageModel;
+                            //return;
+                        
+                    case 2: //MAP
+                    default: return;
                 }
             };
         }
-
     }
 }

@@ -1,12 +1,10 @@
-﻿using System;
+﻿using MrRondon.Auth;
+using MrRondon.Entities;
+using MrRondon.Helpers;
+using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using MrRondon.Auth;
-using MrRondon.Entities;
-using MrRondon.Extensions;
-using MrRondon.Helpers;
 
 namespace MrRondon.Services.Rest
 {
@@ -25,18 +23,10 @@ namespace MrRondon.Services.Rest
             return content;
         }
 
-        public async Task<IList<Event>> GetNearbyAsync(PlaceUntilOption placeUntilOption, double latitude, double longitude)
+        public async Task<IList<Event>> GetAsync(int cityId, string search, int skip, int take)
         {
-            var precision = int.Parse(EnumExtensions.GetAttribute(placeUntilOption).KeyValue);
-            var url = $"{UrlService}/event/nearby/meters/{precision}/latitude/{latitude.ToString(CultureInfo.CurrentCulture).Replace(".", ",")}/longitude/{longitude.ToString(CultureInfo.CurrentCulture).Replace(".", ",")}";
-            var content = await GetObjectAsync<IList<Event>>(url);
+            var url = $"{UrlService}/event/city/{cityId}/{skip}/{take}/{search}";
 
-            return content;
-        }
-
-        public async Task<IList<Event>> GetAsync(int cityId, string search)
-        {
-            var url = $"{UrlService}/event/city/{cityId}/{search}";
             var content = await GetObjectAsync<IList<Event>>(url);
 
             return content;

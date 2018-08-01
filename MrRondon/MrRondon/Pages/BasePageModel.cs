@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using MrRondon.Auth;
+﻿using MrRondon.Auth;
 using MrRondon.Helpers;
 using MrRondon.Pages.City;
 using MrRondon.Services.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages
 {
     public class BasePageModel : ObservableObject
     {
+        public IExceptionService ExceptionService;
         public IMessageService MessageService;
         protected INavigationService NavigationService;
 
@@ -80,6 +81,8 @@ namespace MrRondon.Pages
             Title = Constants.AppName;
             CurrentCity = ApplicationManager<Entities.City>.Find("city") ?? AccountManager.DefaultSetting.City;
             Cities = new ObservableRangeCollection<Entities.City>();
+
+            ExceptionService = DependencyService.Get<IExceptionService>();
             MessageService = DependencyService.Get<IMessageService>();
             NavigationService = DependencyService.Get<INavigationService>();
         }

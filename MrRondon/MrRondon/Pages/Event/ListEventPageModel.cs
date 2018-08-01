@@ -1,12 +1,11 @@
-﻿using System;
+﻿using MrRondon.Auth;
+using MrRondon.Helpers;
+using MrRondon.Services;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MrRondon.Auth;
-using MrRondon.Helpers;
-using MrRondon.Services;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages.Event
@@ -26,7 +25,7 @@ namespace MrRondon.Pages.Event
             get => _errorMessage;
             set => SetProperty(ref _errorMessage, value);
         }
-        
+
         private string _searchBar;
         public string Search
         {
@@ -42,31 +41,44 @@ namespace MrRondon.Pages.Event
             {
                 _cityIndex = value < 0 ? 0 : value;
                 Notify(nameof(CitySelectedIndex));
-                
+                var lastFilteredCity = ApplicationManager<Entities.City>.Find("city");
                 var selectedItem = Cities[_cityIndex] ?? AccountManager.DefaultSetting.City;
-                CurrentCity = selectedItem;
-                ApplicationManager<Entities.City>.AddOrUpdate("city", selectedItem);
+
+                if (selectedItem.CityId == lastFilteredCity?.CityId)
+                {
+                    LoadItemsCommand.Execute(null);
+                    return;
+                }
+
+                if (Cities.Any(a => a.CityId == selectedItem.CityId))
+                {
+                    CurrentCity = selectedItem;
+                    ApplicationManager<Entities.City>.AddOrUpdate("city", selectedItem);
+                }
+
                 LoadItemsCommand.Execute(null);
             }
         }
 
         public ICommand LoadItemsCommand { get; set; }
+        public ICommand LoadMoreCommand { get; set; }
         public ICommand ItemSelectedCommand { get; set; }
 
-        private ObservableRangeCollection<Entities.Event> _items;
-        public ObservableRangeCollection<Entities.Event> Items
+        private ObservableRangeCollection<EventDetailsPageModel> _items;
+        public ObservableRangeCollection<EventDetailsPageModel> Items
         {
             get => _items;
             set => SetProperty(ref _items, value);
         }
-        
+
         public ListEventPageModel()
         {
             Title = Constants.AppName;
-            Items = new ObservableRangeCollection<Entities.Event>();
+            Items = new ObservableRangeCollection<EventDetailsPageModel>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
+            LoadMoreCommand = new Command(async () => await ExecuteLoadMoreItems());
             LoadCitiesCommand = new Command(async () => await ExecuteLoadCities());
-            ItemSelectedCommand = new Command<Entities.Event>(async (item) => await ExecuteItemSelected(item));
+            ItemSelectedCommand = new Command<EventDetailsPageModel>(async (item) => await ExecuteItemSelected(item));
             ChangeActualCityCommand = new Command(async () => await ExecuteChangeActualCity(new ListEventPage()));
         }
 
@@ -80,15 +92,53 @@ namespace MrRondon.Pages.Event
                 IsLoading = true;
                 Items.Clear();
                 var service = new EventService();
-                var items = await service.GetAsync(CurrentCity.CityId, Search);
+                var items = await service.GetAsync(CurrentCity.CityId, Search, Items.Count);
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = $"Nenhum evento encontrado em {CurrentCity.Name}";
-                Items.ReplaceRange(items);
+
+                if (items == null) return;
+                Items.AddRange(items.Where(x => Items.All(a => a.Event.EventId != x.EventId))
+                .Select(s => new EventDetailsPageModel(s)));
+            }
+            catch (TaskCanceledException ex)
+            {
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync(ex);
+            }
+            finally
+            {
+                IsLoading = false;
+                IsPresented = false;
+            }
+        }
+
+        private async Task ExecuteLoadMoreItems()
+        {
+            try
+            {
+                if (IsLoading) return;
+                IsLoading = true;
+                NotHasItems = false;
+                var service = new EventService();
+                var items = await service.GetAsync(CurrentCity.CityId, Search, Items.Count);
+
+                if (items == null) return;
+                Items.AddRange(items.Where(x => Items.All(a => a.Event.EventId != x.EventId))
+                    .Select(s => new EventDetailsPageModel(s)));
+            }
+            catch (TaskCanceledException ex)
+            {
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
+            }
+            catch (Exception ex)
+            {
+                ExceptionService.TrackError(ex);
             }
             finally
             {
@@ -113,8 +163,8 @@ namespace MrRondon.Pages.Event
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync(ex);
             }
             finally
             {
@@ -123,7 +173,7 @@ namespace MrRondon.Pages.Event
             }
         }
 
-        private async Task ExecuteItemSelected(Entities.Event model)
+        private async Task ExecuteItemSelected(EventDetailsPageModel model)
         {
             try
             {
@@ -131,7 +181,7 @@ namespace MrRondon.Pages.Event
                 IsLoading = true;
 
                 var service = new EventService();
-                var item = await service.GetAsync(model.EventId);
+                var item = await service.GetAsync(model.Event.EventId);
                 var pageModel = new EventDetailsPageModel(item);
 
                 await NavigationService.PushAsync(new EventDetailsPage(pageModel));
@@ -139,7 +189,7 @@ namespace MrRondon.Pages.Event
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                await MessageService.ShowAsync(ex.Message);
+                await MessageService.ShowAsync(ex);
             }
             finally
             {

@@ -1,5 +1,4 @@
-﻿using MrRondon.Auth;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 namespace MrRondon.Pages.Company
 {
@@ -15,10 +14,10 @@ namespace MrRondon.Pages.Company
 
 	    protected override void OnAppearing()
 	    {
-	        base.OnAppearing();
-
             _pageModel.LoadCitiesCommand.Execute(_pageModel.CategoryId);
 	        _pageModel.LoadItemsCommand.Execute(null);
+
+	        base.OnAppearing();
         }
 	}
 }

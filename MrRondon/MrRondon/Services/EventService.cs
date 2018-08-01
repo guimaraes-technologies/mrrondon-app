@@ -1,11 +1,10 @@
-﻿using System;
+﻿using MrRondon.Entities;
+using MrRondon.Helpers;
+using MrRondon.Services.Rest;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MrRondon.Auth;
-using MrRondon.Entities;
-using MrRondon.Helpers;
-using MrRondon.Services.Rest;
 
 namespace MrRondon.Services
 {
@@ -19,21 +18,10 @@ namespace MrRondon.Services
             return item;
         }
 
-        public async Task<IList<Event>> GetNearbyAsync()
+        public async Task<IList<Event>> GetAsync(int cityId, string search = "", int skip = 0, int take = Constants.Pagination.Take)
         {
             var service = new EventRest();
-            var currentPosition = await GeolocatorHelper.GetCurrentPositionAsync();
-            if (currentPosition == null) return new List<Event>();
-
-            var items = await service.GetNearbyAsync(AccountManager.DefaultSetting.PlaceUntilOption, currentPosition.Latitude, currentPosition.Longitude);
-
-            return items.OrderBy(o => o.Name).ToList();
-        }
-
-        public async Task<IList<Event>> GetAsync(int cityId, string search = "")
-        {
-            var service = new EventRest();
-            var items = await service.GetAsync(cityId, search);
+            var items = await service.GetAsync(cityId, search, skip, take);
 
             return items.OrderBy(o => o.Name).ToList();
         }

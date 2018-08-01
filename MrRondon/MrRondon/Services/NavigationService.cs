@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MrRondon.Auth;
 using MrRondon.Services.Interfaces;
 using Xamarin.Forms;
 
@@ -13,9 +14,12 @@ namespace MrRondon.Services
         {
             Device.OpenUri(new Uri(url));
         }
+
         public void MakePhoneCall(string number)
         {
-            NavigateToUrl($"tel:{number}");
+            if (string.IsNullOrWhiteSpace(number)) return;
+
+            NavigateToUrl($"tel:{number.Replace("(", "").Replace("-", "")}");
         }
 
         public async Task PushAsync(Page page)
@@ -41,34 +45,41 @@ namespace MrRondon.Services
         public async Task PopModalAsync()
         {
             await Application.Current.MainPage.Navigation.PopModalAsync();
-		}
+        }
 
-		public void RemovePage(Type type)
-		{
-			var page = (Page)Activator.CreateInstance(type);
-			foreach (var item in GetNavigationStack())
-			{
-				if(item == page) Application.Current.MainPage.Navigation.RemovePage(page);
-			}
-		}
+        public void RemovePage(Type type)
+        {
+            var page = (Page)Activator.CreateInstance(type);
+            foreach (var item in GetNavigationStack())
+            {
+                if (item == page) Application.Current.MainPage.Navigation.RemovePage(page);
+            }
+        }
 
-		public void RemovePage(Page page)
-		{
-			foreach (var item in GetNavigationStack())
-			{
-				if (item == page) Application.Current.MainPage.Navigation.RemovePage(page);
-			}
-		}
+        public void RemovePage(Page page)
+        {
+            foreach (var item in GetNavigationStack())
+            {
+                if (item == page) Application.Current.MainPage.Navigation.RemovePage(page);
+            }
+        }
 
-		public IList<Page> GetNavigationStack()
-		{
-			return Application.Current.MainPage.Navigation.NavigationStack.ToList();
-		}
+        public IList<Page> GetNavigationStack()
+        {
+            return Application.Current.MainPage.Navigation.NavigationStack.ToList();
+        }
 
         public Page GetCurrentPage()
         {
             var page = GetNavigationStack().LastOrDefault();
             return page;
+        }
+
+        public void NavigateOut()
+        {
+            AccountManager.Logout();
+            var account = DependencyService.Get<IAppManager>();
+            account.Close();
         }
     }
 }

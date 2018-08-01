@@ -20,7 +20,7 @@ namespace MrRondon.Pages.HistoricalSight
             MakePhoneCallCommand = new Command(ExecuteMakeCall);
             ShareCommand = new Command(async () => await Share());
         }
-
+         
         public ICommand MakePhoneCallCommand { get; set; }
         public ICommand OpenMapCommand { get; set; }
         public ICommand ShareCommand { get; set; }
@@ -41,7 +41,7 @@ namespace MrRondon.Pages.HistoricalSight
 
         private void ExecuteMakeCall()
         {
-            NavigationService.NavigateToUrl(AccountManager.DefaultSetting.TelephoneSetur);
+            NavigationService.MakePhoneCall(Constants.TelephoneSetur);
         }
 
         private void OpenMap()

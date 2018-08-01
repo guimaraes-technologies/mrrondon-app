@@ -2,12 +2,12 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MrRondon.Pages.HistoricalSight.ListHistoricalSightPage"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
+             xmlns:transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
-             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
-             xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
-             Title="História"
+             Title="Memoriais"
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
@@ -48,7 +48,7 @@
                             </Grid.ColumnDefinitions>
 
                             <ffimageloading:CachedImage Grid.RowSpan="2" 
-                                Source="{Binding ImageSourceLogo}" 
+                                Source="{Binding HistoricalSight.ImageSourceLogo}" 
                                 HorizontalOptions="CenterAndExpand" 
                                 VerticalOptions="CenterAndExpand"
                                 CacheType="Memory"
@@ -58,16 +58,16 @@
                                 DownsampleToViewSize="true">
 
                                 <ffimageloading:CachedImage.Transformations>
-                                    <fftransformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
-                                        <fftransformations:CircleTransformation.BorderSize>
+                                    <transformations:CircleTransformation BorderHexColor="{StaticResource PrimaryColorHexString}">
+                                        <transformations:CircleTransformation.BorderSize>
                                             <OnPlatform x:TypeArguments="x:Double" Android="20" iOS="30" />
-                                        </fftransformations:CircleTransformation.BorderSize>
-                                    </fftransformations:CircleTransformation>
+                                        </transformations:CircleTransformation.BorderSize>
+                                    </transformations:CircleTransformation>
                                 </ffimageloading:CachedImage.Transformations>
                             </ffimageloading:CachedImage>
 
-                            <Label Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Name}" FontAttributes="Bold" FontSize="Small" />
-                            <Label Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Address.FullAddressInline}" />
+                            <Label Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding HistoricalSight.Name}" FontAttributes="Bold" FontSize="Small" />
+                            <Label Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding HistoricalSight.Address.FullAddressInline}" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>

@@ -1,24 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using MrRondon.Auth;
 using MrRondon.Extensions;
 using MrRondon.Helpers;
 using MrRondon.Services;
 using MrRondon.ViewModels;
-using Plugin.Messaging;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages
 {
     public class ContactUsPageModel : BasePageModel
     {
+        private const int MessageMaxLength = 250;
         public ICommand SendMessageCommand { get; set; }
 
         public ContactUsPageModel()
         {
-            Title = "Fale Conosco";
+            Title = "Fale com a gente";
             Subjects = EnumExtensions.ConvertToList<Subject>().ToList();
             SendMessageCommand = new Command(ExecuteSendMessage);
         }
@@ -69,7 +71,20 @@ namespace MrRondon.Pages
         public string Message
         {
             get => _message;
-            set => SetProperty(ref _message, value);
+            set
+            {
+                _message = value;
+                var letters = value?.Length ?? 0;
+                CountLetter = $"{letters.ToString().PadLeft(3, '0')} / {MessageMaxLength}";
+                Notify(nameof(Message));
+            }
+        }
+
+        private string _countLetter = $"000 / {MessageMaxLength}";
+        public string CountLetter
+        {
+            get => _countLetter;
+            set => SetProperty(ref _countLetter, value);
         }
 
         private async void ExecuteSendMessage()
@@ -92,28 +107,33 @@ namespace MrRondon.Pages
                 var service = new ContactService();
                 var hasBeenSended = await service.SendAsync(contactMessage);
 
-                IsLoading = false;
                 if (!hasBeenSended)
                 {
-                    await MessageService.ShowAsync("Erro", $"Não foi possível enviar a sua mensagem, mas você pode entrar em contato com a SETUR pelo telefone {AccountManager.DefaultSetting.TelephoneSetur} ou pelo email {AccountManager.DefaultSetting.EmailSetur}.");
+                    await MessageService.ShowAsync("Erro", $"Não foi possível enviar a sua mensagem, mas você pode entrar em contato com a SETUR pelo telefone {Constants.TelephoneSetur} ou pelo email {Constants.EmailSetur}.");
+                    return;
                 }
 
-                await MessageService.ToastAsync("Mensagem enviada com sucesso.");
-
-                //var builder = new EmailMessageBuilder()
-                //    .To(AccountManager.DefaultSetting.EmailSetur)
-                //    .Subject(Subject.Description)
-                //    .BodyAsHtml(Message).Build();
-
-                //var emailMessenger = CrossMessaging.Current.EmailMessenger;
-                //if (emailMessenger.CanSendEmail) emailMessenger.SendEmail(builder);
-                //await MessageService.ToastAsync("Mensagem enviada com sucesso.");
+                Email = string.Empty;
+                Telephone = string.Empty;
+                Cellphone = string.Empty;
+                Subject = null;
+                Message = string.Empty;
+                await MessageService.ShowAsync("A sua mensagem foi enviada para o setor responsável da SETUR.");
+            }
+            catch (TaskCanceledException ex)
+            {
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
             }
             catch (Exception ex)
             {
-                IsLoading = false;
+                ExceptionService.TrackError(ex);
                 Console.WriteLine(ex);
-                await MessageService.ShowAsync("Erro", ex.Message);
+                await MessageService.ShowAsync(ex);
+            }
+            finally
+            {
+                IsLoading = false;
             }
         }
 
@@ -129,8 +149,7 @@ namespace MrRondon.Pages
             if (string.IsNullOrWhiteSpace(Message)) throw new Exception("O campo Mensagem é obrigatório.");
 
             if (Message.Length < 25) throw new Exception($"Para um melhor entendimento do(a) {Subject.Description}, informe uma mensagem mais detalhada.");
-
-            return true;
+            return Message.Length < MessageMaxLength;
         }
     }
 

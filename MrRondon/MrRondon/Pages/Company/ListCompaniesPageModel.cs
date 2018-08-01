@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -13,12 +12,14 @@ namespace MrRondon.Pages.Company
 {
     public class ListCompaniesPageModel : BasePageModel
     {
-        public ListCompaniesPageModel(int segmentId)
+        public ListCompaniesPageModel(int id, string name)
         {
-            CategoryId = segmentId;
-            Items = new ObservableRangeCollection<Entities.Company>();
+            Title = name;
+            CategoryId = id;
+            Items = new ObservableRangeCollection<CompanyDetailsPageModel>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
-            ItemSelectedCommand = new Command<Entities.Company>(async (item) => await ExecuteLoadItem(item));
+            LoadMoreCommand = new Command(async () => await ExecuteLoadMoreItems());
+            ItemSelectedCommand = new Command<CompanyDetailsPageModel>(async (item) => await ExecuteLoadItem(item));
             LoadCitiesCommand = new Command<int>(async (subCategoryId) => await ExecuteLoadCities(subCategoryId));
             ChangeActualCityCommand = new Command(async () => await ExecuteChangeActualCity(new ListCompaniesPage(this)));
         }
@@ -68,10 +69,11 @@ namespace MrRondon.Pages.Company
         }
 
         public ICommand LoadItemsCommand { get; set; }
+        public ICommand LoadMoreCommand { get; set; }
         public ICommand ItemSelectedCommand { get; set; }
 
-        private ObservableRangeCollection<Entities.Company> _items;
-        public ObservableRangeCollection<Entities.Company> Items
+        private ObservableRangeCollection<CompanyDetailsPageModel> _items;
+        public ObservableRangeCollection<CompanyDetailsPageModel> Items
         {
             get => _items;
             set => SetProperty(ref _items, value);
@@ -86,15 +88,55 @@ namespace MrRondon.Pages.Company
                 IsLoading = true;
                 Items.Clear();
                 var service = new CompanyService();
-                var items = await service.GetAsync(CategoryId, CurrentCity.CityId, Search);
+                var items = await service.GetAsync(CategoryId, CurrentCity.CityId, Search, Items.Count);
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = $"Nenhuma empresa encontrada em {CurrentCity.Name}.";
-                Items.ReplaceRange(items);
+
+                if (items == null) return;
+                Items.AddRange(items.Where(x => Items.All(a => a.Company.CompanyId != x.CompanyId))
+                    .Select(s => new CompanyDetailsPageModel(s))
+                );
+            }
+            catch (TaskCanceledException ex)
+            {
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync(ex);
+            }
+            finally
+            {
+                IsLoading = false;
+                IsPresented = false;
+            }
+        }
+
+        private async Task ExecuteLoadMoreItems()
+        {
+            try
+            {
+                if (IsLoading) return;
+
+                NotHasItems = false;
+                IsLoading = true;
+                var service = new CompanyService();
+                var items = await service.GetAsync(CategoryId, CurrentCity.CityId, Search, Items.Count);
+
+                if (items == null) return;
+                Items.AddRange(items.Where(x => Items.All(a => a.Company.CompanyId != x.CompanyId))
+                    .Select(s => new CompanyDetailsPageModel(s)));
+            }
+            catch (TaskCanceledException ex)
+            {
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
+            }
+            catch (Exception ex)
+            {
+                ExceptionService.TrackError(ex);
             }
             finally
             {
@@ -118,8 +160,8 @@ namespace MrRondon.Pages.Company
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync(ex);
             }
             finally
             {
@@ -128,19 +170,19 @@ namespace MrRondon.Pages.Company
             }
         }
 
-        private async Task ExecuteLoadItem(Entities.Company model)
+        private async Task ExecuteLoadItem(CompanyDetailsPageModel model)
         {
             try
             {
                 var service = new CompanyService();
-                var item = await service.GetByIdAsync(model.CompanyId);
+                var item = await service.GetByIdAsync(model.Company.CompanyId);
                 var pageModel = new CompanyDetailsPageModel(item);
                 await NavigationService.PushAsync(new CompanyDetailsPage(pageModel));
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync(ex);
             }
             finally
             {

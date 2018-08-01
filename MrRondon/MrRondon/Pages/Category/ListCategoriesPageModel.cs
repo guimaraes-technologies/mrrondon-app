@@ -1,11 +1,13 @@
-﻿using System;
-using System.Diagnostics;
+﻿using DLToolkit.Forms.Controls;
+using MrRondon.Helpers;
+using MrRondon.Pages.Company;
+using MrRondon.Pages.HistoricalSight;
+using MrRondon.Services;
+using MrRondon.ViewModels;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MrRondon.Helpers;
-using MrRondon.Pages.Company;
-using MrRondon.Services;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages.Category
@@ -15,7 +17,7 @@ namespace MrRondon.Pages.Category
         public ListCategoriesPageModel()
         {
             Title = Constants.AppName;
-            Items = new ObservableRangeCollection<ViewModels.CategoryListVm>();
+            Items = new FlowObservableCollection<CategoryListVm>();
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
             ItemSelectedCommand = new Command<ViewModels.CategoryListVm>(async (item) => await ExecuteItemSelected(item));
         }
@@ -37,8 +39,8 @@ namespace MrRondon.Pages.Category
             set => SetProperty(ref _errorMessage, value);
         }
 
-        private ObservableRangeCollection<ViewModels.CategoryListVm> _items;
-        public ObservableRangeCollection<ViewModels.CategoryListVm> Items
+        private FlowObservableCollection<CategoryListVm> _items;
+        public FlowObservableCollection<CategoryListVm> Items
         {
             get => _items;
             set => SetProperty(ref _items, value);
@@ -56,12 +58,17 @@ namespace MrRondon.Pages.Category
                 var items = await service.GetAsync();
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = "Nenhuma categoria encontrada";
-                Items.ReplaceRange(items);
+                Items.AddRange(items);
+            }
+            catch (TaskCanceledException ex)
+            {
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title) { IsLoading = false }));
+                ExceptionService.TrackError(ex);
+                //await MessageService.ShowAsync(ex);
             }
             finally
             {
@@ -70,19 +77,24 @@ namespace MrRondon.Pages.Category
             }
         }
 
-        private async Task ExecuteItemSelected(ViewModels.CategoryListVm category)
+        private async Task ExecuteItemSelected(CategoryListVm category)
         {
-            if (category.HasCompany)
+            if (category.SubCategoryId == Constants.HistoricalSightId)
             {
-                var pageModel = new ListCompaniesPageModel(category.SubCategoryId);
-                pageModel.LoadCitiesCommand.Execute(null);
-                await NavigationService.PushAsync(new ListCompaniesPage(pageModel));
+                await NavigationService.PushAsync(new ListHistoricalSightPage(new ListHistoricalSightPageModel()));
+                return;
+            }
+            if (category.HasSubCategory)
+            {
+                var model = new ListSubCategoriesPageModel(category);
+                var page = new ListSubCategoriesPage(model);
+                await NavigationService.PushAsync(page);
                 return;
             }
 
-            var model = new ListSubCategoriesPageModel(category);
-            var page = new ListSubCategoriesPage(model);
-            await NavigationService.PushAsync(page);
+            var pageModel = new ListCompaniesPageModel(category.SubCategoryId, category.Name);
+            pageModel.LoadCitiesCommand.Execute(null);
+            await NavigationService.PushAsync(new ListCompaniesPage(pageModel));
         }
     }
 }

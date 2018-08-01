@@ -50,8 +50,7 @@ namespace MrRondon.Pages.Account
                 var isAuthenticated = await userService.Authenticate(this);
                 if (isAuthenticated)
                 {
-                    NavigationService.RemovePage(new LoginPage());
-                    await NavigationService.PopModalAsync();
+                    await NavigationService.PopAsync();
                     IsPresented = false;
                     if (CallBackPage != null)
                     {
@@ -59,7 +58,6 @@ namespace MrRondon.Pages.Account
                     }
                     else
                     {
-                        //Application.Current.MainPage = new MasterPage();
                         await NavigationService.PopToRootAsync();
                     }
                 }
@@ -67,17 +65,18 @@ namespace MrRondon.Pages.Account
             }
             catch (TaskCanceledException ex)
             {
+                IsLoading = false;
                 Console.WriteLine(ex.Message);
                 await MessageService.ShowAsync("Informação", "A requisição está demorando muito, verifique sua conexão com a internet.");
             }
             catch (Exception ex)
             {
+                IsLoading = false;
                 await MessageService.ShowAsync("Autenticação", ex.Message);
             }
             finally
             {
                 IsLoading = false;
-                IsPresented = false;
             }
         }
 
@@ -92,8 +91,7 @@ namespace MrRondon.Pages.Account
 
         private async void ExecuteRegister()
         {
-            await NavigationService.PopModalAsync();
-            await NavigationService.PushAsync(new MasterPage(new RegisterPage()));
-        }
+            await NavigationService.PushAsync(new RegisterPage());
+        }   
     }
 }

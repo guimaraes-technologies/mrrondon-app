@@ -26,11 +26,11 @@ namespace MrRondon.Behaviors
             ((Entry)sender).TextColor = isValid ? Color.Default : Color.Red;
         }
 
-        private static bool IsValidPhoneNumber(string input)
+        public static bool IsValidPhoneNumber(string input)
         {
             var digitsRegex = new Regex(@"[^\d]");
             var digits = digitsRegex.Replace(input, "");
-            return digits.Length == 10;
+            return digits.Length == 10 || digits.Length == 11;
         }
     }
 }

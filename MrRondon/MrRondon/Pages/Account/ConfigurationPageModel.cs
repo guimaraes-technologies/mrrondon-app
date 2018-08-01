@@ -1,10 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Windows.Input;
 using MrRondon.Auth;
-using MrRondon.Extensions;
 using MrRondon.Helpers;
-using Xamarin.Forms;
 
 namespace MrRondon.Pages.Account
 {
@@ -14,51 +11,33 @@ namespace MrRondon.Pages.Account
         {
             Title = "Configurações";
 
-            var precision = AccountManager.GetPrecision();
-            SetValue(precision);
-            ItemSelectedCommand = new Command<DistanceOptions>(ExecuteItemSelected);
+            _mapRange = AccountManager.GetPrecision();
+            Account = Auth.Account.Current;
         }
 
-        private List<DistanceOptions> _items;
-        public List<DistanceOptions> Items
+        private double _mapRange;
+        public double MapRange
         {
-            get => _items;
-            set => SetProperty(ref _items, value);
-        }
-
-        public ICommand ItemSelectedCommand { get; set; }
-
-        public void SetValue(int until)
-        {
-            var values = EnumExtensions.ConvertToList<PlaceUntilOption>().ToList();
-            Items = new List<DistanceOptions>();
-            foreach (var item in values)
+            get => _mapRange;
+            set
             {
-                var distance = int.Parse(item.KeyValue);
-                var isTheSame = distance.Equals(until);
-                var distanceOption = new DistanceOptions(distance, item.Description, isTheSame);
-                Items.Add(distanceOption);
-                if (isTheSame) ApplicationManager<object>.AddOrUpdate("PlaceUntil", distance);
+                var val = Math.Round(value);
+                _mapRange = val;
+                var unity = val < 1000 ? val > 1 ? "metros" : "metro" : val < 2000 ? "quilômetro" : "quilômetros";
+                MapRangeDescription = $"{(val < 1000 ? $"{val}" : $"{Math.Round(val / 1000)}")} {unity}";
+
+                ApplicationManager<object>.AddOrUpdate("PlaceUntil", val);
             }
         }
 
-        private void ExecuteItemSelected(DistanceOptions item)
+        private string _mapRangeDescription;
+        public string MapRangeDescription
         {
-            SetValue(item.Distance);
-        }
-    }
-
-    public class DistanceOptions
-    {
-        public DistanceOptions(int distance, string description, bool isChecked)
-        {
-            Distance = distance;
-            Description = description;
-            Icon = isChecked ? "check" : string.Empty;
+            get => _mapRangeDescription;
+            set => SetProperty(ref _mapRangeDescription, value);
         }
 
-        public int Distance { get; private set; }
-        public string Description { get; private set; }
-        public string Icon { get; private set; }
+        public AccountManager Account { get; }
+        public bool NotHasContacts => !Account.User?.Contacts?.Any() ?? true;
     }
 }

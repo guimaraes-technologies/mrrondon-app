@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Threading.Tasks;
-using MrRondon.Auth;
+﻿using MrRondon.Auth;
 using MrRondon.Entities;
 using MrRondon.Helpers;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using MrRondon.Services.Interfaces;
+using Xamarin.Forms;
 
 namespace MrRondon.Services.Rest
 {
@@ -24,13 +25,17 @@ namespace MrRondon.Services.Rest
 
                     var json = await result.Content.ReadAsStringAsync();
                     var obj = JsonConvert.DeserializeObject<dynamic>(json);
+
+                    if (obj.status == "REQUEST_DENIED") return AccountManager.DefaultSetting.City.Name;
+
                     var cityName = obj.results[0].address_components[3].long_name;
                     return cityName;
                 }
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                var exceptionService = DependencyService.Get<IExceptionService>();
+                exceptionService.TrackError(ex);
                 return AccountManager.DefaultSetting.City.Name;
             }
         }

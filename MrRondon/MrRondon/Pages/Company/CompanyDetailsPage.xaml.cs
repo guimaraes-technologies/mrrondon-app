@@ -7,7 +7,7 @@ namespace MrRondon.Pages.Company
 		public CompanyDetailsPage (CompanyDetailsPageModel pageModel)
 		{
 			InitializeComponent ();
-		    BindingContext = pageModel;
-		}
+            BindingContext = pageModel; 
+        }
 	}
 }

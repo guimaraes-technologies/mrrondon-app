@@ -1,7 +1,9 @@
 ﻿using System.Linq;
+using Microsoft.AppCenter;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using MrRondon.Helpers;
 using MrRondon.Pages;
-using MrRondon.Pages.Account;
 using MrRondon.Services;
 using MrRondon.Services.Interfaces;
 using Xamarin.Forms;
@@ -18,6 +20,7 @@ namespace MrRondon
             RefactorColorsToHexString();
 
             DependencyService.Register<IMessageService, MessageService>();
+            DependencyService.Register<IExceptionService, ExceptionService>();
             DependencyService.Register<INavigationService, NavigationService>();
             Startup.Run();
             MainPage = new NavigationPage(new MasterPage());
@@ -43,7 +46,8 @@ namespace MrRondon
 
         protected override void OnStart()
         {
-            // Handle when your app starts
+            AppCenter.Start($"android={Constants.AppCenter.Android};ios={Constants.AppCenter.iOS}",
+                typeof(Analytics), typeof(Crashes));
         }
 
         protected override void OnSleep()

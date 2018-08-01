@@ -91,19 +91,17 @@ namespace MrRondon.Auth
         public static class DefaultSetting
         {
             public static City City = new City { CityId = 37, Name = "Porto Velho" };
-            public static string TelephoneSetur = "6932161044";
-            public static string EmailSetur = "contato@ozielguimaraes.net";
             public static double Latitude = -8.7592547;
             public static double Longitude = -63.8769227;
             public static PlaceUntilOption PlaceUntilOption = PlaceUntilOption.Thousand;
-        }
+        } 
 
-        public static int GetPrecision()
+        public static double GetPrecision()
         {
             var until = ApplicationManager<object>.Find("PlaceUntil");
 
             var defaultValue = EnumExtensions.GetAttribute(DefaultSetting.PlaceUntilOption);
-            return until == null ? int.Parse(defaultValue.KeyValue) : int.Parse($"{until}");
+            return until == null ? double.Parse(defaultValue.KeyValue) : double.Parse($"{until}");
         }
         
         public static async Task<City> SetActualCity()
@@ -120,6 +118,12 @@ namespace MrRondon.Auth
             ApplicationManager<City>.AddOrUpdate("city", city);
 
             return city;
+        }
+
+        public static void Logout()
+        {
+            var userService = new UserService();
+            userService.Logout();
         }
     }
 }

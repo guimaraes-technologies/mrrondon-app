@@ -2,12 +2,13 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MrRondon.Pages.Event.ListEventPage"
-             xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
-             xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
-             Title="Evento"
+             xmlns:transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
+             xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
+             xmlns:controls="clr-namespace:MrRondon.Controls;assembly=MrRondon"
+             Title="EVENTOS"
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
@@ -18,24 +19,26 @@
     </ContentPage.Resources>
     <StackLayout>
 
-        <ListView ItemsSource="{Binding Items}"
-                      SeparatorVisibility="None"
-                      HasUnevenRows="True"
-                      HorizontalOptions="FillAndExpand"
-                      VerticalOptions="FillAndExpand"
-                      RefreshCommand="{Binding LoadItemsCommand}"
-                      IsPullToRefreshEnabled="True"
-                      IsRefreshing="{Binding IsLoading, Mode=OneWay}">
-            <ListView.Behaviors>
+        <controls:InfiniteListView 
+            ItemsSource="{Binding Items}"
+            SeparatorVisibility="None"
+            HasUnevenRows="True"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand"
+            RefreshCommand="{Binding LoadItemsCommand}"
+            LoadMoreCommand="{Binding LoadMoreCommand}"
+            IsPullToRefreshEnabled="True"
+            IsRefreshing="{Binding IsLoading, Mode=TwoWay}">
+            <controls:InfiniteListView.Behaviors>
                 <behaviors:EventToCommandBehavior Command="{Binding ItemSelectedCommand}" Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
-            </ListView.Behaviors>
-            <ListView.Header>
+            </controls:InfiniteListView.Behaviors>
+            <controls:InfiniteListView.Header>
                 <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
                     <Label Text="Em" FontSize="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center"></Label>
                     <Picker Title="Cidade" ItemsSource="{Binding CityNames}" SelectedIndex="{Binding CitySelectedIndex}" Margin="5,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center"></Picker>
                 </StackLayout>
-            </ListView.Header>
-            <ListView.ItemTemplate>
+            </controls:InfiniteListView.Header>
+            <controls:InfiniteListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
                         <Grid ColumnSpacing="10" Padding="10" RowSpacing="10" BackgroundColor="{StaticResource PageBackgroundColor}">
@@ -48,28 +51,30 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <ffimageloading:CachedImage Grid.RowSpan="2" 
+                            <ffimageloading:CachedImage 
+                                Grid.RowSpan="2" 
                                 HorizontalOptions="CenterAndExpand" 
+                                CacheType="Memory"
                                 VerticalOptions="CenterAndExpand"
                                 WidthRequest="70" 
                                 HeightRequest="70"
-                                Source="{Binding ImageSourceLogo}">
+                                Source="{Binding Event.ImageSourceLogo}">
                                 <ffimageloading:CachedImage.Transformations>
-                                    <fftransformations:CircleTransformation BorderSize="20" BorderHexColor="#00838F"/>
+                                    <transformations:CircleTransformation BorderSize="20" BorderHexColor="#00838F"/>
                                 </ffimageloading:CachedImage.Transformations>
                             </ffimageloading:CachedImage>
 
-                            <Label Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Name}" FontAttributes="Bold" FontSize="Small" />
+                            <Label Grid.Row="0" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Event.Name}" FontAttributes="Bold" FontSize="Small" />
 
-                            <Label Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding RangeDateAndValue}" />
+                            <Label Grid.Row="1" Grid.Column="1" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Event.RangeDateAndValue}" />
                         </Grid>
                     </ViewCell>
                 </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.Footer>
-                <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems}" TextColor="{StaticResource Accent}" FontSize="Medium" HorizontalOptions="Center" VerticalOptions="Center"></Label>
-            </ListView.Footer>
-        </ListView>
+            </controls:InfiniteListView.ItemTemplate>
+            <controls:InfiniteListView.Footer>
+                <Label Text="{Binding ErrorMessage}" IsVisible="{Binding NotHasItems, Mode=TwoWay}" TextColor="{StaticResource Accent}" FontSize="Small" HorizontalOptions="Center" VerticalOptions="Center"></Label>
+            </controls:InfiniteListView.Footer>
+        </controls:InfiniteListView>
 
         <pages:FooterPage />
     </StackLayout>

@@ -19,9 +19,9 @@ namespace MrRondon.Pages.Company
             Title = "Detalhes da Empresa";
             Company = model;
             NotHasContacts = Company?.Contacts == null || !Company.Contacts.Any();
-            OpenMapCommand = new Command(OpenMap);
-            ShareCommand = new Command(async () => await Share());
-            MakePhoneCallCommand = new Command(MakePhoneCall);
+            OpenMapCommand = new Command(ExecuteOpenMap);
+            ShareCommand = new Command(async () => await ExecuteShare());
+            MakePhoneCallCommand = new Command(ExecuteMakePhoneCall);
         }
 
         public ICommand MakePhoneCallCommand { get; set; }
@@ -37,25 +37,25 @@ namespace MrRondon.Pages.Company
             set => SetProperty(ref _company, value);
         }
 
-        private void OpenMap()
+        private void ExecuteOpenMap()
         {
             CrossExternalMaps.Current.NavigateTo(Company.Name, Company.Address.Latitude, Company.Address.Longitude, NavigationType.Driving);
         }
 
-        private async Task Share()
+        private async Task ExecuteShare()
         {
             var message = new ShareMessage
             {
                 Title = Constants.AppName,
-                Text = $"Olha o que eu encontrei no {Constants.AppName}:\nEmpresa: {Company.Name}\nLocal: {Company.Address.FullAddressInline}\nMuito TOP, dá uma olhada ;)\n",
-                Url = "http://mrrondon.ozielguimaraes.net"
+                Text = $"Olha o que eu encontrei no {Constants.AppName}:\nEmpresa: {Company.Name}\nLocal: {Company.Address.FullAddressInline}\nMuito TOP, dá uma olhada ;)",
+                Url = Constants.SystemUrl
             };
             await CrossShare.Current.Share(message);
         }
 
-        private void MakePhoneCall()
+        private void ExecuteMakePhoneCall()
         {
-            var contact = (Company.Contacts?.FirstOrDefault(f => f.ContactType == ContactType.Cellphone)?.Description ?? Company.Contacts?.FirstOrDefault(f => f.ContactType == ContactType.Telephone)?.Description) ?? AccountManager.DefaultSetting.TelephoneSetur;
+            var contact = (Company.Contacts?.FirstOrDefault(f => f.ContactType == ContactType.Cellphone)?.Description ?? Company.Contacts?.FirstOrDefault(f => f.ContactType == ContactType.Telephone)?.Description) ?? Constants.TelephoneSetur;
 
             NavigationService.MakePhoneCall(contact);
         }

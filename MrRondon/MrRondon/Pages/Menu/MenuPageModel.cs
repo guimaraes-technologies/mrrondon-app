@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using MrRondon.Helpers;
 using MrRondon.Pages.Account;
-using MrRondon.Pages.Event;
-using MrRondon.Services;
+using MrRondon.Services.Interfaces;
 using MrRondon.ViewModels;
 using Xamarin.Forms;
 
@@ -21,6 +19,8 @@ namespace MrRondon.Pages.Menu
             set => SetProperty(ref _items, value);
         }
 
+        public string AppVersion { get; set; }
+
         private string _siginSignoutText = "Entrar";
         public string SiginSignoutText
         {
@@ -30,13 +30,18 @@ namespace MrRondon.Pages.Menu
 
         public ICommand LoadItemsCommand { get; set; }
         public ICommand AboutCommand { get; set; }
-        public ICommand SiginSignoutCommand { get; set; }
+        public ICommand VersionCommand { get; set; }
+        public ICommand LoginCommand { get; set; }
+        public ICommand LogoutCommand { get; set; }
 
         public MenuPageModel()
         {
             LoadItemsCommand = new Command(async () => await ExecuteLoadItems());
-            AboutCommand = new Command(async () => await ExecuteAbout());
-            SiginSignoutCommand = new Command(async () => await ExecuteSigninSignout());
+            AboutCommand = new Command(ExecuteAbout);
+            VersionCommand = new Command(async () => await ExecuteVersion());
+            LoginCommand = new Command(async () => await ExecuteLogin());
+            LogoutCommand = new Command(ExecuteLogout);
+            AppVersion = $"Versão {DependencyService.Get<IAppVersion>().GetVersion()}";
         }
 
         private async Task ExecuteLoadItems()
@@ -63,8 +68,8 @@ namespace MrRondon.Pages.Menu
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex);
-                await NavigationService.PushAsync(new ErrorPage(new ErrorPageModel(ex.Message, Title)));
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync(ex);
             }
             finally
             {
@@ -73,31 +78,25 @@ namespace MrRondon.Pages.Menu
             }
         }
 
-        private async Task ExecuteAbout()
+        private void ExecuteAbout()
         {
-            await MessageService.ShowAsync($"O aplicativo {Constants.AppName}, foi desenvolvimento pela equipe GoNew, para a SETUR - Secretaria de Turismo.");
+            NavigationService.NavigateToUrl(Constants.SystemUrl);
         }
 
-        private async Task ExecuteSigninSignout()
+        private async Task ExecuteLogin()
         {
-            try
-            {
-                var service = new UserService();
-                var account = Auth.Account.Current;
-                if (account.IsValid)
-                {
-                    await NavigationService.PushAsync(new MasterPage());
-                    return;
-                }
+            await NavigationService.PushAsync(new LoginPage());
+        }
 
-                service.Logout();
-                await NavigationService.PushModalAsync(new LoginPage());
-            }
-            finally
-            {
-                IsLoading = false;
-                IsPresented = false;
-            }
+        private void ExecuteLogout()
+        {
+            NavigationService.NavigateOut();
+        }
+
+        private async Task ExecuteVersion()
+        {
+            var wannaToContactDeveloper = await MessageService.ShowConfirmationAsync($"O aplicativo {Constants.AppName}, foi desenvolvido pela equipe GoNew(Marcel Rios, Mirian Rios e Oziel Guimarães), para a SETUR - Superintendência Estadual do Turismo no desafio da HACKATHON 2017.\nDeseja entrar em contato com o desenvolvedor?", "Sim", "Agora não");
+            if (wannaToContactDeveloper) NavigationService.NavigateToUrl(Constants.DeveloperUrl);
         }
     }
 }

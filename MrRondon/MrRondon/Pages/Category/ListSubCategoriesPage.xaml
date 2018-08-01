@@ -2,12 +2,10 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="MrRondon.Pages.Category.ListSubCategoriesPage"
-             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
-             xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
              xmlns:behaviors="clr-namespace:MrRondon.Behaviors;assembly=MrRondon"
              xmlns:pages="clr-namespace:MrRondon.Pages;assembly=MrRondon"
-             Title="Mr Rondon Turismo"
+             xmlns:converters="clr-namespace:MrRondon.Converters;assembly=MrRondon"
+             Title="{Binding Title}"
              Style="{StaticResource PageStyle}"
              BackgroundColor="{StaticResource PageBackgroundColor}">
 
@@ -16,49 +14,25 @@
             <converters:ItemTappedEventArgsToItemTappedConverter x:Key="ItemTappedConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-
     <StackLayout>
-        <StackLayout Orientation="Horizontal">
-            <ffimageloading:CachedImage 
-                HorizontalOptions="Start" 
-                VerticalOptions="CenterAndExpand"
-                WidthRequest="70" 
-                HeightRequest="70"
-                DownsampleToViewSize="true"
-                Source = "{Binding Category.ImageSource}">
-                <ffimageloading:CachedImage.Transformations>
-                    <fftransformations:CircleTransformation BorderSize="20" BorderHexColor="#00838F"/>
-                </ffimageloading:CachedImage.Transformations>
-            </ffimageloading:CachedImage>
+        <ListView 
+            SeparatorVisibility="Default" 
+            HasUnevenRows="True"
+            ItemsSource="{Binding Items}"
+            CachingStrategy="RecycleElement"
+            Margin="0,10,0,10"
+            HeightRequest="150">
 
-            <Label FontSize="Large" VerticalOptions="Center" HorizontalOptions="FillAndExpand" TextColor="Black" Text="{Binding Category.Name}" FontAttributes="Bold" />
-        </StackLayout>
-
-        <ListView ItemsSource="{Binding Items}"
-                  HasUnevenRows="False"
-                  HorizontalOptions="FillAndExpand"
-                  VerticalOptions="FillAndExpand"
-                  RefreshCommand="{Binding LoadItemsCommand}"
-                  IsPullToRefreshEnabled="True"
-                  IsRefreshing="{Binding IsLoading, Mode=OneWay}">
             <ListView.Behaviors>
                 <behaviors:EventToCommandBehavior Command="{Binding ItemSelectedCommand}"
-    Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
+                                                  Converter="{StaticResource ItemTappedConverter}" EventName="ItemTapped" />
             </ListView.Behaviors>
-
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
-                        <Grid ColumnSpacing="10" Padding="10" RowSpacing="10" BackgroundColor="{StaticResource PageBackgroundColor}">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-
-                            <Label Grid.Row="0" Grid.Column="0" VerticalOptions="Center" HorizontalOptions="Start" TextColor="Black" Text="{Binding Name}" FontSize="Medium" />
-                        </Grid>
+                        <StackLayout BackgroundColor="{StaticResource PrimaryColor}" >
+                            <Label Margin="63,10,0,10" TextColor="White" Text="{Binding Name}" FontSize="Small" />
+                        </StackLayout>
                     </ViewCell>
                 </DataTemplate>
             </ListView.ItemTemplate>
