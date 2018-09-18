@@ -68,7 +68,7 @@ namespace MrRondon.Pages.Category
             catch (Exception ex)
             {
                 ExceptionService.TrackError(ex);
-                //await MessageService.ShowAsync(ex);
+                await MessageService.ShowAsync($"Não foi possível obter as categorias\n{ex.Message}");
             }
             finally
             {

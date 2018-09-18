@@ -3,10 +3,14 @@ using MrRondon.Helpers;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using MrRondon.Services.Interfaces;
+using Xamarin.Forms;
 
 namespace MrRondon.Services.Rest
 {
@@ -46,19 +50,37 @@ namespace MrRondon.Services.Rest
 
         protected async Task<TObject> GetAsync<TObject>(string url)
         {
-            ValidateConnection();
-
-            var httpResponse = await HttpClient.GetAsync(url);
-            
-            if (httpResponse.IsSuccessStatusCode && httpResponse.StatusCode == HttpStatusCode.OK)
+            var json = string.Empty;
+            try
             {
-                var json = await httpResponse.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<TObject>(json);
-                return result;
-            }
 
-            var error = await GenerateError(httpResponse);
-            throw error;
+                ValidateConnection();
+
+                var httpResponse = await HttpClient.GetAsync(url);
+
+                if (httpResponse.IsSuccessStatusCode && httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    json = await httpResponse.Content.ReadAsStringAsync();
+                    var result = ValidateJson<TObject>(json);
+                    return result;
+                }
+
+                var error = await GenerateError(httpResponse);
+                throw error;
+            }
+            catch (Exception ex)
+            {
+                var exceptionService = DependencyService.Get<IExceptionService>();
+
+                exceptionService.TrackError(ex, new Dictionary<string, string>
+                {
+                    {"Date", $"{DateTime.UtcNow}"},
+                    {"Url", url},
+                    {"Object", json.Length > 125 ? json.Substring(0, 124) : json}
+                });
+
+                throw;
+            }
         }
 
         public async Task<TObject> PostObjectAsync<TObject>(string url, StringContent content) where TObject : class
@@ -68,42 +90,90 @@ namespace MrRondon.Services.Rest
 
         public async Task<TObject> PostAsync<TObject>(string url, StringContent content)
         {
-            ValidateConnection();
-
-            var httpResponse = await HttpClient.PostAsync(url, content);
-            
-            if (httpResponse.IsSuccessStatusCode && httpResponse.StatusCode == HttpStatusCode.OK)
+            var json = string.Empty;
+            try
             {
-                var json = await httpResponse.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<TObject>(json);
-                return result;
-            }
 
-            var error = await GenerateError(httpResponse);
-            throw error;
+                ValidateConnection();
+
+                var httpResponse = await HttpClient.PostAsync(url, content);
+
+                if (httpResponse.IsSuccessStatusCode && httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    json = await httpResponse.Content.ReadAsStringAsync();
+
+                    var result = ValidateJson<TObject>(json);
+                    return result;
+                }
+
+                var error = await GenerateError(httpResponse);
+                throw error;
+
+            }
+            catch (Exception ex)
+            {
+                var exceptionService = DependencyService.Get<IExceptionService>();
+
+                exceptionService.TrackError(ex, new Dictionary<string, string>
+                {
+                    {"Date", $"{DateTime.UtcNow}"},
+                    {"Url", url},
+                    {"Object", json.Length > 125 ? json.Substring(0, 124) : json}
+                });
+
+                throw;
+            }
         }
 
         public async Task<bool> PostObjectAsync(string url, StringContent content)
         {
-            ValidateConnection();
-
-            var httpResponse = await HttpClient.PostAsync(url, content);
-            
-            if (httpResponse.IsSuccessStatusCode && httpResponse.StatusCode == HttpStatusCode.OK)
+            var json = string.Empty;
+            try
             {
-                var json = await httpResponse.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<bool>(json);
-                return result;
-            }
 
-            var error = await GenerateError(httpResponse);
-            throw error;
+                ValidateConnection();
+
+                var httpResponse = await HttpClient.PostAsync(url, content);
+
+                if (httpResponse.IsSuccessStatusCode && httpResponse.StatusCode == HttpStatusCode.OK)
+                {
+                    json = await httpResponse.Content.ReadAsStringAsync();
+                    var result = ValidateJson<bool>(json);
+                    return result;
+                }
+
+                var error = await GenerateError(httpResponse);
+                throw error;
+            }
+            catch (Exception ex)
+            {
+                var exceptionService = DependencyService.Get<IExceptionService>();
+
+                exceptionService.TrackError(ex, new Dictionary<string, string>
+                {
+                    {"Date", $"{DateTime.UtcNow}"},
+                    {"Url", url},
+                    {"Object", json.Length > 125 ? json.Substring(0, 124) : json}
+                });
+
+                throw;
+            }
         }
 
         protected async void ValidateConnection()
         {
             if (!CrossConnectivity.Current.IsConnected) throw new WithOutInternetConnectionException();
             if (!await CrossConnectivity.Current.IsRemoteReachable(Constants.Host)) throw new ServiceUnavailableException();
+        }
+
+        private static TObject ValidateJson<TObject>(string json)
+        {
+            if (json.Contains("<html") || json.Contains("<body"))
+                throw new Exception("Houve um erro ao tentar conectar com o servidor");
+
+            var result = JsonConvert.DeserializeObject<TObject>(json);
+
+            return result;
         }
     }
 }
