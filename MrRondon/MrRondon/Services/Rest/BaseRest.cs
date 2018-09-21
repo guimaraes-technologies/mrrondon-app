@@ -53,7 +53,6 @@ namespace MrRondon.Services.Rest
             var json = string.Empty;
             try
             {
-
                 ValidateConnection();
 
                 var httpResponse = await HttpClient.GetAsync(url);

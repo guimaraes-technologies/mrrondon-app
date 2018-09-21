@@ -58,7 +58,8 @@ namespace MrRondon.Pages.Category
                 var items = await service.GetAsync();
                 NotHasItems = IsLoading && items != null && !items.Any();
                 if (NotHasItems) ErrorMessage = "Nenhuma categoria encontrada";
-                Items.AddRange(items);
+
+               Items.Repopulate(items);
             }
             catch (TaskCanceledException ex)
             {
