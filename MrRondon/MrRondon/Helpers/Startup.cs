@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using MrRondon.Auth;
 using MrRondon.Services.Interfaces;
 using Xamarin.Forms;
@@ -8,7 +7,7 @@ namespace MrRondon.Helpers
 {
     public static class Startup
     {
-        public static bool Run()
+        public static void Run()
         {
             try
             {
@@ -18,14 +17,11 @@ namespace MrRondon.Helpers
                     await AccountManager.SetActualCity();
                     await AccountManager.GetAsync();
                 });
-
-                return true;
             }
             catch (Exception ex)
             {
                 var exceptionService = DependencyService.Get<IExceptionService>();
                 exceptionService.TrackError(ex, "Startup Method");
-                return false;
             }
         }
     }

@@ -2,7 +2,6 @@
 {
     public static class Constants
     {
-        //public const string Host = "http://api.mrrondon.ozielguimaraes.net";
         //public const string Host = "http://192.168.56.1:1111";
         public const string Host = "http://api.turismo.sistemas.ro.gov.br";
         //public const string GoogleKey = "AIzaSyCcgB2BCyqL_oPm1ZyDdEUstH_e7GJAU_I";
