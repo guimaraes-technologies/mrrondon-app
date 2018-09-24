@@ -105,7 +105,7 @@ namespace MrRondon.Pages.HistoricalSight
             catch (Exception ex)
             {
                 ExceptionService.TrackError(ex);
-                await MessageService.ShowAsync(ex);
+                await MessageService.ShowAsync($"Não foi possível obter os pontos turísticos\n{ex.Message}");
             }
             finally
             {
@@ -130,7 +130,7 @@ namespace MrRondon.Pages.HistoricalSight
             catch (Exception ex)
             {
                 ExceptionService.TrackError(ex);
-                await MessageService.ShowAsync(ex);
+                await MessageService.ShowAsync($"Não foi possível obter as cidades com pontos turísticos\n{ex.Message}");
             }
             finally
             {
@@ -153,7 +153,7 @@ namespace MrRondon.Pages.HistoricalSight
             catch (Exception ex)
             {
                 ExceptionService.TrackError(ex);
-                await MessageService.ShowAsync(ex);
+                await MessageService.ShowAsync($"Não foi possível obter os detalhes do ponto turístico\n{ex.Message}");
             }
             finally
             {

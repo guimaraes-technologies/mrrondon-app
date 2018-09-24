@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using MrRondon.Entities;
+﻿using MrRondon.Entities;
 using MrRondon.Helpers;
 using MrRondon.Services.Rest;
-using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MrRondon.Services
 {

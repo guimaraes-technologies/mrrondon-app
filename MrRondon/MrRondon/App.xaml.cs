@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
@@ -24,23 +25,25 @@ namespace MrRondon
             DependencyService.Register<INavigationService, NavigationService>();
             Startup.Run();
             MainPage = new NavigationPage(new MasterPage());
-
-            //MainPage = new LoginPage(isAuthorized => {
-            //    if (isAuthorized)
-            //    {
-            //        MainPage = new MasterPage();
-            //    }
-            //});
         }
 
         private void RefactorColorsToHexString()
         {
-            for (var i = 0; i < Resources.Count; i++)
+            try
             {
-                var key = Resources.Keys.ElementAt(i);
-                var resource = Resources[key];
 
-                if (resource is Color color) Resources.Add($"{key}HexString", color.ToHexString());
+                for (var i = 0; i < Resources.Count; i++)
+                {
+                    var key = Resources.Keys.ElementAt(i);
+                    var resource = Resources[key];
+
+                    if (resource is Color color) Resources.Add($"{key}HexString", color.ToHexString());
+                }
+            }
+            catch (Exception ex)
+            {
+                var exception = DependencyService.Get<IExceptionService>();
+                exception.TrackError(ex);
             }
         }
 

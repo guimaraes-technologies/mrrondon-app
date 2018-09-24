@@ -85,26 +85,35 @@ namespace MrRondon.Pages.Event
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
                 IsFavorite = false;
-                await MessageService.ShowAsync(ex);
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync($"Não foi possível marcar/desmarcar evento em favoritos\n{ex.Message}");
             }
         }
 
         private async Task ExecuteShare()
         {
-            var service = new EventService();
-            var eventInformation = await service.GetAsync(Event.EventId);
-            var rangeDate = eventInformation.StartDate.Date == eventInformation.EndDate.Date
-                ? eventInformation.StartDate.ToShortDateString()
-                : $"{eventInformation.StartDate.ToShortDateString()} até {eventInformation.EndDate.ToShortDateString()}";
-            var message = new ShareMessage
+            try
             {
-                Title = Constants.AppName,
-                Text = $"Olha o que eu encontrei no {Constants.AppName}:\nEvento: {eventInformation.Name}\nData: {rangeDate}\nLocal: {eventInformation.Address.FullAddressInline}\nMuito TOP, dá uma olhada ;)\n",
-                Url = Constants.SystemUrl
-            };
-            await CrossShare.Current.Share(message);
+
+                var service = new EventService();
+                var eventInformation = await service.GetAsync(Event.EventId);
+                var rangeDate = eventInformation.StartDate.Date == eventInformation.EndDate.Date
+                    ? eventInformation.StartDate.ToShortDateString()
+                    : $"{eventInformation.StartDate.ToShortDateString()} até {eventInformation.EndDate.ToShortDateString()}";
+                var message = new ShareMessage
+                {
+                    Title = Constants.AppName,
+                    Text = $"Olha o que eu encontrei no {Constants.AppName}:\nEvento: {eventInformation.Name}\nData: {rangeDate}\nLocal: {eventInformation.Address.FullAddressInline}\nMuito TOP, dá uma olhada ;)\n",
+                    Url = Constants.SystemUrl
+                };
+                await CrossShare.Current.Share(message);
+            }
+            catch (Exception ex)
+            {
+                ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync($"Não foi possível obter os detalhes do evento\n{ex.Message}");
+            }
         }
     }
 }

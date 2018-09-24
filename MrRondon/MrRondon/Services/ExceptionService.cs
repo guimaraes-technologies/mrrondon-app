@@ -22,6 +22,12 @@ namespace MrRondon.Services
             Crashes.TrackError(e);
         }
 
+        public void TrackError(Exception e, string messageError)
+        {
+            WriteError(e);
+            Crashes.TrackError(e, new Dictionary<string, string> { { "error", messageError } });
+        }
+
         public void TrackError(Exception e, Dictionary<string, string> properties)
         {
             WriteError(e);
@@ -36,10 +42,19 @@ namespace MrRondon.Services
             Debug.WriteLine("-------------START--------------");
 
             var stackTrace = new StackTrace(ex, true);
-            var errorFileName = stackTrace.GetFrame(0).GetFileName();
+            var stackFrame = stackTrace.GetFrame(0);
+
+            if (stackFrame == null)
+            {
+                if(string.IsNullOrWhiteSpace(ex.Message)) Debug.WriteLine(ex.Message);
+
+                Debug.WriteLine("--------------END-----------------");
+                return;
+            }
+            var errorFileName = stackFrame.GetFileName();
             if (!string.IsNullOrWhiteSpace(errorFileName)) Debug.WriteLine($"File: {errorFileName}");
 
-            var errorLineNumber = stackTrace.GetFrame(0).GetFileLineNumber();
+            var errorLineNumber = stackFrame.GetFileLineNumber();
             if (errorLineNumber != 0) Debug.WriteLine($"Line: {errorLineNumber}");
 
             if (!string.IsNullOrWhiteSpace(error)) Debug.WriteLine(error);

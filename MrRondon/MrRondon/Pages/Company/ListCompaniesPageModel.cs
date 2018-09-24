@@ -105,7 +105,7 @@ namespace MrRondon.Pages.Company
             catch (Exception ex)
             {
                 ExceptionService.TrackError(ex);
-                await MessageService.ShowAsync(ex);
+                await MessageService.ShowAsync($"Não foi possível obter mais empresas\n{ex.Message}");
             }
             finally
             {
@@ -137,6 +137,7 @@ namespace MrRondon.Pages.Company
             catch (Exception ex)
             {
                 ExceptionService.TrackError(ex);
+                await MessageService.ShowAsync($"Não foi possível obter mais empresas\n{ex.Message}");
             }
             finally
             {
@@ -182,7 +183,7 @@ namespace MrRondon.Pages.Company
             catch (Exception ex)
             {
                 ExceptionService.TrackError(ex);
-                await MessageService.ShowAsync(ex);
+                await MessageService.ShowAsync($"Não foi possível obter os detalhes da empresa\n{ex.Message}");
             }
             finally
             {

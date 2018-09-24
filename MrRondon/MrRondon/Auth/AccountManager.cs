@@ -5,8 +5,10 @@ using MrRondon.Entities;
 using MrRondon.Extensions;
 using MrRondon.Helpers;
 using MrRondon.Services;
+using MrRondon.Services.Interfaces;
 using MrRondon.Services.Rest;
 using MrRondon.ViewModels;
+using Xamarin.Forms;
 
 namespace MrRondon.Auth
 {
@@ -42,11 +44,20 @@ namespace MrRondon.Auth
 
         public static async Task<IList<City>> GetAsync()
         {
-            var rest = new CityRest();
-            var cities = await rest.GetAsync(string.Empty) ?? GetLocalCities();
+            try
+            {
+                var rest = new CityRest();
+                var cities = await rest.GetAsync(string.Empty) ?? GetLocalCities();
 
-            SetLocalCities(cities);
-            return cities;
+                SetLocalCities(cities);
+                return cities;
+            }
+            catch (Exception ex)
+            {
+                var exception = DependencyService.Get<IExceptionService>();
+                exception.TrackError(ex, "AccountManager.SetActualCity");
+                return new List<City> { DefaultSetting.City };
+            }
         }
 
         public static async Task<IList<City>> GetHasCompanyAsync(int subCategoryId)
@@ -94,7 +105,7 @@ namespace MrRondon.Auth
             public static double Latitude = -8.7592547;
             public static double Longitude = -63.8769227;
             public static PlaceUntilOption PlaceUntilOption = PlaceUntilOption.Thousand;
-        } 
+        }
 
         public static double GetPrecision()
         {
@@ -103,21 +114,30 @@ namespace MrRondon.Auth
             var defaultValue = EnumExtensions.GetAttribute(DefaultSetting.PlaceUntilOption);
             return until == null ? double.Parse(defaultValue.KeyValue) : double.Parse($"{until}");
         }
-        
+
         public static async Task<City> SetActualCity()
         {
-            var position = await GeolocatorHelper.GetCurrentPositionAsync();
+            try
+            {
+                var position = await GeolocatorHelper.GetCurrentPositionAsync();
 
-            var cityService = new CityService();
-            var cityName = await cityService.GetCityName(position.Latitude, position.Longitude);
+                var cityService = new CityService();
+                var cityName = await cityService.GetCityName(position.Latitude, position.Longitude);
 
-            cityName = string.IsNullOrWhiteSpace(cityName) ? DefaultSetting.City.Name : cityName;
+                cityName = string.IsNullOrWhiteSpace(cityName) ? DefaultSetting.City.Name : cityName;
 
-            var cities = await cityService.GetByNameAsync(cityName.Trim());
-            var city = cities ?? DefaultSetting.City;
-            ApplicationManager<City>.AddOrUpdate("city", city);
+                var cities = await cityService.GetByNameAsync(cityName.Trim());
+                var city = cities ?? DefaultSetting.City;
+                ApplicationManager<City>.AddOrUpdate("city", city);
 
-            return city;
+                return city;
+            }
+            catch (Exception ex)
+            {
+                var exception = DependencyService.Get<IExceptionService>();
+                exception.TrackError(ex, "SetActualCity");
+                return DefaultSetting.City;
+            }
         }
 
         public static void Logout()
