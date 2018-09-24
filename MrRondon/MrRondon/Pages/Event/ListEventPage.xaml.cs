@@ -1,4 +1,6 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using System.Threading.Tasks;
+using Xamarin.Forms;
 
 namespace MrRondon.Pages.Event
 {
@@ -13,12 +15,28 @@ namespace MrRondon.Pages.Event
             BindingContext = _pageModel = new ListEventPageModel();
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
-            _pageModel.LoadCitiesCommand.Execute(null);
-            _pageModel.LoadItemsCommand.Execute(null);
-
-            base.OnAppearing();
+            try
+            {
+                _pageModel.LoadCitiesCommand.Execute(null);
+                _pageModel.LoadItemsCommand.Execute(null);
+            }
+            catch (TaskCanceledException ex)
+            {
+                _pageModel.ExceptionService.TrackError(ex);
+                await _pageModel.MessageService.ShowAsync("Informação",
+                    "A requisição está demorando muito, verifique sua conexão com a internet.");
+            }
+            catch (Exception ex)
+            {
+                _pageModel.ExceptionService.TrackError(ex);
+                await _pageModel.MessageService.ShowAsync(ex);
+            }
+            finally
+            {
+                _pageModel.IsLoading = false;
+            }
         }
     }
 }

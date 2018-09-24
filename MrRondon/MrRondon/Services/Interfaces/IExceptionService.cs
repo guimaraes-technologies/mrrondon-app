@@ -7,6 +7,7 @@ namespace MrRondon.Services.Interfaces
     {
         void TrackError(string messageError);
         void TrackError(Exception ex);
+        void TrackError(Exception e, string messageError);
         void TrackError(Exception e, Dictionary<string, string> properties);
     }
 }

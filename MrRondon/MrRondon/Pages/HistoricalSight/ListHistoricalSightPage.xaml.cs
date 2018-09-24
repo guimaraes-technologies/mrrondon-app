@@ -19,10 +19,10 @@ namespace MrRondon.Pages.HistoricalSight
         {
             try
             {
-                base.OnAppearing();
-
                 _pageModel.LoadCitiesCommand.Execute(null);
                 _pageModel.LoadItemsCommand.Execute(null);
+
+                base.OnAppearing();
             }
             catch (TaskCanceledException ex)
             {

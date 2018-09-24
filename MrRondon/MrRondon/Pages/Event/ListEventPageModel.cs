@@ -39,10 +39,12 @@ namespace MrRondon.Pages.Event
             get => _cityIndex;
             set
             {
+                var fromAnotherTab = value == -1;
+                var lastFilteredCity = ApplicationManager<Entities.City>.Find("city");
+                var defaultCity = AccountManager.DefaultSetting.City;
                 _cityIndex = value < 0 ? 0 : value;
                 Notify(nameof(CitySelectedIndex));
-                var lastFilteredCity = ApplicationManager<Entities.City>.Find("city");
-                var selectedItem = Cities[_cityIndex] ?? AccountManager.DefaultSetting.City;
+                var selectedItem = Cities[_cityIndex] ?? defaultCity;
 
                 if (selectedItem.CityId == lastFilteredCity?.CityId)
                 {
@@ -52,7 +54,7 @@ namespace MrRondon.Pages.Event
 
                 if (Cities.Any(a => a.CityId == selectedItem.CityId))
                 {
-                    CurrentCity = selectedItem;
+                    CurrentCity = fromAnotherTab ? lastFilteredCity : selectedItem;
                     ApplicationManager<Entities.City>.AddOrUpdate("city", selectedItem);
                 }
 

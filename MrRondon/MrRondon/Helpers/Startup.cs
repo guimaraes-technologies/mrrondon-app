@@ -1,23 +1,27 @@
 ﻿using System;
 using MrRondon.Auth;
+using MrRondon.Services.Interfaces;
+using Xamarin.Forms;
 
 namespace MrRondon.Helpers
 {
     public static class Startup
     {
-        public static bool Run()
+        public static void Run()
         {
             try
             {
-                AccountManager.SetActualCity();
-                AccountManager.GetAsync();
-
-                return true;
+                // É chamado pela UI thread pois o método é invocado por uma task
+                Device.BeginInvokeOnMainThread(async () =>
+                {
+                    await AccountManager.SetActualCity();
+                    await AccountManager.GetAsync();
+                });
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
-                return false;
+                var exceptionService = DependencyService.Get<IExceptionService>();
+                exceptionService.TrackError(ex, "Startup Method");
             }
         }
     }
