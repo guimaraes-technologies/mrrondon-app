@@ -18,18 +18,6 @@
                           FlowItemsSource="{Binding Items}"
                           HeightRequest="120">
 
-            <flv:FlowListView.FlowLoadingTemplate>
-                <DataTemplate>
-                    <ViewCell>
-                        <Label
-                            HorizontalTextAlignment="Center"
-                            VerticalTextAlignment="Center"
-                            TextColor="{StaticResource SecondaryLabelColor}"
-                            Text="Carregando..."
-                        ></Label>
-                    </ViewCell>
-                </DataTemplate>
-            </flv:FlowListView.FlowLoadingTemplate>
             <flv:FlowListView.FlowColumnTemplate>
                 <DataTemplate>
                     <StackLayout Margin="0, 25, 0, 0">

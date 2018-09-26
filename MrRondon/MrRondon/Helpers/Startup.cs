@@ -14,7 +14,7 @@ namespace MrRondon.Helpers
                 // É chamado pela UI thread pois o método é invocado por uma task
                 Device.BeginInvokeOnMainThread(async () =>
                 {
-                    await AccountManager.SetActualCity();
+                    //await AccountManager.SetActualCity();
                     await AccountManager.GetAsync();
                 });
             }

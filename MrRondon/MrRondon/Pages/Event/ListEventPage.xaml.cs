@@ -20,7 +20,6 @@ namespace MrRondon.Pages.Event
             try
             {
                 _pageModel.LoadCitiesCommand.Execute(null);
-                _pageModel.LoadItemsCommand.Execute(null);
             }
             catch (TaskCanceledException ex)
             {

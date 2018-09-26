@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -20,7 +19,6 @@ namespace MrRondon.Pages.HistoricalSight
             try
             {
                 _pageModel.LoadCitiesCommand.Execute(null);
-                _pageModel.LoadItemsCommand.Execute(null);
 
                 base.OnAppearing();
             }
