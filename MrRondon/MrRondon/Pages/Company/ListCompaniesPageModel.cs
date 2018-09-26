@@ -1,11 +1,11 @@
-﻿using System;
+﻿using MrRondon.Auth;
+using MrRondon.Helpers;
+using MrRondon.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MrRondon.Auth;
-using MrRondon.Helpers;
-using MrRondon.Services;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages.Company
@@ -60,11 +60,18 @@ namespace MrRondon.Pages.Company
             {
                 _cityIndex = value < 0 ? 0 : value;
                 Notify(nameof(CitySelectedIndex));
+                var selectedItem = Cities[_cityIndex];
 
-                var selectedItem = Cities[_cityIndex] ?? AccountManager.DefaultSetting.City;
-                CurrentCity = selectedItem;
-                ApplicationManager<Entities.City>.AddOrUpdate("city", selectedItem);
-                LoadItemsCommand.Execute(null);
+                if (selectedItem != null && _cityIndex > 0)
+                {
+                    CurrentCity = selectedItem;
+                    LoadItemsCommand.Execute(null);
+                }
+                else
+                {
+                    ErrorMessage = "Nehuma cidade foi informada";
+                    Items.Clear();
+                }
             }
         }
 
@@ -83,13 +90,14 @@ namespace MrRondon.Pages.Company
         {
             try
             {
-                if (IsLoading) return;
+                if (IsLoading || CurrentCity == null || CurrentCity.CityId == 0) return;
                 NotHasItems = false;
                 IsLoading = true;
                 Items.Clear();
+
                 var service = new CompanyService();
                 var items = await service.GetAsync(CategoryId, CurrentCity.CityId, Search, Items.Count);
-                NotHasItems = IsLoading && items != null && !items.Any();
+                NotHasItems = items == null || !items.Any();
                 if (NotHasItems) ErrorMessage = $"Nenhuma empresa encontrada em {CurrentCity.Name}.";
 
                 if (items == null) return;
@@ -152,12 +160,16 @@ namespace MrRondon.Pages.Company
             {
                 if (IsLoading) return;
                 IsLoading = true;
-                var items = await AccountManager.GetHasCompanyAsync(subCategoryId);
+
+                var items = new List<Entities.City> { new Entities.City { CityId = 0, Name = "Selecione" } };
+                items.AddRange(await AccountManager.GetHasCompanyAsync(subCategoryId));
                 Cities.ReplaceRange(items);
                 CityNames = new List<string>(items.Select(s => s.Name));
 
-                CitySelectedIndex = CityNames.Any(a => a.ToLower().Equals(CurrentCity.Name.ToLower()))
-                    ? CityNames.IndexOf(CurrentCity.Name) : 0;
+                CitySelectedIndex = 0;
+                ErrorMessage = "Nehuma cidade foi informada";
+                //CitySelectedIndex = CityNames.Any(a => a.ToLower().Equals(CurrentCity.Name.ToLower()))
+                //    ? CityNames.IndexOf(CurrentCity.Name) : 0;
             }
             catch (Exception ex)
             {

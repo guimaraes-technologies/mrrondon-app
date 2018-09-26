@@ -39,26 +39,20 @@ namespace MrRondon.Pages.Event
             get => _cityIndex;
             set
             {
-                var fromAnotherTab = value == -1;
-                var lastFilteredCity = ApplicationManager<Entities.City>.Find("city");
-                var defaultCity = AccountManager.DefaultSetting.City;
                 _cityIndex = value < 0 ? 0 : value;
                 Notify(nameof(CitySelectedIndex));
-                var selectedItem = Cities[_cityIndex] ?? defaultCity;
+                var selectedItem = Cities[_cityIndex];
 
-                if (selectedItem.CityId == lastFilteredCity?.CityId)
+                if (selectedItem != null && _cityIndex > 0)
                 {
+                    CurrentCity = selectedItem;
                     LoadItemsCommand.Execute(null);
-                    return;
                 }
-
-                if (Cities.Any(a => a.CityId == selectedItem.CityId))
+                else
                 {
-                    CurrentCity = fromAnotherTab ? lastFilteredCity : selectedItem;
-                    ApplicationManager<Entities.City>.AddOrUpdate("city", selectedItem);
+                    ErrorMessage = "Nehuma cidade foi informada";
+                    Items.Clear();
                 }
-
-                LoadItemsCommand.Execute(null);
             }
         }
 
@@ -88,14 +82,14 @@ namespace MrRondon.Pages.Event
         {
             try
             {
-                if (IsLoading) return;
+                if (IsLoading || CurrentCity == null || CurrentCity.CityId == 0) return;
 
                 NotHasItems = false;
                 IsLoading = true;
                 Items.Clear();
                 var service = new EventService();
                 var items = await service.GetAsync(CurrentCity.CityId, Search, Items.Count);
-                NotHasItems = IsLoading && items != null && !items.Any();
+                NotHasItems = items == null || !items.Any();
                 if (NotHasItems) ErrorMessage = $"Nenhum evento encontrado em {CurrentCity.Name}";
 
                 if (items == null) return;
@@ -125,6 +119,9 @@ namespace MrRondon.Pages.Event
             {
                 if (IsLoading) return;
                 IsLoading = true;
+
+                Items.Clear();
+                if (CitySelectedIndex <= 0) return;
                 NotHasItems = false;
                 var service = new EventService();
                 var items = await service.GetAsync(CurrentCity.CityId, Search, Items.Count);
@@ -155,13 +152,15 @@ namespace MrRondon.Pages.Event
             {
                 if (IsLoading) return;
                 IsLoading = true;
-                var items = await AccountManager.GetHasEventAsync();
+
+                var items = new List<Entities.City> { new Entities.City { CityId = 0, Name = "Selecione" } };
+                items.AddRange(await AccountManager.GetHasEventAsync());
                 Cities.ReplaceRange(items);
                 CityNames = new List<string>(items.Select(s => s.Name));
 
-                CitySelectedIndex = CityNames.Any(a => a.ToLower().Equals(CurrentCity.Name.ToLower()))
-                    ? CityNames.IndexOf(CurrentCity.Name)
-                    : 0;
+                CitySelectedIndex = 0;
+                ErrorMessage = "Nehuma cidade foi informada";
+                //CitySelectedIndex = CityNames.Any(a => a.ToLower().Equals(CurrentCity.Name.ToLower())) ? CityNames.IndexOf(CurrentCity.Name) : 0;
             }
             catch (Exception ex)
             {

@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using MrRondon.Auth;
+﻿using MrRondon.Auth;
 using MrRondon.Helpers;
 using MrRondon.Pages.Category;
 using MrRondon.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages.HistoricalSight
@@ -44,22 +43,18 @@ namespace MrRondon.Pages.HistoricalSight
             {
                 _cityIndex = value < 0 ? 0 : value;
                 Notify(nameof(CitySelectedIndex));
-                var lastFilteredCity = ApplicationManager<Entities.City>.Find("city");
-                var selectedItem = Cities[_cityIndex] ?? AccountManager.DefaultSetting.City;
+                var selectedItem = Cities[_cityIndex];
 
-                if (selectedItem.CityId == lastFilteredCity?.CityId)
-                {
-                    LoadItemsCommand.Execute(null);
-                    return;
-                }
-
-                if (Cities.Any(a => a.CityId == selectedItem.CityId))
+                if (selectedItem != null && _cityIndex > 0)
                 {
                     CurrentCity = selectedItem;
-                    ApplicationManager<Entities.City>.AddOrUpdate("city", selectedItem);
+                    LoadItemsCommand.Execute(null);
                 }
-
-                LoadItemsCommand.Execute(null);
+                else
+                {
+                    ErrorMessage = "Nehuma cidade foi informada";
+                    Items.Clear();
+                }
             }
         }
 
@@ -87,13 +82,14 @@ namespace MrRondon.Pages.HistoricalSight
         {
             try
             {
-                if (IsLoading) return;
+                if (IsLoading || CurrentCity == null || CurrentCity.CityId == 0) return;
                 NotHasItems = false;
                 IsLoading = true;
                 Items.Clear();
+                
                 var service = new HistoricalSightService();
                 var items = await service.GetAsync(CurrentCity.CityId, Search);
-                NotHasItems = IsLoading && items != null && !items.Any();
+                NotHasItems =  items == null || !items.Any();
                 if (NotHasItems) ErrorMessage = $"Nenhum Memorial histórico encontrado em {CurrentCity.Name}";
                 Items = new ObservableRangeCollection<HistoricalSightDetailsPageModel>(items.Select(s => new HistoricalSightDetailsPageModel(s)));
             }
@@ -120,12 +116,15 @@ namespace MrRondon.Pages.HistoricalSight
             {
                 if (IsLoading) return;
                 IsLoading = true;
-                var items = await AccountManager.GetHasHistoricalSightAsync();
+                var items = new List<Entities.City> { new Entities.City { CityId = 0, Name = "Selecione" } };
+                items.AddRange(await AccountManager.GetHasHistoricalSightAsync());
                 Cities.ReplaceRange(items);
                 CityNames = new List<string>(items.Select(s => s.Name));
 
-                CitySelectedIndex = CityNames.Any(a => a.ToLower().Equals(CurrentCity.Name.ToLower()))
-                    ? CityNames.IndexOf(CurrentCity.Name) : 0;
+                CitySelectedIndex = 0;
+                ErrorMessage = "Nehuma cidade foi informada";
+                //CitySelectedIndex = CityNames.Any(a => a.ToLower() == CurrentCity.Name.ToLower())
+                //    ? CityNames.IndexOf(CurrentCity.Name) : 0;
             }
             catch (Exception ex)
             {
