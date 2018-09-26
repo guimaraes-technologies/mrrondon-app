@@ -30,7 +30,7 @@
             </controls:InfiniteListView.Behaviors>
             <controls:InfiniteListView.Header>
                 <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
-                    <Label Text="Em" FontSize="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center"></Label>
+                    <Label Text="Cidade" FontSize="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center"></Label>
                     <Picker Title="Cidade" ItemsSource="{Binding CityNames}" SelectedIndex="{Binding CitySelectedIndex}" Margin="5,0,0,0" HorizontalOptions="FillAndExpand" VerticalOptions="Center"></Picker>
                 </StackLayout>
             </controls:InfiniteListView.Header>

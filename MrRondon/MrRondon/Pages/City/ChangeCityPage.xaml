@@ -7,7 +7,7 @@
 
     <StackLayout Orientation="Vertical">
         <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
-            <Label Text="Em" FontSize="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center" VerticalTextAlignment="Center" Margin="0,5,0,0" ></Label>
+            <Label Text="Cidade" FontSize="Medium" FontAttributes="Italic" TextColor="{StaticResource PrimaryColor}" VerticalOptions="Center" VerticalTextAlignment="Center" Margin="0,5,0,0" ></Label>
         </StackLayout>
         <ListView ItemsSource="{Binding Items}"
                       SeparatorVisibility="None"

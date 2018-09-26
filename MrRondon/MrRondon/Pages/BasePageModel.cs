@@ -79,7 +79,7 @@ namespace MrRondon.Pages
             IsPresented = false;
             IsLoading = false;
             Title = Constants.AppName;
-            CurrentCity = ApplicationManager<Entities.City>.Find("city") ?? AccountManager.DefaultSetting.City;
+            //CurrentCity = ApplicationManager<Entities.City>.Find("city") ?? AccountManager.DefaultSetting.City;
             Cities = new ObservableRangeCollection<Entities.City>();
 
             ExceptionService = DependencyService.Get<IExceptionService>();
