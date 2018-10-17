@@ -55,7 +55,7 @@ namespace MrRondon.Auth
             catch (Exception ex)
             {
                 var exception = DependencyService.Get<IExceptionService>();
-                exception.TrackError(ex, "AccountManager.SetActualCity");
+                exception.TrackError(ex, "AccountManager.GetAsync");
                 return new List<City> { DefaultSetting.City };
             }
         }

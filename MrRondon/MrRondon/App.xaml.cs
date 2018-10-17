@@ -1,12 +1,13 @@
-﻿using System;
-using System.Linq;
-using Microsoft.AppCenter;
+﻿using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using MrRondon.Helpers;
 using MrRondon.Pages;
 using MrRondon.Services;
 using MrRondon.Services.Interfaces;
+using Plugin.Permissions.Abstractions;
+using System;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -49,8 +50,8 @@ namespace MrRondon
 
         protected override void OnStart()
         {
-            AppCenter.Start($"android={Constants.AppCenter.Android};ios={Constants.AppCenter.iOS}",
-                typeof(Analytics), typeof(Crashes));
+            base.OnStart();
+            AppCenter.Start($"android={Constants.AppCenter.Android};ios={Constants.AppCenter.iOS}", typeof(Analytics), typeof(Crashes));
         }
 
         protected override void OnSleep()

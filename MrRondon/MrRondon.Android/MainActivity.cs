@@ -1,7 +1,9 @@
 ﻿using System;
+using Android;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Android.Support.V4.App;
 using FFImageLoading;
 using FFImageLoading.Config;
 using FFImageLoading.Forms.Droid;
@@ -26,7 +28,6 @@ namespace MrRondon.Droid
         {
             try
             {
-
                 TabLayoutResource = Resource.Layout.Tabbar;
                 ToolbarResource = Resource.Layout.Toolbar;
                 CrossCurrentActivity.Current.Activity = this;
@@ -69,7 +70,7 @@ namespace MrRondon.Droid
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
-            //base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
