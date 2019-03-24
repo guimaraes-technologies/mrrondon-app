@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using MrRondon.Entities;
+﻿    using MrRondon.Entities;
 using MrRondon.Extensions;
 using MrRondon.Helpers;
 using MrRondon.Services;
 using MrRondon.Services.Interfaces;
 using MrRondon.Services.Rest;
 using MrRondon.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace MrRondon.Auth
@@ -47,10 +47,13 @@ namespace MrRondon.Auth
             try
             {
                 var rest = new CityRest();
-                var cities = await rest.GetAsync(string.Empty) ?? GetLocalCities();
-
-                SetLocalCities(cities);
-                return cities;
+                var result = await rest.GetAsync(string.Empty);
+                if (result.IsValid)
+                {
+                    SetLocalCities(result.Value);
+                    return result.Value;
+                }
+                else return GetLocalCities();
             }
             catch (Exception ex)
             {
@@ -63,28 +66,38 @@ namespace MrRondon.Auth
         public static async Task<IList<City>> GetHasCompanyAsync(int subCategoryId)
         {
             var rest = new CityRest();
-            var cities = await rest.GetHasCompanyAsync(subCategoryId) ?? GetLocalCities();
-
-            SetLocalCities(cities);
-            return cities;
+            var result = await rest.GetHasCompanyAsync(subCategoryId);
+            if (result.IsValid)
+            {
+                SetLocalCities(result.Value);
+                return result.Value;
+            }
+            else return GetLocalCities();
         }
 
         public static async Task<IList<City>> GetHasEventAsync()
         {
             var rest = new CityRest();
-            var cities = await rest.GetHasEventAsync() ?? GetLocalCities();
-
-            SetLocalCities(cities);
-            return cities;
+            var result = await rest.GetHasEventAsync();
+            if (result.IsValid)
+            {
+                SetLocalCities(result.Value);
+                return result.Value;
+            }
+            else return GetLocalCities();
         }
 
         public static async Task<IList<City>> GetHasHistoricalSightAsync()
         {
             var rest = new CityRest();
-            var cities = await rest.GetHasHistoricalSightAsync() ?? GetLocalCities();
 
-            SetLocalCities(cities);
-            return cities;
+            var result = await rest.GetHasHistoricalSightAsync();
+            if (result.IsValid)
+            {
+                SetLocalCities(result.Value);
+                return result.Value;
+            }
+            else return GetLocalCities();
         }
 
         public static void SetLocalCities(IList<City> cities)
@@ -121,13 +134,13 @@ namespace MrRondon.Auth
             {
                 var position = await GeolocatorHelper.GetCurrentPositionAsync();
 
-                var cityService = new CityService();
-                var cityName = await cityService.GetCityName(position.Latitude, position.Longitude);
+                var cityService = new CityRest();
+                var cityName = await cityService.GetCityNameAsync(position.Latitude, position.Longitude);
 
                 cityName = string.IsNullOrWhiteSpace(cityName) ? DefaultSetting.City.Name : cityName;
 
-                var cities = await cityService.GetByNameAsync(cityName.Trim());
-                var city = cities ?? DefaultSetting.City;
+                var result = await cityService.GetCityAsync(cityName.Trim());
+                var city = result.Value ?? DefaultSetting.City;
                 ApplicationManager<City>.AddOrUpdate("city", city);
 
                 return city;

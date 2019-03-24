@@ -2,7 +2,7 @@
 using MrRondon.Helpers;
 using MrRondon.Pages.Company;
 using MrRondon.Pages.HistoricalSight;
-using MrRondon.Services;
+using MrRondon.Services.Rest;
 using MrRondon.ViewModels;
 using System;
 using System.Linq;
@@ -54,12 +54,16 @@ namespace MrRondon.Pages.Category
                 IsLoading = true;
 
                 NotHasItems = false;
-                var service = new CategoryService();
-                var items = await service.GetAsync();
-                NotHasItems = IsLoading && items != null && !items.Any();
-                if (NotHasItems) ErrorMessage = "Nenhuma categoria encontrada";
+                var rest = new CategoryRest();
+                var result = await rest.GetAsync();
+                if (result.IsValid)
+                {
+                    NotHasItems = IsLoading && result.Value != null && !result.Value.Any();
+                    if (NotHasItems) ErrorMessage = "Nenhuma categoria encontrada";
 
-               Items.Repopulate(items);
+                    Items.Repopulate(result.Value);
+                }
+                else await MessageService.ShowAsync(result.Error);
             }
             catch (TaskCanceledException ex)
             {

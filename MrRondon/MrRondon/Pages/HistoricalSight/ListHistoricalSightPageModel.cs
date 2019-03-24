@@ -2,6 +2,7 @@
 using MrRondon.Helpers;
 using MrRondon.Pages.Category;
 using MrRondon.Services;
+using MrRondon.Services.Rest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -86,12 +87,16 @@ namespace MrRondon.Pages.HistoricalSight
                 NotHasItems = false;
                 IsLoading = true;
                 Items.Clear();
-                
-                var service = new HistoricalSightService();
-                var items = await service.GetAsync(CurrentCity.CityId, Search);
-                NotHasItems =  items == null || !items.Any();
-                if (NotHasItems) ErrorMessage = $"Nenhum Memorial histórico encontrado em {CurrentCity.Name}";
-                Items = new ObservableRangeCollection<HistoricalSightDetailsPageModel>(items.Select(s => new HistoricalSightDetailsPageModel(s)));
+
+                var service = new HistoricalSightRest();
+                var result = await service.GetAsync(CurrentCity.CityId, Search);
+                if (result.IsValid)
+                {
+                    NotHasItems = result.Value == null || !result.Value.Any();
+                    if (NotHasItems) ErrorMessage = $"Nenhum Memorial histórico encontrado em {CurrentCity.Name}";
+                    Items = new ObservableRangeCollection<HistoricalSightDetailsPageModel>(result.Value.OrderBy(o => o.Name).Select(s => new HistoricalSightDetailsPageModel(s)));
+                }
+                else await MessageService.ShowAsync(result.Error.Title, result.Error.Message);
             }
             catch (TaskCanceledException ex)
             {
@@ -144,10 +149,15 @@ namespace MrRondon.Pages.HistoricalSight
             {
                 if (IsLoading) return;
                 IsLoading = true;
-                var service = new HistoricalSightService();
-                var item = await service.GetByIdAsync(model.HistoricalSight.HistoricalSightId);
-                var pageModel = new HistoricalSightDetailsPageModel(item);
-                await NavigationService.PushAsync(new HistoricalSightDetailsPage(pageModel));
+                var service = new HistoricalSightRest();
+                var result = await service.GetByIdAsync(model.HistoricalSight.HistoricalSightId);
+
+                if (result.IsValid)
+                {
+                    var pageModel = new HistoricalSightDetailsPageModel(result.Value);
+                    await NavigationService.PushAsync(new HistoricalSightDetailsPage(pageModel));
+                }
+                else await MessageService.ShowAsync(result.Error.Title, result.Error.Message);
             }
             catch (Exception ex)
             {

@@ -1,7 +1,8 @@
-﻿using MrRondon.Auth;
-using MrRondon.Helpers;
+﻿using MrRondon.Helpers;
 using MrRondon.Pages.City;
 using MrRondon.Services.Interfaces;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -18,6 +19,11 @@ namespace MrRondon.Pages
 
         public ICommand LoadCitiesCommand { get; set; }
         public ICommand ChangeActualCityCommand { get; set; }
+        public ICommand GoToSystemSettingsCommand { get; set; }
+        //public ICommand HasPermissionCommand { get; set; }
+        public ICommand GotoMainPageCommand { get; set; }
+
+        public bool LocationGranted { get; private set; }
 
         private string _title = Constants.AppName;
         public string Title
@@ -78,6 +84,7 @@ namespace MrRondon.Pages
         {
             IsPresented = false;
             IsLoading = false;
+            LocationGranted = false;
             Title = Constants.AppName;
             //CurrentCity = ApplicationManager<Entities.City>.Find("city") ?? AccountManager.DefaultSetting.City;
             Cities = new ObservableRangeCollection<Entities.City>();
@@ -85,12 +92,24 @@ namespace MrRondon.Pages
             ExceptionService = DependencyService.Get<IExceptionService>();
             MessageService = DependencyService.Get<IMessageService>();
             NavigationService = DependencyService.Get<INavigationService>();
+            GotoMainPageCommand = new Command(async () => await ExecuteGotoMainPage());
+            GoToSystemSettingsCommand = new Command(GoToSystemSettings);
+        }
+
+        public static void GoToSystemSettings()
+        {
+            CrossPermissions.Current.OpenAppSettings();
         }
 
         protected async Task ExecuteChangeActualCity(Page previousPage)
         {
             var pageModel = new ChangeCityPageModel(previousPage);
             await NavigationService.PushModalAsync(new ChangeCityPage(pageModel));
+        }
+
+        protected async Task ExecuteGotoMainPage()
+        {
+            await NavigationService.PushModalAsync(new MainPage());
         }
 
         #region IDisposable Members

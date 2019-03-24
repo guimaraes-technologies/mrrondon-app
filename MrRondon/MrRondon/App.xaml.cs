@@ -5,7 +5,6 @@ using MrRondon.Helpers;
 using MrRondon.Pages;
 using MrRondon.Services;
 using MrRondon.Services.Interfaces;
-using Plugin.Permissions.Abstractions;
 using System;
 using System.Linq;
 using Xamarin.Forms;
@@ -25,6 +24,7 @@ namespace MrRondon
             DependencyService.Register<IExceptionService, ExceptionService>();
             DependencyService.Register<INavigationService, NavigationService>();
             Startup.Run();
+            //MainPage = new NavigationPage(new Page1());
             MainPage = new NavigationPage(new MasterPage());
         }
 
@@ -32,7 +32,6 @@ namespace MrRondon
         {
             try
             {
-
                 for (var i = 0; i < Resources.Count; i++)
                 {
                     var key = Resources.Keys.ElementAt(i);

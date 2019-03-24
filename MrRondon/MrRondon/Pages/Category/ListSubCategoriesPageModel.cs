@@ -6,6 +6,7 @@ using System.Windows.Input;
 using MrRondon.Helpers;
 using MrRondon.Pages.Company;
 using MrRondon.Services;
+using MrRondon.Services.Rest;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages.Category
@@ -60,11 +61,16 @@ namespace MrRondon.Pages.Category
                 IsLoading = true;
 
                 NotHasItems = false;
-                var service = new SubCategoryService();
-                var items = await service.GetAsync(Category.SubCategoryId);
-                NotHasItems = IsLoading && items != null && !items.Any();
-                if (NotHasItems) ErrorMessage = "Nenhuma sub categoria encontrada";
-                Items.ReplaceRange(items);
+
+                var service = new SubCategoryRest();
+                var result = await service.GetAsync(Category.SubCategoryId);
+                if (result.IsValid)
+                {
+                    NotHasItems = IsLoading && result?.Value != null && !result.Value.Any();
+                    if (NotHasItems) ErrorMessage = "Nenhuma sub categoria encontrada";
+                    Items.ReplaceRange(result.Value.OrderBy(o => o.Name).ToList());
+                }
+                else await MessageService.ShowAsync(result.Error);
             }
             catch (TaskCanceledException ex)
             {

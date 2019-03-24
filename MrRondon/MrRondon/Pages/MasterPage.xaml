@@ -7,7 +7,7 @@
                   Title="{Binding Title}">
 
     <MasterDetailPage.Master>
-        <ContentPage  BackgroundColor="#fafafa" Padding="0">
+        <ContentPage BackgroundColor="#fafafa" Padding="0">
             <StackLayout>
                 <StackLayout BackgroundColor="#00ACC1" HeightRequest="80">
                     <Label x:Name="menuTitle" Text="{Binding MenuTitle, StringFormat='Bem Vindo(a), {0}'}"

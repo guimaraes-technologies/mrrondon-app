@@ -14,9 +14,10 @@ namespace MrRondon.Services.Rest
 {
     public class UserRest : BaseRest
     {
-        public async Task<TokenVm> Signin(string userName, string password)
+        public async Task<CustomReturn<TokenVm>> Signin(string userName, string password)
         {
-            ValidateConnection();
+            var resultConnection = await ValidateConnection();
+            if (!resultConnection.IsValid) return new CustomReturn<TokenVm>(resultConnection.Error);
 
             var login = new Dictionary<string, string>
             {
@@ -26,40 +27,42 @@ namespace MrRondon.Services.Rest
                 {"username", userName},
                 {"password", password}
             };
-
             var httpResponse = await HttpClient.PostAsync("security/token", new FormUrlEncodedContent(login));
-            
+
             if (httpResponse.IsSuccessStatusCode && httpResponse.StatusCode == HttpStatusCode.OK)
             {
-                var json = await httpResponse.Content.ReadAsStringAsync();
+                string json = await httpResponse.Content.ReadAsStringAsync();
+
                 var result = JsonConvert.DeserializeObject<TokenVm>(json);
-                return result;
+                return new CustomReturn<TokenVm>(result);
             }
 
-            var error = await GenerateError(httpResponse);
-            throw error;
+            var error = await GetError(httpResponse);
+            return new CustomReturn<TokenVm>(error);
         }
 
-        public async Task<User> Register(RegisterPageModel register)
+        public async Task<CustomReturn<User>> Register(RegisterPageModel register)
         {
-            ValidateConnection();
+            var resultConnection = await ValidateConnection();
+            if (!resultConnection.IsValid) return new CustomReturn<User>(resultConnection.Error);
 
             var jsonObject = JsonConvert.SerializeObject(register);
 
             var httpResponse = await HttpClient.PostAsync($"{UrlService}/user/register", new StringContent(jsonObject, Encoding.UTF8, "application/json"));
-            
+
             if (httpResponse.IsSuccessStatusCode && httpResponse.StatusCode == HttpStatusCode.OK)
             {
                 var json = await httpResponse.Content.ReadAsStringAsync();
                 var result = JsonConvert.DeserializeObject<User>(json);
-                return result;
+
+                return new CustomReturn<User>(result);
             }
 
-            var error = await GenerateError(httpResponse);
-            throw error;
+            var error = await GetError(httpResponse);
+            return new CustomReturn<User>(error);
         }
 
-        public async Task<User> GetInformationAsync(string token)
+        public async Task<CustomReturn<User>> GetInformationAsync(string token)
         {
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.TokenType, token);
             var url = $"{UrlService}/user/information";
@@ -68,7 +71,7 @@ namespace MrRondon.Services.Rest
             return content;
         }
 
-        public async Task<IList<Event>> GetFavoriteEventsAsync()
+        public async Task<CustomReturn<IList<Event>>> GetFavoriteEventsAsync()
         {
             var url = $"{UrlService}/user/event/favorites";
             var content = await GetObjectAsync<IList<Event>>(url);

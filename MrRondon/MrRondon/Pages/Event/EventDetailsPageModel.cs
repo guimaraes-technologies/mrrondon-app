@@ -1,11 +1,11 @@
 ﻿using MrRondon.Helpers;
 using MrRondon.Services;
+using MrRondon.Services.Rest;
 using Plugin.ExternalMaps;
 using Plugin.ExternalMaps.Abstractions;
 using Plugin.Share;
 using Plugin.Share.Abstractions;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -75,8 +75,12 @@ namespace MrRondon.Pages.Event
             {
                 var service = new FavoriteEventService();
                 IsFavorite = !IsFavorite;
-                var isFavorite = await service.FavoriteAsync(Event.EventId);
-                IsFavorite = isFavorite;
+                var result = await service.FavoriteAsync(Event.EventId);
+                if (result.IsValid)
+                {
+                    IsFavorite = result.Value;
+                }
+                else await MessageService.ShowAsync(result.Error);
             }
             catch (TaskCanceledException ex)
             {
@@ -96,18 +100,22 @@ namespace MrRondon.Pages.Event
             try
             {
 
-                var service = new EventService();
-                var eventInformation = await service.GetAsync(Event.EventId);
-                var rangeDate = eventInformation.StartDate.Date == eventInformation.EndDate.Date
-                    ? eventInformation.StartDate.ToShortDateString()
-                    : $"{eventInformation.StartDate.ToShortDateString()} até {eventInformation.EndDate.ToShortDateString()}";
-                var message = new ShareMessage
+                var service = new EventRest();
+                var result = await service.GetAsync(Event.EventId);
+                if (result.IsValid)
                 {
-                    Title = Constants.AppName,
-                    Text = $"Olha o que eu encontrei no {Constants.AppName}:\nEvento: {eventInformation.Name}\nData: {rangeDate}\nLocal: {eventInformation.Address.FullAddressInline}\nMuito TOP, dá uma olhada ;)\n",
-                    Url = Constants.SystemUrl
-                };
-                await CrossShare.Current.Share(message);
+                    var rangeDate = result.Value.StartDate.Date == result.Value.EndDate.Date
+                        ? result.Value.StartDate.ToShortDateString()
+                        : $"{result.Value.StartDate.ToShortDateString()} até {result.Value.EndDate.ToShortDateString()}";
+                    var message = new ShareMessage
+                    {
+                        Title = Constants.AppName,
+                        Text = $"Olha o que eu encontrei no {Constants.AppName}:\nEvento: {result.Value.Name}\nData: {rangeDate}\nLocal: {result.Value.Address.FullAddressInline}\nMuito TOP, dá uma olhada ;)\n",
+                        Url = Constants.SystemUrl
+                    };
+                    await CrossShare.Current.Share(message);
+                }
+                else await MessageService.ShowAsync(result.Error);
             }
             catch (Exception ex)
             {

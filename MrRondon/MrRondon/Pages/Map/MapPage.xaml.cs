@@ -1,6 +1,4 @@
 ﻿using MrRondon.Helpers;
-using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
 using System;
 using System.Threading.Tasks;
 using Xamarin.Forms;
@@ -17,7 +15,6 @@ namespace MrRondon.Pages.Map
             InitializeComponent();
             if (Device.RuntimePlatform.Equals(Device.iOS)) Icon = "ic_map";
             BindingContext = _pageModel = _pageModel ?? new MapPageModel();
-
 
             //var customMap = new MapExtension
             //{
@@ -37,19 +34,15 @@ namespace MrRondon.Pages.Map
         {
             try
             {
+                var currentPosition = await GeolocatorHelper.GetCurrentPositionAsync();
+
+                _pageModel.LoadPinsCommand.Execute(currentPosition);
+
+                foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);
+
+                Companies.MoveToRegion(MapSpan.FromCenterAndRadius(
+                    new Position(currentPosition.Latitude, currentPosition.Longitude), Distance.FromKilometers(2)));
                 base.OnAppearing();
-                var permissionGranted = await CheckPermission();
-                if (permissionGranted)
-                {
-                    var currentPosition = await GeolocatorHelper.GetCurrentPositionAsync();
-
-                    _pageModel.LoadPinsCommand.Execute(currentPosition);
-
-                    foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);
-
-                    Companies.MoveToRegion(MapSpan.FromCenterAndRadius(
-                        new Position(currentPosition.Latitude, currentPosition.Longitude), Distance.FromKilometers(2)));
-                }
             }
             catch (TaskCanceledException ex)
             {
@@ -65,37 +58,6 @@ namespace MrRondon.Pages.Map
             {
                 _pageModel.IsLoading = false;
                 _pageModel.IsPresented = false;
-            }
-        }
-
-        private async Task<bool> CheckPermission()
-        {
-            try
-            {
-                var status = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
-                if (status != PermissionStatus.Granted)
-                {
-                    if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location))
-                    {
-                        await _pageModel.MessageService.ShowAsync("Permissão necessária", "Por favor, precisamos desta permissão para exibir os locais no mapa");
-                    }
-
-                    var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
-                    status = results[Permission.Location];
-                }
-
-                if (status == PermissionStatus.Granted) return true;
-                else if (status != PermissionStatus.Unknown)
-                {
-                    await _pageModel.MessageService.ShowAsync("Permissão negada", "Não é possível continuar, pois a permissão não foi concedida.");
-                }
-                return false;
-            }
-            catch (Exception ex)
-            {
-                _pageModel.ExceptionService.TrackError(ex);
-                await _pageModel.MessageService.ShowAsync(ex);
-                return false;
             }
         }
     }
