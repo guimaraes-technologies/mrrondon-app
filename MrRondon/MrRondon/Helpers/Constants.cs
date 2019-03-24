@@ -13,7 +13,7 @@
         public const string ClientId = "mrrondon.app";
         public const string ClientSecret = "Mr.Rondon.Turismo.App";
         public const string SystemUrl = "http://turismo.sistemas.ro.gov.br";
-        public const string DeveloperUrl = "https://github.com/guimaraes-technology";
+        public const string DeveloperUrl = "https://github.com/guimaraes-technologies";
         public const int HistoricalSightId = 56;
         public const string TelephoneSetur = "6932161044";
         public const string EmailSetur = "rondonia.setur@gmail.com";
