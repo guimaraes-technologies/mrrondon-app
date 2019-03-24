@@ -1,7 +1,6 @@
-﻿using System;
-using System.Diagnostics;
+﻿using MrRondon.Helpers;
+using System;
 using System.Threading.Tasks;
-using MrRondon.Helpers;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
@@ -16,7 +15,6 @@ namespace MrRondon.Pages.Map
             InitializeComponent();
             if (Device.RuntimePlatform.Equals(Device.iOS)) Icon = "ic_map";
             BindingContext = _pageModel = _pageModel ?? new MapPageModel();
-
 
             //var customMap = new MapExtension
             //{
@@ -36,7 +34,6 @@ namespace MrRondon.Pages.Map
         {
             try
             {
-                base.OnAppearing();
                 var currentPosition = await GeolocatorHelper.GetCurrentPositionAsync();
 
                 _pageModel.LoadPinsCommand.Execute(currentPosition);
@@ -45,6 +42,7 @@ namespace MrRondon.Pages.Map
 
                 Companies.MoveToRegion(MapSpan.FromCenterAndRadius(
                     new Position(currentPosition.Latitude, currentPosition.Longitude), Distance.FromKilometers(2)));
+                base.OnAppearing();
             }
             catch (TaskCanceledException ex)
             {
@@ -55,7 +53,6 @@ namespace MrRondon.Pages.Map
             catch (Exception ex)
             {
                 _pageModel.ExceptionService.TrackError(ex);
-                await _pageModel.MessageService.ShowAsync(ex);
             }
             finally
             {

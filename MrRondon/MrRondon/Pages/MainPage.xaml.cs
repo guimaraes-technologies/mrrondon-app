@@ -1,5 +1,12 @@
-﻿using MrRondon.Pages.Category;
+﻿using MrRondon.Helpers;
+using MrRondon.Pages.Category;
 using MrRondon.Pages.Event;
+using MrRondon.Pages.Map;
+using MrRondon.Services.Interfaces;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
+using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages
@@ -9,32 +16,37 @@ namespace MrRondon.Pages
         public MainPage()
         {
             InitializeComponent();
+            Title = Constants.AppName;
 
-            CurrentPageChanged += (sender, e) =>
+            Children.Add(new ListCategoriesPage());
+            Children.Add(new ListEventPage());
+
+            if (Device.RuntimePlatform == Device.Android)
             {
-                var numPage = Children.IndexOf(CurrentPage);
+                var hasPermission = Task.Run(() => HasPermissionAsync(Permission.Location, Permission.LocationWhenInUse));
+                if (hasPermission.Result) Children.Add(new MapPage());
+                else Children.Add(new PermissionDeniedPage("MAPA", "Localização"));
+            }
+            else Children.Add(new MapPage());
+        }
 
-                switch (numPage)
+        public async Task<bool> HasPermissionAsync(params Permission[] permissions)
+        {
+            try
+            {
+                foreach (var item in permissions)
                 {
-                    case 0: //EXPLORE 
-                        //var categoryPageModel = new ListCategoriesPageModel(); 
-                        //categoryPageModel.LoadItemsCommand.Execute(null);
-                        //
-                        //CurrentPage.BindingContext = categoryPageModel;
-                        return;
-                    case 1: //EVENTS
-                        
-                            //var eventPageModel = new ListEventPageModel();
-                            //eventPageModel.LoadCitiesCommand.Execute(null);
-                            //eventPageModel.LoadItemsCommand.Execute(null);
-                            //
-                            //CurrentPage.BindingContext = eventPageModel;
-                            //return;
-                        
-                    case 2: //MAP
-                    default: return;
+                    var status = await CrossPermissions.Current.CheckPermissionStatusAsync(item);
+                    if (status != PermissionStatus.Granted) return false;
                 }
-            };
+                return true;
+            }
+            catch (Exception ex)
+            {
+                var exception = DependencyService.Get<IExceptionService>();
+                exception.TrackError(ex, $"(HasPermissionAsync) {permissions}");
+                return false;
+            }
         }
     }
 }

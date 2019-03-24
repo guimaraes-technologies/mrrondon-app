@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
-using Microsoft.AppCenter;
+﻿using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using MrRondon.Helpers;
 using MrRondon.Pages;
 using MrRondon.Services;
 using MrRondon.Services.Interfaces;
+using System;
+using System.Linq;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -24,6 +24,7 @@ namespace MrRondon
             DependencyService.Register<IExceptionService, ExceptionService>();
             DependencyService.Register<INavigationService, NavigationService>();
             Startup.Run();
+            //MainPage = new NavigationPage(new Page1());
             MainPage = new NavigationPage(new MasterPage());
         }
 
@@ -31,7 +32,6 @@ namespace MrRondon
         {
             try
             {
-
                 for (var i = 0; i < Resources.Count; i++)
                 {
                     var key = Resources.Keys.ElementAt(i);
@@ -49,8 +49,8 @@ namespace MrRondon
 
         protected override void OnStart()
         {
-            AppCenter.Start($"android={Constants.AppCenter.Android};ios={Constants.AppCenter.iOS}",
-                typeof(Analytics), typeof(Crashes));
+            base.OnStart();
+            AppCenter.Start($"android={Constants.AppCenter.Android};ios={Constants.AppCenter.iOS}", typeof(Analytics), typeof(Crashes));
         }
 
         protected override void OnSleep()

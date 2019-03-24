@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
+            xmlns:converters="clr-namespace:MrRondon.Converters"
              x:Class="MrRondon.Pages.Map.MapPage"
              BackgroundColor="{StaticResource PageBackgroundColor}"
              Title="MAPA">
@@ -10,9 +11,16 @@
     <StackLayout>
         <maps:Map
             x:Name="Companies"
+            IsVisible="{Binding LocationGranted}"
             HorizontalOptions="FillAndExpand"
             HeightRequest="400"
             IsShowingUser="True"
-            MapType="Street"  />
+            MapType="Street" />
+
+        <Label Text="Sem esta permissão não é possível carregar a página!"
+               IsVisible="{Binding LocationGranted, Converter={converters:InverseBoolConverter}}" />
+        <Button Text="Ir para configurações" 
+                Command="{Binding GoToSystemSettingsCommand}"
+                IsVisible="{Binding LocationGranted, Converter={converters:InverseBoolConverter}}"></Button>
     </StackLayout>
 </ContentPage>

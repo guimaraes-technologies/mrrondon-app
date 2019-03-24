@@ -1,17 +1,17 @@
-﻿using System;
-using System.Diagnostics;
+﻿using MrRondon.Exceptions;
+using MrRondon.Extensions;
+using MrRondon.Helpers;
+using MrRondon.Services.Rest;
+using Plugin.Permissions.Abstractions;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MrRondon.Exceptions;
-using MrRondon.Extensions;
-using MrRondon.Helpers;
-using MrRondon.Services;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 
 namespace MrRondon.Pages.Map
-{
+{   
     public class MapPageModel : BasePageModel
     {
         public MapPageModel()
@@ -39,19 +39,29 @@ namespace MrRondon.Pages.Map
             {
                 if (IsLoading) return;
                 IsLoading = true;
+                if (!LocationGranted)
+                {
+                    IsLoading = false;
+                    return;
+                }
+                
+                var precision = Auth.AccountManager.GetPrecision();
+                var service = new LocationRest();
 
-                var service = new LocationService();
-                var places = await service.NearbyAsync(currentPosition);
-
-                Pins.AddRange(places.Select(item =>
-                    new PinExtension
-                    {
-                        Id = item.Id,
-                        Label = item.Label,
-                        Address = item.Address,
-                        Type = PinType.Place,
-                        Position = new Position(item.Position.Latitude, item.Position.Longitude),
-                    }));
+                var result = await service.NearbyAsync(precision, currentPosition.Latitude, currentPosition.Longitude);
+                if (result.IsValid)
+                {
+                    Pins.AddRange(result.Value.Select(item =>
+                        new PinExtension
+                        {
+                            Id = item.Id,
+                            Label = item.Label,
+                            Address = item.Address,
+                            Type = PinType.Place,
+                            Position = new Position(item.Position.Latitude, item.Position.Longitude),
+                        }));
+                }
+                else await MessageService.ShowAsync(result.Error);
             }
             catch (CouldNotGetLocationException ex)
             {

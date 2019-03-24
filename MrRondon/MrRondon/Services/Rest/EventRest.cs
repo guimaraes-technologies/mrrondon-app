@@ -10,11 +10,11 @@ namespace MrRondon.Services.Rest
 {
     public class EventRest : BaseRest
     {
-        public async Task<Event> GetAsync(Guid eventId)
+        public async Task<CustomReturn<Event>> GetAsync(Guid eventId)
         {
             var url = $"{UrlService}/event/{eventId}";
             var account = Account.Current;
-            if(account.IsValid)
+            if (account.IsValid)
             {
                 HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.TokenType, account.Token.AccessToken);
             }
@@ -23,7 +23,7 @@ namespace MrRondon.Services.Rest
             return content;
         }
 
-        public async Task<IList<Event>> GetAsync(int cityId, string search, int skip, int take)
+        public async Task<CustomReturn<IList<Event>>> GetAsync(int cityId, string search, int skip, int take = 10)
         {
             var url = $"{UrlService}/event/city/{cityId}/{skip}/{take}/{search}";
 
