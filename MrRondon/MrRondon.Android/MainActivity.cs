@@ -1,7 +1,7 @@
-﻿using System;
-using Android.App;
+﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Android.Support.V7.App;
 using FFImageLoading;
 using FFImageLoading.Config;
 using FFImageLoading.Forms.Droid;
@@ -14,6 +14,7 @@ using MrRondon.Services.Interfaces;
 using Plugin.CurrentActivity;
 using Plugin.Permissions;
 using Plugin.Toasts;
+using System;
 using Xamarin;
 using Xamarin.Forms;
 
@@ -22,11 +23,15 @@ namespace MrRondon.Droid
     [Activity(Label = "@string/app_name", Icon = "@drawable/icon", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+        public MainActivity()
+        {
+            AppCompatDelegate.CompatVectorFromResourcesEnabled = true;
+        }
+
         protected override void OnCreate(Bundle bundle)
         {
             try
             {
-
                 TabLayoutResource = Resource.Layout.Tabbar;
                 ToolbarResource = Resource.Layout.Toolbar;
                 CrossCurrentActivity.Current.Activity = this;
@@ -54,6 +59,11 @@ namespace MrRondon.Droid
                 var ignore1 = typeof(CircleTransformation);
 
                 DependencyService.Register<ToastNotification>();
+
+                //Android.App.AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+                //AlertDialog alert = dialog.Create();
+                //alert.SetTitle("Title");
+                //alert.SetMessage("Complex Alert");
                 ToastNotification.Init(this, new PlatformOptions { SmallIconDrawable = Android.Resource.Drawable.IcDialogInfo });
                 AppCenter.Start(Constants.AppCenter.Android, typeof(Analytics), typeof(Crashes));
 
@@ -67,10 +77,10 @@ namespace MrRondon.Droid
             }
         }
 
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        public override async void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
-            //base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
             PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
         public class CustomLogger : FFImageLoading.Helpers.IMiniLogger

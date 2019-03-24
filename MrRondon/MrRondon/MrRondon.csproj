@@ -42,6 +42,9 @@
     <Compile Update="Pages\FooterPage.xaml.cs">
       <DependentUpon>FooterPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Pages\PermissionDeniedPage.xaml.cs">
+      <DependentUpon>PermissionDeniedPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -109,6 +112,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Pages\MasterPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Pages\PermissionDeniedPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

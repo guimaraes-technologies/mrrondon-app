@@ -29,13 +29,13 @@ namespace MrRondon.Services
             var userToken = new UserTokenVm
             {
                 Token = token,
-                User = userVm
+                User = userVm.Value
             };
             Login(userToken);
             return true;
         }
 
-        public async Task<User> GetInformationAsync()
+        public async Task<CustomReturn<User>> GetInformationAsync()
         {
             var service = new UserRest();
             var user = await service.GetInformationAsync(Account.Current.Token.AccessToken);
@@ -43,15 +43,15 @@ namespace MrRondon.Services
             return user;
         }
 
-        public async Task<IList<Event>> GetFavoriteEventsAsync()
+        public async Task<CustomReturn<IList<Event>>> GetFavoriteEventsAsync()
         {
             var service = new UserRest();
-            var items = await service.GetFavoriteEventsAsync();
+            var result = await service.GetFavoriteEventsAsync();
 
-            return items.OrderBy(o => o.Name).ToList();
+            return result;
         }
 
-        public async Task<User> Register(RegisterPageModel register)
+        public async Task<CustomReturn<User>> Register(RegisterPageModel register)
         {
             if (string.IsNullOrWhiteSpace(register.FirstName)) throw new Exception("Campo Nome é obrigatório");
             if (string.IsNullOrWhiteSpace(register.LastName)) throw new Exception("Campo Sobrenome é obrigatório");
@@ -71,16 +71,20 @@ namespace MrRondon.Services
             if (!string.Equals(register.Password, register.ConfirmPassword)) throw new Exception("A senha e confirmação não confere");
 
             var userRest = new UserRest();
-            var user = await userRest.Register(register);
+            var userResult = await userRest.Register(register);
+
+            if (!userResult.IsValid) return userResult;
+
             var tokenRest = new TokenRest();
-            var token = await tokenRest.Login(new LoginPageModel { UserName = user.Cpf, Password = register.Password });
+            var token = await tokenRest.Login(new LoginPageModel { UserName = userResult.Value.Cpf, Password = register.Password });
             var userToken = new UserTokenVm
             {
-                User = user,
+                User = userResult.Value,
                 Token = token
             };
             Login(userToken);
-            return userToken.User;
+
+            return userResult;
         }
 
         public void ValidateLogin(LoginPageModel login)

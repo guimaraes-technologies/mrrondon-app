@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MrRondon.Pages.PermissionDeniedPage"
+             Title="{Binding Title}"
+             Style="{StaticResource PageStyle}"
+             BackgroundColor="{StaticResource PageBackgroundColor}">
+    
+    <ContentPage.Content>
+      <StackLayout>
+            <Label Text="{Binding Message}" 
+                   FontSize="Small"
+                   Margin="0,20,0,0" />
+
+            <Button Text="Ir para configurações"
+                    TextColor="White"
+                    BackgroundColor="#FB007351"
+                    Command="{Binding GoToSystemSettingsCommand}"
+                    VerticalOptions="CenterAndExpand" 
+                    HorizontalOptions="CenterAndExpand">
+            </Button>
+        </StackLayout>
+  </ContentPage.Content>
+</ContentPage>

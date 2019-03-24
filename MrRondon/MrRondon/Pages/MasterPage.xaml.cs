@@ -24,7 +24,7 @@ namespace MrRondon.Pages
             IsPresented = false;
         }
 
-        protected override void OnAppearing()
+        protected async override void OnAppearing()
         {
             base.OnAppearing();
             _pageModel.LoadItemsCommand.Execute(null);

@@ -1,8 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using MrRondon.Helpers;
+﻿using MrRondon.Helpers;
 using MrRondon.Services.Interfaces;
 using Plugin.Toasts;
+using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace MrRondon.Services
@@ -29,6 +29,11 @@ namespace MrRondon.Services
 
             var detailErrorFurther = ex.InnerException?.InnerException?.Message;
             if (!string.IsNullOrWhiteSpace(detailErrorFurther)) await ShowAsync(detailErrorFurther);
+        }
+
+        public async Task ShowAsync(CustomError customError)
+        {
+            await Application.Current.MainPage.DisplayAlert(customError.Title, customError.Message, "OK");
         }
 
         public async Task ShowAsync(string message)

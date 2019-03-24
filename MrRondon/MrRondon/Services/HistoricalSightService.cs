@@ -2,26 +2,19 @@
 using System.Linq;
 using System.Threading.Tasks;
 using MrRondon.Entities;
+using MrRondon.Helpers;
 using MrRondon.Services.Rest;
 
 namespace MrRondon.Services
 {
     public class HistoricalSightService
     {
-        public async Task<IList<HistoricalSight>> GetAsync(int cityId, string search = "")
+        public async Task<CustomReturn<HistoricalSight>> GetByIdAsync(int id)
         {
             var service = new HistoricalSightRest();
-            var items = await service.GetAsync(cityId, search);
-            
-            return items.OrderBy(o => o.Name).ToList();
-        }
+            var result = await service.GetByIdAsync(id);
 
-        public async Task<HistoricalSight> GetByIdAsync(int id)
-        {
-            var service = new HistoricalSightRest();
-            var item = await service.GetByIdAsync(id);
-
-            return item;
+            return result;
         }
     }
 }

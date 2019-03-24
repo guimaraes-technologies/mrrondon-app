@@ -1,5 +1,6 @@
 ﻿using MrRondon.Exceptions;
 using MrRondon.Helpers;
+using MrRondon.Services.Interfaces;
 using Newtonsoft.Json;
 using Plugin.Connectivity;
 using System;
@@ -7,9 +8,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using MrRondon.Services.Interfaces;
 using Xamarin.Forms;
 
 namespace MrRondon.Services.Rest
@@ -43,17 +42,35 @@ namespace MrRondon.Services.Rest
             }
         }
 
-        protected async Task<TObject> GetObjectAsync<TObject>(string url) where TObject : class
+        public static async Task<CustomError> GetError(HttpResponseMessage response)
+        {
+            var json = await response.Content.ReadAsStringAsync();
+            if (json?.ToLower().Contains("usuário ou senha incorreta") ?? false) return new CustomError("Usuário ou Senha incorreta");
+
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.Forbidden: return new CustomError("Acesso Negado", "Não foi possível concluir a requisição.");
+                case HttpStatusCode.Unauthorized: return new CustomError("Acesso não permitido", "Não foi possível concluir a requisição.");
+                case HttpStatusCode.NotFound: return new CustomError("Recurso não encontrado", "Não foi possível concluir a requisição.");
+                case HttpStatusCode.BadGateway: return new CustomError("Não foi possível concluir a requisição.");
+                case HttpStatusCode.BadRequest: return new CustomError("Não foi possível concluir a requisição");
+                case HttpStatusCode.InternalServerError: return new CustomError("Erro no servidor", "Não foi possível concluir a requisição.");
+                default: return new CustomError("Não foi possível concluir a requisição.");
+            }
+        }
+
+        protected async Task<CustomReturn<TObject>> GetObjectAsync<TObject>(string url) where TObject : class
         {
             return await GetAsync<TObject>(url);
         }
 
-        protected async Task<TObject> GetAsync<TObject>(string url)
+        protected async Task<CustomReturn<TObject>> GetAsync<TObject>(string url)
         {
             var json = string.Empty;
             try
             {
-                ValidateConnection();
+                var resultConnection = await ValidateConnection();
+                if (!resultConnection.IsValid) return new CustomReturn<TObject>(resultConnection.Error);
 
                 var httpResponse = await HttpClient.GetAsync(url);
 
@@ -61,11 +78,11 @@ namespace MrRondon.Services.Rest
                 {
                     json = await httpResponse.Content.ReadAsStringAsync();
                     var result = ValidateJson<TObject>(json);
-                    return result;
+                    return new CustomReturn<TObject>(result);
                 }
 
-                var error = await GenerateError(httpResponse);
-                throw error;
+                var error = await GetError(httpResponse);
+                return new CustomReturn<TObject>(error);
             }
             catch (Exception ex)
             {
@@ -78,22 +95,24 @@ namespace MrRondon.Services.Rest
                     {"Object", json.Length > 125 ? json.Substring(0, 124) : json}
                 });
 
-                throw;
+                return new CustomReturn<TObject>(Constants.AppName, ex.Message);
             }
         }
 
-        public async Task<TObject> PostObjectAsync<TObject>(string url, StringContent content) where TObject : class
+        public async Task<CustomReturn<TObject>> PostObjectAsync<TObject>(string url, StringContent content) where TObject : class
         {
-            return await PostAsync<TObject>(url, content);
+            var result = await PostAsync<TObject>(url, content);
+
+            return result;
         }
 
-        public async Task<TObject> PostAsync<TObject>(string url, StringContent content)
+        public async Task<CustomReturn<TObject>> PostAsync<TObject>(string url, StringContent content)
         {
             var json = string.Empty;
             try
             {
-
-                ValidateConnection();
+                var resultConnection = await ValidateConnection();
+                if (!resultConnection.IsValid) return new CustomReturn<TObject>(resultConnection.Error);
 
                 var httpResponse = await HttpClient.PostAsync(url, content);
 
@@ -102,12 +121,11 @@ namespace MrRondon.Services.Rest
                     json = await httpResponse.Content.ReadAsStringAsync();
 
                     var result = ValidateJson<TObject>(json);
-                    return result;
+                    return new CustomReturn<TObject>(result);
                 }
 
-                var error = await GenerateError(httpResponse);
-                throw error;
-
+                var error = await GetError(httpResponse);
+                return new CustomReturn<TObject>(error);
             }
             catch (Exception ex)
             {
@@ -120,17 +138,17 @@ namespace MrRondon.Services.Rest
                     {"Object", json.Length > 125 ? json.Substring(0, 124) : json}
                 });
 
-                throw;
+                return new CustomReturn<TObject>(Constants.AppName, ex.Message);
             }
         }
 
-        public async Task<bool> PostObjectAsync(string url, StringContent content)
+        public async Task<CustomReturn<bool>> PostObjectAsync(string url, StringContent content)
         {
             var json = string.Empty;
             try
             {
-
-                ValidateConnection();
+                var resultConnection = await ValidateConnection();
+                if (!resultConnection.IsValid) return new CustomReturn<bool>(resultConnection.Error);
 
                 var httpResponse = await HttpClient.PostAsync(url, content);
 
@@ -138,11 +156,11 @@ namespace MrRondon.Services.Rest
                 {
                     json = await httpResponse.Content.ReadAsStringAsync();
                     var result = ValidateJson<bool>(json);
-                    return result;
+                    return new CustomReturn<bool>(result);
                 }
 
-                var error = await GenerateError(httpResponse);
-                throw error;
+                var error = await GetError(httpResponse);
+                return new CustomReturn<bool>(error);
             }
             catch (Exception ex)
             {
@@ -155,14 +173,32 @@ namespace MrRondon.Services.Rest
                     {"Object", json.Length > 125 ? json.Substring(0, 124) : json}
                 });
 
-                throw;
+                return new CustomReturn<bool>(Constants.AppName, ex.Message);
             }
         }
 
-        protected async void ValidateConnection()
+        protected async Task<CustomReturn<bool>> ValidateConnection()
         {
-            if (!CrossConnectivity.Current.IsConnected) throw new WithOutInternetConnectionException();
-            if (!await CrossConnectivity.Current.IsRemoteReachable(Constants.Host)) throw new ServiceUnavailableException();
+            try
+            {
+                if (!CrossConnectivity.Current.IsConnected) return new CustomReturn<bool>(false, "Conectividade", "Você está sem conexão com a internet");
+                if (!await CrossConnectivity.Current.IsRemoteReachable(Constants.Host))
+                {
+                    var exceptionService = DependencyService.Get<IExceptionService>();
+                    exceptionService?.TrackError($"SERVIÇO INDISPONÍVEL \nHorário: {DateTime.UtcNow}");
+
+                    return new CustomReturn<bool>(false, "Conectividade", $"Serviço do { Constants.AppName} não está disponível.");
+                }
+
+                return new CustomReturn<bool>(true);
+            }
+            catch (Exception ex)
+            {
+                var exceptionService = DependencyService.Get<IExceptionService>();
+                exceptionService?.TrackError(ex, $"IMPOSSÍVEL VALIDAR CONEXÃO \nHorário: {DateTime.UtcNow}");
+
+                return new CustomReturn<bool>(false);
+            }
         }
 
         private static TObject ValidateJson<TObject>(string json)

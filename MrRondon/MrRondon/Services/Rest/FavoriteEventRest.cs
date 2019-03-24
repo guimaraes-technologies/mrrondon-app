@@ -10,7 +10,7 @@ namespace MrRondon.Services.Rest
 {
     public class FavoriteEventRest : BaseRest
     {
-        public async Task<IList<FavoriteEvent>> GetAsync()
+        public async Task<CustomReturn<IList<FavoriteEvent>>> GetAsync()
         {
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.TokenType, Account.Current.Token.AccessToken);
             var url = $"{UrlService}/event/favorites";
@@ -19,7 +19,7 @@ namespace MrRondon.Services.Rest
             return content;
         }
 
-        public async Task<bool> IsFavorite(Guid eventId)
+        public async Task<CustomReturn<bool>> IsFavorite(Guid eventId)
         {
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.TokenType, Account.Current.Token.AccessToken);
             var url = $"{UrlService}/event/isfavorite/{eventId}";
@@ -28,7 +28,7 @@ namespace MrRondon.Services.Rest
             return isfavorite;
         }
 
-        public async Task<bool> FavoriteAsync(Guid eventId)
+        public async Task<CustomReturn<bool>> FavoriteAsync(Guid eventId)
         {
             HttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(Constants.TokenType, Account.Current.Token.AccessToken);
 

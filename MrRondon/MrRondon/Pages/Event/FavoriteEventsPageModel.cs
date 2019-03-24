@@ -1,10 +1,9 @@
-﻿using System;
-using System.Diagnostics;
+﻿using MrRondon.Helpers;
+using MrRondon.Services;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using MrRondon.Helpers;
-using MrRondon.Services;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages.Event
@@ -52,10 +51,14 @@ namespace MrRondon.Pages.Event
                 IsLoading = true;
                 Items.Clear();
                 var service = new FavoriteEventService();
-                var items = await service.GetAsync();
-                NotHasItems = IsLoading && items != null && !items.Any();
-                if (NotHasItems) ErrorMessage = "Nenhum evento foi marcado como favorito";
-                Items.ReplaceRange(items);
+                var result = await service.GetAsync();
+                if (result.IsValid)
+                {
+                    NotHasItems = IsLoading && result.Value != null && !result.Value.Any();
+                    if (NotHasItems) ErrorMessage = "Nenhum evento foi marcado como favorito";
+                    Items.ReplaceRange(result.Value.OrderBy(o => o.Event.Name).ToList());
+                }
+                else await MessageService.ShowAsync(result.Error);
             }
             catch (TaskCanceledException ex)
             {

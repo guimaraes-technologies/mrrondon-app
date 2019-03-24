@@ -1,6 +1,7 @@
 ﻿using MrRondon.Auth;
 using MrRondon.Helpers;
 using MrRondon.Services;
+using MrRondon.Services.Rest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,14 +88,20 @@ namespace MrRondon.Pages.Event
                 NotHasItems = false;
                 IsLoading = true;
                 Items.Clear();
-                var service = new EventService();
-                var items = await service.GetAsync(CurrentCity.CityId, Search, Items.Count);
-                NotHasItems = items == null || !items.Any();
-                if (NotHasItems) ErrorMessage = $"Nenhum evento encontrado em {CurrentCity.Name}";
 
-                if (items == null) return;
-                Items.AddRange(items.Where(x => Items.All(a => a.Event.EventId != x.EventId))
-                .Select(s => new EventDetailsPageModel(s)));
+                var service = new EventRest();
+                var result = await service.GetAsync(CurrentCity.CityId, Search, Items.Count);
+
+                if (result.IsValid)
+                {
+                    NotHasItems = result == null || !result.Value.Any();
+                    if (NotHasItems) ErrorMessage = $"Nenhum evento encontrado em {CurrentCity.Name}";
+
+                    if (result == null) return;
+                    Items.AddRange(result.Value.OrderBy(o => o.Name).Where(x => Items.All(a => a.Event.EventId != x.EventId))
+                    .Select(s => new EventDetailsPageModel(s)));
+                }
+                else await MessageService.ShowAsync(result.Error);
             }
             catch (TaskCanceledException ex)
             {
@@ -123,12 +130,16 @@ namespace MrRondon.Pages.Event
                 Items.Clear();
                 if (CitySelectedIndex <= 0) return;
                 NotHasItems = false;
-                var service = new EventService();
-                var items = await service.GetAsync(CurrentCity.CityId, Search, Items.Count);
 
-                if (items == null) return;
-                Items.AddRange(items.Where(x => Items.All(a => a.Event.EventId != x.EventId))
-                    .Select(s => new EventDetailsPageModel(s)));
+                var service = new EventRest();
+                var result = await service.GetAsync(CurrentCity.CityId, Search, Items.Count,  Constants.Pagination.Take);
+                
+                if (result.IsValid)
+                {
+                    Items.AddRange(result.Value.OrderBy(o => o.Name).Where(x => Items.All(a => a.Event.EventId != x.EventId))
+                        .Select(s => new EventDetailsPageModel(s)));
+                }
+                else await MessageService.ShowAsync(result.Error);
             }
             catch (TaskCanceledException ex)
             {
@@ -181,15 +192,19 @@ namespace MrRondon.Pages.Event
                 if (IsLoading) return;
                 IsLoading = true;
 
-                var service = new EventService();
-                var item = await service.GetAsync(model.Event.EventId);
-                var pageModel = new EventDetailsPageModel(item);
+                var service = new EventRest();
+                var result = await service.GetAsync(model.Event.EventId);
+                if (result.IsValid)
+                {
+                    var pageModel = new EventDetailsPageModel(result.Value);
 
-                await NavigationService.PushAsync(new EventDetailsPage(pageModel));
+                    await NavigationService.PushAsync(new EventDetailsPage(pageModel));
+                }
+                else await MessageService.ShowAsync(result.Error);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                ExceptionService.TrackError(ex);
                 await MessageService.ShowAsync(ex);
             }
             finally

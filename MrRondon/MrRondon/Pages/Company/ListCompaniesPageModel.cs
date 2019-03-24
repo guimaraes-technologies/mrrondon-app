@@ -1,6 +1,6 @@
 ﻿using MrRondon.Auth;
 using MrRondon.Helpers;
-using MrRondon.Services;
+using MrRondon.Services.Rest;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -95,15 +95,24 @@ namespace MrRondon.Pages.Company
                 IsLoading = true;
                 Items.Clear();
 
-                var service = new CompanyService();
-                var items = await service.GetAsync(CategoryId, CurrentCity.CityId, Search, Items.Count);
-                NotHasItems = items == null || !items.Any();
-                if (NotHasItems) ErrorMessage = $"Nenhuma empresa encontrada em {CurrentCity.Name}.";
+                var service = new CompanyRest();
+                var result = await service.GetAsync(CategoryId, CurrentCity.CityId, Search, Items.Count);
+                if (result.IsValid)
+                {
+                    NotHasItems = result.Value == null || !result.Value.Any();
+                    if (NotHasItems) ErrorMessage = $"Nenhuma empresa encontrada em {CurrentCity.Name}.";
 
-                if (items == null) return;
-                Items.AddRange(items.Where(x => Items.All(a => a.Company.CompanyId != x.CompanyId))
-                    .Select(s => new CompanyDetailsPageModel(s))
-                );
+                    if (result.Value == null) return;
+                    Items.AddRange(result.Value.OrderBy(o => o.Name).Where(x => Items.All(a => a.Company.CompanyId != x.CompanyId))
+                        .Select(s => new CompanyDetailsPageModel(s))
+                    );
+                }
+                else
+                {
+                    NotHasItems = true;
+                    ErrorMessage = result.Error.Message;
+                    await MessageService.ShowAsync(result.Error);
+                }
             }
             catch (TaskCanceledException ex)
             {
@@ -130,12 +139,20 @@ namespace MrRondon.Pages.Company
 
                 NotHasItems = false;
                 IsLoading = true;
-                var service = new CompanyService();
-                var items = await service.GetAsync(CategoryId, CurrentCity.CityId, Search, Items.Count);
-
-                if (items == null) return;
-                Items.AddRange(items.Where(x => Items.All(a => a.Company.CompanyId != x.CompanyId))
-                    .Select(s => new CompanyDetailsPageModel(s)));
+                var service = new CompanyRest();
+                var result = await service.GetAsync(CategoryId, CurrentCity.CityId, Search, Items.Count);
+                if (result.IsValid)
+                {
+                    if (result.Value == null) return;
+                    Items.AddRange(result.Value.OrderBy(o => o.Name).Where(x => Items.All(a => a.Company.CompanyId != x.CompanyId))
+                        .Select(s => new CompanyDetailsPageModel(s)));
+                }
+                else
+                {
+                    NotHasItems = true;
+                    ErrorMessage = result.Error.Message;
+                    await MessageService.ShowAsync(result.Error);
+                }
             }
             catch (TaskCanceledException ex)
             {
@@ -187,10 +204,14 @@ namespace MrRondon.Pages.Company
         {
             try
             {
-                var service = new CompanyService();
-                var item = await service.GetByIdAsync(model.Company.CompanyId);
-                var pageModel = new CompanyDetailsPageModel(item);
-                await NavigationService.PushAsync(new CompanyDetailsPage(pageModel));
+                var service = new CompanyRest();
+                var result = await service.GetByIdAsync(model.Company.CompanyId);
+                if (result.IsValid)
+                {
+                    var pageModel = new CompanyDetailsPageModel(result.Value);
+                    await NavigationService.PushAsync(new CompanyDetailsPage(pageModel));
+                }
+                else await MessageService.ShowAsync(result.Error);
             }
             catch (Exception ex)
             {

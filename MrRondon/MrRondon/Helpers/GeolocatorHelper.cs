@@ -15,8 +15,7 @@ namespace MrRondon.Helpers
     {
         public static async Task<Position> GetCurrentPositionAsync()
         {
-            var defaultPosition = new Position(AccountManager.DefaultSetting.Latitude,
-                AccountManager.DefaultSetting.Longitude);
+            var defaultPosition = new Position(AccountManager.DefaultSetting.Latitude, AccountManager.DefaultSetting.Longitude);
             try
             {
                 var locator = CrossGeolocator.Current;
@@ -26,7 +25,7 @@ namespace MrRondon.Helpers
 
                 var position = await locator.GetLastKnownLocationAsync();
 
-                //got a cahched position, so let's use it.
+                //got a cached position, so let's use it.
                 if (position != null) return position;
 
                 //not available or not enabled
