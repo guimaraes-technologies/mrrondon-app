@@ -59,6 +59,7 @@ namespace MrRondon.Droid
                 var ignore1 = typeof(CircleTransformation);
 
                 DependencyService.Register<ToastNotification>();
+                DependencyService.Register<IAndroidSettings, AndroidSettings>();
 
                 //Android.App.AlertDialog.Builder dialog = new AlertDialog.Builder(this);
                 //AlertDialog alert = dialog.Create();

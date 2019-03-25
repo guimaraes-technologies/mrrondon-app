@@ -2,6 +2,9 @@
 using MrRondon.Pages.Category;
 using MrRondon.Pages.Event;
 using MrRondon.Pages.Map;
+using MrRondon.Services.Interfaces;
+using System.Threading.Tasks;
+using Plugin.Permissions.Abstractions;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages
@@ -18,15 +21,20 @@ namespace MrRondon.Pages
             Children.Add(new ListCategoriesPage());
             Children.Add(_listEventPage = new ListEventPage());
 
-            #if __ANDROID_21__
-            var page = _listEventPage.BindingContext as ListEventPageModel;
-            var hasPermission = Task.Run(() => page.HasPermissionAsync(Permission.Location, Permission.LocationWhenInUse));
+            if (Device.RuntimePlatform == Device.Android)
+            {
+                var androidSettings = DependencyService.Get<IAndroidSettings>();
+                if (androidSettings.GetAndroidApiLevel() >= 21)
+                {
+                    var page = _listEventPage.BindingContext as ListEventPageModel;
+                    var hasPermission = Task.Run(() => page.HasPermissionAsync(Permission.Location, Permission.LocationWhenInUse));
 
-            if (hasPermission.Result) Children.Add(new MapPage());
-            else Children.Add(new PermissionDeniedPage("MAPA", "Localização"));
-            return;
-            #endif
-            Children.Add(new MapPage());
+                    if (hasPermission.Result) Children.Add(new MapPage());
+                    else Children.Add(new PermissionDeniedPage("MAPA", "Localização"));
+                }
+                else Children.Add(new MapPage());
+            }
+            else Children.Add(new MapPage());
         }
     }
 }
