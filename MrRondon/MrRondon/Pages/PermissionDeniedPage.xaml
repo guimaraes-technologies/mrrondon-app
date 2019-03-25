@@ -18,6 +18,7 @@
                     Command="{Binding GoToSystemSettingsCommand}"
                     VerticalOptions="CenterAndExpand" 
                     HorizontalOptions="CenterAndExpand">
+                
             </Button>
         </StackLayout>
   </ContentPage.Content>

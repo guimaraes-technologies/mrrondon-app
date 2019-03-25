@@ -16,14 +16,13 @@ namespace MrRondon.Pages
         public IExceptionService ExceptionService;
         public IMessageService MessageService;
         protected INavigationService NavigationService;
+        protected AppPermissions AppPermissions;
 
         public ICommand LoadCitiesCommand { get; set; }
         public ICommand ChangeActualCityCommand { get; set; }
         public ICommand GoToSystemSettingsCommand { get; set; }
         //public ICommand HasPermissionCommand { get; set; }
         public ICommand GotoMainPageCommand { get; set; }
-
-        public bool LocationGranted { get; private set; }
 
         private string _title = Constants.AppName;
         public string Title
@@ -84,9 +83,9 @@ namespace MrRondon.Pages
         {
             IsPresented = false;
             IsLoading = false;
-            LocationGranted = false;
             Title = Constants.AppName;
             //CurrentCity = ApplicationManager<Entities.City>.Find("city") ?? AccountManager.DefaultSetting.City;
+            AppPermissions = ApplicationManager<AppPermissions>.Find("AppPermissions") ?? new AppPermissions(false);
             Cities = new ObservableRangeCollection<Entities.City>();
 
             ExceptionService = DependencyService.Get<IExceptionService>();
@@ -99,6 +98,26 @@ namespace MrRondon.Pages
         public static void GoToSystemSettings()
         {
             CrossPermissions.Current.OpenAppSettings();
+        }
+
+        public async Task<bool> HasPermissionAsync(params Permission[] permissions)
+        {
+            try
+            {
+                foreach (var item in permissions)
+                {
+                    var status = await CrossPermissions.Current.CheckPermissionStatusAsync(item);
+                    if (status != PermissionStatus.Granted) return false;
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                var exception = DependencyService.Get<IExceptionService>();
+                exception.TrackError(ex, $"(HasPermissionAsync) {permissions}");
+                return false;
+            }
         }
 
         protected async Task ExecuteChangeActualCity(Page previousPage)

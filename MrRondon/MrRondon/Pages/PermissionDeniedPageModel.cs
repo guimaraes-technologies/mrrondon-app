@@ -7,7 +7,7 @@
         public PermissionDeniedPageModel(string title, params string[] permissoes)
         {
             Title = title;
-            Message = $"Você precisa de habilitar as seguintes permissões: {string.Join(", ", permissoes)}";
+            Message = $"Você precisa de habilitar as seguintes permissões em 'configurações do aplicativo': {string.Join(", ", permissoes)}";
         }
     }
 }

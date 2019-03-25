@@ -39,7 +39,7 @@ namespace MrRondon.Pages.Map
             {
                 if (IsLoading) return;
                 IsLoading = true;
-                if (!LocationGranted)
+                if (!AppPermissions.LocationGranted)
                 {
                     IsLoading = false;
                     return;

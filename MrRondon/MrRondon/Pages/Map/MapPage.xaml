@@ -7,20 +7,12 @@
              BackgroundColor="{StaticResource PageBackgroundColor}"
              Title="MAPA">
 
-    <!--<StackLayout x:Name="parentStack" Spacing="0"></StackLayout>-->
     <StackLayout>
         <maps:Map
             x:Name="Companies"
-            IsVisible="{Binding LocationGranted}"
             HorizontalOptions="FillAndExpand"
             HeightRequest="400"
             IsShowingUser="True"
             MapType="Street" />
-
-        <Label Text="Sem esta permissão não é possível carregar a página!"
-               IsVisible="{Binding LocationGranted, Converter={converters:InverseBoolConverter}}" />
-        <Button Text="Ir para configurações" 
-                Command="{Binding GoToSystemSettingsCommand}"
-                IsVisible="{Binding LocationGranted, Converter={converters:InverseBoolConverter}}"></Button>
     </StackLayout>
 </ContentPage>

@@ -40,6 +40,7 @@ namespace MrRondon.Pages.Map
 
                 foreach (var item in _pageModel.Pins) Companies.Pins.Add(item);
 
+
                 Companies.MoveToRegion(MapSpan.FromCenterAndRadius(
                     new Position(currentPosition.Latitude, currentPosition.Longitude), Distance.FromKilometers(2)));
                 base.OnAppearing();

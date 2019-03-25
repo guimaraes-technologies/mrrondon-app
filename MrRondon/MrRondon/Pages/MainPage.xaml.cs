@@ -2,51 +2,31 @@
 using MrRondon.Pages.Category;
 using MrRondon.Pages.Event;
 using MrRondon.Pages.Map;
-using MrRondon.Services.Interfaces;
-using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
-using System;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace MrRondon.Pages
 {
     public partial class MainPage : TabbedPage
     {
+        private readonly ListEventPage _listEventPage;
+
         public MainPage()
         {
             InitializeComponent();
             Title = Constants.AppName;
 
             Children.Add(new ListCategoriesPage());
-            Children.Add(new ListEventPage());
+            Children.Add(_listEventPage = new ListEventPage());
 
-            if (Device.RuntimePlatform == Device.Android)
-            {
-                var hasPermission = Task.Run(() => HasPermissionAsync(Permission.Location, Permission.LocationWhenInUse));
-                if (hasPermission.Result) Children.Add(new MapPage());
-                else Children.Add(new PermissionDeniedPage("MAPA", "Localização"));
-            }
-            else Children.Add(new MapPage());
-        }
+            #if __ANDROID_21__
+            var page = _listEventPage.BindingContext as ListEventPageModel;
+            var hasPermission = Task.Run(() => page.HasPermissionAsync(Permission.Location, Permission.LocationWhenInUse));
 
-        public async Task<bool> HasPermissionAsync(params Permission[] permissions)
-        {
-            try
-            {
-                foreach (var item in permissions)
-                {
-                    var status = await CrossPermissions.Current.CheckPermissionStatusAsync(item);
-                    if (status != PermissionStatus.Granted) return false;
-                }
-                return true;
-            }
-            catch (Exception ex)
-            {
-                var exception = DependencyService.Get<IExceptionService>();
-                exception.TrackError(ex, $"(HasPermissionAsync) {permissions}");
-                return false;
-            }
+            if (hasPermission.Result) Children.Add(new MapPage());
+            else Children.Add(new PermissionDeniedPage("MAPA", "Localização"));
+            return;
+            #endif
+            Children.Add(new MapPage());
         }
     }
 }
